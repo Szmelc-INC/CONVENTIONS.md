@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - '**/*.md'
+      - llms.txt
+      - index.json
       - META/tools/site.sh
       - SZMELC/sources.conf
       - .github/workflows/pages.yml

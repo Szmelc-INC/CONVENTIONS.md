@@ -4,7 +4,7 @@
 The human side: how to get the conventions into your tools and read them.
 
 ## Browse
-- Site: <https://szmelc-inc.github.io/CONVENTIONS.md/>. One tab per core with its guide; every rule readable inline, copyable as Markdown or raw URL; the Szmelc projects index. Keys: `/` filter (searches rule text, flags tabs with hits), `1`-`9` tabs, `e` expand all, `esc` clear. Deep-links: `#<core>` or `#<path>` (e.g. `#CONVENTIONS/DESIGN/COLORS.md`).
+- Site: <https://szmelc-inc.github.io/CONVENTIONS.md/>. One tab per core with its guide and nested category groups; every rule readable inline, copyable as Markdown or raw URL; copyable prompts; the Szmelc projects index; themes dark, light, mono, terminal. Keys: `/` filter (searches rule text, flags tabs with hits), `1`-`9` tabs, `e` expand all, `t` theme, `esc` clear. Deep-links: `#<core>`, `#<core>/<category>/` or `#<path>` (e.g. `#CONVENTIONS/GITHUB/RELEASES/`, `#CONVENTIONS/DESIGN/COLORS.md`).
 - Repo root: one map per core (`CONVENTIONS.md`, `AGENTS.md`, `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`), each pointing at `X/README.md`.
 
 ## Install
