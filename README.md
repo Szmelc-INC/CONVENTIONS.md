@@ -29,7 +29,7 @@ Six top-level categories. Each is a directory `X/` with a full guide `X/README.m
 | Map | Directory | What |
 |---|---|---|
 | [`CONVENTIONS.md`](CONVENTIONS.md) | [`CONVENTIONS/`](CONVENTIONS/README.md) | The rules: workflow, GitHub, specs, repo, design, interfaces, packaging, code; experimental proposals and legacy archive |
-| [`AGENTS.md`](AGENTS.md) | [`AGENTS/`](AGENTS/README.md) | Always-on global rules, skills, tool adapters, agent-file rules |
+| [`AGENTS.md`](AGENTS.md) | [`AGENTS/`](AGENTS/README.md) | Always-on global rules, agent behaviour rules, prompt engineering, skills, tool adapters |
 | [`HUMANS.md`](HUMANS.md) | [`HUMANS/`](HUMANS/README.md) | Install, browse |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | [`CONTRIBUTING/`](CONTRIBUTING/README.md) | Extend, write, name, version and ship conventions |
 | [`SZMELC.md`](SZMELC.md) | [`SZMELC/`](SZMELC/README.md) | Public organisations, sites, principles, projects index sources |
@@ -52,7 +52,7 @@ CONVENTIONS.md      map of CONVENTIONS/ + every stable rule in one file         
 AGENTS.md           instructions for agents in this repo + map of AGENTS/               [map block generated]
 HUMANS.md CONTRIBUTING.md SZMELC.md META.md   core maps                                                 [generated]
 CONVENTIONS/        rules by UPPERCASE category; EXPERIMENTAL/ proposals, LEGACY/ archive
-AGENTS/             global/AGENTS.md, RULES/, skills/, adapters/ [generated]
+AGENTS/             global/AGENTS.md, RULES/, PROMPT/, skills/, adapters/ [generated]
 HUMANS/             human guide
 CONTRIBUTING/       how to extend the conventions (root CONTRIBUTING.md = its map; GitHub shows it on issues/PRs)
 SZMELC/             organisation guide, sources.conf (projects index)

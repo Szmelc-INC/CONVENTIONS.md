@@ -19,7 +19,7 @@ The rules themselves: how Szmelc projects are built, shipped and maintained. One
 | `CONVENTIONS/EXPERIMENTAL/` | Opt-in proposals; load only when the user opts in (branch `experimental/*`) |
 | `CONVENTIONS/LEGACY/` | Superseded drafts, never deleted; load only when asked (branch `legacy/*`) |
 
-Agent behaviour rules (subagents, token efficiency) live in `AGENTS/RULES/`. How to add or change a rule: `CONTRIBUTING/WRITING.md`.
+Agent behaviour rules (subagents, token efficiency) live in `AGENTS/RULES/`, prompt engineering in `AGENTS/PROMPT/`. How to add or change a rule: `CONTRIBUTING/WRITING.md`.
 
 ## Rule format
 - Header, length, naming (`X-EXT.md`), references and status: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. Skeleton: `META/templates/rule.md`.

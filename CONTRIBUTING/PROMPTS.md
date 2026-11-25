@@ -1,7 +1,7 @@
 # Prompts
 > Load when: asking an agent to use, apply, extend or maintain the conventions, or looking for a ready prompt to paste.
 
-Paste one prompt into any agent with file access; each is self-contained. Bare rule paths resolve against the conventions root (install: `~/.config/szmelc/conventions`), as `SKILL.md` states. Replace `{...}`.
+Paste one prompt into any agent with file access; each is self-contained. Bare rule paths resolve against the conventions root (install: `~/.config/szmelc/conventions`), as `SKILL.md` states. Replace `{...}`. Writing your own: `AGENTS/PROMPT/`.
 
 ## Use
 | Task | Prompt |
