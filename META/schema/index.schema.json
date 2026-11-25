@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/META/schema/index.schema.json",
+  "title": "Szmelc conventions index",
+  "type": "object",
+  "required": ["name", "repo", "entries"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "name": {"type": "string", "pattern": "^[a-z0-9-]{1,64}$"},
+    "repo": {"type": "string", "format": "uri"},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "title", "load_when", "status", "kind"],
+        "additionalProperties": false,
+        "properties": {
+          "path": {"type": "string", "description": "Path relative to the repo root"},
+          "title": {"type": "string"},
+          "load_when": {"type": "string", "description": "Trigger: when an agent should load this file"},
+          "status": {"enum": ["always", "stable", "experimental", "legacy"]},
+          "kind": {"enum": ["global", "core", "skill", "rule", "archive"]}
+        }
+      }
+    }
+  }
+}

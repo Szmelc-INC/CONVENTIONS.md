@@ -10,14 +10,14 @@ jobs:
         with:
           fetch-depth: 0
       - name: structure, generated files, references
-        run: bash tools/check.sh
+        run: bash META/tools/check.sh
       - name: shellcheck
-        run: shellcheck install.sh tools/*.sh
+        run: shellcheck install.sh META/tools/*.sh
       - name: installer smoke test (throwaway HOME)
-        run: bash tools/test-install.sh
+        run: bash META/tools/test-install.sh
       - name: lane scope
         if: github.event_name == 'pull_request'
         env:
           HEAD_REF: ${{ github.head_ref }}
           BASE_REF: ${{ github.base_ref }}
-        run: bash tools/lane-check.sh "$HEAD_REF" "origin/$BASE_REF"
+        run: bash META/tools/lane-check.sh "$HEAD_REF" "origin/$BASE_REF"
