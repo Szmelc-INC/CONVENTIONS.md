@@ -14,13 +14,12 @@ How to extend the conventions: where a rule goes, how it is written, named, buil
 |---|---|
 | Everyday flow: branches, commits, finishing, verifying, notifying | `CONVENTIONS/WORKFLOW/` |
 | Anything GitHub: repo settings, PRs, Actions, releases, Pages | `CONVENTIONS/GITHUB/` |
-| A named document file (`AGENTS.md`, `SKILL.md`, `README.md`, `DESIGN.md`) | `CONVENTIONS/SPECS/THIRD-PARTY/` if an outside standard defines it, else `CONVENTIONS/SPECS/ORIGINAL/` |
+| A named document file (`AGENTS.md`, `CHANGELOG.md`, `SECURITY.md`, `DESIGN.md`) | `CONVENTIONS/SPECS/THIRD-PARTY/` if an outside standard defines it, else `CONVENTIONS/SPECS/ORIGINAL/` |
 | Agent behaviour (subagents, token efficiency) | `AGENTS/RULES/` |
 | Not yet adopted | `CONVENTIONS/EXPERIMENTAL/` via an `experimental/*` branch |
 | No category fits | New UPPERCASE directory under `CONVENTIONS/`; add it to the table in `CONVENTIONS/README.md` |
 
 ## Naming
-- Rule categories and topic files: UPPERCASE kebab (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`). `check.sh` enforces it.
-- A rule about a named file `X.ext` is `X-EXT.md` (`AGENTS-MD.md`, `LLMS-TXT.md`), so harnesses and GitHub never mistake it for the file itself.
+- Rule paths (UPPERCASE kebab, `X-EXT.md`) and format: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. `check.sh` enforces them.
 - Machinery keeps lowercase paths that installs and hooks depend on: `AGENTS/global/`, `AGENTS/skills/`, `AGENTS/adapters/`, `META/tools/`, `META/templates/`, `META/schema/`.
 - Rule format: `META/templates/rule.md`. Repo rules: root `README.md`, "Rules of this repo".

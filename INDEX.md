@@ -57,9 +57,20 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/PACKAGING/NIX.md` | packaging, releasing, or setting up a dev environment. |
 | `CONVENTIONS/REPO/LAYOUT.md` | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
 | `CONVENTIONS/REPO/WRITING.md` | writing docs, help text, error messages, commit messages, or community and lore text. |
+| `CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md` | organising a doc tree into cores, adding a core or category, or editing a core README. |
 | `CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md` | starting a project, writing a brief for a coding agent, or changing a project's architecture. |
-| `CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md` | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project. |
+| `CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md` | generating, reading or changing INDEX.md, index.json or an all-in-one rule bundle. |
+| `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md` | writing, naming or reviewing a convention rule file. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md` | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, or Cursor/Copilot/Kiro/Windsurf rules in any project. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md` | creating or updating CHANGELOG.md, or preparing a release in a project that keeps one. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/CODE-OF-CONDUCT-MD.md` | adding a code of conduct to a repo or organization, or opening a project to outside contributors. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/CODEOWNERS.md` | adding or editing CODEOWNERS, or requiring owner review on pull requests. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/CONTRIBUTING-MD.md` | creating or editing a project's CONTRIBUTING.md. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/LICENSE.md` | adding or changing a project's license file, or writing license fields in manifests. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md` | publishing docs or a site meant for LLMs, or generating an llms.txt. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md` | adding, sharing or committing MCP server configuration (.mcp.json) in a project. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md` | writing or editing a project README. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md` | creating or editing SECURITY.md, or setting up vulnerability reporting. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md` | writing, editing, or installing an agent skill. |
 | `CONVENTIONS/WORKFLOW/BRANCHES.md` | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
 | `CONVENTIONS/WORKFLOW/COMMITS.md` | writing a commit message, PR title, or squash-merge title. |

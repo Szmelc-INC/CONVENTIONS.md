@@ -6,7 +6,7 @@
 - Never commit build output; the output dir (`public/`) is gitignored.
 - Build script lives in the repo and gives the same result locally; the workflow only calls it.
 - Output: one self-contained `index.html` (CSS, JS, data inlined) that works offline and over `file://`.
-- Next to it: the same data as JSON; docs sites also ship `llms.txt`.
+- Next to it: the same data as JSON; docs sites also ship `llms.txt` (`CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`).
 - Deploy only from `main`; triggers: push on source paths, `workflow_dispatch`, `repository_dispatch` for refreshes from other repos.
 - Nightly `schedule` only when data comes from outside the repo (`CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`).
 - Repo homepage = the Pages URL unless a real site exists (`CONVENTIONS/GITHUB/REPO/METADATA.md`).

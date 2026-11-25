@@ -71,7 +71,7 @@ public/             generated site (GitHub Pages); built in CI, never committed 
 2. Every rule file and core `README.md` starts with `# Title` and `> Load when: <trigger>`.
 3. Never duplicate a rule; reference it by path (`CONVENTIONS/DESIGN/COLORS.md`).
 4. Never edit generated files. Run `META/tools/build.sh`, then `META/tools/check.sh` (CI runs both).
-5. New domain → new UPPERCASE directory in a core. New topic → copy `META/templates/rule.md`; naming in `CONTRIBUTING/README.md`. New core → directory + `README.md`, then add it to `CORES` in `META/tools/build.sh`.
+5. New domain → new UPPERCASE directory in a core. New topic → copy `META/templates/rule.md`; format and naming in `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. New core → directory + `README.md`, then add it to `CORES` in `META/tools/build.sh`.
 6. Agents load rules lazily: `INDEX.md` once, then only matching files. Never `@import` rule files into global instructions; that loads every rule every session.
 7. Public repo: only already-public material (public repos, orgs, sites).
 

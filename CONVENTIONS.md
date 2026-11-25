@@ -41,9 +41,20 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/PACKAGING/NIX.md`](CONVENTIONS/PACKAGING/NIX.md) | Nix packaging | packaging, releasing, or setting up a dev environment. |
 | [`CONVENTIONS/REPO/LAYOUT.md`](CONVENTIONS/REPO/LAYOUT.md) | Repository layout | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
 | [`CONVENTIONS/REPO/WRITING.md`](CONVENTIONS/REPO/WRITING.md) | Writing & voice | writing docs, help text, error messages, commit messages, or community and lore text. |
+| [`CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md`](CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md) | Core maps | organising a doc tree into cores, adding a core or category, or editing a core README. |
 | [`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`](CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md) | Design docs & agent briefs | starting a project, writing a brief for a coding agent, or changing a project's architecture. |
-| [`CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md) | Agent instruction files | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project. |
+| [`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`](CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md) | Lazy-load indexes | generating, reading or changing INDEX.md, index.json or an all-in-one rule bundle. |
+| [`CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`](CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md) | Rule files | writing, naming or reviewing a convention rule file. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md) | Agent instruction files | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, or Cursor/Copilot/Kiro/Windsurf rules in any project. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md) | Changelog | creating or updating CHANGELOG.md, or preparing a release in a project that keeps one. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/CODE-OF-CONDUCT-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/CODE-OF-CONDUCT-MD.md) | Code of conduct | adding a code of conduct to a repo or organization, or opening a project to outside contributors. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/CODEOWNERS.md`](CONVENTIONS/SPECS/THIRD-PARTY/CODEOWNERS.md) | Code owners | adding or editing CODEOWNERS, or requiring owner review on pull requests. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/CONTRIBUTING-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/CONTRIBUTING-MD.md) | Contributing guide | creating or editing a project's CONTRIBUTING.md. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/LICENSE.md`](CONVENTIONS/SPECS/THIRD-PARTY/LICENSE.md) | License file | adding or changing a project's license file, or writing license fields in manifests. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`](CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md) | llms.txt | publishing docs or a site meant for LLMs, or generating an llms.txt. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md`](CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md) | MCP server config | adding, sharing or committing MCP server configuration (.mcp.json) in a project. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md) | README | writing or editing a project README. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md) | Security policy | creating or editing SECURITY.md, or setting up vulnerability reporting. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md) | Skills (SKILL.md) | writing, editing, or installing an agent skill. |
 | [`CONVENTIONS/WORKFLOW/BRANCHES.md`](CONVENTIONS/WORKFLOW/BRANCHES.md) | Branches | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
 | [`CONVENTIONS/WORKFLOW/COMMITS.md`](CONVENTIONS/WORKFLOW/COMMITS.md) | Commits | writing a commit message, PR title, or squash-merge title. |
@@ -258,7 +269,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Secret scanning + push protection on (`gh repo edit --enable-secret-scanning --enable-secret-scanning-push-protection`; free for public repos).
 - Leaked secret: rotate it first, then remove it; history rewriting needs owner approval.
 - CodeQL default setup for supported languages (free for public repos); fix or dismiss alerts with a reason.
-- Private vulnerability reporting on for public repos.
+- Private vulnerability reporting on for public repos; policy file: `CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md`.
 - Never commit secrets, tokens or `.env` files; workflows read them per `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`.
 
 ---
@@ -297,7 +308,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Never commit build output; the output dir (`public/`) is gitignored.
 - Build script lives in the repo and gives the same result locally; the workflow only calls it.
 - Output: one self-contained `index.html` (CSS, JS, data inlined) that works offline and over `file://`.
-- Next to it: the same data as JSON; docs sites also ship `llms.txt`.
+- Next to it: the same data as JSON; docs sites also ship `llms.txt` (`CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`).
 - Deploy only from `main`; triggers: push on source paths, `workflow_dispatch`, `repository_dispatch` for refreshes from other repos.
 - Nightly `schedule` only when data comes from outside the repo (`CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`).
 - Repo homepage = the Pages URL unless a real site exists (`CONVENTIONS/GITHUB/REPO/METADATA.md`).
@@ -612,8 +623,12 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | File | When | Job |
 |---|---|---|
 | `README.md` | always | What it is, one-line install, usage, how it works (`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`) |
-| `LICENSE` | always | `CONVENTIONS/GITHUB/REPO/METADATA.md` |
+| `LICENSE` | always | `CONVENTIONS/SPECS/THIRD-PARTY/LICENSE.md` |
 | `AGENTS.md` + `CLAUDE.md` (`@AGENTS.md`) | always | Working rules for coding agents (`CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`) |
+| `CHANGELOG.md` | when kept | `CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md` |
+| `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md` | override of the org default | `CONVENTIONS/SPECS/THIRD-PARTY/CONTRIBUTING-MD.md`, `CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md`, `CONVENTIONS/SPECS/THIRD-PARTY/CODE-OF-CONDUCT-MD.md` |
+| `.github/CODEOWNERS` | ≥ 2 maintainers | `CONVENTIONS/SPECS/THIRD-PARTY/CODEOWNERS.md` |
+| `.mcp.json` | shared MCP servers | `CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md` |
 | `DESIGN.md` | new projects | The owner's brief (`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`) |
 | `docs/ARCHITECTURE-v<N>.md` | DB, daemon or plugin system | Binding contract per major version |
 | `PKGBUILD`, `flake.nix` | anything installable | `CONVENTIONS/PACKAGING/ARCH.md`, `CONVENTIONS/PACKAGING/NIX.md` |
@@ -639,6 +654,20 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Dense: cut every word that does not change the meaning. Rules are imperative one-liners.
 
 ---
+<!-- source: CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md -->
+## Core maps
+> Load when: organising a doc tree into cores, adding a core or category, or editing a core README.
+
+- Core = UPPERCASE directory `X/` + guide `X/README.md` + generated root map `X.md`.
+- `X/README.md`: line 1 `# Title`, line 2 `> Load when: <trigger>`, then what the core holds and a table of its categories.
+- Root map `X.md`: generated: title, trigger, link to the guide, then `| Path | What | Load when |` rows from each file's header. Never hand-edit.
+- A hand-written root file keeps its map between `<!-- map:begin -->` and `<!-- map:end -->`; only that block is generated.
+- Nested categories repeat the pattern; `X/<SUB>/README.md` is optional, only when a category needs more than its table row.
+- Every category directory has a row in its core guide's table.
+- Any project may adopt it for a doc tree; the build script generates maps and indexes (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`).
+- This repo: cores `CONVENTIONS/`, `AGENTS/`, `HUMANS/`, `CONTRIBUTING/`, `SZMELC/`, `META/`; root maps `CONVENTIONS.md` (bundle, opens with the map), `AGENTS.md` (map block), `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`.
+
+---
 <!-- source: CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md -->
 ## Design docs & agent briefs
 > Load when: starting a project, writing a brief for a coding agent, or changing a project's architecture.
@@ -659,21 +688,131 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - "Reproducible" means repeatable from the same inputs unless bit-for-bit is stated.
 
 ---
+<!-- source: CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md -->
+## Lazy-load indexes
+> Load when: generating, reading or changing INDEX.md, index.json or an all-in-one rule bundle.
+
+- Generated by the build script from file headers (line 1 title, line 2 `> Load when:`), with a "generated, do not edit" comment under the title. Never hand-edit; the build's `--check` mode fails CI when stale.
+- `INDEX.md`: `# Index`, a read-once instruction, then `| File | Load when |` tables per section: Always on, Cores, Rules, Skills, Experimental (opt-in only), Legacy (title only).
+- `index.json`: `name`, `repo`, `entries[]` with `path`, `title`, `load_when`, `status` (`always|stable|experimental|legacy`), `kind` (`global|core|skill|rule|archive`); schema `META/schema/index.schema.json`.
+- Bundle (`CONVENTIONS.md`): map of the rule tree, then every stable rule inlined, headings demoted one level, each after a `<!-- source: <path> -->` marker. For tools that cannot lazy-load; never loaded together with the index.
+- Agents read `INDEX.md` once per session, then only files whose trigger matches; never bulk-read, never `@import` rule files into always-on instructions.
+- Web index of the same entries: `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`. Maps per core: `CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md`.
+
+---
+<!-- source: CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md -->
+## Rule files
+> Load when: writing, naming or reviewing a convention rule file.
+
+- Line 1 `# Title`, line 2 `> Load when: <concrete trigger>`; generators read both (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`). Skeleton `META/templates/rule.md`.
+- One topic per file, one rule per line: imperative one-liners (`- ...`); a table only when denser than lines.
+- ~5–20 lines; longer → split the topic.
+- No prose, no filler adjectives; rationale only when the rule is non-obvious.
+- Paths: categories and topic files UPPERCASE kebab (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`).
+- A rule about a named file `X.ext` is `X-EXT.md` (`AGENTS-MD.md`, `LLMS-TXT.md`), so harnesses and GitHub never mistake it for the file itself.
+- Never duplicate a rule: reference the owning file by backticked repo path; every backticked path must exist.
+- Status by directory, not by field: `EXPERIMENTAL/` opt-in, `LEGACY/` archive (line 3 `> Superseded by: <path>`), else stable; stable rules never reference either.
+- State rules generically; project specifics go in that project's README or `AGENTS.md`.
+
+---
 <!-- source: CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md -->
 ## Agent instruction files
-> Load when: creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project.
+> Load when: creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, or Cursor/Copilot/Kiro/Windsurf rules in any project.
 
-- Canonical: `AGENTS.md` at the project root; add one per subdir only when a subtree has its own rules.
+- Standard: <https://agents.md/>. Canonical `AGENTS.md` at the project root; add one per subdir only when a subtree has its own rules.
 - `CLAUDE.md`, `GEMINI.md`, `QWEN.md`: a single line `@AGENTS.md` (import). Never duplicate content.
 - Codex, Cursor, Copilot, OpenCode, Zed, Jules and Amp read `AGENTS.md` natively; add tool-specific files only when a tool needs frontmatter.
 - Tool-specific files (`.cursor/rules/*.mdc`, `.github/instructions/*.instructions.md`, `.kiro/steering/*.md`): generate from a source, never hand-edit copies. `./install.sh project <dir>` drops the Szmelc ones.
+- Never keep two diverging copies (e.g. `CLAUDE.md` with the tool name swapped); one source, imports elsewhere.
 - Content: only what an agent cannot infer — build/test/lint commands, layout map, project-specific rules, gotchas.
 - Never restate global conventions; reference them by path in this repo (`CONVENTIONS/INTERFACES/CLI.md`).
 - Project baseline: read `DESIGN.md` and the current architecture contract first; finish every change; tests on throwaway state; a deviation updates the contract in the same commit (`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`).
-- Never keep two diverging copies (e.g. `CLAUDE.md` with the tool name swapped); one source, imports elsewhere.
 - Imperative one-liners. Over ~150 lines → split per subdir.
-- Docs site → also ship `llms.txt` (llmstxt.org): `# Name`, `> summary`, `##` link lists, `## Optional` for skippable links.
-- Skeleton: `META/templates/AGENTS.md`. Skills: `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`.
+- Skeleton: `META/templates/AGENTS.md`. Related: `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`, `CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md`, `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`.
+
+---
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md -->
+## Changelog
+> Load when: creating or updating CHANGELOG.md, or preparing a release in a project that keeps one.
+
+- Format: Keep a Changelog 1.1 <https://keepachangelog.com/en/1.1.0/>. File `CHANGELOG.md` at the root, when the project keeps one (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`).
+- Top: `# Changelog`, then `## [Unreleased]`, then releases newest first as `## [x.y.z] - YYYY-MM-DD`.
+- Entries under `### Added`, `### Changed`, `### Deprecated`, `### Removed`, `### Fixed`, `### Security`; omit empty groups.
+- One line per user-visible change, written for users; no commit hashes, no internal refactors.
+- Add the entry under `[Unreleased]` in the same PR as the change.
+- Release: rename `[Unreleased]` to the version and date, open a new empty `[Unreleased]`.
+- Compare links at the bottom: `[Unreleased]: <repo>/compare/vX.Y.Z...HEAD`, `[x.y.z]: <repo>/compare/vPREV...vX.Y.Z`.
+- The release section becomes the tag message and release notes (`CONVENTIONS/GITHUB/RELEASES/TAGS.md`).
+
+---
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/CODE-OF-CONDUCT-MD.md -->
+## Code of conduct
+> Load when: adding a code of conduct to a repo or organization, or opening a project to outside contributors.
+
+- Adopt the Contributor Covenant <https://www.contributor-covenant.org/> by reference: `CODE_OF_CONDUCT.md` with its unmodified text, or a link to the adopted version plus the enforcement contact.
+- Org-wide default: one `CODE_OF_CONDUCT.md` in the org `.github` repo (`CONVENTIONS/GITHUB/ORGANIZATIONS.md`); repos override only when they differ.
+- A repo copy only for community repos (outside contributors, Discussions); solo tools rely on the org default.
+- Enforcement contact: a project or org channel, never a personal address.
+
+---
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/CODEOWNERS.md -->
+## Code owners
+> Load when: adding or editing CODEOWNERS, or requiring owner review on pull requests.
+
+- File `.github/CODEOWNERS` <https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners>; GitHub also reads root and `docs/`, keep one.
+- Only with ≥ 2 maintainers or when a ruleset requires code-owner review; solo repos skip it.
+- Line: gitignore-style pattern, then owners; the last matching line wins.
+- `*` default line first, narrower paths below it.
+- Owners: teams (`@org/team`) over people; every owner needs write access.
+- Required owner review: ruleset `pull_request` with `require_code_owner_review: true` (`CONVENTIONS/GITHUB/REPO/SETTINGS.md`).
+
+---
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/CONTRIBUTING-MD.md -->
+## Contributing guide
+> Load when: creating or editing a project's CONTRIBUTING.md.
+
+- GitHub community health file <https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors>: `CONTRIBUTING.md` in the root, `.github/` or `docs/`; GitHub links it when someone opens an issue or PR.
+- Org-wide default in the org `.github` repo (`CONVENTIONS/GITHUB/ORGANIZATIONS.md`); a repo copy only when the project differs.
+- Content, short: setup, build/test/check commands, the branch → PR flow by pointer (`CONVENTIONS/WORKFLOW/BRANCHES.md`, `CONVENTIONS/GITHUB/PULL-REQUESTS.md`), where to ask.
+- Same commands as `AGENTS.md`; change both in the same commit.
+- Vulnerabilities never go through issues: point to `SECURITY.md` (`CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md`).
+
+---
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/LICENSE.md -->
+## License file
+> Load when: adding or changing a project's license file, or writing license fields in manifests.
+
+- Which license: `CONVENTIONS/GITHUB/REPO/METADATA.md`.
+- File `LICENSE` at the root, no extension; full unmodified text (<https://choosealicense.com/licenses/mit/>) so GitHub detects it.
+- Copyright line: `Copyright (c) <year> <holder>`; year of first publication, holder = the publishing org or author.
+- Manifests use the SPDX id: `PKGBUILD` `license=('MIT')`, `flake.nix` `meta.license = lib.licenses.mit`, `package.json` `"license": "MIT"`, `SKILL.md` `license: MIT`.
+- Packages install the file (`CONVENTIONS/PACKAGING/ARCH.md`).
+- Forks keep the upstream license and copyright line; add yours below it.
+
+---
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md -->
+## llms.txt
+> Load when: publishing docs or a site meant for LLMs, or generating an llms.txt.
+
+- Standard: <https://llmstxt.org/>. File `llms.txt` at the site root, next to `index.html` (`CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md`).
+- Order: `# Name` (the only required part), `> one-line summary`, optional plain paragraphs, then `## Section` link lists.
+- Link line: `- [Title](url): what it holds or when to read it`.
+- `## Optional`: links an agent may skip when context is short.
+- Link Markdown sources (raw files, `.md` pages), not rendered HTML.
+- Generated by the build script from the same sources as the site and index; never hand-written or hand-edited; CI fails on a stale copy.
+- `llms-full.txt` (every linked document inlined): optional extension outside the spec; generate it the same way when shipped.
+
+---
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md -->
+## MCP server config
+> Load when: adding, sharing or committing MCP server configuration (.mcp.json) in a project.
+
+- File `.mcp.json` at the project root with a `mcpServers` map; project scope as defined by Claude Code <https://code.claude.com/docs/en/mcp>. Commit it so every contributor gets the same servers.
+- Stdio entry: `command`, `args`, `env`. Remote entry: `"type": "http"`, `url`, optional `headers`; an entry without `type` is read as stdio.
+- Commit only servers that need no secrets or read them from the environment: `${VAR}`, `${VAR:-default}` (expanded in `command`, `args`, `env`, `url`, `headers`).
+- Never write a literal key or token into it; servers with personal credentials go to local or user scope, never the repo.
+- One server per capability, short lowercase name; pin package versions in `args`, never `@latest`.
+- Interactive sessions ask before using project servers; `claude -p`, SDK and cloud sessions load them without asking, so review `.mcp.json` changes like code.
 
 ---
 <!-- source: CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md -->
@@ -689,6 +828,19 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Plain headings for structure; no blockquote-as-heading, no `\` line breaks, no version in the title.
 - Polish readers → separate `README-PL.md`; one language per file (`CONVENTIONS/REPO/WRITING.md`).
 - Remove agent leftovers ("CONSOLIDATED DELIVERABLE", "Here is…", "As an AI…") before committing.
+
+---
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md -->
+## Security policy
+> Load when: creating or editing SECURITY.md, or setting up vulnerability reporting.
+
+- GitHub community health file <https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository>: `SECURITY.md` in the root, `.github/` or `docs/`; org default in the org `.github` repo (`CONVENTIONS/GITHUB/ORGANIZATIONS.md`).
+- `## Supported versions`: table of version ranges and whether they get fixes; usually the latest release only.
+- `## Reporting a vulnerability`: GitHub private vulnerability reporting (Security tab → Report a vulnerability); enable it per `CONVENTIONS/GITHUB/CODE-SECURITY.md`.
+- Never ask for vulnerability reports in public issues, discussions or chat.
+- Response expectations with numbers: acknowledgement time, status updates, target fix time; reporter credited in the advisory unless they decline.
+- Fix in the advisory's temporary private fork; publish the advisory with the patch release (`CONVENTIONS/GITHUB/RELEASES/TAGS.md`).
+- No personal email addresses; any other private channel belongs to the project or org.
 
 ---
 <!-- source: CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md -->
