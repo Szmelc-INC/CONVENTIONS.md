@@ -1,0 +1,71 @@
+name: pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.md'
+      - tools/site.sh
+      - index/sources.conf
+      - .github/workflows/pages.yml
+  schedule:
+    - cron: '0 3 * * *' # nightly 03:00 UTC: refresh the Projects index as repos change
+  workflow_dispatch:
+  repository_dispatch:
+    types: [conventions-rebuild]
+
+permissions:
+  contents: write # write only for the rare heartbeat commit
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PUBLISH: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build site
+        run: tools/site.sh
+
+      # Scheduled workflows are disabled after 60 days without repo activity.
+      # A rare heartbeat (only when the repo has been quiet) keeps the nightly
+      # Projects-index refresh alive, without a daily commit churning history.
+      - name: Heartbeat
+        if: env.PUBLISH == 'true' && github.event_name == 'schedule'
+        run: |
+          if (( $(date +%s) - $(git log -1 --format=%ct) > 45 * 86400 )); then
+            git config user.name 'conventions-bot'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            date -u +%FT%TZ > .github/heartbeat
+            git add .github/heartbeat
+            git commit -m "heartbeat: keep the nightly Pages schedule alive"
+            git push
+          fi
+
+      - name: Upload site
+        if: env.PUBLISH == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

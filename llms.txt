@@ -14,9 +14,11 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 - [TUI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/interfaces/tui.md): Load when building a TUI, or any project that has a CLI.
 - [Agent instruction files](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/meta/agent-files.md): Load when creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project.
 - [Skills (SKILL.md)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/meta/skills.md): Load when writing, editing, or installing an agent skill.
+- [Stack defaults](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/meta/stack.md): Load when starting a project or tool, or choosing language, dependencies or config format.
 - [Arch packaging](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/packaging/arch.md): Load when packaging, releasing, or adding install instructions.
 - [Nix packaging](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/packaging/nix.md): Load when packaging, releasing, or setting up a dev environment.
 - [Branches & lanes](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/workflow/branches.md): Load when creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.
+- [Finish every change](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/workflow/finish.md): Load when finishing a feature or fix, before calling work done.
 - [Git, PRs & CI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/workflow/git-pr-ci.md): Load when committing, pushing, opening/merging a PR, or fixing CI.
 - [Notifications](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/workflow/notify.md): Load when a job runs > ~10 min, or a failure needs a human.
 - [Repo metadata](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/workflow/repo-metadata.md): Load when creating a repo, first push, release, or editing README/manifest/license.
