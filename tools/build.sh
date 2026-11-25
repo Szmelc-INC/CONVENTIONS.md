@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Literal Markdown backticks in single quotes are intended.
+# shellcheck disable=SC2016
 # Generate indexes, the all-in-one bundle and tool adapters from source files.
 # Usage: tools/build.sh [--check]   (--check: fail if generated files are stale, write nothing)
 set -euo pipefail

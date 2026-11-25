@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Literal Markdown backticks in single quotes are intended.
+# shellcheck disable=SC2016
 # Validate the repo: generated files fresh, rule headers, skill frontmatter, index entries, path references.
 set -euo pipefail
 cd "$(dirname "$0")/.."
