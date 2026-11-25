@@ -17,6 +17,7 @@ Planned as 2.0.0: rule paths were renamed (major).
 - `CONVENTIONS/GITHUB/`: repo settings, labels, metadata, pull requests, issues, discussions, projects, wiki, code security, organizations, coding agents.
 - `CONVENTIONS/GITHUB/ACTIONS/` (workflows, CI), `CONVENTIONS/GITHUB/RELEASES/` (versioning, tags, automation, channels), `CONVENTIONS/GITHUB/DEPLOYMENTS/` (environments, Pages, WebUI style).
 - `CONVENTIONS/FORMATS/` and `CONVENTIONS/SYSTEMS/` categories.
+- `AGENTS/PROMPT/`: prompt engineering 101, rules for writing, classifying, testing and checking prompts and agent briefs, a paste-ready prompt library, and the skeleton `META/templates/prompt.md`.
 - `CONTRIBUTING/` core: 101, DIY, writing, indexing, templates, versioning, lifecycle, prompts.
 - This repo follows its own GitHub conventions: issue forms, PR template, labels as code (`META/tools/labels.sh`), settings and rulesets as code (`META/tools/github-setup.sh`), Dependabot for Actions, security policy, release workflow with bundle assets and `SHA256SUMS` (`META/tools/release.sh`).
 - `CONVENTIONS/GITHUB/ACTIONS/CI.md`: scheduled workflows stay alive through an API re-enable keepalive, not a heartbeat commit; bots never bypass rulesets.

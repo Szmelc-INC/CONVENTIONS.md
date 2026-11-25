@@ -108,7 +108,7 @@ while IFS= read -r p; do
   n=${p##*/}
   [[ $n == README.md ]] && continue
   [[ $n =~ ^[A-Z0-9]+(-[A-Z0-9]+)*(\.md)?$ ]] || err "$p: rule paths are UPPERCASE kebab ('BRANCHES.md', 'GITHUB/RELEASES/')"
-done < <(find CONVENTIONS AGENTS/RULES -mindepth 1 | sort)
+done < <(find CONVENTIONS AGENTS/RULES AGENTS/PROMPT -mindepth 1 | sort)
 
 ((fail == 0)) && echo OK
 exit "$fail"

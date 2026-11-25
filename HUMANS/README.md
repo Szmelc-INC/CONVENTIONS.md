@@ -31,4 +31,4 @@ git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventi
 | Aider, web chats | `aider --read CONVENTIONS.md`, or paste/upload `CONVENTIONS.md` | — |
 
 ## Contribute
-Quick start: `CONTRIBUTING/101.md`. Ready agent prompts: `CONTRIBUTING/PROMPTS.md`. Branching, writing, naming, building and shipping a rule: `CONTRIBUTING/README.md`.
+Quick start: `CONTRIBUTING/101.md`. Ready agent prompts: `CONTRIBUTING/PROMPTS.md`. Writing a prompt for an agent: `AGENTS/PROMPT/`. Branching, writing, naming, building and shipping a rule: `CONTRIBUTING/README.md`.

@@ -12,7 +12,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | File | Load when |
 |---|---|
 | `CONVENTIONS/README.md` | asked which conventions exist, how rules are organised, or before adding/promoting/demoting a rule. |
-| `AGENTS/README.md` | installing the conventions into an agent harness, or deciding on subagents, model or effort. |
+| `AGENTS/README.md` | installing the conventions into an agent harness, deciding on subagents, model or effort, or writing a prompt for an agent. |
 | `HUMANS/README.md` | a person asks how to install, browse or use the conventions. |
 | `CONTRIBUTING/README.md` | adding, changing, promoting, versioning or indexing a convention, or contributing to this repo. |
 | `SZMELC/README.md` | asked about Szmelc itself, its public organisations and projects, the ecosystem, or the projects index. |
@@ -21,6 +21,13 @@ Read this once per session. Load only files whose trigger matches the task. Path
 ## Rules
 | File | Load when |
 |---|---|
+| `AGENTS/PROMPT/101.md` | writing a prompt, system prompt or agent brief from scratch, or asked for prompt-engineering basics. |
+| `AGENTS/PROMPT/AGENT-PROMPTS.md` | writing a system prompt, subagent or task brief for an agent that runs commands, edits files or calls tools. |
+| `AGENTS/PROMPT/CLASSES.md` | deciding which sections a prompt needs, or combining two kinds of work in one prompt. |
+| `AGENTS/PROMPT/META-PROMPTS.md` | asking an agent to write, review, tighten or test a prompt. |
+| `AGENTS/PROMPT/TASK-PROMPTS.md` | looking for a ready prompt for everyday work: planning, debugging, reviewing, summarizing, distilling, deciding, learning. |
+| `AGENTS/PROMPT/TESTING.md` | checking a prompt before use, or after it produced a wrong or uneven output. |
+| `AGENTS/PROMPT/WRITING.md` | wording or tightening the lines of a prompt, or choosing its examples, placeholders and untrusted-input handling. |
 | `AGENTS/RULES/EFFICIENCY.md` | choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long. |
 | `AGENTS/RULES/SUBAGENTS.md` | considering a subagent, parallel work, skills/MCP use, or long-running commands. |
 | `CONTRIBUTING/101.md` | first using the conventions, setting them up for an agent, or applying them to an existing project. |
@@ -28,7 +35,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONTRIBUTING/INDEXING.md` | adding or changing a rule file and wondering what to rebuild, or adding a new generated output format. |
 | `CONTRIBUTING/LIFECYCLE.md` | proposing, promoting, demoting or deprecating a convention, or tracking how a rule changed. |
 | `CONTRIBUTING/PROMPTS.md` | asking an agent to use, apply, extend or maintain the conventions, or looking for a ready prompt to paste. |
-| `CONTRIBUTING/TEMPLATES.md` | starting a new rule, skill, category or project agent file from a skeleton. |
+| `CONTRIBUTING/TEMPLATES.md` | starting a new rule, prompt, skill, category or project agent file from a skeleton. |
 | `CONTRIBUTING/VERSIONING.md` | deciding the version bump for a change to this conventions repo, releasing it, or pinning an install. |
 | `CONTRIBUTING/WRITING.md` | writing or reviewing a convention rule, deciding where a rule goes, or creating a category. |
 | `CONVENTIONS/CODE/DOTFILES.md` | building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations. |

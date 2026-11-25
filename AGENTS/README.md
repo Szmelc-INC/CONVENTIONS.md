@@ -1,13 +1,14 @@
 # AGENTS
-> Load when: installing the conventions into an agent harness, or deciding on subagents, model or effort.
+> Load when: installing the conventions into an agent harness, deciding on subagents, model or effort, or writing a prompt for an agent.
 
-Everything an AI agent consumes: the always-on global rules, agent behaviour rules, skills and per-tool adapters. Formats of agent files (`AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `llms.txt`) live in `CONVENTIONS/SPECS/THIRD-PARTY/`.
+Everything an AI agent consumes: the always-on global rules, agent behaviour rules, prompt engineering, skills and per-tool adapters. Formats of agent files (`AGENTS.md`, `CLAUDE.md`, `SKILL.md`, `llms.txt`) live in `CONVENTIONS/SPECS/THIRD-PARTY/`.
 
 ## Contents
 | Path | Role |
 |---|---|
 | `AGENTS/global/AGENTS.md` | Always-on rules; linked as `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `QWEN.md` by `install.sh` |
 | `AGENTS/RULES/` | Agent behaviour: subagents, token efficiency |
+| `AGENTS/PROMPT/` | Prompt engineering 101: how to write, test and check prompts; paste-ready prompt library |
 | `AGENTS/skills/` | Extra Agent Skills (`deep`); the meta skill is the repo root `SKILL.md` |
 | `AGENTS/adapters/` | Generated Cursor `.mdc`, Copilot `.instructions.md`, Kiro steering from the global rules |
 

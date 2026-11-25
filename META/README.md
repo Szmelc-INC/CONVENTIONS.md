@@ -25,6 +25,6 @@ How the conventions repo works: sources in, every format out.
 
 ## Other
 - `META/schema/index.schema.json`: JSON Schema for `index.json`.
-- `META/templates/`: skeletons for a rule, a category README, a skill, a project `AGENTS.md`; catalogue `CONTRIBUTING/TEMPLATES.md`.
+- `META/templates/`: skeletons for a rule, a prompt, a category README, a skill, a project `AGENTS.md`; catalogue `CONTRIBUTING/TEMPLATES.md`.
 - CI: `.github/workflows/check.yml` (check, shellcheck, installer test, branch scope), `.github/workflows/pages.yml` (site on push to `main`, nightly, on demand), `.github/workflows/release.yml` (`v*` tag push, or dispatch with `dry_run`).
 - GitHub setup in `.github/`: issue forms, PR template, `release.yml` note categories, `dependabot.yml`, `labels.tsv`, `SECURITY.md`.

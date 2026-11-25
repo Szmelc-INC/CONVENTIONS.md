@@ -2,7 +2,7 @@
 > Load when: writing or reviewing a convention rule, deciding where a rule goes, or creating a category.
 
 ## Checklist
-- Grep first: `grep -ril '<topic>' CONVENTIONS AGENTS/RULES`; extend the owning file instead of adding a duplicate.
+- Grep first: `grep -ril '<topic>' CONVENTIONS AGENTS/RULES AGENTS/PROMPT`; extend the owning file instead of adding a duplicate.
 - Format, naming and length: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`; skeleton `META/templates/rule.md`.
 - Trigger names a concrete task ("bumping a version"), never a topic ("versions").
 - Imperative one-liners; one rule per line; ~20 lines max, else split.
@@ -18,6 +18,7 @@
 | Anything GitHub: repo settings, PRs, Actions, releases, Pages | `CONVENTIONS/GITHUB/` |
 | A named document file (`AGENTS.md`, `CHANGELOG.md`, `DESIGN.md`) | `CONVENTIONS/SPECS/THIRD-PARTY/` if an outside standard defines it, else `CONVENTIONS/SPECS/ORIGINAL/` |
 | Agent behaviour (subagents, token efficiency) | `AGENTS/RULES/` |
+| A prompt, or how to write, test or check one | `AGENTS/PROMPT/` |
 | Not yet adopted | `CONVENTIONS/EXPERIMENTAL/` via an `experimental/*` branch (`CONTRIBUTING/LIFECYCLE.md`) |
 | Anything else | The matching category in `CONVENTIONS/README.md`; none fits → new category |
 

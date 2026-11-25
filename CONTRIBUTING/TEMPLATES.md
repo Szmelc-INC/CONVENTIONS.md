@@ -1,9 +1,10 @@
 # Templates
-> Load when: starting a new rule, skill, category or project agent file from a skeleton.
+> Load when: starting a new rule, prompt, skill, category or project agent file from a skeleton.
 
 | Template | Copy to | When |
 |---|---|---|
 | `META/templates/rule.md` | `CONVENTIONS/<CATEGORY>/<TOPIC>.md` or `AGENTS/RULES/<TOPIC>.md` | Any new rule file (`CONTRIBUTING/WRITING.md`) |
+| `META/templates/prompt.md` | Any prompt, system prompt or agent brief | New prompt (`AGENTS/PROMPT/`) |
 | `META/templates/category-README.md` | `CONVENTIONS/<CATEGORY>/README.md` | A category needs more than its table row (optional) |
 | `META/templates/SKILL.md` | `AGENTS/skills/<name>/SKILL.md` or a project's skill dir | New agent skill (`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`) |
 | `META/templates/AGENTS.md` | `<project>/AGENTS.md` | New or adopting project; `install.sh project <dir>` copies it |

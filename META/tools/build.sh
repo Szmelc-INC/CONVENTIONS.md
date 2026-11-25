@@ -201,7 +201,7 @@ done
 {
   echo '# Szmelc Conventions'
   echo
-  echo '> Global conventions for humans and AI agents, in six cores: CONVENTIONS (rules by category: WORKFLOW, GITHUB (repo, pull requests, actions, releases, deployments), SPECS (third-party and original document formats), FORMATS, SYSTEMS, REPO, DESIGN, INTERFACES, PACKAGING, CODE), AGENTS (always-on rules, agent behaviour rules, skills, adapters), HUMANS (install, browse), CONTRIBUTING (extend, write, version, prompts), SZMELC (organisation, projects index sources) and META (build pipeline, schema, templates). Agents load rules lazily: read INDEX.md, then only files whose trigger matches the task.'
+  echo '> Global conventions for humans and AI agents, in six cores: CONVENTIONS (rules by category: WORKFLOW, GITHUB (repo, pull requests, actions, releases, deployments), SPECS (third-party and original document formats), FORMATS, SYSTEMS, REPO, DESIGN, INTERFACES, PACKAGING, CODE), AGENTS (always-on rules, agent behaviour rules, prompt engineering and a prompt library, skills, adapters), HUMANS (install, browse), CONTRIBUTING (extend, write, version, prompts), SZMELC (organisation, projects index sources) and META (build pipeline, schema, templates). Agents load rules lazily: read INDEX.md, then only files whose trigger matches the task.'
   echo
   echo "Entry points: [SKILL.md]($RAW/SKILL.md), [INDEX.md]($RAW/INDEX.md), [index.json]($RAW/index.json). All stable rules in one file: [CONVENTIONS.md]($RAW/CONVENTIONS.md)."
   echo
