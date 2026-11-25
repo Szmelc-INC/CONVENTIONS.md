@@ -1,28 +1,63 @@
 # CONVENTIONS.md
-Global Szmelc conventions for everything: humans and AI agents.
+[![check](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/check.yml/badge.svg)](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/check.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-105c5c.svg)](LICENSE)
+[![Agent Skill](https://img.shields.io/badge/SKILL.md-szmelc--conventions-105c5c.svg)](SKILL.md)
+[![AGENTS.md](https://img.shields.io/badge/AGENTS.md-compatible-105c5c.svg)](global/AGENTS.md)
+
+Global Szmelc conventions for everything, for humans and AI agents. One source, every format: Agent Skill, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `QWEN.md`, Cursor/Copilot/Kiro rules, `llms.txt`, JSON index, and a single-file bundle.
+
+## Install
+```sh
+git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventions
+~/.config/szmelc/conventions/install.sh status   # what would be linked
+~/.config/szmelc/conventions/install.sh          # link into every detected harness
+```
+- Links global rules and the `szmelc-conventions` + `deep` skills into each harness found under `$HOME`. Existing files are moved to `*.bak.<timestamp>`, never overwritten; `install.sh uninstall` restores them.
+- Pick harnesses: `--only claude,codex`. Preview: `--dry-run`. Into a project: `install.sh project <dir>`.
+- Update: `git -C ~/.config/szmelc/conventions pull`. Old `~/.claude/conventions` clone → move it to the path above and re-run `install.sh`.
+
+| Harness | Global rules | Skills root |
+|---|---|---|
+| Claude Code | `~/.claude/CLAUDE.md` | `~/.claude/skills` |
+| Codex | `~/.codex/AGENTS.md` | `~/.codex/skills` |
+| Gemini CLI / Antigravity | `~/.gemini/GEMINI.md` | `~/.gemini/config/skills` (unverified) |
+| Qwen Code | `~/.qwen/QWEN.md` (unverified) | `~/.qwen/skills` |
+| OpenCode | `~/.config/opencode/AGENTS.md` (unverified) | — |
+| Kiro | `~/.kiro/steering/szmelc-conventions.md` | `~/.kiro/skills` |
+| Windsurf | `~/.codeium/windsurf/memories/global_rules.md` (unverified) | — |
+| Grok, jcode, `~/.agents` | — | `~/.grok/skills`, `~/.jcode/skills`, `~/.agents/skills` |
+| Cursor, Copilot | per project: `install.sh project <dir>` | — |
+| Aider, web chats | `aider --read CONVENTIONS.md`, or paste/upload `CONVENTIONS.md` | — |
 
 ## Layout
 ```
-INDEX.md            map: every rule file + when to load it (agents read only this first)
-<category>/         a domain: claude, workflow, design, interfaces, packaging, ...
-  <subcategory>.md  one topic, one file, starts with "> Load when: ..."
-_template/rule.md   copy this to add a rule file
-tools/check.sh      validates the structure (runs in CI)
+SKILL.md            meta skill: entry point + format map (installed as skill `szmelc-conventions`)
+global/AGENTS.md    always-on rules; source of every global adapter
+INDEX.md            map: every file + when to load it (agents read only this first)   [generated]
+index.json          same, machine-readable (schema/index.schema.json)                  [generated]
+llms.txt            llmstxt.org index                                                   [generated]
+CONVENTIONS.md      every stable rule in one file, for tools that cannot lazy-load     [generated]
+adapters/           Cursor .mdc, Copilot .instructions.md, Kiro steering               [generated]
+<category>/<topic>.md   one topic per file: agents, design, interfaces, meta, packaging, workflow
+skills/<name>/      extra skills (deep)
+experimental/       opt-in proposals (branch lane `experimental`)
+legacy/             superseded material, archived (branch lane `legacy`)
+_template/          skeletons: rule.md, SKILL.md, project AGENTS.md
+tools/              build.sh, check.sh, lane-check.sh, test-install.sh
+claude/             compatibility symlinks for pre-1.0 install paths
 ```
+`AGENTS.md` / `CLAUDE.md` / `GEMINI.md` at the root are for agents working on this repo.
+
+## Branches
+`main` is the current truth. Changes arrive by PR from the lanes `testing` (stable changes), `experimental` (proposals) and `legacy` (archive). Details: `workflow/branches.md`.
 
 ## Rules of this repo
 1. One topic = one file. One rule = one line.
 2. Every rule file starts with `# Title` and `> Load when: <trigger>`.
-3. Every rule file is listed in `INDEX.md` with the same trigger.
-4. Never duplicate a rule; reference it by path (`design/colors.md`).
+3. Never duplicate a rule; reference it by path (`design/colors.md`).
+4. Never edit generated files. Run `tools/build.sh`, then `tools/check.sh` (CI runs both).
 5. New domain → new directory. New topic → copy `_template/rule.md`.
+6. Agents load rules lazily: `INDEX.md` once, then only matching files. Never `@import` rule files into global instructions; that loads every rule every session.
 
-## Install (Claude Code)
-```sh
-git clone https://github.com/Szmelc-INC/conventions.md ~/.claude/conventions
-ln -sf ~/.claude/conventions/claude/CLAUDE.md ~/.claude/CLAUDE.md
-mkdir -p ~/.claude/skills && ln -sfn ~/.claude/conventions/claude/skills/deep ~/.claude/skills/deep
-```
-Update: `git -C ~/.claude/conventions pull`.
-
-Agents load rules lazily: `INDEX.md` once, then only matching files. Do not `@import` rule files into `CLAUDE.md`; imports load every session and defeat the point.
+## License
+MIT

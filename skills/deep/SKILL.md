@@ -5,7 +5,7 @@ effort: high
 ---
 
 # Deep mode
-> Install: `~/.claude/skills/deep/SKILL.md`. Spend reasoning, not tool calls.
+> Install: `./install.sh` links this dir as skill `deep` into every harness skill root. Spend reasoning, not tool calls.
 
 1. Real problem in one sentence; name any hidden underlying problem.
 2. Read only context that decides between approaches.
