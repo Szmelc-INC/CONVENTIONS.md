@@ -13,6 +13,15 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/CODE/SHELL.md`](CONVENTIONS/CODE/SHELL.md) | Shell scripts | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
 | [`CONVENTIONS/CODE/STACK.md`](CONVENTIONS/CODE/STACK.md) | Stack defaults | starting a project or tool, or choosing a language or dependencies. |
 | [`CONVENTIONS/DESIGN/COLORS.md`](CONVENTIONS/DESIGN/COLORS.md) | Colors | any UI, TUI, CLI color, web page, theme, badge or graphic. |
+| [`CONVENTIONS/FORMATS/EDITORCONFIG.md`](CONVENTIONS/FORMATS/EDITORCONFIG.md) | EditorConfig & line endings | creating a repo, or adding `.editorconfig` or `.gitattributes`. |
+| [`CONVENTIONS/FORMATS/ENV.md`](CONVENTIONS/FORMATS/ENV.md) | .env files | adding a `.env` file, `.env.example`, or env-file loading to a project. |
+| [`CONVENTIONS/FORMATS/JSON.md`](CONVENTIONS/FORMATS/JSON.md) | JSON | writing, generating or validating a JSON file or JSON output. |
+| [`CONVENTIONS/FORMATS/MARKDOWN/FRONTMATTER.md`](CONVENTIONS/FORMATS/MARKDOWN/FRONTMATTER.md) | Markdown frontmatter | adding YAML frontmatter to a Markdown file. |
+| [`CONVENTIONS/FORMATS/MARKDOWN/GITHUB-EXTRAS.md`](CONVENTIONS/FORMATS/MARKDOWN/GITHUB-EXTRAS.md) | GitHub Markdown extras | using alerts, collapsible sections, task lists, diagrams, footnotes, badges or images in Markdown rendered on GitHub. |
+| [`CONVENTIONS/FORMATS/MARKDOWN/STYLE.md`](CONVENTIONS/FORMATS/MARKDOWN/STYLE.md) | Markdown style | writing or editing any Markdown file. |
+| [`CONVENTIONS/FORMATS/MARKDOWN/TABLES.md`](CONVENTIONS/FORMATS/MARKDOWN/TABLES.md) | Markdown tables | adding a table to a Markdown file. |
+| [`CONVENTIONS/FORMATS/TOML.md`](CONVENTIONS/FORMATS/TOML.md) | TOML | writing or parsing a TOML file. |
+| [`CONVENTIONS/FORMATS/YAML.md`](CONVENTIONS/FORMATS/YAML.md) | YAML | writing a GitHub workflow, issue form, compose file, frontmatter, or any YAML a tool requires. |
 | [`CONVENTIONS/GITHUB/ACTIONS/CI.md`](CONVENTIONS/GITHUB/ACTIONS/CI.md) | CI | setting up or changing CI checks or required status checks, or fixing a red CI run. |
 | [`CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`](CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md) | Workflows | writing or editing a GitHub Actions workflow, reusable workflow or composite action. |
 | [`CONVENTIONS/GITHUB/CODE-SECURITY.md`](CONVENTIONS/GITHUB/CODE-SECURITY.md) | Code security | creating a repo, adding dependencies, or handling Dependabot, secret-scanning or code-scanning alerts. |
@@ -56,6 +65,12 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md) | README | writing or editing a project README. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md) | Security policy | creating or editing SECURITY.md, or setting up vulnerability reporting. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md) | Skills (SKILL.md) | writing, editing, or installing an agent skill. |
+| [`CONVENTIONS/SYSTEMS/ARCH.md`](CONVENTIONS/SYSTEMS/ARCH.md) | Arch Linux | targeting, installing on, or integrating a tool with Arch Linux. |
+| [`CONVENTIONS/SYSTEMS/LINUX.md`](CONVENTIONS/SYSTEMS/LINUX.md) | Other Linux distros | supporting or documenting install on Debian, Ubuntu, Fedora or another non-Arch, non-NixOS distro. |
+| [`CONVENTIONS/SYSTEMS/MACOS.md`](CONVENTIONS/SYSTEMS/MACOS.md) | macOS | supporting macOS, or writing scripts or paths that must also run on macOS. |
+| [`CONVENTIONS/SYSTEMS/NIX.md`](CONVENTIONS/SYSTEMS/NIX.md) | Nix and NixOS | targeting NixOS, Nix on another OS, or nix-darwin. |
+| [`CONVENTIONS/SYSTEMS/SUPPORT.md`](CONVENTIONS/SYSTEMS/SUPPORT.md) | Platform support | deciding which operating systems a tool supports, writing platform notes in a README, or setting up a CI test matrix. |
+| [`CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md`](CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md) | Windows via WSL2 | supporting Windows users or testing a tool under WSL2. |
 | [`CONVENTIONS/WORKFLOW/BRANCHES.md`](CONVENTIONS/WORKFLOW/BRANCHES.md) | Branches | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
 | [`CONVENTIONS/WORKFLOW/COMMITS.md`](CONVENTIONS/WORKFLOW/COMMITS.md) | Commits | writing a commit message, PR title, or squash-merge title. |
 | [`CONVENTIONS/WORKFLOW/FINISH.md`](CONVENTIONS/WORKFLOW/FINISH.md) | Finish every change | finishing a feature or fix, before calling work done. |
@@ -184,6 +199,11 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Output through helpers with the CLI vocabulary (`CONVENTIONS/INTERFACES/CLI.md`); colors via `tput`, off when not a TTY or `NO_COLOR` is set.
 - Missing tool → fallback chain (`ss` → `netstat` → `lsof`), then a clear error naming what to install.
 - Idempotent: re-running converges, never duplicates or breaks state.
+- `command -v`, never `which`, to test for a tool.
+- Portable scripts (macOS, BSD): POSIX utility flags only; no GNU-only forms (`readlink -f`, `date -d`, `stat -c`, `grep -P`).
+- Portable scripts: no `sed -i` (GNU and BSD syntax differ); write to a `mktemp` file and `mv`.
+- Portable scripts: resolve paths with `cd -P -- "$d" && pwd -P`.
+- A script that needs GNU tools says so at the top.
 - Quote every expansion; `$HOME` and XDG vars, never `/home/<user>`; temp files via `mktemp`, removed on exit (`trap`).
 - `bash -n` / `sh -n` and `shellcheck` clean before delivery.
 - Root: never `sudo`; `pkexec` for the one step that needs it.
@@ -199,7 +219,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Web UI: static HTML/CSS/JS, no build step to run; frameworks only when the UI really needs them.
 - Python only where its ecosystem is the point (ML, data); keep the core light and heavy stacks optional.
 - Config-driven and modular where it costs little: behavior in config and plugins, not hardcoded (`CONVENTIONS/INTERFACES/CONFIG.md`).
-- Platforms: Arch first (reference, CI-tested), then Nix and other Linux, Windows via WSL2, macOS best effort; no hardcoded `/home/...` paths.
+- Platforms: support order and meaning in `CONVENTIONS/SYSTEMS/SUPPORT.md`; no hardcoded `/home/...` paths.
 
 ---
 <!-- source: CONVENTIONS/DESIGN/COLORS.md -->
@@ -220,6 +240,119 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Neutrals carry no blue or green tint.
 - Badges, banners and shields use the same palette: `105c5c` fill, `c0c0c0` for secondary values, `750f0f` for experimental.
 - Project has config → make colors configurable.
+
+---
+<!-- source: CONVENTIONS/FORMATS/EDITORCONFIG.md -->
+## EditorConfig & line endings
+> Load when: creating a repo, or adding `.editorconfig` or `.gitattributes`.
+
+- `.editorconfig` at the repo root with `root = true`.
+- `[*]`: `charset = utf-8`, `end_of_line = lf`, `insert_final_newline = true`, `trim_trailing_whitespace = true` (Markdown included: no trailing-space breaks, `CONVENTIONS/FORMATS/MARKDOWN/STYLE.md`).
+- Indent per language: 2 spaces default; tabs for Go and `Makefile`; 4 spaces where the language standard says so (Python).
+- `.gitattributes` first line `* text=auto eol=lf`; mark binaries (`*.png binary`).
+- Never commit CRLF; Windows editors and WSL checkouts follow these files (`CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md`).
+
+---
+<!-- source: CONVENTIONS/FORMATS/ENV.md -->
+## .env files
+> Load when: adding a `.env` file, `.env.example`, or env-file loading to a project.
+
+- `.env` is gitignored and never committed (`CONVENTIONS/GITHUB/CODE-SECURITY.md`).
+- Commit `.env.example`: every key the tool reads, placeholder or empty values, a comment per key.
+- Keys `UPPER_SNAKE` with the tool prefix (`CONVENTIONS/CODE/NAMING.md`).
+- One `KEY=value` per line: no spaces around `=`, no `export`, quote values containing spaces.
+- Optional: the tool runs without it; env vars keep their place in config precedence (`CONVENTIONS/INTERFACES/CONFIG.md`).
+
+---
+<!-- source: CONVENTIONS/FORMATS/JSON.md -->
+## JSON
+> Load when: writing, generating or validating a JSON file or JSON output.
+
+- UTF-8 without BOM, 2-space indent, trailing newline.
+- Strict JSON: no comments, no trailing commas; JSONC or JSON5 only where the reading tool documents it.
+- Generated files: stable key order and formatting, so regeneration diffs only real changes.
+- Schema exists → `$schema` key first; write schemas in JSON Schema draft 2020-12.
+- Validate in CI: `jq empty <file>` at minimum, plus the schema when one exists (`CONVENTIONS/GITHUB/ACTIONS/CI.md`).
+- Machine-written config: `CONVENTIONS/INTERFACES/CONFIG.md`. CLI output: `--json` per `CONVENTIONS/INTERFACES/CLI.md`.
+
+---
+<!-- source: CONVENTIONS/FORMATS/MARKDOWN/FRONTMATTER.md -->
+## Markdown frontmatter
+> Load when: adding YAML frontmatter to a Markdown file.
+
+- Only when a tool reads it: skills (`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`), Cursor `.mdc`, Copilot `.instructions.md`, Kiro steering, static site generators.
+- Fenced by `---` starting on line 1; nothing before it.
+- Flat keys with string values unless the tool's schema says otherwise; YAML rules: `CONVENTIONS/FORMATS/YAML.md`.
+- Only keys the tool documents; no custom metadata the tool ignores.
+- Never secrets, tokens or personal data.
+- Rule files take header lines, not frontmatter (`CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`).
+
+---
+<!-- source: CONVENTIONS/FORMATS/MARKDOWN/GITHUB-EXTRAS.md -->
+## GitHub Markdown extras
+> Load when: using alerts, collapsible sections, task lists, diagrams, footnotes, badges or images in Markdown rendered on GitHub.
+
+- Alerts (`> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]`): sparingly, one or two per page, never stacked.
+- `<details><summary>…</summary>` for long optional content (logs, full option lists); never hide install or required steps.
+- Task lists (`- [ ]`, `- [x]`) for checklists in issues, PRs and plans.
+- Diagrams: a fenced `mermaid` block instead of an image, so it diffs and stays editable.
+- Footnotes (`[^1]`) for sources and asides that would break a line.
+- No `:emoji:` shortcodes in specs, rules or docs.
+- Badges: shields.io in the palette (`CONVENTIONS/DESIGN/COLORS.md`); placement per `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`.
+- Images: alt text always; `<img src="…" alt="…" width="…">` when size matters.
+- Screenshots may use `github.com/user-attachments` URLs from an issue or PR upload instead of committed binaries.
+
+---
+<!-- source: CONVENTIONS/FORMATS/MARKDOWN/STYLE.md -->
+## Markdown style
+> Load when: writing or editing any Markdown file.
+
+- Target GitHub-Flavored Markdown.
+- ATX headings (`#`); one `#` per file; never skip a level.
+- Bullets with `-`; numbered lists only when order matters.
+- Fenced code blocks with a language tag (`sh`, `go`, `toml`, `text`).
+- One sentence or rule per line; never hard-wrap mid-sentence (clean diffs).
+- No trailing spaces, no `\` or two-space line breaks; a blank line separates blocks.
+- Relative links inside a repo; name files and paths in backticks.
+- Language and voice: `CONVENTIONS/REPO/WRITING.md`.
+- markdownlint defaults apply, minus line length (MD013) and any rule these lines override.
+- Frontmatter, tables, GitHub extras: `CONVENTIONS/FORMATS/MARKDOWN/FRONTMATTER.md`, `CONVENTIONS/FORMATS/MARKDOWN/TABLES.md`, `CONVENTIONS/FORMATS/MARKDOWN/GITHUB-EXTRAS.md`.
+
+---
+<!-- source: CONVENTIONS/FORMATS/MARKDOWN/TABLES.md -->
+## Markdown tables
+> Load when: adding a table to a Markdown file.
+
+- Table only for 3+ parallel attributes per row; otherwise a list.
+- Header row plus `|---|` separator; first column is the key.
+- Escape a literal pipe in a cell as `\|`.
+- Short cells: a value or phrase, no paragraphs or lists; link out for detail.
+- No merged or empty structural cells; one fact per cell.
+- Wide tables are fine: GitHub scrolls them horizontally; never split one table into several to fit.
+
+---
+<!-- source: CONVENTIONS/FORMATS/TOML.md -->
+## TOML
+> Load when: writing or parsing a TOML file.
+
+- TOML 1.0; default format for human-edited config, every key commented (`CONVENTIONS/INTERFACES/CONFIG.md`).
+- Keys `snake_case` (`CONVENTIONS/CODE/NAMING.md`); bare keys, quoted only when required.
+- `[table]` sections over inline tables; inline tables only for short one-line values.
+- Arrays of records as `[[array]]`, not nested inline arrays.
+- Dates and times as TOML datetimes (RFC 3339), never strings.
+- Durations and sizes carry units: a string (`"30s"`, `"10MiB"`) or a key suffix (`timeout_secs`).
+
+---
+<!-- source: CONVENTIONS/FORMATS/YAML.md -->
+## YAML
+> Load when: writing a GitHub workflow, issue form, compose file, frontmatter, or any YAML a tool requires.
+
+- Only where a tool demands it (Actions workflows, issue forms, compose, frontmatter); never for authored config (`CONVENTIONS/INTERFACES/CONFIG.md`).
+- 2-space indent, no tabs; `.yml` unless the tool requires `.yaml`.
+- Quote strings that parse as other types: versions (`'3.10'`, else `3.1`), `'on'`/`'off'`/`'yes'`/`'no'` values, leading zeros, `'*'`.
+- Workflows: share steps via reusable workflows or composite actions (`CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`), not anchors and aliases.
+- Block style over flow style (`[a, b]`), except short lists.
+- CI: `actionlint` for workflows, `yamllint` for other YAML.
 
 ---
 <!-- source: CONVENTIONS/GITHUB/ACTIONS/CI.md -->
@@ -853,6 +986,81 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - One capability per skill. Deterministic steps go in `scripts/`, not prose.
 - Install by symlinking the directory into each harness skill root (`./install.sh` knows them). Never copy.
 - Skeleton: `META/templates/SKILL.md`. Validate with `META/tools/check.sh` rules: name/dir match, description length.
+
+---
+<!-- source: CONVENTIONS/SYSTEMS/ARCH.md -->
+## Arch Linux
+> Load when: targeting, installing on, or integrating a tool with Arch Linux.
+
+- Primary target: everything works here first.
+- Install path: `pacman -S` from SAUR, built from the project's `PKGBUILD` (`CONVENTIONS/PACKAGING/ARCH.md`).
+- Rolling release: depend on current package versions; never pin or vendor old libraries.
+- Daemons: systemd user units, shipped in `/usr/lib/systemd/user/` by the package, never system units for per-user work.
+- Paths: XDG dirs (`CONVENTIONS/INTERFACES/CONFIG.md`); never write outside the package's files and the user's XDG dirs.
+- Root: `pkexec` for the one step that needs it (`CONVENTIONS/CODE/SHELL.md`).
+
+---
+<!-- source: CONVENTIONS/SYSTEMS/LINUX.md -->
+## Other Linux distros
+> Load when: supporting or documenting install on Debian, Ubuntu, Fedora or another non-Arch, non-NixOS distro.
+
+- Best effort; install via Nix (`CONVENTIONS/SYSTEMS/NIX.md`) or a static binary from a release (`CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md`).
+- No distro-by-distro package blocks in docs (`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`).
+- Go binaries: `CGO_ENABLED=0` static builds for `linux/amd64` and `linux/arm64`, so no glibc version ties.
+- Scripts: portable shell rules in `CONVENTIONS/CODE/SHELL.md`; no reliance on distro-specific paths or package managers.
+- Root: `pkexec` where polkit exists; otherwise name the command the user must run as root.
+
+---
+<!-- source: CONVENTIONS/SYSTEMS/MACOS.md -->
+## macOS
+> Load when: supporting macOS, or writing scripts or paths that must also run on macOS.
+
+- Install via Nix (`CONVENTIONS/SYSTEMS/NIX.md`) or Homebrew; release artifacts for `darwin/arm64` and `darwin/amd64`.
+- Default login shell is zsh; `/bin/bash` is 3.2. Scripts target POSIX `sh` or bash 3.2, or state that a newer bash is required (from Homebrew or Nix).
+- BSD userland, not GNU (`sed -i ''`, `stat -f`, `date -j`): scripts follow the portable rules in `CONVENTIONS/CODE/SHELL.md`.
+- Config and data: XDG paths with `~/.config` and `~/.local/share` fallbacks (`CONVENTIONS/INTERFACES/CONFIG.md`), not `~/Library/Application Support`; in Go, not `os.UserConfigDir()`.
+- No systemd: launchd agents only when a daemon is required, else document running it by hand.
+- Case-insensitive filesystem by default: never ship two paths that differ only by case.
+- CI matrix: `CONVENTIONS/SYSTEMS/SUPPORT.md`.
+
+---
+<!-- source: CONVENTIONS/SYSTEMS/NIX.md -->
+## Nix and NixOS
+> Load when: targeting NixOS, Nix on another OS, or nix-darwin.
+
+- Flake with package, app and devShell (`CONVENTIONS/PACKAGING/NIX.md`); `nix run github:<org>/<repo>` is the zero-install path.
+- Same flake serves NixOS, Nix on any Linux distro, and macOS (with or without nix-darwin).
+- NixOS or home-manager module: optional, only when the tool has a service or config worth declaring.
+- `/nix/store` is read-only: write state only to XDG dirs (`CONVENTIONS/INTERFACES/CONFIG.md`).
+- No FHS assumptions: on NixOS only `/usr/bin/env` and `/bin/sh` exist; find binaries via `PATH` (`CONVENTIONS/CODE/SHELL.md`).
+- No self-updaters or runtime downloads of binaries; updates come from the flake.
+
+---
+<!-- source: CONVENTIONS/SYSTEMS/SUPPORT.md -->
+## Platform support
+> Load when: deciding which operating systems a tool supports, writing platform notes in a README, or setting up a CI test matrix.
+
+- Support order: Arch > Nix (NixOS, or Nix on any distro) > Windows via WSL2 > macOS > other Linux and BSD (best effort).
+- When targets conflict, the higher one wins; never degrade Arch to help a lower target.
+- POSIX first: portable shell and paths (`CONVENTIONS/CODE/SHELL.md`), XDG dirs (`CONVENTIONS/INTERFACES/CONFIG.md`).
+- Supported = CI-tested: the target's build and tests run in `check.yml` (`CONVENTIONS/GITHUB/ACTIONS/CI.md`). Anything else is best effort.
+- WSL2 counts as covered by the Linux CI jobs; no separate Windows runner.
+- Add `macos-latest` to the test matrix next to `ubuntu-latest` only when the tool claims macOS support.
+- README states supported and best-effort platforms in one line (`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`).
+- Per platform: `CONVENTIONS/SYSTEMS/ARCH.md`, `CONVENTIONS/SYSTEMS/NIX.md`, `CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md`, `CONVENTIONS/SYSTEMS/MACOS.md`, `CONVENTIONS/SYSTEMS/LINUX.md`.
+
+---
+<!-- source: CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md -->
+## Windows via WSL2
+> Load when: supporting Windows users or testing a tool under WSL2.
+
+- Windows support means WSL2; Arch on WSL preferred (`wsl --install archlinux`), any distro works via Nix (`CONVENTIONS/SYSTEMS/NIX.md`).
+- Inside WSL the tool is a Linux tool: same packages, paths and rules as `CONVENTIONS/SYSTEMS/ARCH.md`.
+- Keep repos and state on the Linux filesystem (`~/`), never under `/mnt/c` (slow I/O, permission and case issues).
+- LF line endings everywhere (`CONVENTIONS/FORMATS/EDITORCONFIG.md`).
+- No hard dependency on systemd: check for it and degrade with a clear message.
+- Native Windows only where the tool needs it: a Go `windows/amd64` release artifact, best effort, untested unless CI says so.
+- PowerShell or `.cmd` scripts only as thin wrappers that call the real tool; logic stays in Go or shell.
 
 ---
 <!-- source: CONVENTIONS/WORKFLOW/BRANCHES.md -->

@@ -24,6 +24,15 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 - [Shell scripts](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/SHELL.md): Load when writing or editing a shell script (bash, zsh, POSIX sh) or an installer.
 - [Stack defaults](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/STACK.md): Load when starting a project or tool, or choosing a language or dependencies.
 - [Colors](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/DESIGN/COLORS.md): Load when any UI, TUI, CLI color, web page, theme, badge or graphic.
+- [EditorConfig & line endings](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/FORMATS/EDITORCONFIG.md): Load when creating a repo, or adding `.editorconfig` or `.gitattributes`.
+- [.env files](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/FORMATS/ENV.md): Load when adding a `.env` file, `.env.example`, or env-file loading to a project.
+- [JSON](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/FORMATS/JSON.md): Load when writing, generating or validating a JSON file or JSON output.
+- [Markdown frontmatter](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/FORMATS/MARKDOWN/FRONTMATTER.md): Load when adding YAML frontmatter to a Markdown file.
+- [GitHub Markdown extras](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/FORMATS/MARKDOWN/GITHUB-EXTRAS.md): Load when using alerts, collapsible sections, task lists, diagrams, footnotes, badges or images in Markdown rendered on GitHub.
+- [Markdown style](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/FORMATS/MARKDOWN/STYLE.md): Load when writing or editing any Markdown file.
+- [Markdown tables](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/FORMATS/MARKDOWN/TABLES.md): Load when adding a table to a Markdown file.
+- [TOML](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/FORMATS/TOML.md): Load when writing or parsing a TOML file.
+- [YAML](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/FORMATS/YAML.md): Load when writing a GitHub workflow, issue form, compose file, frontmatter, or any YAML a tool requires.
 - [CI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/ACTIONS/CI.md): Load when setting up or changing CI checks or required status checks, or fixing a red CI run.
 - [Workflows](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md): Load when writing or editing a GitHub Actions workflow, reusable workflow or composite action.
 - [Code security](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/CODE-SECURITY.md): Load when creating a repo, adding dependencies, or handling Dependabot, secret-scanning or code-scanning alerts.
@@ -67,6 +76,12 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 - [README](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md): Load when writing or editing a project README.
 - [Security policy](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md): Load when creating or editing SECURITY.md, or setting up vulnerability reporting.
 - [Skills (SKILL.md)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md): Load when writing, editing, or installing an agent skill.
+- [Arch Linux](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SYSTEMS/ARCH.md): Load when targeting, installing on, or integrating a tool with Arch Linux.
+- [Other Linux distros](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SYSTEMS/LINUX.md): Load when supporting or documenting install on Debian, Ubuntu, Fedora or another non-Arch, non-NixOS distro.
+- [macOS](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SYSTEMS/MACOS.md): Load when supporting macOS, or writing scripts or paths that must also run on macOS.
+- [Nix and NixOS](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SYSTEMS/NIX.md): Load when targeting NixOS, Nix on another OS, or nix-darwin.
+- [Platform support](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SYSTEMS/SUPPORT.md): Load when deciding which operating systems a tool supports, writing platform notes in a README, or setting up a CI test matrix.
+- [Windows via WSL2](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md): Load when supporting Windows users or testing a tool under WSL2.
 - [Branches](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/BRANCHES.md): Load when creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.
 - [Commits](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/COMMITS.md): Load when writing a commit message, PR title, or squash-merge title.
 - [Finish every change](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/FINISH.md): Load when finishing a feature or fix, before calling work done.
