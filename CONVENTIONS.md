@@ -7,32 +7,34 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 
 | Path | What | Load when |
 |---|---|---|
-| [`CONVENTIONS/code/dotfiles.md`](CONVENTIONS/code/dotfiles.md) | Shell environment & dotfiles | building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations. |
-| [`CONVENTIONS/code/go.md`](CONVENTIONS/code/go.md) | Go | writing, building or releasing Go code. |
-| [`CONVENTIONS/code/naming.md`](CONVENTIONS/code/naming.md) | Naming | naming a repo, binary, package, env var, config key, file or doc. |
-| [`CONVENTIONS/code/shell.md`](CONVENTIONS/code/shell.md) | Shell scripts | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
-| [`CONVENTIONS/code/stack.md`](CONVENTIONS/code/stack.md) | Stack defaults | starting a project or tool, or choosing a language or dependencies. |
-| [`CONVENTIONS/design/colors.md`](CONVENTIONS/design/colors.md) | Colors | any UI, TUI, CLI color, web page, theme, badge or graphic. |
-| [`CONVENTIONS/interfaces/cli.md`](CONVENTIONS/interfaces/cli.md) | CLI | building or changing a command-line tool. |
-| [`CONVENTIONS/interfaces/config.md`](CONVENTIONS/interfaces/config.md) | Configuration | adding a config file, options, env vars, or storage paths to a tool. |
-| [`CONVENTIONS/interfaces/tui.md`](CONVENTIONS/interfaces/tui.md) | TUI | building a TUI, or any project that has a CLI. |
-| [`CONVENTIONS/packaging/arch.md`](CONVENTIONS/packaging/arch.md) | Arch packaging | packaging, releasing, or adding install instructions. |
-| [`CONVENTIONS/packaging/install.md`](CONVENTIONS/packaging/install.md) | Install & uninstall | writing an installer, a setup script, install instructions, or uninstall steps. |
-| [`CONVENTIONS/packaging/nix.md`](CONVENTIONS/packaging/nix.md) | Nix packaging | packaging, releasing, or setting up a dev environment. |
-| [`CONVENTIONS/repo/design-docs.md`](CONVENTIONS/repo/design-docs.md) | Design docs & agent briefs | starting a project, writing a brief for a coding agent, or changing a project's architecture. |
-| [`CONVENTIONS/repo/layout.md`](CONVENTIONS/repo/layout.md) | Repository layout | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
-| [`CONVENTIONS/repo/metadata.md`](CONVENTIONS/repo/metadata.md) | Repo metadata | creating a repo, first push, release, or editing README/manifest/license. |
-| [`CONVENTIONS/repo/readme.md`](CONVENTIONS/repo/readme.md) | README | writing or editing a project README. |
-| [`CONVENTIONS/repo/writing.md`](CONVENTIONS/repo/writing.md) | Writing & voice | writing docs, help text, error messages, commit messages, or community and lore text. |
-| [`CONVENTIONS/workflow/branches.md`](CONVENTIONS/workflow/branches.md) | Branches | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
-| [`CONVENTIONS/workflow/commits.md`](CONVENTIONS/workflow/commits.md) | Commits | writing a commit message, PR title, or squash-merge title. |
-| [`CONVENTIONS/workflow/finish.md`](CONVENTIONS/workflow/finish.md) | Finish every change | finishing a feature or fix, before calling work done. |
-| [`CONVENTIONS/workflow/git-pr-ci.md`](CONVENTIONS/workflow/git-pr-ci.md) | Git, PRs & CI | committing, pushing, opening/merging a PR, or fixing CI. |
-| [`CONVENTIONS/workflow/notify.md`](CONVENTIONS/workflow/notify.md) | Notifications | a job runs > ~10 min, or a failure needs a human. |
-| [`CONVENTIONS/workflow/releases.md`](CONVENTIONS/workflow/releases.md) | Releases & versioning | bumping a version, tagging a release, or planning a major version. |
-| [`CONVENTIONS/workflow/verification.md`](CONVENTIONS/workflow/verification.md) | Verification | any code change. |
-| [`CONVENTIONS/experimental/`](CONVENTIONS/experimental/) | Opt-in proposals (lane `experimental`) | User opts into experimental conventions |
-| [`CONVENTIONS/legacy/`](CONVENTIONS/legacy/) | Superseded material, archived (lane `legacy`) | Asked about history |
+| [`CONVENTIONS/CODE/DOTFILES.md`](CONVENTIONS/CODE/DOTFILES.md) | Shell environment & dotfiles | building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations. |
+| [`CONVENTIONS/CODE/GO.md`](CONVENTIONS/CODE/GO.md) | Go | writing, building or releasing Go code. |
+| [`CONVENTIONS/CODE/NAMING.md`](CONVENTIONS/CODE/NAMING.md) | Naming | naming a repo, binary, package, env var, config key, file or doc. |
+| [`CONVENTIONS/CODE/SHELL.md`](CONVENTIONS/CODE/SHELL.md) | Shell scripts | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
+| [`CONVENTIONS/CODE/STACK.md`](CONVENTIONS/CODE/STACK.md) | Stack defaults | starting a project or tool, or choosing a language or dependencies. |
+| [`CONVENTIONS/DESIGN/COLORS.md`](CONVENTIONS/DESIGN/COLORS.md) | Colors | any UI, TUI, CLI color, web page, theme, badge or graphic. |
+| [`CONVENTIONS/GITHUB/PULL-REQUESTS.md`](CONVENTIONS/GITHUB/PULL-REQUESTS.md) | Pull requests & CI | committing, pushing, opening/merging a PR, or fixing CI. |
+| [`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`](CONVENTIONS/GITHUB/RELEASES/VERSIONING.md) | Releases & versioning | bumping a version, tagging a release, or planning a major version. |
+| [`CONVENTIONS/GITHUB/REPO/METADATA.md`](CONVENTIONS/GITHUB/REPO/METADATA.md) | Repo metadata | creating a repo, first push, release, or editing README/manifest/license. |
+| [`CONVENTIONS/INTERFACES/CLI.md`](CONVENTIONS/INTERFACES/CLI.md) | CLI | building or changing a command-line tool. |
+| [`CONVENTIONS/INTERFACES/CONFIG.md`](CONVENTIONS/INTERFACES/CONFIG.md) | Configuration | adding a config file, options, env vars, or storage paths to a tool. |
+| [`CONVENTIONS/INTERFACES/TUI.md`](CONVENTIONS/INTERFACES/TUI.md) | TUI | building a TUI, or any project that has a CLI. |
+| [`CONVENTIONS/PACKAGING/ARCH.md`](CONVENTIONS/PACKAGING/ARCH.md) | Arch packaging | packaging, releasing, or adding install instructions. |
+| [`CONVENTIONS/PACKAGING/INSTALL.md`](CONVENTIONS/PACKAGING/INSTALL.md) | Install & uninstall | writing an installer, a setup script, install instructions, or uninstall steps. |
+| [`CONVENTIONS/PACKAGING/NIX.md`](CONVENTIONS/PACKAGING/NIX.md) | Nix packaging | packaging, releasing, or setting up a dev environment. |
+| [`CONVENTIONS/REPO/LAYOUT.md`](CONVENTIONS/REPO/LAYOUT.md) | Repository layout | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
+| [`CONVENTIONS/REPO/WRITING.md`](CONVENTIONS/REPO/WRITING.md) | Writing & voice | writing docs, help text, error messages, commit messages, or community and lore text. |
+| [`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`](CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md) | Design docs & agent briefs | starting a project, writing a brief for a coding agent, or changing a project's architecture. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md) | Agent instruction files | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md) | README | writing or editing a project README. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md) | Skills (SKILL.md) | writing, editing, or installing an agent skill. |
+| [`CONVENTIONS/WORKFLOW/BRANCHES.md`](CONVENTIONS/WORKFLOW/BRANCHES.md) | Branches | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
+| [`CONVENTIONS/WORKFLOW/COMMITS.md`](CONVENTIONS/WORKFLOW/COMMITS.md) | Commits | writing a commit message, PR title, or squash-merge title. |
+| [`CONVENTIONS/WORKFLOW/FINISH.md`](CONVENTIONS/WORKFLOW/FINISH.md) | Finish every change | finishing a feature or fix, before calling work done. |
+| [`CONVENTIONS/WORKFLOW/NOTIFY.md`](CONVENTIONS/WORKFLOW/NOTIFY.md) | Notifications | a job runs > ~10 min, or a failure needs a human. |
+| [`CONVENTIONS/WORKFLOW/VERIFICATION.md`](CONVENTIONS/WORKFLOW/VERIFICATION.md) | Verification | any code change. |
+| [`CONVENTIONS/EXPERIMENTAL/`](CONVENTIONS/EXPERIMENTAL/) | Opt-in proposals (lane `experimental`) | User opts into experimental conventions |
+| [`CONVENTIONS/LEGACY/`](CONVENTIONS/LEGACY/) | Superseded material, archived (lane `legacy`) | Asked about history |
 
 ---
 <!-- source: AGENTS/global/AGENTS.md -->
@@ -45,13 +47,13 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Autonomous end to end (push, CI, fix, retry). Ask only before destructive/irreversible: deletion, force-push, history rewrite, visibility/permission change, prod data.
 - Bad request → say why in one line, then do the best version.
 - Never change another repo without asking; when a dependency fails, name the repo and the cause.
-- Subagents: never spawn unless the user explicitly asks; see `AGENTS/rules/subagents.md`.
+- Subagents: never spawn unless the user explicitly asks; see `AGENTS/RULES/SUBAGENTS.md`.
 - Precedence: user's direct instruction > project `AGENTS.md`/`CLAUDE.md` > these rules.
 
 ### Lazy conventions (token rule)
 - Read `INDEX.md` once per session. Load only files whose trigger matches the current task. Never bulk-read the repo; never re-read a loaded file.
 - No match → no extra reads.
-- Stable rules only. `CONVENTIONS/experimental/` only when the user opts in; `CONVENTIONS/legacy/` only when asked.
+- Stable rules only. `CONVENTIONS/EXPERIMENTAL/` only when the user opts in; `CONVENTIONS/LEGACY/` only when asked.
 - Never load `CONVENTIONS.md` (the all-in-one bundle) together with `INDEX.md`; it is for tools that cannot lazy-load.
 
 ### Triage every task
@@ -62,27 +64,10 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 ### Spend vs save
 - Save: search (grep/glob) then read ranges, not whole files; batch independent calls; no narration, recaps or restating; summarize big outputs as file:line; stop exploring once you can act; quick experiment beats theorizing.
 - Spend: design, root cause, security, non-trivial edge cases, creative work (be bold, offer the better idea, flag deviation in one line).
-- Model, effort, context hygiene: `AGENTS/rules/efficiency.md`.
+- Model, effort, context hygiene: `AGENTS/RULES/EFFICIENCY.md`.
 
 ---
-<!-- source: AGENTS/rules/agent-files.md -->
-## Agent instruction files
-> Load when: creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project.
-
-- Canonical: `AGENTS.md` at the project root; add one per subdir only when a subtree has its own rules.
-- `CLAUDE.md`, `GEMINI.md`, `QWEN.md`: a single line `@AGENTS.md` (import). Never duplicate content.
-- Codex, Cursor, Copilot, OpenCode, Zed, Jules and Amp read `AGENTS.md` natively; add tool-specific files only when a tool needs frontmatter.
-- Tool-specific files (`.cursor/rules/*.mdc`, `.github/instructions/*.instructions.md`, `.kiro/steering/*.md`): generate from a source, never hand-edit copies. `./install.sh project <dir>` drops the Szmelc ones.
-- Content: only what an agent cannot infer — build/test/lint commands, layout map, project-specific rules, gotchas.
-- Never restate global conventions; reference them by path in this repo (`CONVENTIONS/interfaces/cli.md`).
-- Project baseline: read `DESIGN.md` and the current architecture contract first; finish every change; tests on throwaway state; a deviation updates the contract in the same commit (`CONVENTIONS/repo/design-docs.md`).
-- Never keep two diverging copies (e.g. `CLAUDE.md` with the tool name swapped); one source, imports elsewhere.
-- Imperative one-liners. Over ~150 lines → split per subdir.
-- Docs site → also ship `llms.txt` (llmstxt.org): `# Name`, `> summary`, `##` link lists, `## Optional` for skippable links.
-- Skeleton: `META/templates/AGENTS.md`. Skills: `AGENTS/rules/skills.md`.
-
----
-<!-- source: AGENTS/rules/efficiency.md -->
+<!-- source: AGENTS/RULES/EFFICIENCY.md -->
 ## Token efficiency
 > Load when: choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long.
 
@@ -91,26 +76,14 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Risky savings, weigh each time: skipping verification, cutting exploration short, a weaker model for reasoning. Never cut the quality of thinking.
 - Match model and effort to difficulty: mechanical work (search, rename, move, format) → small model or low effort; design, root cause, security → strong model, high effort.
 - Default effort medium; raise per task, never permanently. Pick model and effort at session start; switching mid-task can invalidate the prompt cache.
-- Custom subagents pin `model` and `effort` so they never inherit the top model by accident. When to spawn at all: `AGENTS/rules/subagents.md`.
+- Custom subagents pin `model` and `effort` so they never inherit the top model by accident. When to spawn at all: `AGENTS/RULES/SUBAGENTS.md`.
 - Instruction files stay static, short (< ~200 lines) and index-like; an import loads at session start, so it saves nothing.
 - Load tool and MCP schemas on demand; never attach servers mid-session.
 - One task per session; clear between unrelated tasks; compact keeping goal, decisions, files changed, failing checks.
 - No scheduled loops on idle sessions: each run resends the whole context.
 
 ---
-<!-- source: AGENTS/rules/skills.md -->
-## Skills (SKILL.md)
-> Load when: writing, editing, or installing an agent skill.
-
-- Layout: `<name>/SKILL.md` + optional `scripts/`, `references/`, `assets/`. Directory name == `name`.
-- Frontmatter: `name` (lowercase letters, digits, hyphens, ≤ 64), `description` (≤ 1024: what it does + when to use, with trigger words). Optional: `license`, `compatibility`, `metadata` (string map), `allowed-tools`.
-- Body < ~500 lines. Push detail into `references/` and link it relatively (progressive disclosure).
-- One capability per skill. Deterministic steps go in `scripts/`, not prose.
-- Install by symlinking the directory into each harness skill root (`./install.sh` knows them). Never copy.
-- Skeleton: `META/templates/SKILL.md`. Validate with `META/tools/check.sh` rules: name/dir match, description length.
-
----
-<!-- source: AGENTS/rules/subagents.md -->
+<!-- source: AGENTS/RULES/SUBAGENTS.md -->
 ## Subagents & tools
 > Load when: considering a subagent, parallel work, skills/MCP use, or long-running commands.
 
@@ -123,7 +96,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Long commands: background, keep working, check when needed.
 
 ---
-<!-- source: CONVENTIONS/code/dotfiles.md -->
+<!-- source: CONVENTIONS/CODE/DOTFILES.md -->
 ## Shell environment & dotfiles
 > Load when: building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations.
 
@@ -140,7 +113,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Reference implementations: Silver-ZSH (`SHELL-INTEGRATION-BIBLE.md`), Modern-Shell.
 
 ---
-<!-- source: CONVENTIONS/code/go.md -->
+<!-- source: CONVENTIONS/CODE/GO.md -->
 ## Go
 > Load when: writing, building or releasing Go code.
 
@@ -150,10 +123,10 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Static web assets ship inside the binary with `embed`.
 - Layout: one `main` package or `cmd/<bin>`, private code in `internal/`, tests next to the code.
 - `gofmt` and `go vet` clean; every error handled or returned with context.
-- Stdlib first; the Charm stack (`CONVENTIONS/interfaces/tui.md`) is the default exception.
+- Stdlib first; the Charm stack (`CONVENTIONS/INTERFACES/TUI.md`) is the default exception.
 
 ---
-<!-- source: CONVENTIONS/code/naming.md -->
+<!-- source: CONVENTIONS/CODE/NAMING.md -->
 ## Naming
 > Load when: naming a repo, binary, package, env var, config key, file or doc.
 
@@ -167,20 +140,20 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | Shell function / exported var | `snake_case` / `UPPER_SNAKE` | `build_pkg`, `SAUR_OUT` |
 | Experimental package | `<name>-ex` | `saur-ex` |
 | Major-version contract | `ARCHITECTURE-v<N>.md` | `ARCHITECTURE-v4.md` |
-| Branch | `CONVENTIONS/workflow/branches.md` | `feat/signing` |
+| Branch | `CONVENTIONS/WORKFLOW/BRANCHES.md` | `feat/signing` |
 
 - Names say what a user gets, not how it is built.
-- No version numbers in repo or binary names; versions live in tags (`CONVENTIONS/workflow/releases.md`).
+- No version numbers in repo or binary names; versions live in tags (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`).
 
 ---
-<!-- source: CONVENTIONS/code/shell.md -->
+<!-- source: CONVENTIONS/CODE/SHELL.md -->
 ## Shell scripts
 > Load when: writing or editing a shell script (bash, zsh, POSIX sh) or an installer.
 
 - Shebang `#!/usr/bin/env bash` (`sh`, `zsh` when that is the target); bash scripts start with `set -euo pipefail`.
 - POSIX `sh` where it costs nothing; otherwise say which shell is required.
 - Tunables in a commented block at the top; the logic below never hardcodes them.
-- Output through helpers with the CLI vocabulary (`CONVENTIONS/interfaces/cli.md`); colors via `tput`, off when not a TTY or `NO_COLOR` is set.
+- Output through helpers with the CLI vocabulary (`CONVENTIONS/INTERFACES/CLI.md`); colors via `tput`, off when not a TTY or `NO_COLOR` is set.
 - Missing tool → fallback chain (`ss` → `netstat` → `lsof`), then a clear error naming what to install.
 - Idempotent: re-running converges, never duplicates or breaks state.
 - Quote every expansion; `$HOME` and XDG vars, never `/home/<user>`; temp files via `mktemp`, removed on exit (`trap`).
@@ -188,20 +161,20 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Root: never `sudo`; `pkexec` for the one step that needs it.
 
 ---
-<!-- source: CONVENTIONS/code/stack.md -->
+<!-- source: CONVENTIONS/CODE/STACK.md -->
 ## Stack defaults
 > Load when: starting a project or tool, or choosing a language or dependencies.
 
 - Minimal deps: write or cherry-pick the snippet before pulling a library for one small task.
-- CLI / TUI / daemons: Go, stdlib-first (`CONVENTIONS/code/go.md`, `CONVENTIONS/interfaces/cli.md`, `CONVENTIONS/interfaces/tui.md`).
-- Glue and installers: shell (`CONVENTIONS/code/shell.md`). Never add a runtime (node, python) for what shell or Go does in a few lines.
+- CLI / TUI / daemons: Go, stdlib-first (`CONVENTIONS/CODE/GO.md`, `CONVENTIONS/INTERFACES/CLI.md`, `CONVENTIONS/INTERFACES/TUI.md`).
+- Glue and installers: shell (`CONVENTIONS/CODE/SHELL.md`). Never add a runtime (node, python) for what shell or Go does in a few lines.
 - Web UI: static HTML/CSS/JS, no build step to run; frameworks only when the UI really needs them.
 - Python only where its ecosystem is the point (ML, data); keep the core light and heavy stacks optional.
-- Config-driven and modular where it costs little: behavior in config and plugins, not hardcoded (`CONVENTIONS/interfaces/config.md`).
+- Config-driven and modular where it costs little: behavior in config and plugins, not hardcoded (`CONVENTIONS/INTERFACES/CONFIG.md`).
 - Platforms: Arch first (reference, CI-tested), then Nix and other Linux, Windows via WSL2, macOS best effort; no hardcoded `/home/...` paths.
 
 ---
-<!-- source: CONVENTIONS/design/colors.md -->
+<!-- source: CONVENTIONS/DESIGN/COLORS.md -->
 ## Colors
 > Load when: any UI, TUI, CLI color, web page, theme, badge or graphic.
 
@@ -220,12 +193,47 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Project has config → make colors configurable.
 
 ---
-<!-- source: CONVENTIONS/interfaces/cli.md -->
+<!-- source: CONVENTIONS/GITHUB/PULL-REQUESTS.md -->
+## Pull requests & CI
+> Load when: committing, pushing, opening/merging a PR, or fixing CI.
+
+- Self-review before PR: correctness, security/escaping, docs + shell completions in sync.
+- Wait for green CI → merge yourself → verify main CI + live result → one short report.
+- Never merge red, force-push, or bypass branch protection.
+- CI builds the package and runs the tests on every PR.
+- CI logic lives in a script that also runs on any machine with Docker/Podman; the workflow file only calls it, so no host lock-in.
+- Commit and PR titles: `CONVENTIONS/WORKFLOW/COMMITS.md`.
+
+---
+<!-- source: CONVENTIONS/GITHUB/RELEASES/VERSIONING.md -->
+## Releases & versioning
+> Load when: bumping a version, tagging a release, or planning a major version.
+
+- SemVer `vMAJOR.MINOR.PATCH`; tag on `main` only.
+- The version lives in package metadata and tags; never in the README title or repo name.
+- One bump moves every copy at once: source constant, PKGBUILD `pkgver`, `flake.nix` `version`, changelog if the project keeps one.
+- Breaking change to a command, flag, config key or file format → major bump, plus a new `docs/ARCHITECTURE-v<N>.md` when the project keeps one.
+- Ecosystem eras (`SZMELC/README.md`) are independent of project versions.
+- Before tagging: versions agree; `--help`, completions and README match the code; tests pass on throwaway state; the package builds in CI; the architecture contract is current.
+
+---
+<!-- source: CONVENTIONS/GITHUB/REPO/METADATA.md -->
+## Repo metadata
+> Load when: creating a repo, first push, release, or editing README/manifest/license.
+
+- `gh repo view` first; fill gaps via `gh repo edit`: description, homepage, topics, badges.
+- Homepage priority: real site → GitHub Pages → repo URL. Never invent.
+- Keep manifest fields (package.json, go.mod, PKGBUILD, flake.nix…) in sync with repo metadata.
+- License: MIT.
+- Fork of someone else's project: say "independent, not affiliated" in the README and the description; add a trademark note when the upstream name is a mark.
+
+---
+<!-- source: CONVENTIONS/INTERFACES/CLI.md -->
 ## CLI
 > Load when: building or changing a command-line tool.
 
-- One binary, one entry point, rich subcommands + flags + config file (`CONVENTIONS/interfaces/config.md`).
-- Colored per-command help; aligned tables. Colors: `CONVENTIONS/design/colors.md`.
+- One binary, one entry point, rich subcommands + flags + config file (`CONVENTIONS/INTERFACES/CONFIG.md`).
+- Colored per-command help; aligned tables. Colors: `CONVENTIONS/DESIGN/COLORS.md`.
 - Message prefixes: `::` info, `==>` step, `✓` ok, `!!` warn, `✗` error. Messages to stderr, data to stdout.
 - `--no-color` and `NO_COLOR`; plain output when stdout is not a TTY.
 - `--json` for data output.
@@ -233,10 +241,10 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - `completion <shell>` + installed zsh/bash/fish completion files, generated from the command registry.
 - Destructive commands confirm (or take `--yes`) and support `--dry-run`.
 - Root: `pkexec` for the one step that needs it; never `sudo`.
-- Has a CLI → also needs a TUI: `CONVENTIONS/interfaces/tui.md`.
+- Has a CLI → also needs a TUI: `CONVENTIONS/INTERFACES/TUI.md`.
 
 ---
-<!-- source: CONVENTIONS/interfaces/config.md -->
+<!-- source: CONVENTIONS/INTERFACES/CONFIG.md -->
 ## Configuration
 > Load when: adding a config file, options, env vars, or storage paths to a tool.
 
@@ -248,10 +256,10 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Validate on load; invalid → a clear error naming file and key, nothing applied. Never guess or coerce.
 - Secrets never in config: reference an env var, file path or keyring entry by name.
 - Local persistence: SQLite (WAL) when there is real data, else a plain file.
-- Colors configurable when the project has config (`CONVENTIONS/design/colors.md`).
+- Colors configurable when the project has config (`CONVENTIONS/DESIGN/COLORS.md`).
 
 ---
-<!-- source: CONVENTIONS/interfaces/tui.md -->
+<!-- source: CONVENTIONS/INTERFACES/TUI.md -->
 ## TUI
 > Load when: building a TUI, or any project that has a CLI.
 
@@ -261,10 +269,10 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - `:` command palette, help overlay (`?` / F1), keybinds shown in a footer.
 - Tabs per item type; add / edit / toggle / remove in place, destructive actions confirmed.
 - Markdown rendered with glamour.
-- Colors: `CONVENTIONS/design/colors.md`.
+- Colors: `CONVENTIONS/DESIGN/COLORS.md`.
 
 ---
-<!-- source: CONVENTIONS/packaging/arch.md -->
+<!-- source: CONVENTIONS/PACKAGING/ARCH.md -->
 ## Arch packaging
 > Load when: packaging, releasing, or adding install instructions.
 
@@ -273,11 +281,11 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Override per PKGBUILD: `_saur_channel=stable|experimental|skip`.
 - VCS packages: `pkgver()` yielding `r<count>.<hash>`.
 - Packages, databases and install scripts are signed; clients use `SigLevel = Required`.
-- Version moves with the release (`CONVENTIONS/workflow/releases.md`).
-- Nix counterpart: `CONVENTIONS/packaging/nix.md`. Installers: `CONVENTIONS/packaging/install.md`.
+- Version moves with the release (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`).
+- Nix counterpart: `CONVENTIONS/PACKAGING/NIX.md`. Installers: `CONVENTIONS/PACKAGING/INSTALL.md`.
 
 ---
-<!-- source: CONVENTIONS/packaging/install.md -->
+<!-- source: CONVENTIONS/PACKAGING/INSTALL.md -->
 ## Install & uninstall
 > Load when: writing an installer, a setup script, install instructions, or uninstall steps.
 
@@ -289,19 +297,53 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - `status` and `--dry-run` show what would change before anything does.
 - Verifiable sources: a tag or a signed script, never a branch tip piped into a shell.
 - Root: `pkexec` for the one step that needs it, never for the whole script.
-- Scripts follow `CONVENTIONS/code/shell.md`.
+- Scripts follow `CONVENTIONS/CODE/SHELL.md`.
 
 ---
-<!-- source: CONVENTIONS/packaging/nix.md -->
+<!-- source: CONVENTIONS/PACKAGING/NIX.md -->
 ## Nix packaging
 > Load when: packaging, releasing, or setting up a dev environment.
 
 - Ship `flake.nix` with: package, app, devShell.
-- `version` in the flake moves with the release (`CONVENTIONS/workflow/releases.md`).
-- Arch counterpart: `CONVENTIONS/packaging/arch.md`.
+- `version` in the flake moves with the release (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`).
+- Arch counterpart: `CONVENTIONS/PACKAGING/ARCH.md`.
 
 ---
-<!-- source: CONVENTIONS/repo/design-docs.md -->
+<!-- source: CONVENTIONS/REPO/LAYOUT.md -->
+## Repository layout
+> Load when: creating a repo, adding top-level files or directories, or auditing a repo against the conventions.
+
+| File | When | Job |
+|---|---|---|
+| `README.md` | always | What it is, one-line install, usage, how it works (`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`) |
+| `LICENSE` | always | `CONVENTIONS/GITHUB/REPO/METADATA.md` |
+| `AGENTS.md` + `CLAUDE.md` (`@AGENTS.md`) | always | Working rules for coding agents (`CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`) |
+| `DESIGN.md` | new projects | The owner's brief (`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`) |
+| `docs/ARCHITECTURE-v<N>.md` | DB, daemon or plugin system | Binding contract per major version |
+| `PKGBUILD`, `flake.nix` | anything installable | `CONVENTIONS/PACKAGING/ARCH.md`, `CONVENTIONS/PACKAGING/NIX.md` |
+| CI workflow | always | Build the package and run tests on every PR (`CONVENTIONS/GITHUB/PULL-REQUESTS.md`) |
+
+- Directories by job: source (`cmd/`, `internal/`, `src/`), `scripts/`, `tests/`, `docs/`, `completions/`; packaging at the root or in a packaging subdirectory.
+- One entry point: one command with subcommands, not a pile of loose scripts.
+- Features are files: modules, plugins, drivers and addons live in their own directory and can be added, toggled and removed without touching the core.
+- Never commit: secrets, machine-local overrides (`*.local.*`), build output, large data or model artefacts. Gitignore them.
+- Superseded code moves to a legacy directory or into git history; never leave dead copies next to live ones.
+
+---
+<!-- source: CONVENTIONS/REPO/WRITING.md -->
+## Writing & voice
+> Load when: writing docs, help text, error messages, commit messages, or community and lore text.
+
+- English for everything structural: code, identifiers, comments, docs, config keys, commits, logs.
+- Polish for the cultural side: `README-PL.md`, community posts, lore. One language per file.
+- Never translate machine-parsed identifiers (commands, config keys, schema fields, event names).
+- Docs voice: plain, honest, specific. Name limits and risks. No filler adjectives ("modern", "clean", "powerful", "seamless").
+- Humor (™, memes, lore) lives in profiles, banners and lore docs; never in specs, error messages or identifiers.
+- `™` and other marks never appear in identifiers, package names or config.
+- Dense: cut every word that does not change the meaning. Rules are imperative one-liners.
+
+---
+<!-- source: CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md -->
 ## Design docs & agent briefs
 > Load when: starting a project, writing a brief for a coding agent, or changing a project's architecture.
 
@@ -321,67 +363,51 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - "Reproducible" means repeatable from the same inputs unless bit-for-bit is stated.
 
 ---
-<!-- source: CONVENTIONS/repo/layout.md -->
-## Repository layout
-> Load when: creating a repo, adding top-level files or directories, or auditing a repo against the conventions.
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md -->
+## Agent instruction files
+> Load when: creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project.
 
-| File | When | Job |
-|---|---|---|
-| `README.md` | always | What it is, one-line install, usage, how it works (`CONVENTIONS/repo/readme.md`) |
-| `LICENSE` | always | `CONVENTIONS/repo/metadata.md` |
-| `AGENTS.md` + `CLAUDE.md` (`@AGENTS.md`) | always | Working rules for coding agents (`AGENTS/rules/agent-files.md`) |
-| `DESIGN.md` | new projects | The owner's brief (`CONVENTIONS/repo/design-docs.md`) |
-| `docs/ARCHITECTURE-v<N>.md` | DB, daemon or plugin system | Binding contract per major version |
-| `PKGBUILD`, `flake.nix` | anything installable | `CONVENTIONS/packaging/arch.md`, `CONVENTIONS/packaging/nix.md` |
-| CI workflow | always | Build the package and run tests on every PR (`CONVENTIONS/workflow/git-pr-ci.md`) |
-
-- Directories by job: source (`cmd/`, `internal/`, `src/`), `scripts/`, `tests/`, `docs/`, `completions/`; packaging at the root or in a packaging subdirectory.
-- One entry point: one command with subcommands, not a pile of loose scripts.
-- Features are files: modules, plugins, drivers and addons live in their own directory and can be added, toggled and removed without touching the core.
-- Never commit: secrets, machine-local overrides (`*.local.*`), build output, large data or model artefacts. Gitignore them.
-- Superseded code moves to a legacy directory or into git history; never leave dead copies next to live ones.
+- Canonical: `AGENTS.md` at the project root; add one per subdir only when a subtree has its own rules.
+- `CLAUDE.md`, `GEMINI.md`, `QWEN.md`: a single line `@AGENTS.md` (import). Never duplicate content.
+- Codex, Cursor, Copilot, OpenCode, Zed, Jules and Amp read `AGENTS.md` natively; add tool-specific files only when a tool needs frontmatter.
+- Tool-specific files (`.cursor/rules/*.mdc`, `.github/instructions/*.instructions.md`, `.kiro/steering/*.md`): generate from a source, never hand-edit copies. `./install.sh project <dir>` drops the Szmelc ones.
+- Content: only what an agent cannot infer — build/test/lint commands, layout map, project-specific rules, gotchas.
+- Never restate global conventions; reference them by path in this repo (`CONVENTIONS/INTERFACES/CLI.md`).
+- Project baseline: read `DESIGN.md` and the current architecture contract first; finish every change; tests on throwaway state; a deviation updates the contract in the same commit (`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`).
+- Never keep two diverging copies (e.g. `CLAUDE.md` with the tool name swapped); one source, imports elsewhere.
+- Imperative one-liners. Over ~150 lines → split per subdir.
+- Docs site → also ship `llms.txt` (llmstxt.org): `# Name`, `> summary`, `##` link lists, `## Optional` for skippable links.
+- Skeleton: `META/templates/AGENTS.md`. Skills: `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`.
 
 ---
-<!-- source: CONVENTIONS/repo/metadata.md -->
-## Repo metadata
-> Load when: creating a repo, first push, release, or editing README/manifest/license.
-
-- `gh repo view` first; fill gaps via `gh repo edit`: description, homepage, topics, badges.
-- Homepage priority: real site → GitHub Pages → repo URL. Never invent.
-- Keep manifest fields (package.json, go.mod, PKGBUILD, flake.nix…) in sync with repo metadata.
-- License: MIT.
-- Fork of someone else's project: say "independent, not affiliated" in the README and the description; add a trademark note when the upstream name is a mark.
-
----
-<!-- source: CONVENTIONS/repo/readme.md -->
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md -->
 ## README
 > Load when: writing or editing a project README.
 
 - English. Truthful: every feature and dependency listed exists; update it in the same change as the code.
-- Top: `# Name`, one bold sentence saying what it is, the one-line install, badges (`CONVENTIONS/design/colors.md`).
+- Top: `# Name`, one bold sentence saying what it is, the one-line install, badges (`CONVENTIONS/DESIGN/COLORS.md`).
 - Then, skipping empty ones: Usage, How it works, Configuration, Packaging, License.
 - Install: package first (SAUR `pacman -S`, `nix run`); never distro-by-distro package-manager blocks; elevation via `pkexec`.
 - No `curl … | bash` from a branch tip; point at a tag or a signed script.
 - State limits, risks and trust boundaries plainly: what leaves the machine, who can reach a key.
 - Plain headings for structure; no blockquote-as-heading, no `\` line breaks, no version in the title.
-- Polish readers → separate `README-PL.md`; one language per file (`CONVENTIONS/repo/writing.md`).
+- Polish readers → separate `README-PL.md`; one language per file (`CONVENTIONS/REPO/WRITING.md`).
 - Remove agent leftovers ("CONSOLIDATED DELIVERABLE", "Here is…", "As an AI…") before committing.
 
 ---
-<!-- source: CONVENTIONS/repo/writing.md -->
-## Writing & voice
-> Load when: writing docs, help text, error messages, commit messages, or community and lore text.
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md -->
+## Skills (SKILL.md)
+> Load when: writing, editing, or installing an agent skill.
 
-- English for everything structural: code, identifiers, comments, docs, config keys, commits, logs.
-- Polish for the cultural side: `README-PL.md`, community posts, lore. One language per file.
-- Never translate machine-parsed identifiers (commands, config keys, schema fields, event names).
-- Docs voice: plain, honest, specific. Name limits and risks. No filler adjectives ("modern", "clean", "powerful", "seamless").
-- Humor (™, memes, lore) lives in profiles, banners and lore docs; never in specs, error messages or identifiers.
-- `™` and other marks never appear in identifiers, package names or config.
-- Dense: cut every word that does not change the meaning. Rules are imperative one-liners.
+- Layout: `<name>/SKILL.md` + optional `scripts/`, `references/`, `assets/`. Directory name == `name`.
+- Frontmatter: `name` (lowercase letters, digits, hyphens, ≤ 64), `description` (≤ 1024: what it does + when to use, with trigger words). Optional: `license`, `compatibility`, `metadata` (string map), `allowed-tools`.
+- Body < ~500 lines. Push detail into `references/` and link it relatively (progressive disclosure).
+- One capability per skill. Deterministic steps go in `scripts/`, not prose.
+- Install by symlinking the directory into each harness skill root (`./install.sh` knows them). Never copy.
+- Skeleton: `META/templates/SKILL.md`. Validate with `META/tools/check.sh` rules: name/dir match, description length.
 
 ---
-<!-- source: CONVENTIONS/workflow/branches.md -->
+<!-- source: CONVENTIONS/WORKFLOW/BRANCHES.md -->
 ## Branches
 > Load when: creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.
 
@@ -392,20 +418,20 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | Prefix | Use for | Scope (CI-enforced) |
 |---|---|---|
 | `feat/*` `fix/*` `docs/*` `chore/*` | Stable changes | Any source file |
-| `experimental/*` | New or changed proposals | `CONVENTIONS/experimental/` + generated files |
-| `legacy/*` | Archiving superseded material | `CONVENTIONS/legacy/` + generated files |
+| `experimental/*` | New or changed proposals | `CONVENTIONS/EXPERIMENTAL/` + generated files |
+| `legacy/*` | Archiving superseded material | `CONVENTIONS/LEGACY/` + generated files |
 | `local/*` | Private or unverified material awaiting review | Never pushed, never merged |
 
 - Merge: `gh pr merge --squash --delete-branch`; keep one topic per PR so the squash reads as one change.
 - Stale branch with no open PR and nothing ahead of `main`: delete it.
-- Promote: move `CONVENTIONS/experimental/<x>.md` to `CONVENTIONS/<category>/<x>.md` in a `feat/*` PR.
-- Demote: move to `CONVENTIONS/legacy/` in a `legacy/*` PR; add `> Superseded by: <path>` as line 3. Legacy files are never deleted.
+- Promote: move `CONVENTIONS/EXPERIMENTAL/<x>.md` to `CONVENTIONS/<category>/<x>.md` in a `feat/*` PR.
+- Demote: move to `CONVENTIONS/LEGACY/` in a `legacy/*` PR; add `> Superseded by: <path>` as line 3. Legacy files are never deleted.
 - `local/*`: one commit per proposal; never pushed (pre-push hook `META/tools/hooks/pre-push`, enable with `git config core.hooksPath META/tools/hooks`); CI rejects it. Approved commits are re-applied on a `feat/*` or `experimental/*` branch after review; rejected ones stay local.
 - CI enforces prefix scope (`META/tools/lane-check.sh`).
 - Projects that ship releases: `main` = stable channel; any other branch = `-ex` experimental build; tags on `main` only.
 
 ---
-<!-- source: CONVENTIONS/workflow/commits.md -->
+<!-- source: CONVENTIONS/WORKFLOW/COMMITS.md -->
 ## Commits
 > Load when: writing a commit message, PR title, or squash-merge title.
 
@@ -413,33 +439,21 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Type prefix with optional scope: `feat(saur): …`, `fix(core): …`, `docs: …`, `ci: …`, `chore: …`, `refactor: …`, `test: …`.
 - Version bump → append the version: `feat: signed package lists (0.3.1)`.
 - Never web-UI defaults (`Update README.md`, `Create file`) on `main`.
-- One topic per commit and per PR; the squash title follows the same format (`CONVENTIONS/workflow/branches.md`).
+- One topic per commit and per PR; the squash title follows the same format (`CONVENTIONS/WORKFLOW/BRANCHES.md`).
 
 ---
-<!-- source: CONVENTIONS/workflow/finish.md -->
+<!-- source: CONVENTIONS/WORKFLOW/FINISH.md -->
 ## Finish every change
 > Load when: finishing a feature or fix, before calling work done.
 
 - Done means everything the change touches is done; never leave half a feature for later.
 - Carry it through the code, the `--help` text (global and per command) and the shell completions.
-- Carry it through the docs (`README.md`, config comments, architecture contract) and packaging (`CONVENTIONS/packaging/arch.md`, `CONVENTIONS/packaging/nix.md`).
-- Version bump → every copy at once (`CONVENTIONS/workflow/releases.md`).
-- Then verify on real data (`CONVENTIONS/workflow/verification.md`) and get green CI before reporting (`CONVENTIONS/workflow/git-pr-ci.md`).
+- Carry it through the docs (`README.md`, config comments, architecture contract) and packaging (`CONVENTIONS/PACKAGING/ARCH.md`, `CONVENTIONS/PACKAGING/NIX.md`).
+- Version bump → every copy at once (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`).
+- Then verify on real data (`CONVENTIONS/WORKFLOW/VERIFICATION.md`) and get green CI before reporting (`CONVENTIONS/GITHUB/PULL-REQUESTS.md`).
 
 ---
-<!-- source: CONVENTIONS/workflow/git-pr-ci.md -->
-## Git, PRs & CI
-> Load when: committing, pushing, opening/merging a PR, or fixing CI.
-
-- Self-review before PR: correctness, security/escaping, docs + shell completions in sync.
-- Wait for green CI → merge yourself → verify main CI + live result → one short report.
-- Never merge red, force-push, or bypass branch protection.
-- CI builds the package and runs the tests on every PR.
-- CI logic lives in a script that also runs on any machine with Docker/Podman; the workflow file only calls it, so no host lock-in.
-- Commit and PR titles: `CONVENTIONS/workflow/commits.md`.
-
----
-<!-- source: CONVENTIONS/workflow/notify.md -->
+<!-- source: CONVENTIONS/WORKFLOW/NOTIFY.md -->
 ## Notifications
 > Load when: a job runs > ~10 min, or a failure needs a human.
 
@@ -449,19 +463,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Webhooks and user IDs live in the tool's local config (`$DC_WEBHOOK` or the user config dir); never in a repo.
 
 ---
-<!-- source: CONVENTIONS/workflow/releases.md -->
-## Releases & versioning
-> Load when: bumping a version, tagging a release, or planning a major version.
-
-- SemVer `vMAJOR.MINOR.PATCH`; tag on `main` only.
-- The version lives in package metadata and tags; never in the README title or repo name.
-- One bump moves every copy at once: source constant, PKGBUILD `pkgver`, `flake.nix` `version`, changelog if the project keeps one.
-- Breaking change to a command, flag, config key or file format → major bump, plus a new `docs/ARCHITECTURE-v<N>.md` when the project keeps one.
-- Ecosystem eras (`SZMELC/README.md`) are independent of project versions.
-- Before tagging: versions agree; `--help`, completions and README match the code; tests pass on throwaway state; the package builds in CI; the architecture contract is current.
-
----
-<!-- source: CONVENTIONS/workflow/verification.md -->
+<!-- source: CONVENTIONS/WORKFLOW/VERIFICATION.md -->
 ## Verification
 > Load when: any code change.
 
@@ -470,5 +472,5 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - New tests only for: non-trivial logic, regressions, parsers, security boundaries, public APIs.
 - Never: tests for glue/getters/one-off scripts, tests of tests, mocks of mocks, tests that re-assert the implementation.
 - Tests and experiments use throwaway state (temp `HOME`, config dir, DB, `GNUPGHOME`); never the real config, data or keys.
-- Shell: `bash -n`/`sh -n` and `shellcheck` before delivery (`CONVENTIONS/code/shell.md`).
+- Shell: `bash -n`/`sh -n` and `shellcheck` before delivery (`CONVENTIONS/CODE/SHELL.md`).
 - Never claim "works" unchecked. Unverifiable → say so.

@@ -13,6 +13,6 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/tools/build.sh`](META/tools/build.sh) | Generate indexes, core maps, the all-in-one bundle and tool adapters from source files. |  |
 | [`META/tools/check.sh`](META/tools/check.sh) | Validate the repo: generated files, core/rule headers, skills, index entries, path references, case collisions, links. |  |
 | [`META/tools/hooks/pre-push`](META/tools/hooks/pre-push) | Refuse to push local/* branches: private or unverified material that only |  |
-| [`META/tools/lane-check.sh`](META/tools/lane-check.sh) | Enforce branch-prefix scope (CONVENTIONS/workflow/branches.md). |  |
+| [`META/tools/lane-check.sh`](META/tools/lane-check.sh) | Enforce branch-prefix scope (CONVENTIONS/WORKFLOW/BRANCHES.md). |  |
 | [`META/tools/site.sh`](META/tools/site.sh) | Build the public site (GitHub Pages): one tab per core with its rendered guide, readable rules and files, plus a Projects index. |  |
 | [`META/tools/test-install.sh`](META/tools/test-install.sh) | Smoke-test install.sh against a throwaway $HOME. Never touches the real one. |  |

@@ -24,13 +24,14 @@
 
 
 ## Cores
-Five top-level categories. Each is a directory `X/` with a full guide `X/README.md`, mapped by a root file `X.md`.
+Six top-level categories. Each is a directory `X/` with a full guide `X/README.md`, mapped by a root file `X.md`.
 
 | Map | Directory | What |
 |---|---|---|
-| [`CONVENTIONS.md`](CONVENTIONS.md) | [`CONVENTIONS/`](CONVENTIONS/README.md) | The rules: workflow, design, interfaces, packaging, code; experimental proposals and legacy archive |
+| [`CONVENTIONS.md`](CONVENTIONS.md) | [`CONVENTIONS/`](CONVENTIONS/README.md) | The rules: workflow, GitHub, specs, repo, design, interfaces, packaging, code; experimental proposals and legacy archive |
 | [`AGENTS.md`](AGENTS.md) | [`AGENTS/`](AGENTS/README.md) | Always-on global rules, skills, tool adapters, agent-file rules |
-| [`HUMANS.md`](HUMANS.md) | [`HUMANS/`](HUMANS/README.md) | Install, browse, contribute |
+| [`HUMANS.md`](HUMANS.md) | [`HUMANS/`](HUMANS/README.md) | Install, browse |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | [`CONTRIBUTING/`](CONTRIBUTING/README.md) | Extend, write, name, version and ship conventions |
 | [`SZMELC.md`](SZMELC.md) | [`SZMELC/`](SZMELC/README.md) | Public organisations, sites, principles, projects index sources |
 | [`META.md`](META.md) | [`META/`](META/README.md) | Build/check tools, site generator, schema, templates |
 
@@ -49,10 +50,11 @@ index.json          same, machine-readable (META/schema/index.schema.json)      
 llms.txt            llmstxt.org index                                                   [generated]
 CONVENTIONS.md      map of CONVENTIONS/ + every stable rule in one file                 [generated]
 AGENTS.md           instructions for agents in this repo + map of AGENTS/               [map block generated]
-HUMANS.md SZMELC.md META.md   core maps                                                 [generated]
-CONVENTIONS/        rules by category; experimental/ proposals, legacy/ archive
-AGENTS/             global/AGENTS.md, rules/, skills/, adapters/ [generated]
+HUMANS.md CONTRIBUTING.md SZMELC.md META.md   core maps                                                 [generated]
+CONVENTIONS/        rules by UPPERCASE category; EXPERIMENTAL/ proposals, LEGACY/ archive
+AGENTS/             global/AGENTS.md, RULES/, skills/, adapters/ [generated]
 HUMANS/             human guide
+CONTRIBUTING/       how to extend the conventions (root CONTRIBUTING.md = its map; GitHub shows it on issues/PRs)
 SZMELC/             organisation guide, sources.conf (projects index)
 META/               tools/, schema/, templates/
 install.sh          harness installer
@@ -62,14 +64,14 @@ public/             generated site (GitHub Pages); built in CI, never committed 
 `CLAUDE.md` / `GEMINI.md` at the root import `AGENTS.md` for agents working on this repo.
 
 ## Branches
-`main` is the only long-lived branch. Every change is a short-lived `feat/*`, `fix/*`, `docs/*`, `chore/*`, `experimental/*` or `legacy/*` branch, PR'd into `main` and deleted after merge. Details: `CONVENTIONS/workflow/branches.md`.
+`main` is the only long-lived branch. Every change is a short-lived `feat/*`, `fix/*`, `docs/*`, `chore/*`, `experimental/*` or `legacy/*` branch, PR'd into `main` and deleted after merge. Details: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
 
 ## Rules of this repo
 1. One topic = one file. One rule = one line.
 2. Every rule file and core `README.md` starts with `# Title` and `> Load when: <trigger>`.
-3. Never duplicate a rule; reference it by path (`CONVENTIONS/design/colors.md`).
+3. Never duplicate a rule; reference it by path (`CONVENTIONS/DESIGN/COLORS.md`).
 4. Never edit generated files. Run `META/tools/build.sh`, then `META/tools/check.sh` (CI runs both).
-5. New domain → new directory in a core. New topic → copy `META/templates/rule.md`. New core → directory + `README.md`, then add it to `CORES` in `META/tools/build.sh`.
+5. New domain → new UPPERCASE directory in a core. New topic → copy `META/templates/rule.md`; naming in `CONTRIBUTING/README.md`. New core → directory + `README.md`, then add it to `CORES` in `META/tools/build.sh`.
 6. Agents load rules lazily: `INDEX.md` once, then only matching files. Never `@import` rule files into global instructions; that loads every rule every session.
 7. Public repo: only already-public material (public repos, orgs, sites).
 

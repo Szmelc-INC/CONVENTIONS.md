@@ -1,6 +1,6 @@
 # Szmelc Conventions
 
-> Global conventions for humans and AI agents, in five cores: CONVENTIONS (rules: git/PR/CI, branch lanes, repo metadata, notifications, verification, colors, CLI/TUI, Arch/Nix packaging, stack), AGENTS (always-on rules, skills, adapters, agent-file formats), HUMANS (install, browse, contribute), SZMELC (organisation, projects index sources) and META (build pipeline, schema, templates). Agents load rules lazily: read INDEX.md, then only files whose trigger matches the task.
+> Global conventions for humans and AI agents, in six cores: CONVENTIONS (rules by category: WORKFLOW, GITHUB (repo, pull requests, actions, releases, deployments), SPECS (third-party and original document formats), FORMATS, SYSTEMS, REPO, DESIGN, INTERFACES, PACKAGING, CODE), AGENTS (always-on rules, agent behaviour rules, skills, adapters), HUMANS (install, browse), CONTRIBUTING (extend, write, version, prompts), SZMELC (organisation, projects index sources) and META (build pipeline, schema, templates). Agents load rules lazily: read INDEX.md, then only files whose trigger matches the task.
 
 Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/SKILL.md), [INDEX.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/INDEX.md), [index.json](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/index.json). All stable rules in one file: [CONVENTIONS.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS.md).
 
@@ -9,52 +9,53 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 
 ## Cores
 - [CONVENTIONS](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/README.md): Load when asked which conventions exist, how rules are organised, or before adding/promoting/demoting a rule.
-- [AGENTS](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/README.md): Load when installing the conventions into an agent harness, writing agent instruction files or skills, or deciding on subagents.
-- [HUMANS](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/HUMANS/README.md): Load when a person asks how to install, browse, use or contribute to the conventions.
+- [AGENTS](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/README.md): Load when installing the conventions into an agent harness, or deciding on subagents, model or effort.
+- [HUMANS](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/HUMANS/README.md): Load when a person asks how to install, browse or use the conventions.
+- [CONTRIBUTING](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONTRIBUTING/README.md): Load when adding, changing, promoting, versioning or indexing a convention, or contributing to this repo.
 - [SZMELC](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/SZMELC/README.md): Load when asked about Szmelc itself, its public organisations and projects, the ecosystem, or the projects index.
 - [META](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/META/README.md): Load when changing how this repo is built, checked, indexed or published (tools, schema, templates, site, CI).
 
 ## Rules
-- [Agent instruction files](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/rules/agent-files.md): Load when creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project.
-- [Token efficiency](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/rules/efficiency.md): Load when choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long.
-- [Skills (SKILL.md)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/rules/skills.md): Load when writing, editing, or installing an agent skill.
-- [Subagents & tools](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/rules/subagents.md): Load when considering a subagent, parallel work, skills/MCP use, or long-running commands.
-- [Shell environment & dotfiles](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/code/dotfiles.md): Load when building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations.
-- [Go](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/code/go.md): Load when writing, building or releasing Go code.
-- [Naming](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/code/naming.md): Load when naming a repo, binary, package, env var, config key, file or doc.
-- [Shell scripts](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/code/shell.md): Load when writing or editing a shell script (bash, zsh, POSIX sh) or an installer.
-- [Stack defaults](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/code/stack.md): Load when starting a project or tool, or choosing a language or dependencies.
-- [Colors](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/design/colors.md): Load when any UI, TUI, CLI color, web page, theme, badge or graphic.
-- [CLI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/interfaces/cli.md): Load when building or changing a command-line tool.
-- [Configuration](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/interfaces/config.md): Load when adding a config file, options, env vars, or storage paths to a tool.
-- [TUI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/interfaces/tui.md): Load when building a TUI, or any project that has a CLI.
-- [Arch packaging](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/packaging/arch.md): Load when packaging, releasing, or adding install instructions.
-- [Install & uninstall](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/packaging/install.md): Load when writing an installer, a setup script, install instructions, or uninstall steps.
-- [Nix packaging](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/packaging/nix.md): Load when packaging, releasing, or setting up a dev environment.
-- [Design docs & agent briefs](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/repo/design-docs.md): Load when starting a project, writing a brief for a coding agent, or changing a project's architecture.
-- [Repository layout](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/repo/layout.md): Load when creating a repo, adding top-level files or directories, or auditing a repo against the conventions.
-- [Repo metadata](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/repo/metadata.md): Load when creating a repo, first push, release, or editing README/manifest/license.
-- [README](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/repo/readme.md): Load when writing or editing a project README.
-- [Writing & voice](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/repo/writing.md): Load when writing docs, help text, error messages, commit messages, or community and lore text.
-- [Branches](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/branches.md): Load when creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.
-- [Commits](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/commits.md): Load when writing a commit message, PR title, or squash-merge title.
-- [Finish every change](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/finish.md): Load when finishing a feature or fix, before calling work done.
-- [Git, PRs & CI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/git-pr-ci.md): Load when committing, pushing, opening/merging a PR, or fixing CI.
-- [Notifications](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/notify.md): Load when a job runs > ~10 min, or a failure needs a human.
-- [Releases & versioning](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/releases.md): Load when bumping a version, tagging a release, or planning a major version.
-- [Verification](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/verification.md): Load when any code change.
+- [Token efficiency](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/RULES/EFFICIENCY.md): Load when choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long.
+- [Subagents & tools](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/RULES/SUBAGENTS.md): Load when considering a subagent, parallel work, skills/MCP use, or long-running commands.
+- [Shell environment & dotfiles](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/DOTFILES.md): Load when building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations.
+- [Go](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/GO.md): Load when writing, building or releasing Go code.
+- [Naming](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/NAMING.md): Load when naming a repo, binary, package, env var, config key, file or doc.
+- [Shell scripts](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/SHELL.md): Load when writing or editing a shell script (bash, zsh, POSIX sh) or an installer.
+- [Stack defaults](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/STACK.md): Load when starting a project or tool, or choosing a language or dependencies.
+- [Colors](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/DESIGN/COLORS.md): Load when any UI, TUI, CLI color, web page, theme, badge or graphic.
+- [Pull requests & CI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/PULL-REQUESTS.md): Load when committing, pushing, opening/merging a PR, or fixing CI.
+- [Releases & versioning](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/RELEASES/VERSIONING.md): Load when bumping a version, tagging a release, or planning a major version.
+- [Repo metadata](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/REPO/METADATA.md): Load when creating a repo, first push, release, or editing README/manifest/license.
+- [CLI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/INTERFACES/CLI.md): Load when building or changing a command-line tool.
+- [Configuration](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/INTERFACES/CONFIG.md): Load when adding a config file, options, env vars, or storage paths to a tool.
+- [TUI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/INTERFACES/TUI.md): Load when building a TUI, or any project that has a CLI.
+- [Arch packaging](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/PACKAGING/ARCH.md): Load when packaging, releasing, or adding install instructions.
+- [Install & uninstall](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/PACKAGING/INSTALL.md): Load when writing an installer, a setup script, install instructions, or uninstall steps.
+- [Nix packaging](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/PACKAGING/NIX.md): Load when packaging, releasing, or setting up a dev environment.
+- [Repository layout](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/REPO/LAYOUT.md): Load when creating a repo, adding top-level files or directories, or auditing a repo against the conventions.
+- [Writing & voice](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/REPO/WRITING.md): Load when writing docs, help text, error messages, commit messages, or community and lore text.
+- [Design docs & agent briefs](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md): Load when starting a project, writing a brief for a coding agent, or changing a project's architecture.
+- [Agent instruction files](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md): Load when creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project.
+- [README](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md): Load when writing or editing a project README.
+- [Skills (SKILL.md)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md): Load when writing, editing, or installing an agent skill.
+- [Branches](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/BRANCHES.md): Load when creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.
+- [Commits](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/COMMITS.md): Load when writing a commit message, PR title, or squash-merge title.
+- [Finish every change](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/FINISH.md): Load when finishing a feature or fix, before calling work done.
+- [Notifications](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/NOTIFY.md): Load when a job runs > ~10 min, or a failure needs a human.
+- [Verification](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/VERIFICATION.md): Load when any code change.
 
 ## Skills
 - [deep](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/skills/deep/SKILL.md): Escalate to deep reasoning for hard problems — architecture and design decisions, cross-cutting refactors, bugs with unclear root cause, security-sensitive code, concurrency, or anything where a wrong first approach is expensive. Use it before writing code for such tasks. Do not use it for routine edits.
 
 ## Experimental
-- [v2 CLI & config contract](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/cli-contract.md): Opt-in only. Load when user opts into experimental conventions, or makes a tool wrappable by another tool or agent.
-- [Localization (en + pl)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/localization.md): Opt-in only. Load when user opts into experimental conventions, or adds user-facing strings, locales or translations.
-- [Meta-grammar ("LEGO everything")](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/meta-grammar.md): Opt-in only. Load when user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions.
-- [Modules (KUR)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/modules.md): Opt-in only. Load when user opts into experimental conventions, or builds a Kombinat/KUR plugin module.
-- [v2 repo baseline](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/repo-baseline.md): Opt-in only. Load when user opts into experimental conventions, or ports a v1 project to the v2 baseline.
-- [Spec file taxonomy](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/spec-files.md): Opt-in only. Load when user opts into experimental conventions, or designs Szmelc spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md).
+- [v2 CLI & config contract](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/EXPERIMENTAL/CLI-CONTRACT.md): Opt-in only. Load when user opts into experimental conventions, or makes a tool wrappable by another tool or agent.
+- [Localization (en + pl)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/EXPERIMENTAL/LOCALIZATION.md): Opt-in only. Load when user opts into experimental conventions, or adds user-facing strings, locales or translations.
+- [Meta-grammar ("LEGO everything")](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/EXPERIMENTAL/META-GRAMMAR.md): Opt-in only. Load when user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions.
+- [Modules (KUR)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/EXPERIMENTAL/MODULES.md): Opt-in only. Load when user opts into experimental conventions, or builds a Kombinat/KUR plugin module.
+- [v2 repo baseline](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/EXPERIMENTAL/REPO-BASELINE.md): Opt-in only. Load when user opts into experimental conventions, or ports a v1 project to the v2 baseline.
+- [Spec file taxonomy](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/EXPERIMENTAL/SPEC-FILES.md): Opt-in only. Load when user opts into experimental conventions, or designs Szmelc spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md).
 
 ## Optional
-- [CONVENTIONS.md — The Absolute Specification (`v2.0` Kombinat / `v3.0` Logos)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/legacy/drafts/conventions-v2-kombinat.md): Legacy archive
-- [CONVENTIONS.md — The Meta-Grammar & "Universal LEGO" Specification (`v2.0` -> `v3.0`)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/legacy/drafts/conventions-v3-lego.md): Legacy archive
+- [CONVENTIONS.md — The Absolute Specification (`v2.0` Kombinat / `v3.0` Logos)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/LEGACY/DRAFTS/CONVENTIONS-V2-KOMBINAT.md): Legacy archive
+- [CONVENTIONS.md — The Meta-Grammar & "Universal LEGO" Specification (`v2.0` -> `v3.0`)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/LEGACY/DRAFTS/CONVENTIONS-V3-LEGO.md): Legacy archive

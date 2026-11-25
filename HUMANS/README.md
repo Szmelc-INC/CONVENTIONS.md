@@ -1,11 +1,11 @@
 # HUMANS
-> Load when: a person asks how to install, browse, use or contribute to the conventions.
+> Load when: a person asks how to install, browse or use the conventions.
 
-The human side: how to get the conventions into your tools, read them, and change them.
+The human side: how to get the conventions into your tools and read them.
 
 ## Browse
-- Site: <https://szmelc-inc.github.io/CONVENTIONS.md/>. One tab per core with its guide; every rule readable inline, copyable as Markdown or raw URL; the Szmelc projects index. Keys: `/` filter (searches rule text, flags tabs with hits), `1`-`9` tabs, `e` expand all, `esc` clear. Deep-links: `#<core>` or `#<path>` (e.g. `#CONVENTIONS/design/colors.md`).
-- Repo root: one map per core (`CONVENTIONS.md`, `AGENTS.md`, `HUMANS.md`, `SZMELC.md`, `META.md`), each pointing at `X/README.md`.
+- Site: <https://szmelc-inc.github.io/CONVENTIONS.md/>. One tab per core with its guide; every rule readable inline, copyable as Markdown or raw URL; the Szmelc projects index. Keys: `/` filter (searches rule text, flags tabs with hits), `1`-`9` tabs, `e` expand all, `esc` clear. Deep-links: `#<core>` or `#<path>` (e.g. `#CONVENTIONS/DESIGN/COLORS.md`).
+- Repo root: one map per core (`CONVENTIONS.md`, `AGENTS.md`, `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`), each pointing at `X/README.md`.
 
 ## Install
 ```sh
@@ -31,7 +31,4 @@ git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventi
 | Aider, web chats | `aider --read CONVENTIONS.md`, or paste/upload `CONVENTIONS.md` | — |
 
 ## Contribute
-1. Branch off `main` with a prefix: `feat/*`, `fix/*`, `docs/*`, `chore/*` (stable), `experimental/*` (proposals), `legacy/*` (archive). Private or unverified material: `local/*`, never pushed; run `git config core.hooksPath META/tools/hooks` once per clone to enforce it.
-2. Edit sources only; generated files are rebuilt by `META/tools/build.sh`.
-3. `META/tools/build.sh && META/tools/check.sh` must pass; CI runs the same plus shellcheck and the installer smoke test.
-4. PR into `main`; it is squash-merged and the branch deleted. Rules: `CONVENTIONS/workflow/branches.md`, `CONVENTIONS/workflow/git-pr-ci.md`.
+Branching, writing, naming, building and shipping a rule: `CONTRIBUTING/README.md`.

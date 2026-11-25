@@ -12,42 +12,43 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | File | Load when |
 |---|---|
 | `CONVENTIONS/README.md` | asked which conventions exist, how rules are organised, or before adding/promoting/demoting a rule. |
-| `AGENTS/README.md` | installing the conventions into an agent harness, writing agent instruction files or skills, or deciding on subagents. |
-| `HUMANS/README.md` | a person asks how to install, browse, use or contribute to the conventions. |
+| `AGENTS/README.md` | installing the conventions into an agent harness, or deciding on subagents, model or effort. |
+| `HUMANS/README.md` | a person asks how to install, browse or use the conventions. |
+| `CONTRIBUTING/README.md` | adding, changing, promoting, versioning or indexing a convention, or contributing to this repo. |
 | `SZMELC/README.md` | asked about Szmelc itself, its public organisations and projects, the ecosystem, or the projects index. |
 | `META/README.md` | changing how this repo is built, checked, indexed or published (tools, schema, templates, site, CI). |
 
 ## Rules
 | File | Load when |
 |---|---|
-| `AGENTS/rules/agent-files.md` | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project. |
-| `AGENTS/rules/efficiency.md` | choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long. |
-| `AGENTS/rules/skills.md` | writing, editing, or installing an agent skill. |
-| `AGENTS/rules/subagents.md` | considering a subagent, parallel work, skills/MCP use, or long-running commands. |
-| `CONVENTIONS/code/dotfiles.md` | building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations. |
-| `CONVENTIONS/code/go.md` | writing, building or releasing Go code. |
-| `CONVENTIONS/code/naming.md` | naming a repo, binary, package, env var, config key, file or doc. |
-| `CONVENTIONS/code/shell.md` | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
-| `CONVENTIONS/code/stack.md` | starting a project or tool, or choosing a language or dependencies. |
-| `CONVENTIONS/design/colors.md` | any UI, TUI, CLI color, web page, theme, badge or graphic. |
-| `CONVENTIONS/interfaces/cli.md` | building or changing a command-line tool. |
-| `CONVENTIONS/interfaces/config.md` | adding a config file, options, env vars, or storage paths to a tool. |
-| `CONVENTIONS/interfaces/tui.md` | building a TUI, or any project that has a CLI. |
-| `CONVENTIONS/packaging/arch.md` | packaging, releasing, or adding install instructions. |
-| `CONVENTIONS/packaging/install.md` | writing an installer, a setup script, install instructions, or uninstall steps. |
-| `CONVENTIONS/packaging/nix.md` | packaging, releasing, or setting up a dev environment. |
-| `CONVENTIONS/repo/design-docs.md` | starting a project, writing a brief for a coding agent, or changing a project's architecture. |
-| `CONVENTIONS/repo/layout.md` | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
-| `CONVENTIONS/repo/metadata.md` | creating a repo, first push, release, or editing README/manifest/license. |
-| `CONVENTIONS/repo/readme.md` | writing or editing a project README. |
-| `CONVENTIONS/repo/writing.md` | writing docs, help text, error messages, commit messages, or community and lore text. |
-| `CONVENTIONS/workflow/branches.md` | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
-| `CONVENTIONS/workflow/commits.md` | writing a commit message, PR title, or squash-merge title. |
-| `CONVENTIONS/workflow/finish.md` | finishing a feature or fix, before calling work done. |
-| `CONVENTIONS/workflow/git-pr-ci.md` | committing, pushing, opening/merging a PR, or fixing CI. |
-| `CONVENTIONS/workflow/notify.md` | a job runs > ~10 min, or a failure needs a human. |
-| `CONVENTIONS/workflow/releases.md` | bumping a version, tagging a release, or planning a major version. |
-| `CONVENTIONS/workflow/verification.md` | any code change. |
+| `AGENTS/RULES/EFFICIENCY.md` | choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long. |
+| `AGENTS/RULES/SUBAGENTS.md` | considering a subagent, parallel work, skills/MCP use, or long-running commands. |
+| `CONVENTIONS/CODE/DOTFILES.md` | building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations. |
+| `CONVENTIONS/CODE/GO.md` | writing, building or releasing Go code. |
+| `CONVENTIONS/CODE/NAMING.md` | naming a repo, binary, package, env var, config key, file or doc. |
+| `CONVENTIONS/CODE/SHELL.md` | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
+| `CONVENTIONS/CODE/STACK.md` | starting a project or tool, or choosing a language or dependencies. |
+| `CONVENTIONS/DESIGN/COLORS.md` | any UI, TUI, CLI color, web page, theme, badge or graphic. |
+| `CONVENTIONS/GITHUB/PULL-REQUESTS.md` | committing, pushing, opening/merging a PR, or fixing CI. |
+| `CONVENTIONS/GITHUB/RELEASES/VERSIONING.md` | bumping a version, tagging a release, or planning a major version. |
+| `CONVENTIONS/GITHUB/REPO/METADATA.md` | creating a repo, first push, release, or editing README/manifest/license. |
+| `CONVENTIONS/INTERFACES/CLI.md` | building or changing a command-line tool. |
+| `CONVENTIONS/INTERFACES/CONFIG.md` | adding a config file, options, env vars, or storage paths to a tool. |
+| `CONVENTIONS/INTERFACES/TUI.md` | building a TUI, or any project that has a CLI. |
+| `CONVENTIONS/PACKAGING/ARCH.md` | packaging, releasing, or adding install instructions. |
+| `CONVENTIONS/PACKAGING/INSTALL.md` | writing an installer, a setup script, install instructions, or uninstall steps. |
+| `CONVENTIONS/PACKAGING/NIX.md` | packaging, releasing, or setting up a dev environment. |
+| `CONVENTIONS/REPO/LAYOUT.md` | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
+| `CONVENTIONS/REPO/WRITING.md` | writing docs, help text, error messages, commit messages, or community and lore text. |
+| `CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md` | starting a project, writing a brief for a coding agent, or changing a project's architecture. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md` | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md` | writing or editing a project README. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md` | writing, editing, or installing an agent skill. |
+| `CONVENTIONS/WORKFLOW/BRANCHES.md` | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
+| `CONVENTIONS/WORKFLOW/COMMITS.md` | writing a commit message, PR title, or squash-merge title. |
+| `CONVENTIONS/WORKFLOW/FINISH.md` | finishing a feature or fix, before calling work done. |
+| `CONVENTIONS/WORKFLOW/NOTIFY.md` | a job runs > ~10 min, or a failure needs a human. |
+| `CONVENTIONS/WORKFLOW/VERIFICATION.md` | any code change. |
 
 ## Skills
 | File | Load when |
@@ -57,15 +58,15 @@ Read this once per session. Load only files whose trigger matches the task. Path
 ## Experimental (opt-in only)
 | File | Load when |
 |---|---|
-| `CONVENTIONS/experimental/cli-contract.md` | user opts into experimental conventions, or makes a tool wrappable by another tool or agent. |
-| `CONVENTIONS/experimental/localization.md` | user opts into experimental conventions, or adds user-facing strings, locales or translations. |
-| `CONVENTIONS/experimental/meta-grammar.md` | user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions. |
-| `CONVENTIONS/experimental/modules.md` | user opts into experimental conventions, or builds a Kombinat/KUR plugin module. |
-| `CONVENTIONS/experimental/repo-baseline.md` | user opts into experimental conventions, or ports a v1 project to the v2 baseline. |
-| `CONVENTIONS/experimental/spec-files.md` | user opts into experimental conventions, or designs Szmelc spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md). |
+| `CONVENTIONS/EXPERIMENTAL/CLI-CONTRACT.md` | user opts into experimental conventions, or makes a tool wrappable by another tool or agent. |
+| `CONVENTIONS/EXPERIMENTAL/LOCALIZATION.md` | user opts into experimental conventions, or adds user-facing strings, locales or translations. |
+| `CONVENTIONS/EXPERIMENTAL/META-GRAMMAR.md` | user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions. |
+| `CONVENTIONS/EXPERIMENTAL/MODULES.md` | user opts into experimental conventions, or builds a Kombinat/KUR plugin module. |
+| `CONVENTIONS/EXPERIMENTAL/REPO-BASELINE.md` | user opts into experimental conventions, or ports a v1 project to the v2 baseline. |
+| `CONVENTIONS/EXPERIMENTAL/SPEC-FILES.md` | user opts into experimental conventions, or designs Szmelc spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md). |
 
 ## Legacy (archive; load only when asked)
 | File | Title |
 |---|---|
-| `CONVENTIONS/legacy/drafts/conventions-v2-kombinat.md` | CONVENTIONS.md — The Absolute Specification (`v2.0` Kombinat / `v3.0` Logos) |
-| `CONVENTIONS/legacy/drafts/conventions-v3-lego.md` | CONVENTIONS.md — The Meta-Grammar & "Universal LEGO" Specification (`v2.0` -> `v3.0`) |
+| `CONVENTIONS/LEGACY/DRAFTS/CONVENTIONS-V2-KOMBINAT.md` | CONVENTIONS.md — The Absolute Specification (`v2.0` Kombinat / `v3.0` Logos) |
+| `CONVENTIONS/LEGACY/DRAFTS/CONVENTIONS-V3-LEGO.md` | CONVENTIONS.md — The Meta-Grammar & "Universal LEGO" Specification (`v2.0` -> `v3.0`) |
