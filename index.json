@@ -18,6 +18,8 @@
     {"path": "workflow/notify.md", "title": "Notifications", "load_when": "a job runs > ~10 min, or a failure needs a human.", "status": "stable", "kind": "rule"},
     {"path": "workflow/repo-metadata.md", "title": "Repo metadata", "load_when": "creating a repo, first push, release, or editing README/manifest/license.", "status": "stable", "kind": "rule"},
     {"path": "workflow/verification.md", "title": "Verification", "load_when": "any code change.", "status": "stable", "kind": "rule"},
-    {"path": "skills/deep/SKILL.md", "title": "deep", "load_when": "Escalate to deep reasoning for hard problems — architecture and design decisions, cross-cutting refactors, bugs with unclear root cause, security-sensitive code, concurrency, or anything where a wrong first approach is expensive. Use it before writing code for such tasks. Do not use it for routine edits.", "status": "stable", "kind": "skill"}
+    {"path": "skills/deep/SKILL.md", "title": "deep", "load_when": "Escalate to deep reasoning for hard problems — architecture and design decisions, cross-cutting refactors, bugs with unclear root cause, security-sensitive code, concurrency, or anything where a wrong first approach is expensive. Use it before writing code for such tasks. Do not use it for routine edits.", "status": "stable", "kind": "skill"},
+    {"path": "legacy/drafts/conventions-v2-kombinat.md", "title": "CONVENTIONS.md — The Absolute Specification (`v2.0` Kombinat / `v3.0` Logos)", "load_when": "Only when asked about superseded conventions", "status": "legacy", "kind": "archive"},
+    {"path": "legacy/drafts/conventions-v3-lego.md", "title": "CONVENTIONS.md — The Meta-Grammar & \"Universal LEGO\" Specification (`v2.0` -> `v3.0`)", "load_when": "Only when asked about superseded conventions", "status": "legacy", "kind": "archive"}
   ]
 }
