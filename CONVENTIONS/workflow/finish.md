@@ -3,6 +3,6 @@
 
 - Done means everything the change touches is done; never leave half a feature for later.
 - Carry it through the code, the `--help` text (global and per command) and the shell completions.
-- Carry it through the docs (`README.md`, config comments) and packaging (`CONVENTIONS/packaging/arch.md`, `CONVENTIONS/packaging/nix.md`).
-- Version bumps move together: the version constant, PKGBUILD `pkgver`, `flake.nix` `version`.
+- Carry it through the docs (`README.md`, config comments, architecture contract) and packaging (`CONVENTIONS/packaging/arch.md`, `CONVENTIONS/packaging/nix.md`).
+- Version bump → every copy at once (`CONVENTIONS/workflow/releases.md`).
 - Then verify on real data (`CONVENTIONS/workflow/verification.md`) and get green CI before reporting (`CONVENTIONS/workflow/git-pr-ci.md`).

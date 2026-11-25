@@ -5,3 +5,4 @@
 - Homepage priority: real site → GitHub Pages → repo URL. Never invent.
 - Keep manifest fields (package.json, go.mod, PKGBUILD, flake.nix…) in sync with repo metadata.
 - License: MIT.
+- Fork of someone else's project: say "independent, not affiliated" in the README and the description; add a trademark note when the upstream name is a mark.

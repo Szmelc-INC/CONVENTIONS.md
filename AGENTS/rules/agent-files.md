@@ -7,6 +7,8 @@
 - Tool-specific files (`.cursor/rules/*.mdc`, `.github/instructions/*.instructions.md`, `.kiro/steering/*.md`): generate from a source, never hand-edit copies. `./install.sh project <dir>` drops the Szmelc ones.
 - Content: only what an agent cannot infer — build/test/lint commands, layout map, project-specific rules, gotchas.
 - Never restate global conventions; reference them by path in this repo (`CONVENTIONS/interfaces/cli.md`).
+- Project baseline: read `DESIGN.md` and the current architecture contract first; finish every change; tests on throwaway state; a deviation updates the contract in the same commit (`CONVENTIONS/repo/design-docs.md`).
+- Never keep two diverging copies (e.g. `CLAUDE.md` with the tool name swapped); one source, imports elsewhere.
 - Imperative one-liners. Over ~150 lines → split per subdir.
 - Docs site → also ship `llms.txt` (llmstxt.org): `# Name`, `> summary`, `##` link lists, `## Optional` for skippable links.
 - Skeleton: `META/templates/AGENTS.md`. Skills: `AGENTS/rules/skills.md`.

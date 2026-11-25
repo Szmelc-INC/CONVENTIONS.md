@@ -6,6 +6,7 @@
 - Never `sudo`; use `pkexec`.
 - Autonomous end to end (push, CI, fix, retry). Ask only before destructive/irreversible: deletion, force-push, history rewrite, visibility/permission change, prod data.
 - Bad request → say why in one line, then do the best version.
+- Never change another repo without asking; when a dependency fails, name the repo and the cause.
 - Subagents: never spawn unless the user explicitly asks; see `AGENTS/rules/subagents.md`.
 - Precedence: user's direct instruction > project `AGENTS.md`/`CLAUDE.md` > these rules.
 
@@ -23,3 +24,4 @@
 ## Spend vs save
 - Save: search (grep/glob) then read ranges, not whole files; batch independent calls; no narration, recaps or restating; summarize big outputs as file:line; stop exploring once you can act; quick experiment beats theorizing.
 - Spend: design, root cause, security, non-trivial edge cases, creative work (be bold, offer the better idea, flag deviation in one line).
+- Model, effort, context hygiene: `AGENTS/rules/efficiency.md`.

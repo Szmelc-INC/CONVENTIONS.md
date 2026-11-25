@@ -10,6 +10,10 @@ base=${2:?base ref}
 generated='^(INDEX\.md|index\.json|llms\.txt|CONVENTIONS\.md|AGENTS\.md|HUMANS\.md|SZMELC\.md|META\.md|AGENTS/adapters/.*)$'
 
 case $branch in
+  local/*)
+    echo "ERROR: branch $branch is local-only: never pushed, never merged. Re-apply approved commits on a feat/* or experimental/* branch." >&2
+    exit 1
+    ;;
   experimental/*) allow='^CONVENTIONS/experimental/' ;;
   legacy/*) allow='^CONVENTIONS/legacy/' ;;
   *) echo "branch '$branch': no scope limit"; exit 0 ;;
