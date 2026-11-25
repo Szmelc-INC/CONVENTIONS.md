@@ -1,0 +1,43 @@
+name: Rule bug
+description: A rule is wrong, outdated, unclear or contradicts another rule.
+title: "Fix "
+labels: [bug]
+body:
+  - type: input
+    id: path
+    attributes:
+      label: Rule path
+      placeholder: CONVENTIONS/GITHUB/REPO/SETTINGS.md
+    validations:
+      required: true
+  - type: textarea
+    id: line
+    attributes:
+      label: Rule line
+      description: The exact line(s) as written now.
+      render: markdown
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - Wrong
+        - Outdated
+        - Unclear
+        - Contradicts another rule
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: Correct behaviour
+      description: What the rule should say, with a public source if it is a fact (docs, spec, tool `--help`).
+    validations:
+      required: true
+  - type: input
+    id: other
+    attributes:
+      label: Contradicting rule path
+      description: Only for contradictions.

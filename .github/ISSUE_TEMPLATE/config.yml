@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and ideas
+    url: https://github.com/Szmelc-INC/CONVENTIONS.md/discussions
+    about: Ask, discuss or float an idea before it is a concrete rule.
+  - name: Browse the conventions
+    url: https://szmelc-inc.github.io/CONVENTIONS.md/
+    about: Search every rule on the site first.
+  - name: Report a vulnerability
+    url: https://github.com/Szmelc-INC/CONVENTIONS.md/security/advisories/new
+    about: Privately, never in a public issue.

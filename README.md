@@ -58,6 +58,8 @@ CONTRIBUTING/       how to extend the conventions (root CONTRIBUTING.md = its ma
 SZMELC/             organisation guide, sources.conf (projects index)
 META/               tools/, schema/, templates/
 install.sh          harness installer
+CHANGELOG.md        release history (Keep a Changelog)
+.github/            workflows, issue forms, PR template, labels.tsv, SECURITY.md
 claude/             compatibility symlinks for pre-1.0 install paths
 public/             generated site (GitHub Pages); built in CI, never committed         [generated]
 ```
@@ -65,6 +67,11 @@ public/             generated site (GitHub Pages); built in CI, never committed 
 
 ## Branches
 `main` is the only long-lived branch. Every change is a short-lived `feat/*`, `fix/*`, `docs/*`, `chore/*`, `experimental/*` or `legacy/*` branch, PR'd into `main` and deleted after merge. Details: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
+
+## Automation
+- `conventions-bot` (GitHub Actions, `.github/workflows/pages.yml` job `heartbeat`): commits `.github/heartbeat` to `main` only after ~45 quiet days, so the nightly site refresh stays scheduled. The only bypass actor of the `main` ruleset (`META/tools/github-setup.sh`).
+- Dependabot: weekly grouped GitHub Actions updates as normal PRs (`.github/dependabot.yml`).
+- Releases: pushing a `vX.Y.Z` tag runs `.github/workflows/release.yml` → `META/tools/release.sh` (`CHANGELOG.md`, `CONTRIBUTING/VERSIONING.md`).
 
 ## Rules of this repo
 1. One topic = one file. One rule = one line.

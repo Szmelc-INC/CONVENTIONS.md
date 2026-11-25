@@ -1,0 +1,17 @@
+# Generated release notes grouped by label (CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md).
+changelog:
+  categories:
+    - title: Breaking changes
+      labels: [breaking]
+    - title: Features
+      labels: [feat, enhancement]
+    - title: Fixes
+      labels: [bug]
+    - title: Documentation
+      labels: [docs, documentation]
+    - title: Experimental
+      labels: [experimental]
+    - title: Maintenance
+      labels: [chore]
+    - title: Other changes
+      labels: ["*"]

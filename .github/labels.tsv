@@ -1,0 +1,29 @@
+# name	color	description  (CONVENTIONS/GITHUB/REPO/LABELS.md; applied by META/tools/labels.sh)
+bug	105c5c	Something is wrong: a rule, a tool or the site
+feat	105c5c	New rule, category, core or tool feature
+docs	105c5c	Docs and wording only
+chore	105c5c	Tooling, CI, dependencies, repo setup
+breaking	750f0f	Major bump: rule path, core, schema or install contract changed
+experimental	750f0f	Proposal on an experimental branch
+legacy	c0c0c0	Superseded material, demoted to LEGACY
+blocked	b83a3a	Waiting on something external
+good first issue	7fffd4	Easy entry
+help wanted	1f8a8a	Maintainer wants outside help
+documentation	c0c0c0	Deprecated: use docs
+enhancement	c0c0c0	Deprecated: use feat
+question	c0c0c0	Deprecated: ask in Discussions
+area/workflow	1b1b1b	CONVENTIONS/WORKFLOW rules
+area/github	1b1b1b	CONVENTIONS/GITHUB rules
+area/specs	1b1b1b	CONVENTIONS/SPECS rules
+area/formats	1b1b1b	CONVENTIONS/FORMATS rules
+area/systems	1b1b1b	CONVENTIONS/SYSTEMS rules
+area/repo	1b1b1b	CONVENTIONS/REPO rules
+area/design	1b1b1b	CONVENTIONS/DESIGN rules
+area/interfaces	1b1b1b	CONVENTIONS/INTERFACES rules
+area/packaging	1b1b1b	CONVENTIONS/PACKAGING rules
+area/code	1b1b1b	CONVENTIONS/CODE rules
+area/agents	1b1b1b	AGENTS core: global rules, skills, adapters
+area/humans	1b1b1b	HUMANS core: install, browse
+area/contributing	1b1b1b	CONTRIBUTING core
+area/szmelc	1b1b1b	SZMELC core: org, sources
+area/meta	1b1b1b	META core: tools, schema, templates, site, CI
