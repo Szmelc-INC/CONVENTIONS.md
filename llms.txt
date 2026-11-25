@@ -18,6 +18,14 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 ## Rules
 - [Token efficiency](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/RULES/EFFICIENCY.md): Load when choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long.
 - [Subagents & tools](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/RULES/SUBAGENTS.md): Load when considering a subagent, parallel work, skills/MCP use, or long-running commands.
+- [Conventions 101](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONTRIBUTING/101.md): Load when first using the conventions, setting them up for an agent, or applying them to an existing project.
+- [Conventions DIY](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONTRIBUTING/DIY.md): Load when building your own conventions repo (team, org, personal) on this skeleton, or layering one on top of Szmelc.
+- [Indexing and formats](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONTRIBUTING/INDEXING.md): Load when adding or changing a rule file and wondering what to rebuild, or adding a new generated output format.
+- [Rule lifecycle](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONTRIBUTING/LIFECYCLE.md): Load when proposing, promoting, demoting or deprecating a convention, or tracking how a rule changed.
+- [Prompts](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONTRIBUTING/PROMPTS.md): Load when asking an agent to use, apply, extend or maintain the conventions, or looking for a ready prompt to paste.
+- [Templates](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONTRIBUTING/TEMPLATES.md): Load when starting a new rule, skill, category or project agent file from a skeleton.
+- [Versioning the conventions](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONTRIBUTING/VERSIONING.md): Load when deciding the version bump for a change to this conventions repo, releasing it, or pinning an install.
+- [Writing a rule](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONTRIBUTING/WRITING.md): Load when writing or reviewing a convention rule, deciding where a rule goes, or creating a category.
 - [Shell environment & dotfiles](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/DOTFILES.md): Load when building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations.
 - [Go](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/GO.md): Load when writing, building or releasing Go code.
 - [Naming](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/NAMING.md): Load when naming a repo, binary, package, env var, config key, file or doc.

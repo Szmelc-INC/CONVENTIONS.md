@@ -23,6 +23,14 @@ Read this once per session. Load only files whose trigger matches the task. Path
 |---|---|
 | `AGENTS/RULES/EFFICIENCY.md` | choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long. |
 | `AGENTS/RULES/SUBAGENTS.md` | considering a subagent, parallel work, skills/MCP use, or long-running commands. |
+| `CONTRIBUTING/101.md` | first using the conventions, setting them up for an agent, or applying them to an existing project. |
+| `CONTRIBUTING/DIY.md` | building your own conventions repo (team, org, personal) on this skeleton, or layering one on top of Szmelc. |
+| `CONTRIBUTING/INDEXING.md` | adding or changing a rule file and wondering what to rebuild, or adding a new generated output format. |
+| `CONTRIBUTING/LIFECYCLE.md` | proposing, promoting, demoting or deprecating a convention, or tracking how a rule changed. |
+| `CONTRIBUTING/PROMPTS.md` | asking an agent to use, apply, extend or maintain the conventions, or looking for a ready prompt to paste. |
+| `CONTRIBUTING/TEMPLATES.md` | starting a new rule, skill, category or project agent file from a skeleton. |
+| `CONTRIBUTING/VERSIONING.md` | deciding the version bump for a change to this conventions repo, releasing it, or pinning an install. |
+| `CONTRIBUTING/WRITING.md` | writing or reviewing a convention rule, deciding where a rule goes, or creating a category. |
 | `CONVENTIONS/CODE/DOTFILES.md` | building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations. |
 | `CONVENTIONS/CODE/GO.md` | writing, building or releasing Go code. |
 | `CONVENTIONS/CODE/NAMING.md` | naming a repo, binary, package, env var, config key, file or doc. |
