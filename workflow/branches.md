@@ -10,7 +10,7 @@
 
 - Flow: feature branch → PR into a lane → PR lane → `main`. Small fixes may PR straight from the lane.
 - Lanes are long-lived: merge with a merge commit (`gh pr merge --merge`); never squash, never `--delete-branch`.
-- After a lane merges, fast-forward the other lanes: `git push origin main:<lane>` (fast-forward only; otherwise PR `main` → lane).
+- After a lane merges, sync the other lanes: `git push origin main:<lane>` when it fast-forwards; otherwise merge `main` into the lane, rebuild generated files (`tools/build.sh`), push.
 - Promote: move `experimental/<x>.md` to `<category>/<x>.md` in a `testing` PR. Demote: move to `legacy/` in a `legacy` PR, add `> Superseded by: <path>` as line 3.
 - CI enforces lane scope (`tools/lane-check.sh`).
 - Projects that ship releases map lanes to channels: `main` = stable, `testing` = rc, `experimental` = `-ex` builds, `legacy` = old-major maintenance.
