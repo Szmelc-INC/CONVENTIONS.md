@@ -317,7 +317,8 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 | Patch | Wording, fixes, examples, experimental-only changes, docs and tooling with no contract change |
 
 ### Release
-- Tag `main` after green CI; GitHub release with the bundle assets `CONVENTIONS.md`, `INDEX.md`, `index.json`, `llms.txt` plus `SHA256SUMS` (`CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md`).
+- Tag `main` after green CI; GitHub release with the bundle assets `CONVENTIONS.md`, `INDEX.md`, `index.json`, `llms.txt`, `SKILL.md` plus `SHA256SUMS` (`CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md`).
+- Run: annotated tag with the `CHANGELOG.md` section as message, `git push origin vX.Y.Z`; `.github/workflows/release.yml` calls `META/tools/release.sh` (local `--dry-run` first).
 - Notes list moved and removed paths first, so pinned users know what breaks.
 - Release cadence: on demand, when a batch of merged changes is worth pinning; `main` stays the rolling channel.
 
@@ -699,7 +700,7 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 > Load when: enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions.
 
 - Enable only when the project has users beyond its maintainers (`gh repo edit --enable-discussions`); otherwise issues suffice.
-- Categories: Announcements (maintainers post), Ideas, Q&A (answerable), Show and tell; delete unused defaults.
+- Categories: Announcements (maintainers post), Ideas, Q&A (answerable), Show and tell; delete unused defaults. Categories are web-UI only (no REST/GraphQL mutation).
 - Issues are actionable work; questions, ideas and open-ended talk are discussions.
 - Convert a non-actionable issue to a discussion; open an issue from a discussion once work is agreed, linking both ways.
 - Accepted idea → proposal PR on an experimental branch (`CONVENTIONS/WORKFLOW/BRANCHES.md`); link the discussion in the PR.
@@ -835,12 +836,14 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 ## Labels
 > Load when: creating, editing or applying issue/PR labels, or setting up a new repo.
 
-- Keep the set small; plain names, no `type:` prefixes, so `--force` recolors GitHub defaults instead of duplicating them.
+- Keep the set small; plain names, no `type:` prefixes, so `--force` recolors the matching GitHub defaults (`bug`, `good first issue`, `help wanted`).
+- Other defaults stay (never delete): recolor `c0c0c0`, description `Deprecated: use <label>` (`documentation` → `docs`, `enhancement` → `feat`).
 
 | Label | Color | Use |
 |---|---|---|
 | `bug` `feat` `docs` `chore` | `105c5c` | Type, one per issue/PR |
 | `area/<x>` | `1b1b1b` | Per-project subsystem, defined in the project |
+| `breaking` | `750f0f` | Major bump; its own section in release notes |
 | `experimental` | `750f0f` | Proposal on an experimental branch |
 | `legacy` | `c0c0c0` | Superseded material |
 | `blocked` | `b83a3a` | Waiting on something external |

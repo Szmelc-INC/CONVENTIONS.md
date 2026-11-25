@@ -1,12 +1,14 @@
 # Labels
 > Load when: creating, editing or applying issue/PR labels, or setting up a new repo.
 
-- Keep the set small; plain names, no `type:` prefixes, so `--force` recolors GitHub defaults instead of duplicating them.
+- Keep the set small; plain names, no `type:` prefixes, so `--force` recolors the matching GitHub defaults (`bug`, `good first issue`, `help wanted`).
+- Other defaults stay (never delete): recolor `c0c0c0`, description `Deprecated: use <label>` (`documentation` → `docs`, `enhancement` → `feat`).
 
 | Label | Color | Use |
 |---|---|---|
 | `bug` `feat` `docs` `chore` | `105c5c` | Type, one per issue/PR |
 | `area/<x>` | `1b1b1b` | Per-project subsystem, defined in the project |
+| `breaking` | `750f0f` | Major bump; its own section in release notes |
 | `experimental` | `750f0f` | Proposal on an experimental branch |
 | `legacy` | `c0c0c0` | Superseded material |
 | `blocked` | `b83a3a` | Waiting on something external |

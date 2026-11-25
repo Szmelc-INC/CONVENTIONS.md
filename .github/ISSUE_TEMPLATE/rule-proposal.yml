@@ -1,0 +1,47 @@
+name: Rule proposal
+description: Propose a new convention or a change to an existing one.
+title: "Add "
+labels: [feat]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Accepted proposals become a PR on an `experimental/*` branch (`CONTRIBUTING/LIFECYCLE.md`). Open-ended ideas fit Discussions better.
+  - type: input
+    id: path
+    attributes:
+      label: Rule path
+      description: New or existing file under `CONVENTIONS/`, UPPERCASE kebab.
+      placeholder: CONVENTIONS/GITHUB/RELEASES/TAGS.md
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What goes wrong or stays inconsistent without this rule.
+    validations:
+      required: true
+  - type: textarea
+    id: rule
+    attributes:
+      label: Draft rule
+      description: Imperative one-liners, one rule per line.
+      render: markdown
+      placeholder: "- Tag `main` only, on a commit whose CI is green."
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Public links (docs, specs, repos) showing the rule works in practice.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: No existing rule covers this (searched `INDEX.md`).
+          required: true
+        - label: Everything above is already public.
+          required: true

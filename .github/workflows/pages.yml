@@ -15,7 +15,7 @@ on:
     types: [conventions-rebuild]
 
 permissions:
-  contents: write # write only for the rare heartbeat commit
+  contents: read
 
 concurrency:
   group: pages-${{ github.ref }}
@@ -35,11 +35,24 @@ jobs:
       - name: Build site
         run: META/tools/site.sh
 
-      # Scheduled workflows are disabled after 60 days without repo activity.
-      # A rare heartbeat (only when the repo has been quiet) keeps the nightly
-      # Projects-index refresh alive, without a daily commit churning history.
+      - name: Upload site
+        if: env.PUBLISH == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  # Scheduled workflows are disabled after 60 days without repo activity.
+  # A rare heartbeat (only when the repo has been quiet) keeps the nightly
+  # Projects-index refresh alive, without a daily commit churning history.
+  # Pushes to main through the ruleset bypass for GitHub Actions (README "Automation").
+  heartbeat:
+    if: github.event_name == 'schedule' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
       - name: Heartbeat
-        if: env.PUBLISH == 'true' && github.event_name == 'schedule'
         run: |
           if (( $(date +%s) - $(git log -1 --format=%ct) > 45 * 86400 )); then
             git config user.name 'conventions-bot'
@@ -49,12 +62,6 @@ jobs:
             git commit -m "heartbeat: keep the nightly Pages schedule alive"
             git push
           fi
-
-      - name: Upload site
-        if: env.PUBLISH == 'true'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
 
   deploy:
     needs: build

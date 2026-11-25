@@ -12,7 +12,8 @@
 | Patch | Wording, fixes, examples, experimental-only changes, docs and tooling with no contract change |
 
 ## Release
-- Tag `main` after green CI; GitHub release with the bundle assets `CONVENTIONS.md`, `INDEX.md`, `index.json`, `llms.txt` plus `SHA256SUMS` (`CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md`).
+- Tag `main` after green CI; GitHub release with the bundle assets `CONVENTIONS.md`, `INDEX.md`, `index.json`, `llms.txt`, `SKILL.md` plus `SHA256SUMS` (`CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md`).
+- Run: annotated tag with the `CHANGELOG.md` section as message, `git push origin vX.Y.Z`; `.github/workflows/release.yml` calls `META/tools/release.sh` (local `--dry-run` first).
 - Notes list moved and removed paths first, so pinned users know what breaks.
 - Release cadence: on demand, when a batch of merged changes is worth pinning; `main` stays the rolling channel.
 

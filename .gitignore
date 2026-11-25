@@ -1,6 +1,9 @@
 # Generated site: built in CI and deployed to Pages, never committed.
 /public/
 
+# Release assets, built by META/tools/release.sh.
+/dist/
+
 # Local working material and harness state.
 /LOCAL/
 /.claude/

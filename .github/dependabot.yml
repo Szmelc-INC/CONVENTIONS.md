@@ -1,0 +1,13 @@
+# Version updates (CONVENTIONS/GITHUB/CODE-SECURITY.md). This repo has no package ecosystem besides Actions.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels: [chore]
+    commit-message:
+      prefix: chore(deps)
+    groups:
+      actions:
+        patterns: ["*"]
