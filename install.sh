@@ -11,18 +11,18 @@ STAMP=$(date +%Y%m%d%H%M%S)
 # harness|home (relative to $HOME)|kind|destination (relative to $HOME)|source (relative to repo)
 # Paths marked "unverified" follow each tool's docs but were not observed loading on a real install.
 TARGETS=(
-  "claude|.claude|rules|.claude/CLAUDE.md|global/AGENTS.md"
+  "claude|.claude|rules|.claude/CLAUDE.md|AGENTS/global/AGENTS.md"
   "claude|.claude|skills|.claude/skills|"
-  "codex|.codex|rules|.codex/AGENTS.md|global/AGENTS.md"
+  "codex|.codex|rules|.codex/AGENTS.md|AGENTS/global/AGENTS.md"
   "codex|.codex|skills|.codex/skills|"
-  "gemini|.gemini|rules|.gemini/GEMINI.md|global/AGENTS.md"
+  "gemini|.gemini|rules|.gemini/GEMINI.md|AGENTS/global/AGENTS.md"
   "gemini|.gemini|skills|.gemini/config/skills|"
-  "qwen|.qwen|rules|.qwen/QWEN.md|global/AGENTS.md"
+  "qwen|.qwen|rules|.qwen/QWEN.md|AGENTS/global/AGENTS.md"
   "qwen|.qwen|skills|.qwen/skills|"
-  "opencode|.config/opencode|rules|.config/opencode/AGENTS.md|global/AGENTS.md"
-  "kiro|.kiro|rules|.kiro/steering/szmelc-conventions.md|adapters/kiro/szmelc-conventions.md"
+  "opencode|.config/opencode|rules|.config/opencode/AGENTS.md|AGENTS/global/AGENTS.md"
+  "kiro|.kiro|rules|.kiro/steering/szmelc-conventions.md|AGENTS/adapters/kiro/szmelc-conventions.md"
   "kiro|.kiro|skills|.kiro/skills|"
-  "windsurf|.codeium/windsurf|rules|.codeium/windsurf/memories/global_rules.md|global/AGENTS.md"
+  "windsurf|.codeium/windsurf|rules|.codeium/windsurf/memories/global_rules.md|AGENTS/global/AGENTS.md"
   "grok|.grok|skills|.grok/skills|"
   "jcode|.jcode|skills|.jcode/skills|"
   "agents|.agents|skills|.agents/skills|"
@@ -109,7 +109,7 @@ expand() {
     selected "$h" "$home" || continue
     if [[ $kind == skills ]]; then
       echo "$h|skill|$HOME/$dest/$SKILL|$b"
-      echo "$h|skill|$HOME/$dest/deep|$b/skills/deep"
+      echo "$h|skill|$HOME/$dest/deep|$b/AGENTS/skills/deep"
     else
       echo "$h|$kind|$HOME/$dest|$b/$src"
     fi
@@ -133,7 +133,10 @@ state() {
 link() { # link <src> <dest>
   local src=$1 dst=$2
   if [[ -L $dst && $(readlink "$dst") == "$src" ]]; then say "$SILVER" ok "$dst"; return; fi
-  if [[ -e $dst || -L $dst ]]; then
+  if ours "$dst"; then
+    # Our own link to an older layout path: replace it, nothing to back up.
+    run rm "$dst"
+  elif [[ -e $dst || -L $dst ]]; then
     run mv "$dst" "$dst.bak.$STAMP"
     say "$DANGER" backup "$dst → $dst.bak.$STAMP"
   fi
@@ -209,10 +212,10 @@ do_project() {
     run cp "$REPO/$1" "$2"
     say "$ACCENT" add "$2"
   }
-  copy adapters/cursor/szmelc-conventions.mdc "$d/.cursor/rules/szmelc-conventions.mdc"
-  copy adapters/copilot/szmelc-conventions.instructions.md "$d/.github/instructions/szmelc-conventions.instructions.md"
-  copy adapters/kiro/szmelc-conventions.md "$d/.kiro/steering/szmelc-conventions.md"
-  copy _template/AGENTS.md "$d/AGENTS.md"
+  copy AGENTS/adapters/cursor/szmelc-conventions.mdc "$d/.cursor/rules/szmelc-conventions.mdc"
+  copy AGENTS/adapters/copilot/szmelc-conventions.instructions.md "$d/.github/instructions/szmelc-conventions.instructions.md"
+  copy AGENTS/adapters/kiro/szmelc-conventions.md "$d/.kiro/steering/szmelc-conventions.md"
+  copy META/templates/AGENTS.md "$d/AGENTS.md"
   for f in CLAUDE.md GEMINI.md; do
     if [[ -e $d/$f ]]; then say "$SILVER" skip "$d/$f exists"
     elif ((dry)); then say "$SILVER" dry-run "write $d/$f"

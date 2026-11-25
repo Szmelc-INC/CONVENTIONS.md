@@ -5,8 +5,8 @@ on:
     branches: [main]
     paths:
       - '**/*.md'
-      - tools/site.sh
-      - index/sources.conf
+      - META/tools/site.sh
+      - SZMELC/sources.conf
       - .github/workflows/pages.yml
   schedule:
     - cron: '0 3 * * *' # nightly 03:00 UTC: refresh the Projects index as repos change
@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build site
-        run: tools/site.sh
+        run: META/tools/site.sh
 
       # Scheduled workflows are disabled after 60 days without repo activity.
       # A rare heartbeat (only when the repo has been quiet) keeps the nightly
