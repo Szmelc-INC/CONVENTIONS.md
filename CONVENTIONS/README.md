@@ -6,13 +6,13 @@ The rules themselves: how Szmelc projects are built, shipped and maintained. One
 ## Categories
 | Directory | Covers |
 |---|---|
-| `CONVENTIONS/workflow/` | Branch lanes, git/PR/CI, finishing work, verification, notifications, repo metadata |
+| `CONVENTIONS/workflow/` | Branches, git/PR/CI, finishing work, verification, notifications, repo metadata |
 | `CONVENTIONS/design/` | Colors and visual identity for UI, TUI, CLI, web, badges |
 | `CONVENTIONS/interfaces/` | CLI and TUI design |
 | `CONVENTIONS/packaging/` | Arch `PKGBUILD`, Nix flakes |
 | `CONVENTIONS/code/` | Stack defaults: language, dependencies, config formats, persistence |
-| `CONVENTIONS/experimental/` | Opt-in proposals; load only when the user opts in (lane `experimental`) |
-| `CONVENTIONS/legacy/` | Superseded drafts, never deleted; load only when asked (lane `legacy`) |
+| `CONVENTIONS/experimental/` | Opt-in proposals; load only when the user opts in (branch `experimental/<x>`) |
+| `CONVENTIONS/legacy/` | Superseded drafts, never deleted; load only when asked (branch `legacy/<x>`) |
 
 Agent-specific rules (subagents, agent-file formats, skills) live in `AGENTS/rules/`.
 
@@ -22,9 +22,9 @@ Agent-specific rules (subagents, agent-file formats, skills) live in `AGENTS/rul
 - New domain → new directory under `CONVENTIONS/`. New topic → copy the skeleton.
 
 ## Lifecycle
-- New idea → `CONVENTIONS/experimental/<x>.md` via lane `experimental`.
-- Adopted → moved to `CONVENTIONS/<category>/<x>.md` in a `testing` PR.
-- Superseded → moved to `CONVENTIONS/legacy/` in a `legacy` PR with `> Superseded by: <path>` on line 3.
+- New idea → `CONVENTIONS/experimental/<x>.md` via an `experimental/<x>` branch.
+- Adopted → moved to `CONVENTIONS/<category>/<x>.md` in a `feat/<x>` PR.
+- Superseded → moved to `CONVENTIONS/legacy/` in a `legacy/<x>` PR with `> Superseded by: <path>` on line 3.
 - Details: `CONVENTIONS/workflow/branches.md`.
 
 ## Formats
