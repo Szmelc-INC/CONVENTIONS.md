@@ -6,7 +6,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 export LC_ALL=C
 
-CORES=(CONVENTIONS AGENTS HUMANS SZMELC META)
+CORES=(CONVENTIONS AGENTS HUMANS CONTRIBUTING SZMELC META)
 # Top-level directories of the pre-core layout; references to them are stale.
 RETIRED='workflow|design|interfaces|packaging|meta|agents|global|skills|tools|schema|_template|index|experimental|legacy|adapters'
 
@@ -37,7 +37,7 @@ while IFS= read -r f; do
     */README.md) continue ;;
   esac
   case $f in
-    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | META/templates/* | META/tools/* | META/schema/* | CONVENTIONS/legacy/*) continue ;;
+    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | META/templates/* | META/tools/* | META/schema/* | CONVENTIONS/LEGACY/*) continue ;;
   esac
   header "$f"
   grep -qF "\`$f\`" INDEX.md || err "$f: not listed in INDEX.md"
@@ -46,7 +46,7 @@ done < <(all_md)
 # 4. Legacy files: must have a "# " title somewhere in the first 5 lines.
 while IFS= read -r f; do
   head -5 "$f" | grep -q '^# ' || err "$f: legacy file needs a '# ' title in its first 5 lines"
-done < <(all_md | grep '^CONVENTIONS/legacy/' || true)
+done < <(all_md | grep '^CONVENTIONS/LEGACY/' || true)
 
 # 5. Skills: Agent Skills frontmatter.
 check_skill() {
@@ -70,11 +70,11 @@ while IFS= read -r p; do
 done < <(grep -oE '^\| `[^`]+`' INDEX.md | sed -E 's/^\| `([^`]+)`/\1/')
 
 # 7. Backtick path references inside sources resolve; none use the retired layout;
-#    stable sources never point into CONVENTIONS/experimental/ or CONVENTIONS/legacy/.
+#    stable sources never point into CONVENTIONS/EXPERIMENTAL/ or CONVENTIONS/LEGACY/.
 tops=$(find . -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf '%f\n' | paste -sd'|')
-sources=(SKILL.md AGENTS.md README.md HUMANS.md SZMELC.md META.md)
+sources=(SKILL.md AGENTS.md README.md HUMANS.md CONTRIBUTING.md SZMELC.md META.md)
 while IFS= read -r f; do
-  case $f in AGENTS/adapters/* | CONVENTIONS/legacy/* | META/templates/*) continue ;; esac
+  case $f in AGENTS/adapters/* | CONVENTIONS/LEGACY/* | META/templates/*) continue ;; esac
   sources+=("$f")
 done < <(all_md)
 for f in "${sources[@]}"; do
@@ -84,8 +84,8 @@ for f in "${sources[@]}"; do
     [[ $p =~ ^($RETIRED)/ ]] && err "$f: stale pre-core path '$p'"
     [[ $p =~ ^($tops)/ ]] || continue
     [[ -e ${p%/} ]] || err "$f: reference to missing path '$p'"
-    case $f in CONVENTIONS/experimental/*) ;; *)
-      [[ $p =~ ^CONVENTIONS/(experimental|legacy)/.+\.md$ ]] && err "$f: stable source must not reference '$p'" ;;
+    case $f in CONVENTIONS/EXPERIMENTAL/*) ;; *)
+      [[ $p =~ ^CONVENTIONS/(EXPERIMENTAL|LEGACY)/.+\.md$ ]] && err "$f: stable source must not reference '$p'" ;;
     esac
   done < <(grep -oE '`[A-Za-z0-9_.-]+/[A-Za-z0-9_./-]*`' "$f" || true)
 done
@@ -102,6 +102,13 @@ while IFS= read -r l; do err "dangling symlink: $l"; done < <(find . -path ./.gi
 
 # 10. Scripts are executable.
 for s in install.sh META/tools/*.sh; do [[ -x $s ]] || err "$s: not executable"; done
+
+# 11. Naming: rule categories and topic files are UPPERCASE kebab (CONTRIBUTING/README.md).
+while IFS= read -r p; do
+  n=${p##*/}
+  [[ $n == README.md ]] && continue
+  [[ $n =~ ^[A-Z0-9]+(-[A-Z0-9]+)*(\.md)?$ ]] || err "$p: rule paths are UPPERCASE kebab ('BRANCHES.md', 'GITHUB/RELEASES/')"
+done < <(find CONVENTIONS AGENTS/RULES -mindepth 1 | sort)
 
 ((fail == 0)) && echo OK
 exit "$fail"

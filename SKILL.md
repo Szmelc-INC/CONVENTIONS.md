@@ -15,7 +15,7 @@ Entry point. This directory is the conventions repo; every path below is relativ
 ## Use
 1. Apply `AGENTS/global/AGENTS.md` (always-on rules) if your harness did not already load it as global instructions.
 2. Read `INDEX.md` once per session. Load only files whose "Load when" matches the task. Never bulk-read; never re-read.
-3. `CONVENTIONS/experimental/` only when the user opts in. `CONVENTIONS/legacy/` only when asked about history.
+3. `CONVENTIONS/EXPERIMENTAL/` only when the user opts in. `CONVENTIONS/LEGACY/` only when asked about history.
 4. Conflict → user's direct instruction > project `AGENTS.md`/`CLAUDE.md` > stable rules here > experimental.
 
 ## Formats
@@ -37,5 +37,5 @@ Entry point. This directory is the conventions repo; every path below is relativ
 - Update: `git -C ~/.config/szmelc/conventions pull`.
 
 ## Change a convention
-- Edit sources only, then `META/tools/build.sh && META/tools/check.sh`. Rules of this repo: `README.md`.
-- Branches and promotion/demotion: `CONVENTIONS/workflow/branches.md`.
+- Edit sources only, then `META/tools/build.sh && META/tools/check.sh`. Where a rule goes, naming, flow: `CONTRIBUTING/README.md`.
+- Branches and promotion/demotion: `CONVENTIONS/WORKFLOW/BRANCHES.md`.

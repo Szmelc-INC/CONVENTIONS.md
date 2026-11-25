@@ -20,18 +20,18 @@ Indexed on the site's Projects tab from `SZMELC/sources.conf` (GitHub API, publi
 
 ## Principles
 The Szmelc DNA: every era keeps these.
-- No bloat: single binaries, stdlib first, the simplest thing that works (`CONVENTIONS/code/stack.md`). Motto: *NIE TOLERUJEMY BLOATU*.
-- Portable and removable: one prefix, reversible install, user layer untouched by upgrades (`CONVENTIONS/packaging/install.md`).
-- One command: every project has one entry point with subcommands (`CONVENTIONS/interfaces/cli.md`).
-- Modular by default: features are files you add, toggle and delete (`CONVENTIONS/repo/layout.md`).
-- Linux first: Arch is the reference platform, Nix second; every tool ships a `PKGBUILD` and a `flake.nix` (`CONVENTIONS/packaging/`).
-- Humor on top, rigor underneath: ™ and memes in the lore, signed packages and honest risk notes in the engineering (`CONVENTIONS/repo/writing.md`).
-- Free software: MIT by default; forks labeled independent and unaffiliated (`CONVENTIONS/repo/metadata.md`).
-- One identity: shared colors and CLI/TUI style (`CONVENTIONS/design/colors.md`, `CONVENTIONS/interfaces/`).
+- No bloat: single binaries, stdlib first, the simplest thing that works (`CONVENTIONS/CODE/STACK.md`). Motto: *NIE TOLERUJEMY BLOATU*.
+- Portable and removable: one prefix, reversible install, user layer untouched by upgrades (`CONVENTIONS/PACKAGING/INSTALL.md`).
+- One command: every project has one entry point with subcommands (`CONVENTIONS/INTERFACES/CLI.md`).
+- Modular by default: features are files you add, toggle and delete (`CONVENTIONS/REPO/LAYOUT.md`).
+- Linux first: Arch is the reference platform, Nix second; every tool ships a `PKGBUILD` and a `flake.nix` (`CONVENTIONS/PACKAGING/`).
+- Humor on top, rigor underneath: ™ and memes in the lore, signed packages and honest risk notes in the engineering (`CONVENTIONS/REPO/WRITING.md`).
+- Free software: MIT by default; forks labeled independent and unaffiliated (`CONVENTIONS/GITHUB/REPO/METADATA.md`).
+- One identity: shared colors and CLI/TUI style (`CONVENTIONS/DESIGN/COLORS.md`, `CONVENTIONS/INTERFACES/`).
 - Humans and agents follow the same rules; agents load them lazily (`AGENTS/README.md`).
 
 ## Eras
-Ecosystem generations; independent of project versions (`CONVENTIONS/workflow/releases.md`).
+Ecosystem generations; independent of project versions (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`).
 
 | Era | Name | When | Defining idea |
 |---|---|---|---|
@@ -42,7 +42,7 @@ Ecosystem generations; independent of project versions (`CONVENTIONS/workflow/re
 | v3 | Logos | future | One universal format for everything; not designed yet |
 
 - Porting a v1 project means meeting the stable rules, not rewriting it in one go.
-- Ideas for later eras go to `CONVENTIONS/experimental/` via `experimental/*` branches, never straight into stable rules.
+- Ideas for later eras go to `CONVENTIONS/EXPERIMENTAL/` via `experimental/*` branches, never straight into stable rules.
 
 ## Projects index
 - Sources: `SZMELC/sources.conf` (`owner <login>`, `ignore <name|owner/name>`).

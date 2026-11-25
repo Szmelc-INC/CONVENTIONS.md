@@ -22,7 +22,7 @@ REPO='https://github.com/Szmelc-INC/CONVENTIONS.md'
 RAW='https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main'
 BUILT=$(date -u +%FT%TZ)
 CONF=SZMELC/sources.conf
-CORES=(CONVENTIONS AGENTS HUMANS SZMELC META)
+CORES=(CONVENTIONS AGENTS HUMANS CONTRIBUTING SZMELC META)
 
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
@@ -36,8 +36,8 @@ status() {
   esac
   case $1 in
     AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | META/templates/* | META/tools/* | META/schema/*) echo skip ;;
-    CONVENTIONS/experimental/*) echo experimental ;;
-    CONVENTIONS/legacy/*) echo legacy ;;
+    CONVENTIONS/EXPERIMENTAL/*) echo experimental ;;
+    CONVENTIONS/LEGACY/*) echo legacy ;;
     *) echo stable ;;
   esac
 }
@@ -68,7 +68,7 @@ mapfile -t SKILLS < <(find AGENTS/skills -mindepth 2 -maxdepth 2 -name SKILL.md 
 for c in "${CORES[@]}"; do
   : >"$tmp/files.ndjson"
   while IFS= read -r f; do
-    case $f in "$c/README.md" | CONVENTIONS/experimental/* | CONVENTIONS/legacy/* | AGENTS/skills/*) continue ;; esac
+    case $f in "$c/README.md" | CONVENTIONS/EXPERIMENTAL/* | CONVENTIONS/LEGACY/* | AGENTS/skills/*) continue ;; esac
     [[ $f == *.md && $(status "$f") == stable ]] && continue
     jq -nc --arg path "$f" --arg about "$(about "$f")" '{path:$path,about:$about}' >>"$tmp/files.ndjson"
   done < <(find "$c" -type f | sort)
@@ -82,7 +82,7 @@ done
 : >"$tmp/rules.ndjson"
 for f in "${STABLE[@]}"; do
   rest=${f#*/}
-  cat=${rest%%/*}
+  cat=${rest%/*} # full category path below the core: WORKFLOW, GITHUB/RELEASES
   [[ $cat == "$rest" ]] && cat=general
   jq -nc --arg core "${f%%/*}" --arg cat "$cat" --arg path "$f" --arg title "$(title "$f")" --arg trigger "$(trigger "$f")" \
     --rawfile src "$f" '{core:$core,cat:$cat,path:$path,title:$title,load:$trigger,src:$src}' >>"$tmp/rules.ndjson"
@@ -176,7 +176,7 @@ jq '{built:.built, note:.projects_note, projects:.projects}' "$OUT/conventions.j
 
 # --- index.html (data inlined, so it also works offline / over file://) ------
 # Retro-minimal, modeled on the SAUR site: accent top rule, folder tabs, stats row,
-# copyable install block, rules readable inline. Colors: CONVENTIONS/design/colors.md.
+# copyable install block, rules readable inline. Colors: CONVENTIONS/DESIGN/COLORS.md.
 DATA=$(jq -c . "$OUT/conventions.json" | sed 's#</#<\\/#g')
 {
   cat <<'HTML_HEAD'
@@ -601,7 +601,7 @@ function route(){
   else if (tabOfPath.has(id)){ current = tabOfPath.get(id); focusPath = id; }
   else {
     // Old deep-links (#design, #workflow, #skills): open the owning core, scroll to the group.
-    const r = D.rules.find(r=>r.cat===low);
+    const r = D.rules.find(r=>r.cat.toLowerCase()===low);
     if (r){ current = r.core.toLowerCase(); focusPath = `${current}-${low}`; }
     else if (low==='skills'){ current = 'agents'; focusPath = 'agents-skills'; }
     else current = tabs[0].id;

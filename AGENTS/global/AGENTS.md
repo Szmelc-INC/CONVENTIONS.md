@@ -7,13 +7,13 @@
 - Autonomous end to end (push, CI, fix, retry). Ask only before destructive/irreversible: deletion, force-push, history rewrite, visibility/permission change, prod data.
 - Bad request → say why in one line, then do the best version.
 - Never change another repo without asking; when a dependency fails, name the repo and the cause.
-- Subagents: never spawn unless the user explicitly asks; see `AGENTS/rules/subagents.md`.
+- Subagents: never spawn unless the user explicitly asks; see `AGENTS/RULES/SUBAGENTS.md`.
 - Precedence: user's direct instruction > project `AGENTS.md`/`CLAUDE.md` > these rules.
 
 ## Lazy conventions (token rule)
 - Read `INDEX.md` once per session. Load only files whose trigger matches the current task. Never bulk-read the repo; never re-read a loaded file.
 - No match → no extra reads.
-- Stable rules only. `CONVENTIONS/experimental/` only when the user opts in; `CONVENTIONS/legacy/` only when asked.
+- Stable rules only. `CONVENTIONS/EXPERIMENTAL/` only when the user opts in; `CONVENTIONS/LEGACY/` only when asked.
 - Never load `CONVENTIONS.md` (the all-in-one bundle) together with `INDEX.md`; it is for tools that cannot lazy-load.
 
 ## Triage every task
@@ -24,4 +24,4 @@
 ## Spend vs save
 - Save: search (grep/glob) then read ranges, not whole files; batch independent calls; no narration, recaps or restating; summarize big outputs as file:line; stop exploring once you can act; quick experiment beats theorizing.
 - Spend: design, root cause, security, non-trivial edge cases, creative work (be bold, offer the better idea, flag deviation in one line).
-- Model, effort, context hygiene: `AGENTS/rules/efficiency.md`.
+- Model, effort, context hygiene: `AGENTS/RULES/EFFICIENCY.md`.
