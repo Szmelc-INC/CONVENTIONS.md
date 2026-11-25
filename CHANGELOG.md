@@ -19,5 +19,6 @@ Planned as 2.0.0: rule paths were renamed (major).
 - `CONVENTIONS/FORMATS/` and `CONVENTIONS/SYSTEMS/` categories.
 - `CONTRIBUTING/` core: 101, DIY, writing, indexing, templates, versioning, lifecycle, prompts.
 - This repo follows its own GitHub conventions: issue forms, PR template, labels as code (`META/tools/labels.sh`), settings and rulesets as code (`META/tools/github-setup.sh`), Dependabot for Actions, security policy, release workflow with bundle assets and `SHA256SUMS` (`META/tools/release.sh`).
+- `CONVENTIONS/GITHUB/ACTIONS/CI.md`: scheduled workflows stay alive through an API re-enable keepalive, not a heartbeat commit; bots never bypass rulesets.
 
 [Unreleased]: https://github.com/Szmelc-INC/CONVENTIONS.md/commits/main

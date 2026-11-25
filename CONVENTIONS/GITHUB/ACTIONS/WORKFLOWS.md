@@ -3,7 +3,7 @@
 
 - One purpose per file in `.github/workflows/`: `check.yml` (CI), `release.yml` (releases), `pages.yml` (site).
 - Triggers: `push` + `pull_request` for checks; add `workflow_dispatch` to anything worth rerunning by hand.
-- `schedule` only for data from outside the repo; public repos disable it after 60 days without activity, so add a heartbeat (`CONVENTIONS/GITHUB/ACTIONS/CI.md`).
+- `schedule` only for data from outside the repo; public repos disable it after 60 days without activity, so add a keepalive (`CONVENTIONS/GITHUB/ACTIONS/CI.md`).
 - Cross-repo triggers: `repository_dispatch` with a named `types:` entry.
 - Top-level `permissions: contents: read`; elevate per job only (`contents: write`, `pages: write`, `id-token: write`).
 - `concurrency:` group per workflow + ref; `cancel-in-progress: true` for checks, `false` for deploys and releases.
