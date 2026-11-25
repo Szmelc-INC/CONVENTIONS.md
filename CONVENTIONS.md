@@ -109,6 +109,18 @@
 - Skeleton: `_template/SKILL.md`. Validate with `tools/check.sh` rules: name/dir match, description length.
 
 ---
+<!-- source: meta/stack.md -->
+## Stack defaults
+> Load when: starting a project or tool, or choosing language, dependencies or config format.
+
+- Minimal deps: write or cherry-pick the snippet before pulling a library for one small task.
+- CLI / TUI / system glue: Go, stdlib-first (`interfaces/cli.md`, `interfaces/tui.md`); shell (zsh/bash) first-class, python/node secondary.
+- Human-edited config: TOML (commented, merges cleanly). Machine config: strict JSON (reject unknown keys).
+- Avoid YAML for authored config (whitespace/type footguns); use it only where a tool demands it.
+- Local persistence: SQLite ("strap-in", portable) unless a plain file fits.
+- Config-driven and modular where it costs little: behaviour in config/plugins, not hardcoded.
+
+---
 <!-- source: packaging/arch.md -->
 ## Arch packaging
 > Load when: packaging, releasing, or adding install instructions.
@@ -142,6 +154,17 @@
 - Promote: move `experimental/<x>.md` to `<category>/<x>.md` in a `testing` PR. Demote: move to `legacy/` in a `legacy` PR, add `> Superseded by: <path>` as line 3.
 - CI enforces lane scope (`tools/lane-check.sh`).
 - Projects that ship releases map lanes to channels: `main` = stable, `testing` = rc, `experimental` = `-ex` builds, `legacy` = old-major maintenance.
+
+---
+<!-- source: workflow/finish.md -->
+## Finish every change
+> Load when: finishing a feature or fix, before calling work done.
+
+- Done means everything the change touches is done; never leave half a feature for later.
+- Carry it through the code, the `--help` text (global and per command) and the shell completions.
+- Carry it through the docs (`README.md`, config comments) and packaging (`packaging/arch.md`, `packaging/nix.md`).
+- Version bumps move together: the version constant, PKGBUILD `pkgver`, `flake.nix` `version`.
+- Then verify on real data (`workflow/verification.md`) and get green CI before reporting (`workflow/git-pr-ci.md`).
 
 ---
 <!-- source: workflow/git-pr-ci.md -->

@@ -1,0 +1,12 @@
+# Generated site: built in CI and deployed to Pages, never committed.
+/public/
+
+# Local working material and harness state.
+/LOCAL/
+/.claude/
+
+# Editor / OS noise.
+*.bak
+*.bak.*
+*~
+.DS_Store

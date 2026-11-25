@@ -17,9 +17,11 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `interfaces/tui.md` | building a TUI, or any project that has a CLI. |
 | `meta/agent-files.md` | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project. |
 | `meta/skills.md` | writing, editing, or installing an agent skill. |
+| `meta/stack.md` | starting a project or tool, or choosing language, dependencies or config format. |
 | `packaging/arch.md` | packaging, releasing, or adding install instructions. |
 | `packaging/nix.md` | packaging, releasing, or setting up a dev environment. |
 | `workflow/branches.md` | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
+| `workflow/finish.md` | finishing a feature or fix, before calling work done. |
 | `workflow/git-pr-ci.md` | committing, pushing, opening/merging a PR, or fixing CI. |
 | `workflow/notify.md` | a job runs > ~10 min, or a failure needs a human. |
 | `workflow/repo-metadata.md` | creating a repo, first push, release, or editing README/manifest/license. |
