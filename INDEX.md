@@ -29,6 +29,15 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/CODE/SHELL.md` | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
 | `CONVENTIONS/CODE/STACK.md` | starting a project or tool, or choosing a language or dependencies. |
 | `CONVENTIONS/DESIGN/COLORS.md` | any UI, TUI, CLI color, web page, theme, badge or graphic. |
+| `CONVENTIONS/FORMATS/EDITORCONFIG.md` | creating a repo, or adding `.editorconfig` or `.gitattributes`. |
+| `CONVENTIONS/FORMATS/ENV.md` | adding a `.env` file, `.env.example`, or env-file loading to a project. |
+| `CONVENTIONS/FORMATS/JSON.md` | writing, generating or validating a JSON file or JSON output. |
+| `CONVENTIONS/FORMATS/MARKDOWN/FRONTMATTER.md` | adding YAML frontmatter to a Markdown file. |
+| `CONVENTIONS/FORMATS/MARKDOWN/GITHUB-EXTRAS.md` | using alerts, collapsible sections, task lists, diagrams, footnotes, badges or images in Markdown rendered on GitHub. |
+| `CONVENTIONS/FORMATS/MARKDOWN/STYLE.md` | writing or editing any Markdown file. |
+| `CONVENTIONS/FORMATS/MARKDOWN/TABLES.md` | adding a table to a Markdown file. |
+| `CONVENTIONS/FORMATS/TOML.md` | writing or parsing a TOML file. |
+| `CONVENTIONS/FORMATS/YAML.md` | writing a GitHub workflow, issue form, compose file, frontmatter, or any YAML a tool requires. |
 | `CONVENTIONS/GITHUB/ACTIONS/CI.md` | setting up or changing CI checks or required status checks, or fixing a red CI run. |
 | `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md` | writing or editing a GitHub Actions workflow, reusable workflow or composite action. |
 | `CONVENTIONS/GITHUB/CODE-SECURITY.md` | creating a repo, adding dependencies, or handling Dependabot, secret-scanning or code-scanning alerts. |
@@ -72,6 +81,12 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md` | writing or editing a project README. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md` | creating or editing SECURITY.md, or setting up vulnerability reporting. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md` | writing, editing, or installing an agent skill. |
+| `CONVENTIONS/SYSTEMS/ARCH.md` | targeting, installing on, or integrating a tool with Arch Linux. |
+| `CONVENTIONS/SYSTEMS/LINUX.md` | supporting or documenting install on Debian, Ubuntu, Fedora or another non-Arch, non-NixOS distro. |
+| `CONVENTIONS/SYSTEMS/MACOS.md` | supporting macOS, or writing scripts or paths that must also run on macOS. |
+| `CONVENTIONS/SYSTEMS/NIX.md` | targeting NixOS, Nix on another OS, or nix-darwin. |
+| `CONVENTIONS/SYSTEMS/SUPPORT.md` | deciding which operating systems a tool supports, writing platform notes in a README, or setting up a CI test matrix. |
+| `CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md` | supporting Windows users or testing a tool under WSL2. |
 | `CONVENTIONS/WORKFLOW/BRANCHES.md` | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
 | `CONVENTIONS/WORKFLOW/COMMITS.md` | writing a commit message, PR title, or squash-merge title. |
 | `CONVENTIONS/WORKFLOW/FINISH.md` | finishing a feature or fix, before calling work done. |

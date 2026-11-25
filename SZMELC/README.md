@@ -24,7 +24,7 @@ The Szmelc DNA: every era keeps these.
 - Portable and removable: one prefix, reversible install, user layer untouched by upgrades (`CONVENTIONS/PACKAGING/INSTALL.md`).
 - One command: every project has one entry point with subcommands (`CONVENTIONS/INTERFACES/CLI.md`).
 - Modular by default: features are files you add, toggle and delete (`CONVENTIONS/REPO/LAYOUT.md`).
-- Linux first: Arch is the reference platform, Nix second; every tool ships a `PKGBUILD` and a `flake.nix` (`CONVENTIONS/PACKAGING/`).
+- Linux first: Arch is the reference platform, Nix second (`CONVENTIONS/SYSTEMS/SUPPORT.md`); every tool ships a `PKGBUILD` and a `flake.nix` (`CONVENTIONS/PACKAGING/`).
 - Humor on top, rigor underneath: ™ and memes in the lore, signed packages and honest risk notes in the engineering (`CONVENTIONS/REPO/WRITING.md`).
 - Free software: MIT by default; forks labeled independent and unaffiliated (`CONVENTIONS/GITHUB/REPO/METADATA.md`).
 - One identity: shared colors and CLI/TUI style (`CONVENTIONS/DESIGN/COLORS.md`, `CONVENTIONS/INTERFACES/`).
