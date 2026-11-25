@@ -1,14 +1,27 @@
 # CONVENTIONS.md
-[![check](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/check.yml/badge.svg)](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/check.yml)
-[![pages](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/pages.yml/badge.svg)](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/pages.yml)
-[![browse](https://img.shields.io/badge/browse-conventions-105c5c)](https://szmelc-inc.github.io/CONVENTIONS.md/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-105c5c.svg)](LICENSE)
-[![Agent Skill](https://img.shields.io/badge/SKILL.md-szmelc--conventions-105c5c.svg)](SKILL.md)
-[![AGENTS.md](https://img.shields.io/badge/AGENTS.md-compatible-105c5c.svg)](AGENTS/global/AGENTS.md)
+>[![check](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/check.yml/badge.svg)](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/check.yml)
+>[![pages](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/pages.yml/badge.svg)](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/pages.yml)
+>[![browse](https://img.shields.io/badge/browse-conventions-105c5c)](https://szmelc-inc.github.io/CONVENTIONS.md/)
+>[![License: MIT](https://img.shields.io/badge/license-MIT-105c5c.svg)](LICENSE)
+>[![Agent Skill](https://img.shields.io/badge/SKILL.md-szmelc--conventions-105c5c.svg)](SKILL.md)
+>[![AGENTS.md](https://img.shields.io/badge/AGENTS.md-compatible-105c5c.svg)](AGENTS/global/AGENTS.md)
+>
+> Global Conventions.md for everything, for Humans & AI agents. One source, every format like: \
+> Agent Skill, `AGENTS.md`/`CLAUDE.md`/`GEMINI.md`/`QWEN.md` + `SKILL.md`/`MCP.md`/`PLUGIN.md` and so on. \
+> All Rules, instructions, templates, formats and agreed upon schemes to make it maximally universal, deterministic, logic and parseable.
+> Extras like documentation for LLM's: `llms.txt`, JSON index, and a single-file bundle.  (+ and all modern formats & rules.)
+>
+> ---
+>
+> ### [CONVENTIONS.md](https://Szmelc-INC.github.io/CONVENTIONS.md/) ~ Live WebUI on GitHub via Deployments on `github-pages`
+> <img width="1193" height="911" alt="image" src="https://github.com/user-attachments/assets/ebafa0a5-e165-402e-b1af-b1dc720286ed" />
+>
+> ---
+>
+> Same idea but much more ***meta***:tm: and for basically everything makes it a unified universal "one convention to rule them all"! \
+> Same logic for everything, from `/SZMELC.md` (with categories/subcategories like `/SZMELC/README.md`, \
+> (index cats/sub-cats of SZMELC, same but for szmelc team etc: `/SZMELC/TEAM/README.md` 
 
-Global Szmelc conventions for everything, for humans and AI agents. One source, every format: Agent Skill, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `QWEN.md`, Cursor/Copilot/Kiro rules, `llms.txt`, JSON index, and a single-file bundle.
-
-Browse it all at **<https://szmelc-inc.github.io/CONVENTIONS.md/>**.
 
 ## Cores
 Five top-level categories. Each is a directory `X/` with a full guide `X/README.md`, mapped by a root file `X.md`.
