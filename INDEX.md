@@ -40,4 +40,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `experimental/versioning.md` | user opts into experimental conventions, or tags releases / plans a major rewrite. |
 
 ## Legacy (archive; load only when asked)
-_None._
+| File | Title |
+|---|---|
+| `legacy/drafts/conventions-v2-kombinat.md` | CONVENTIONS.md — The Absolute Specification (`v2.0` Kombinat / `v3.0` Logos) |
+| `legacy/drafts/conventions-v3-lego.md` | CONVENTIONS.md — The Meta-Grammar & "Universal LEGO" Specification (`v2.0` -> `v3.0`) |

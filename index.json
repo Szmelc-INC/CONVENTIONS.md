@@ -23,6 +23,8 @@
     {"path": "experimental/meta-grammar.md", "title": "Meta-grammar (\"LEGO everything\")", "load_when": "user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions.", "status": "experimental", "kind": "rule"},
     {"path": "experimental/modules.md", "title": "Modules (KUR)", "load_when": "user opts into experimental conventions, or builds a Kombinat/KUR plugin module.", "status": "experimental", "kind": "rule"},
     {"path": "experimental/spec-files.md", "title": "Spec file taxonomy", "load_when": "user opts into experimental conventions, or designs Szmelc spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md).", "status": "experimental", "kind": "rule"},
-    {"path": "experimental/versioning.md", "title": "Versioning & generations", "load_when": "user opts into experimental conventions, or tags releases / plans a major rewrite.", "status": "experimental", "kind": "rule"}
+    {"path": "experimental/versioning.md", "title": "Versioning & generations", "load_when": "user opts into experimental conventions, or tags releases / plans a major rewrite.", "status": "experimental", "kind": "rule"},
+    {"path": "legacy/drafts/conventions-v2-kombinat.md", "title": "CONVENTIONS.md — The Absolute Specification (`v2.0` Kombinat / `v3.0` Logos)", "load_when": "Only when asked about superseded conventions", "status": "legacy", "kind": "archive"},
+    {"path": "legacy/drafts/conventions-v3-lego.md", "title": "CONVENTIONS.md — The Meta-Grammar & \"Universal LEGO\" Specification (`v2.0` -> `v3.0`)", "load_when": "Only when asked about superseded conventions", "status": "legacy", "kind": "archive"}
   ]
 }
