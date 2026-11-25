@@ -24,3 +24,10 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 
 ## Skills
 - [deep](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/skills/deep/SKILL.md): Escalate to deep reasoning for hard problems — architecture and design decisions, cross-cutting refactors, bugs with unclear root cause, security-sensitive code, concurrency, or anything where a wrong first approach is expensive. Use it before writing code for such tasks. Do not use it for routine edits.
+
+## Experimental
+- [Localization (en + pl)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/experimental/localization.md): Opt-in only. Load when user opts into experimental conventions, or adds user-facing strings, locales or translations.
+- [Meta-grammar ("LEGO everything")](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/experimental/meta-grammar.md): Opt-in only. Load when user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions.
+- [Modules (KUR)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/experimental/modules.md): Opt-in only. Load when user opts into experimental conventions, or builds a Kombinat/KUR plugin module.
+- [Spec file taxonomy](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/experimental/spec-files.md): Opt-in only. Load when user opts into experimental conventions, or designs Szmelc spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md).
+- [Versioning & generations](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/experimental/versioning.md): Opt-in only. Load when user opts into experimental conventions, or tags releases / plans a major rewrite.
