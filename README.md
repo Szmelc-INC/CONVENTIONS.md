@@ -69,7 +69,7 @@ public/             generated site (GitHub Pages); built in CI, never committed 
 `main` is the only long-lived branch. Every change is a short-lived `feat/*`, `fix/*`, `docs/*`, `chore/*`, `experimental/*` or `legacy/*` branch, PR'd into `main` and deleted after merge. Details: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
 
 ## Automation
-- `conventions-bot` (GitHub Actions, `.github/workflows/pages.yml` job `heartbeat`): commits `.github/heartbeat` to `main` only after ~45 quiet days, so the nightly site refresh stays scheduled. The only bypass actor of the `main` ruleset (`META/tools/github-setup.sh`).
+- Keepalive (`.github/workflows/pages.yml` job `keepalive`): after ~45 quiet days re-enables `pages.yml` via the API so the nightly site refresh stays scheduled; never pushes. Nothing bypasses the `main` ruleset (`META/tools/github-setup.sh`). Disabled anyway: `gh workflow enable pages.yml`.
 - Dependabot: weekly grouped GitHub Actions updates as normal PRs (`.github/dependabot.yml`).
 - Releases: pushing a `vX.Y.Z` tag runs `.github/workflows/release.yml` → `META/tools/release.sh` (`CHANGELOG.md`, `CONTRIBUTING/VERSIONING.md`).
 

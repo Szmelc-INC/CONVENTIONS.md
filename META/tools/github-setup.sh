@@ -20,8 +20,7 @@ done
 repo=${repo:-$(gh repo view --json nameWithOwner -q .nameWithOwner)}
 [[ $repo =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]] || { echo "ERROR: bad repo '$repo'" >&2; exit 2; }
 
-# GitHub Actions app id: source of the required `check` and the only bypass actor
-# (the Pages heartbeat bot, README "Automation").
+# GitHub Actions app id: the required `check` must come from it. No bypass actors.
 ACTIONS_APP=15368
 
 run() {
@@ -74,7 +73,7 @@ upsert_ruleset main "$(
   "target": "branch",
   "enforcement": "active",
   "conditions": {"ref_name": {"include": ["~DEFAULT_BRANCH"], "exclude": []}},
-  "bypass_actors": [{"actor_id": $ACTIONS_APP, "actor_type": "Integration", "bypass_mode": "always"}],
+  "bypass_actors": [],
   "rules": [
     {"type": "deletion"},
     {"type": "non_fast_forward"},

@@ -42,25 +42,24 @@ jobs:
           path: public
 
   # Scheduled workflows are disabled after 60 days without repo activity.
-  # A rare heartbeat (only when the repo has been quiet) keeps the nightly
-  # Projects-index refresh alive, without a daily commit churning history.
-  # Pushes to main through the ruleset bypass for GitHub Actions (README "Automation").
-  heartbeat:
+  # Keepalive: after ~45 quiet days, re-enable this workflow through the API.
+  # No commit, so main's ruleset needs no bypass actor (README "Automation").
+  keepalive:
     if: github.event_name == 'schedule' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
+      actions: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
     steps:
       - uses: actions/checkout@v4
-      - name: Heartbeat
+      - name: Keepalive
         run: |
           if (( $(date +%s) - $(git log -1 --format=%ct) > 45 * 86400 )); then
-            git config user.name 'conventions-bot'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            date -u +%FT%TZ > .github/heartbeat
-            git add .github/heartbeat
-            git commit -m "heartbeat: keep the nightly Pages schedule alive"
-            git push
+            gh api -X PUT "repos/$REPO/actions/workflows/pages.yml/enable"
+            echo "keepalive: re-enabled pages.yml" >> "$GITHUB_STEP_SUMMARY"
           fi
 
   deploy:
