@@ -1,0 +1,23 @@
+{
+  "$schema": "schema/index.schema.json",
+  "name": "szmelc-conventions",
+  "repo": "https://github.com/Szmelc-INC/CONVENTIONS.md",
+  "entries": [
+    {"path": "global/AGENTS.md", "title": "Szmelc global rules", "load_when": "Installed as global instructions (CLAUDE.md, AGENTS.md, GEMINI.md, QWEN.md, …); always active", "status": "always", "kind": "global"},
+    {"path": "SKILL.md", "title": "szmelc-conventions", "load_when": "Installed as skill `szmelc-conventions`; entry point and format map", "status": "always", "kind": "skill"},
+    {"path": "agents/subagents.md", "title": "Subagents & tools", "load_when": "considering a subagent, parallel work, skills/MCP use, or long-running commands.", "status": "stable", "kind": "rule"},
+    {"path": "design/colors.md", "title": "Colors", "load_when": "any UI, TUI, CLI color, web page, theme, badge or graphic.", "status": "stable", "kind": "rule"},
+    {"path": "interfaces/cli.md", "title": "CLI", "load_when": "building or changing a command-line tool.", "status": "stable", "kind": "rule"},
+    {"path": "interfaces/tui.md", "title": "TUI", "load_when": "building a TUI, or any project that has a CLI.", "status": "stable", "kind": "rule"},
+    {"path": "meta/agent-files.md", "title": "Agent instruction files", "load_when": "creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project.", "status": "stable", "kind": "rule"},
+    {"path": "meta/skills.md", "title": "Skills (SKILL.md)", "load_when": "writing, editing, or installing an agent skill.", "status": "stable", "kind": "rule"},
+    {"path": "packaging/arch.md", "title": "Arch packaging", "load_when": "packaging, releasing, or adding install instructions.", "status": "stable", "kind": "rule"},
+    {"path": "packaging/nix.md", "title": "Nix packaging", "load_when": "packaging, releasing, or setting up a dev environment.", "status": "stable", "kind": "rule"},
+    {"path": "workflow/branches.md", "title": "Branches & lanes", "load_when": "creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.", "status": "stable", "kind": "rule"},
+    {"path": "workflow/git-pr-ci.md", "title": "Git, PRs & CI", "load_when": "committing, pushing, opening/merging a PR, or fixing CI.", "status": "stable", "kind": "rule"},
+    {"path": "workflow/notify.md", "title": "Notifications", "load_when": "a job runs > ~10 min, or a failure needs a human.", "status": "stable", "kind": "rule"},
+    {"path": "workflow/repo-metadata.md", "title": "Repo metadata", "load_when": "creating a repo, first push, release, or editing README/manifest/license.", "status": "stable", "kind": "rule"},
+    {"path": "workflow/verification.md", "title": "Verification", "load_when": "any code change.", "status": "stable", "kind": "rule"},
+    {"path": "skills/deep/SKILL.md", "title": "deep", "load_when": "Escalate to deep reasoning for hard problems — architecture and design decisions, cross-cutting refactors, bugs with unclear root cause, security-sensitive code, concurrency, or anything where a wrong first approach is expensive. Use it before writing code for such tasks. Do not use it for routine edits.", "status": "stable", "kind": "skill"}
+  ]
+}
