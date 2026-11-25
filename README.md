@@ -15,7 +15,7 @@ Five top-level categories. Each is a directory `X/` with a full guide `X/README.
 
 | Map | Directory | What |
 |---|---|---|
-| [`CONVENTIONS.md`](CONVENTIONS.md) | [`CONVENTIONS/`](CONVENTIONS/README.md) | The rules: workflow, design, interfaces, packaging, code; experimental and legacy lanes |
+| [`CONVENTIONS.md`](CONVENTIONS.md) | [`CONVENTIONS/`](CONVENTIONS/README.md) | The rules: workflow, design, interfaces, packaging, code; experimental proposals and legacy archive |
 | [`AGENTS.md`](AGENTS.md) | [`AGENTS/`](AGENTS/README.md) | Always-on global rules, skills, tool adapters, agent-file rules |
 | [`HUMANS.md`](HUMANS.md) | [`HUMANS/`](HUMANS/README.md) | Install, browse, contribute |
 | [`SZMELC.md`](SZMELC.md) | [`SZMELC/`](SZMELC/README.md) | Public organisations, sites, principles, projects index sources |
@@ -37,7 +37,7 @@ llms.txt            llmstxt.org index                                           
 CONVENTIONS.md      map of CONVENTIONS/ + every stable rule in one file                 [generated]
 AGENTS.md           instructions for agents in this repo + map of AGENTS/               [map block generated]
 HUMANS.md SZMELC.md META.md   core maps                                                 [generated]
-CONVENTIONS/        rules by category; experimental/ and legacy/ lanes
+CONVENTIONS/        rules by category; experimental/ proposals, legacy/ archive
 AGENTS/             global/AGENTS.md, rules/, skills/, adapters/ [generated]
 HUMANS/             human guide
 SZMELC/             organisation guide, sources.conf (projects index)
@@ -49,7 +49,7 @@ public/             generated site (GitHub Pages); built in CI, never committed 
 `CLAUDE.md` / `GEMINI.md` at the root import `AGENTS.md` for agents working on this repo.
 
 ## Branches
-`main` is the current truth. Changes arrive by PR from the lanes `testing` (stable changes), `experimental` (proposals) and `legacy` (archive). Details: `CONVENTIONS/workflow/branches.md`.
+`main` is the only long-lived branch. Every change is a short-lived `feat/*`, `fix/*`, `docs/*`, `chore/*`, `experimental/*` or `legacy/*` branch, PR'd into `main` and deleted after merge. Details: `CONVENTIONS/workflow/branches.md`.
 
 ## Rules of this repo
 1. One topic = one file. One rule = one line.

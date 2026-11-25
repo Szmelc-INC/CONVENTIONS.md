@@ -19,7 +19,7 @@
     {"path": "CONVENTIONS/interfaces/tui.md", "title": "TUI", "load_when": "building a TUI, or any project that has a CLI.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/packaging/arch.md", "title": "Arch packaging", "load_when": "packaging, releasing, or adding install instructions.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/packaging/nix.md", "title": "Nix packaging", "load_when": "packaging, releasing, or setting up a dev environment.", "status": "stable", "kind": "rule"},
-    {"path": "CONVENTIONS/workflow/branches.md", "title": "Branches & lanes", "load_when": "creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.", "status": "stable", "kind": "rule"},
+    {"path": "CONVENTIONS/workflow/branches.md", "title": "Branches", "load_when": "creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/workflow/finish.md", "title": "Finish every change", "load_when": "finishing a feature or fix, before calling work done.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/workflow/git-pr-ci.md", "title": "Git, PRs & CI", "load_when": "committing, pushing, opening/merging a PR, or fixing CI.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/workflow/notify.md", "title": "Notifications", "load_when": "a job runs > ~10 min, or a failure needs a human.", "status": "stable", "kind": "rule"},

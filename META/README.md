@@ -8,7 +8,7 @@ How the conventions repo works: sources in, every format out.
 |---|---|
 | `META/tools/build.sh` | Sources → `INDEX.md`, `index.json`, `llms.txt`, `CONVENTIONS.md`, core maps (`AGENTS.md` block, `HUMANS.md`, `SZMELC.md`, `META.md`), `AGENTS/adapters/`. `--check` fails when stale |
 | `META/tools/check.sh` | Generated files fresh, rule/core headers, skills frontmatter, index entries, path references, case collisions, dangling links |
-| `META/tools/lane-check.sh` | Branch-lane scope for PRs (`CONVENTIONS/workflow/branches.md`) |
+| `META/tools/lane-check.sh` | Branch-prefix scope for PRs (`CONVENTIONS/workflow/branches.md`) |
 | `META/tools/test-install.sh` | `install.sh` smoke test in a throwaway `$HOME` |
 | `META/tools/site.sh` | GitHub Pages site into gitignored `public/`; projects from the GitHub API over `SZMELC/sources.conf` |
 
@@ -22,4 +22,4 @@ How the conventions repo works: sources in, every format out.
 ## Other
 - `META/schema/index.schema.json`: JSON Schema for `index.json`.
 - `META/templates/`: skeletons for a rule, a skill, a project `AGENTS.md`.
-- CI: `.github/workflows/check.yml` (check, shellcheck, installer test, lane scope), `.github/workflows/pages.yml` (site on push to `main`, nightly, on demand).
+- CI: `.github/workflows/check.yml` (check, shellcheck, installer test, branch scope), `.github/workflows/pages.yml` (site on push to `main`, nightly, on demand).

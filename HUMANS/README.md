@@ -31,7 +31,7 @@ git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventi
 | Aider, web chats | `aider --read CONVENTIONS.md`, or paste/upload `CONVENTIONS.md` | — |
 
 ## Contribute
-1. Branch from the right lane: `testing` (stable), `experimental` (proposals), `legacy` (archive).
+1. Branch off `main` with a prefix: `feat/*`, `fix/*`, `docs/*`, `chore/*` (stable), `experimental/*` (proposals), `legacy/*` (archive).
 2. Edit sources only; generated files are rebuilt by `META/tools/build.sh`.
 3. `META/tools/build.sh && META/tools/check.sh` must pass; CI runs the same plus shellcheck and the installer smoke test.
-4. PR into the lane, then lane into `main`. Rules: `CONVENTIONS/workflow/branches.md`, `CONVENTIONS/workflow/git-pr-ci.md`.
+4. PR into `main`; it is squash-merged and the branch deleted. Rules: `CONVENTIONS/workflow/branches.md`, `CONVENTIONS/workflow/git-pr-ci.md`.
