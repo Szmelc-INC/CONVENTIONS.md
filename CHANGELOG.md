@@ -14,6 +14,7 @@ Planned as 2.0.0: rule paths were renamed (major).
 
 ### Added
 
+- Site readability: layered shade ramps (surfaces, lines, text, accent and danger shades) with framed category panels, sunken reading wells and larger type; sticky tab and filter toolbar; filter hits highlighted and counted; skip link, arrow-key tabs, `prefers-contrast` and `forced-colors` support. Link text moves to `#34a3a3` and danger text to `#dc6464` for WCAG AA on raised surfaces. `CONVENTIONS/DESIGN/COLORS.md` gains the ramps.
 - Site: nested category groups with a category index, themes (dark, light, mono, terminal; key `t`), inline SVG icons, copyable prompts, link row (release, `llms.txt`, `index.json`, `INDEX.md`, `CONVENTIONS.md`, `SKILL.md`, Discussions, roadmap while its project is public); the index files are served from the site root, so `llms.txt` no longer 404s. `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md` describes the theme set.
 - `CONVENTIONS/GITHUB/`: repo settings, labels, metadata, pull requests, issues, discussions, projects, wiki, code security, organizations, coding agents.
 - `CONVENTIONS/GITHUB/ACTIONS/` (workflows, CI), `CONVENTIONS/GITHUB/RELEASES/` (versioning, tags, automation, channels), `CONVENTIONS/GITHUB/DEPLOYMENTS/` (environments, Pages, WebUI style).
