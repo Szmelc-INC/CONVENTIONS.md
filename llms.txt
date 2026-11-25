@@ -48,9 +48,11 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 - [deep](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/skills/deep/SKILL.md): Escalate to deep reasoning for hard problems — architecture and design decisions, cross-cutting refactors, bugs with unclear root cause, security-sensitive code, concurrency, or anything where a wrong first approach is expensive. Use it before writing code for such tasks. Do not use it for routine edits.
 
 ## Experimental
+- [v2 CLI & config contract](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/cli-contract.md): Opt-in only. Load when user opts into experimental conventions, or makes a tool wrappable by another tool or agent.
 - [Localization (en + pl)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/localization.md): Opt-in only. Load when user opts into experimental conventions, or adds user-facing strings, locales or translations.
 - [Meta-grammar ("LEGO everything")](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/meta-grammar.md): Opt-in only. Load when user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions.
 - [Modules (KUR)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/modules.md): Opt-in only. Load when user opts into experimental conventions, or builds a Kombinat/KUR plugin module.
+- [v2 repo baseline](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/repo-baseline.md): Opt-in only. Load when user opts into experimental conventions, or ports a v1 project to the v2 baseline.
 - [Spec file taxonomy](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/experimental/spec-files.md): Opt-in only. Load when user opts into experimental conventions, or designs Szmelc spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md).
 
 ## Optional
