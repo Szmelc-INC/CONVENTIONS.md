@@ -9,6 +9,8 @@
 # Reproducible: rule data comes from the source files; the Projects index comes from
 # `gh` over SZMELC/sources.conf (owners), so the same run works in CI and locally.
 # Without a working `gh`, the Projects tab is built empty with a note — the rest is identical.
+# Literal Markdown backticks in single quotes are intended.
+# shellcheck disable=SC2016
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 export LC_ALL=C
@@ -107,7 +109,7 @@ for f in "${LEGACY[@]}"; do
 done
 
 # Every repo path a guide may mention, so `code` spans that name one become links.
-{ find "${CORES[@]}" -type d -printf '%p/\n'; find "${CORES[@]}" -type f; ls -p | grep -v /; } |
+{ find "${CORES[@]}" -type d -printf '%p/\n'; find "${CORES[@]}" -type f; find . -maxdepth 1 -type f -not -name ".*" -printf "%f\n"; } |
   sort -u | jq -R . | jq -sc . >"$tmp/paths.json"
 
 # --- Projects index, from the GitHub API over SZMELC/sources.conf ------------
