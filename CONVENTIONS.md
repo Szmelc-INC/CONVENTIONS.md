@@ -139,6 +139,232 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Long commands: background, keep working, check when needed.
 
 ---
+<!-- source: CONTRIBUTING/101.md -->
+## Conventions 101
+> Load when: first using the conventions, setting them up for an agent, or applying them to an existing project.
+
+- Install once: `git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventions && ~/.config/szmelc/conventions/install.sh`. Harness table, flags, uninstall: `HUMANS/README.md`.
+- Preview first: `install.sh status`, `install.sh --dry-run`; pick harnesses with `--only claude,codex`.
+- Update: `git -C ~/.config/szmelc/conventions pull`; re-run `install.sh` when the layout changed.
+
+### How an agent loads them
+1. Always-on rules: `AGENTS/global/AGENTS.md`, linked into each harness's global instructions.
+2. Entry point: `SKILL.md` (skill `szmelc-conventions`): load order, formats, precedence.
+3. `INDEX.md` once per session; then only files whose "Load when" matches the task.
+4. No lazy loading (web chat, aider): give it the bundle `CONVENTIONS.md` instead, never both.
+
+### Apply to an existing project
+- `install.sh project <dir>`: Cursor/Copilot/Kiro adapters + `AGENTS.md` skeleton (`META/templates/AGENTS.md`).
+- Fill the skeleton with project facts only; never restate global rules (`CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`).
+- Audit gaps with the prompts in `CONTRIBUTING/PROMPTS.md`.
+
+### Look a rule up
+- Site: <https://szmelc-inc.github.io/CONVENTIONS.md/> (`/` searches rule text, deep-link `#<path>`).
+- `INDEX.md` / `index.json`: every file with its trigger.
+- `grep -ril '<topic>' ~/.config/szmelc/conventions/CONVENTIONS`.
+- Precedence on conflict: `SKILL.md`, "Use" step 4. Project rules win over global ones.
+
+---
+<!-- source: CONTRIBUTING/DIY.md -->
+## Conventions DIY
+> Load when: building your own conventions repo (team, org, personal) on this skeleton, or layering one on top of Szmelc.
+
+- Start from a fork (to keep syncing) or a fresh copy (to diverge); MIT, keep `LICENSE`.
+- Keep the pipeline: `META/tools/build.sh`, `META/tools/check.sh`, `META/tools/site.sh`, `.github/workflows/`. Never hand-edit outputs (`CONTRIBUTING/INDEXING.md`).
+- Keep the core pattern: directory + `X/README.md` + generated root map (`CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md`).
+
+### Rename (grep `szmelc-conventions`, `Szmelc-INC/CONVENTIONS.md`, `szmelc/conventions` and replace every hit)
+- Meta skill: `name:` in `SKILL.md` and `check_skill SKILL.md <name>` in `META/tools/check.sh`.
+- `RAW` URL, adapter file names and the llms.txt summary line in `META/tools/build.sh`.
+- Install path and harness link names in `install.sh`, `META/tools/test-install.sh`, `META/templates/AGENTS.md`.
+
+### Add or remove a core
+- Directory + `README.md` with header, then edit `CORES` in `META/tools/build.sh`, `META/tools/check.sh`, `META/tools/site.sh`.
+- Also `MAPS` in `META/tools/build.sh` and the `sources=(...)` list in `META/tools/check.sh` rule 7.
+- Category inside a core: directory + row in the core guide's table; no script change.
+
+### Projects index and Pages
+- List your owners in a `sources.conf` like `SZMELC/sources.conf`; point `META/tools/site.sh` at it.
+- Enable Pages with source GitHub Actions (`CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md`); set the repo homepage to the site.
+
+### Layer on top of Szmelc
+- Reference upstream rules by raw URL (`https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/<path>`) or vendor it as a git submodule.
+- Precedence: your local rules > upstream stable > upstream experimental. Say so in your `SKILL.md` "Use" section.
+- Sync a fork: `git remote add upstream https://github.com/Szmelc-INC/CONVENTIONS.md`, then periodically `git fetch upstream && git merge upstream/main` on a `chore/*` branch; rebuild, check, PR.
+
+---
+<!-- source: CONTRIBUTING/INDEXING.md -->
+## Indexing and formats
+> Load when: adding or changing a rule file and wondering what to rebuild, or adding a new generated output format.
+
+- One source, every format: each file's line 1 title and line 2 trigger feed every output (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`). Pipeline overview: `META/README.md`.
+
+| Output | Built by | For |
+|---|---|---|
+| `INDEX.md`, `index.json` | `META/tools/build.sh` | Agents (lazy load), tools |
+| `llms.txt` | `META/tools/build.sh` | LLM web index |
+| `CONVENTIONS.md` | `META/tools/build.sh` | All stable rules in one file |
+| `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`, `AGENTS.md` map block | `META/tools/build.sh` | Core maps |
+| `AGENTS/adapters/` | `META/tools/build.sh` | Cursor, Copilot, Kiro |
+| Site (`public/`, not committed) | `META/tools/site.sh` | GitHub Pages |
+
+- After any source change: run `META/tools/build.sh && META/tools/check.sh` and commit the regenerated files with the source.
+- CI never regenerates: it runs `META/tools/build.sh --check` and fails on stale output.
+- The site rebuilds in CI on push to `main` touching Markdown, `META/tools/site.sh` or `SZMELC/sources.conf`, nightly, and on manual or `repository_dispatch` trigger.
+- Never hand-edit generated files; edit the source and rebuild.
+
+### Add an output format
+1. One generator block in `META/tools/build.sh` ending in `| emit <file>`.
+2. Add the file to `GENERATED` there; `META/tools/check.sh` rule 1 then catches staleness.
+3. Add it to the never-edit lists in root `AGENTS.md` (above the map block) and the `README.md` layout.
+4. Minor bump (`CONTRIBUTING/VERSIONING.md`).
+
+---
+<!-- source: CONTRIBUTING/LIFECYCLE.md -->
+## Rule lifecycle
+> Load when: proposing, promoting, demoting or deprecating a convention, or tracking how a rule changed.
+
+| Stage | How | Branch |
+|---|---|---|
+| Idea | Issue or discussion with the problem and a draft one-liner | none |
+| Propose | New file in `CONVENTIONS/EXPERIMENTAL/`; agents load it only on opt-in | `experimental/*` |
+| Promote | Move into its category, edit to stable wording, drop experimental references | `feat/*` |
+| Change | Edit in place; wording-only fixes too | `feat/*` `fix/*` `docs/*` |
+| Demote | Move to `CONVENTIONS/LEGACY/` with line 3 `> Superseded by: <path>` | `legacy/*` |
+| Delete | Never: legacy is the archive; a wrong fact is fixed, not erased | none |
+
+- Branch mechanics, scope and merge: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
+- Unverified or private drafts stay on `local/*` until reviewed.
+- Renaming or moving a stable rule breaks references and pins: grep every backticked path, rebuild, and treat it as major (`CONTRIBUTING/VERSIONING.md`).
+- Every lifecycle step is its own PR; the squash commit subject names the rule path.
+
+### How users' agents notice changes
+- Installs track `main`: `git -C ~/.config/szmelc/conventions pull`; agents re-read `INDEX.md` next session.
+- What changed: `git -C ~/.config/szmelc/conventions log --oneline -- CONVENTIONS` or the releases page.
+- Pinned installs change only when the user moves the pin (`CONTRIBUTING/VERSIONING.md`).
+
+---
+<!-- source: CONTRIBUTING/PROMPTS.md -->
+## Prompts
+> Load when: asking an agent to use, apply, extend or maintain the conventions, or looking for a ready prompt to paste.
+
+Paste one prompt into any agent with file access; each is self-contained. Bare rule paths resolve against the conventions root (install: `~/.config/szmelc/conventions`), as `SKILL.md` states. Replace `{...}`.
+
+### Use
+| Task | Prompt |
+|---|---|
+| Install or update | Clone or pull `https://github.com/Szmelc-INC/CONVENTIONS.md` into `~/.config/szmelc/conventions`, run its `install.sh status`, then `install.sh`; report what was linked. |
+| Look up a rule | Read `~/.config/szmelc/conventions/INDEX.md`, load only the files whose trigger matches {topic}, and answer with rule lines and their paths. |
+
+### Apply to a project
+| Task | Prompt |
+|---|---|
+| Adopt | Follow `~/.config/szmelc/conventions/SKILL.md`. Run `~/.config/szmelc/conventions/install.sh project .`, fill `AGENTS.md` with this repo's real commands, layout and gotchas only. |
+| Audit | Follow `~/.config/szmelc/conventions/SKILL.md`. Audit this repo against every rule whose trigger applies; list gaps as path, rule, fix. Change nothing. |
+| Fix gaps | Follow `~/.config/szmelc/conventions/SKILL.md`. Fix the gaps from the audit, one topic per branch and PR per `CONVENTIONS/WORKFLOW/BRANCHES.md`. |
+| Agent file | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`. Write or tighten this repo's `AGENTS.md`; never restate global rules. |
+| GitHub conformance | Follow `~/.config/szmelc/conventions/SKILL.md`. Make README, metadata, labels, rulesets, workflows and Pages conform to `CONVENTIONS/GITHUB/` and `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`; show the diff before applying settings. |
+| Port | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SYSTEMS/SUPPORT.md`. Port this project to {Arch/Nix/WSL2/macOS}; list what changes before editing. |
+| Skill | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`. Write a `SKILL.md` for {task} from `META/templates/SKILL.md`. |
+| Review a PR | Follow `~/.config/szmelc/conventions/SKILL.md`. Review PR {n} against the rules whose triggers match its diff; report violations with rule paths. |
+
+### Extend (in a clone of the conventions repo)
+| Task | Prompt |
+|---|---|
+| Add a rule | Follow `CONTRIBUTING/WRITING.md`. Add a rule about {X}: grep for an owner first, then edit or create the file, build, check, PR. |
+| Propose | Follow `CONTRIBUTING/LIFECYCLE.md`. Draft {X} as an experimental convention on an `experimental/*` branch, build, check, PR. |
+| Promote or demote | Follow `CONTRIBUTING/LIFECYCLE.md`. {Promote/demote} `{path}`; fix every reference, build, check, PR. |
+| Restructure | Follow `CONTRIBUTING/WRITING.md` and `CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md`. {Split/merge/rename} category {X}; update tables and references; flag it as major. |
+| New output format | Follow `CONTRIBUTING/INDEXING.md`. Add a generated {format} output to the build, list it as generated, build, check, PR. |
+
+### Maintain
+| Task | Prompt |
+|---|---|
+| Release | Follow `CONTRIBUTING/VERSIONING.md`. Pick the bump from merged PRs since the last tag, then tag and release with the bundle assets. |
+| Pin | Follow `CONTRIBUTING/VERSIONING.md`. Pin my install at `~/.config/szmelc/conventions` to {vX.Y.Z} (or back to `main`) and re-run the installer. |
+| Own fork | Follow `CONTRIBUTING/DIY.md`. Turn this clone into conventions for {team}: rename the skill and URLs, keep the pipeline, build, check. |
+| Sync fork | Follow `CONTRIBUTING/DIY.md`. Merge upstream `main` into this fork on a `chore/*` branch, resolve conflicts keeping local rules, build, check, PR. |
+
+---
+<!-- source: CONTRIBUTING/TEMPLATES.md -->
+## Templates
+> Load when: starting a new rule, skill, category or project agent file from a skeleton.
+
+| Template | Copy to | When |
+|---|---|---|
+| `META/templates/rule.md` | `CONVENTIONS/<CATEGORY>/<TOPIC>.md` or `AGENTS/RULES/<TOPIC>.md` | Any new rule file (`CONTRIBUTING/WRITING.md`) |
+| `META/templates/category-README.md` | `CONVENTIONS/<CATEGORY>/README.md` | A category needs more than its table row (optional) |
+| `META/templates/SKILL.md` | `AGENTS/skills/<name>/SKILL.md` or a project's skill dir | New agent skill (`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`) |
+| `META/templates/AGENTS.md` | `<project>/AGENTS.md` | New or adopting project; `install.sh project <dir>` copies it |
+
+- Replace every `<placeholder>`; delete sections that stay empty.
+- Templates are exempt from rule checks; the copy is not: `META/tools/build.sh && META/tools/check.sh`.
+- New template: add it to `META/templates/`, a row here, and the templates line in `META/README.md`.
+
+---
+<!-- source: CONTRIBUTING/VERSIONING.md -->
+## Versioning the conventions
+> Load when: deciding the version bump for a change to this conventions repo, releasing it, or pinning an install.
+
+- SemVer on the whole repo per `CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`; tags per `CONVENTIONS/GITHUB/RELEASES/TAGS.md`.
+- The public contract is: rule paths, core and category names, index schema (`META/schema/index.schema.json`), install path and `install.sh` commands.
+- Ecosystem eras (`SZMELC/README.md`) and layout generations named in commit history (v2, v3 taxonomy) are not SemVer.
+
+| Bump | When |
+|---|---|
+| Major | Rule path renamed or removed, core or category renamed, `index.json` schema break, install path or `install.sh` command changed |
+| Minor | New rule, category or core; experimental rule promoted; new generated format |
+| Patch | Wording, fixes, examples, experimental-only changes, docs and tooling with no contract change |
+
+### Release
+- Tag `main` after green CI; GitHub release with the bundle assets `CONVENTIONS.md`, `INDEX.md`, `index.json`, `llms.txt` plus `SHA256SUMS` (`CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md`).
+- Notes list moved and removed paths first, so pinned users know what breaks.
+- Release cadence: on demand, when a batch of merged changes is worth pinning; `main` stays the rolling channel.
+
+### Pinning
+- Default install tracks `main`.
+- Pin: `git -C ~/.config/szmelc/conventions checkout vX.Y.Z` (detached HEAD; `pull` stops working).
+- Unpin: `git -C ~/.config/szmelc/conventions checkout main && git -C ~/.config/szmelc/conventions pull`.
+- Re-run `install.sh` after a major bump.
+
+---
+<!-- source: CONTRIBUTING/WRITING.md -->
+## Writing a rule
+> Load when: writing or reviewing a convention rule, deciding where a rule goes, or creating a category.
+
+### Checklist
+- Grep first: `grep -ril '<topic>' CONVENTIONS AGENTS/RULES`; extend the owning file instead of adding a duplicate.
+- Format, naming and length: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`; skeleton `META/templates/rule.md`.
+- Trigger names a concrete task ("bumping a version"), never a topic ("versions").
+- Imperative one-liners; one rule per line; ~20 lines max, else split.
+- Universal: true for every project; project specifics go in that project's `AGENTS.md`.
+- Reference other rules by backticked path; never restate them.
+- Verified facts only; cite the source (doc URL, spec) for tool-specific claims; mark unverified ones `(unverified)`.
+- Public material only: no personal IDs, emails, private repo names, local paths.
+
+### Where a rule goes
+| Rule is about | Path |
+|---|---|
+| Everyday flow: branches, commits, finishing, verifying, notifying | `CONVENTIONS/WORKFLOW/` |
+| Anything GitHub: repo settings, PRs, Actions, releases, Pages | `CONVENTIONS/GITHUB/` |
+| A named document file (`AGENTS.md`, `CHANGELOG.md`, `DESIGN.md`) | `CONVENTIONS/SPECS/THIRD-PARTY/` if an outside standard defines it, else `CONVENTIONS/SPECS/ORIGINAL/` |
+| Agent behaviour (subagents, token efficiency) | `AGENTS/RULES/` |
+| Not yet adopted | `CONVENTIONS/EXPERIMENTAL/` via an `experimental/*` branch (`CONTRIBUTING/LIFECYCLE.md`) |
+| Anything else | The matching category in `CONVENTIONS/README.md`; none fits → new category |
+
+### New category
+1. UPPERCASE directory under `CONVENTIONS/` (sub-category: under an existing one) + its row in `CONVENTIONS/README.md`.
+2. Optional category `README.md` only when a row is not enough (`META/templates/category-README.md`).
+3. `META/tools/build.sh && META/tools/check.sh`.
+
+### Good vs bad
+| Bad | Good |
+|---|---|
+| "It is generally a good idea to keep commits small and focused." | "One logical change per commit." |
+| "Use the accent color #105c5c for buttons." (restates a rule) | "Buttons: accent fill (`CONVENTIONS/DESIGN/COLORS.md`)." |
+| Trigger "git" | Trigger "creating branches or opening/merging PRs" |
+
+---
 <!-- source: CONVENTIONS/CODE/DOTFILES.md -->
 ## Shell environment & dotfiles
 > Load when: building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations.

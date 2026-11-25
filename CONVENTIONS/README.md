@@ -19,17 +19,14 @@ The rules themselves: how Szmelc projects are built, shipped and maintained. One
 | `CONVENTIONS/EXPERIMENTAL/` | Opt-in proposals; load only when the user opts in (branch `experimental/*`) |
 | `CONVENTIONS/LEGACY/` | Superseded drafts, never deleted; load only when asked (branch `legacy/*`) |
 
-Agent behaviour rules (subagents, token efficiency) live in `AGENTS/RULES/`. How to add or change a rule: `CONTRIBUTING/README.md`.
+Agent behaviour rules (subagents, token efficiency) live in `AGENTS/RULES/`. How to add or change a rule: `CONTRIBUTING/WRITING.md`.
 
 ## Rule format
 - Header, length, naming (`X-EXT.md`), references and status: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. Skeleton: `META/templates/rule.md`.
 - New domain → new directory under `CONVENTIONS/`. New topic → copy the skeleton.
 
 ## Lifecycle
-- New idea → `CONVENTIONS/EXPERIMENTAL/<X>.md` via an `experimental/*` branch.
-- Adopted → moved to `CONVENTIONS/<CATEGORY>/<X>.md` in a `feat/*` PR.
-- Superseded → moved to `CONVENTIONS/LEGACY/` in a `legacy/*` PR with `> Superseded by: <path>` on line 3.
-- Details: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
+- Experimental → stable → legacy, never deleted: `CONTRIBUTING/LIFECYCLE.md`; branch mechanics: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
 
 ## Formats
 - Root `CONVENTIONS.md` is the generated all-in-one bundle: a map of this tree plus every stable rule inlined, for tools that cannot lazy-load.
