@@ -7,7 +7,7 @@ The rules themselves: how Szmelc projects are built, shipped and maintained. One
 | Directory | Covers |
 |---|---|
 | `CONVENTIONS/WORKFLOW/` | Branches, commits, finishing work, verification, notifications |
-| `CONVENTIONS/GITHUB/` | Everything GitHub: repo settings, metadata and labels, pull requests, issues, discussions, projects, wiki, organisations, coding agents, code security, Actions, releases, deployments (Pages) |
+| `CONVENTIONS/GITHUB/` | Everything GitHub: repo settings, metadata and labels, pull requests, issues, discussions, projects, wiki, organisations, coding agents, code security, `ACTIONS/` (workflows, CI), `RELEASES/` (versioning, tags, automation, channels), `DEPLOYMENTS/` (Pages, environments, web UI style) |
 | `CONVENTIONS/SPECS/` | Named document files: `THIRD-PARTY/` (defined by an outside standard: `AGENTS.md`, `SKILL.md`, `README.md`, `llms.txt`), `ORIGINAL/` (Szmelc formats: `DESIGN.md`, core maps, indexes) |
 | `CONVENTIONS/REPO/` | Repo layout, writing and voice |
 | `CONVENTIONS/DESIGN/` | Colors and visual identity for UI, TUI, CLI, web, badges |

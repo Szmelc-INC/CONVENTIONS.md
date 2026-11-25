@@ -29,14 +29,22 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/CODE/SHELL.md` | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
 | `CONVENTIONS/CODE/STACK.md` | starting a project or tool, or choosing a language or dependencies. |
 | `CONVENTIONS/DESIGN/COLORS.md` | any UI, TUI, CLI color, web page, theme, badge or graphic. |
+| `CONVENTIONS/GITHUB/ACTIONS/CI.md` | setting up or changing CI checks or required status checks, or fixing a red CI run. |
+| `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md` | writing or editing a GitHub Actions workflow, reusable workflow or composite action. |
 | `CONVENTIONS/GITHUB/CODE-SECURITY.md` | creating a repo, adding dependencies, or handling Dependabot, secret-scanning or code-scanning alerts. |
 | `CONVENTIONS/GITHUB/CODING-AGENTS.md` | assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow. |
+| `CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md` | deploying anything from Actions, or adding deployment secrets. |
+| `CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md` | publishing a site, docs or web UI on GitHub Pages. |
+| `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md` | building or restyling a Szmelc web page, Pages site or web UI. |
 | `CONVENTIONS/GITHUB/DISCUSSIONS.md` | enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions. |
 | `CONVENTIONS/GITHUB/ISSUES.md` | creating, triaging or closing issues, or adding issue templates. |
 | `CONVENTIONS/GITHUB/ORGANIZATIONS.md` | creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults. |
 | `CONVENTIONS/GITHUB/PROJECTS.md` | planning work across issues, creating or editing a GitHub Project board. |
-| `CONVENTIONS/GITHUB/PULL-REQUESTS.md` | committing, pushing, opening/reviewing/merging a PR, or fixing CI. |
-| `CONVENTIONS/GITHUB/RELEASES/VERSIONING.md` | bumping a version, tagging a release, or planning a major version. |
+| `CONVENTIONS/GITHUB/PULL-REQUESTS.md` | committing, pushing, or opening/reviewing/merging a PR. |
+| `CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md` | writing or running a release workflow or script, attaching release assets, or bumping downstream packages. |
+| `CONVENTIONS/GITHUB/RELEASES/CHANNELS.md` | deciding where a build is published: stable, pre-release, experimental or nightly. |
+| `CONVENTIONS/GITHUB/RELEASES/TAGS.md` | creating, pushing, protecting or fixing a release tag. |
+| `CONVENTIONS/GITHUB/RELEASES/VERSIONING.md` | bumping a version, preparing a release, or planning a major version. |
 | `CONVENTIONS/GITHUB/REPO/LABELS.md` | creating, editing or applying issue/PR labels, or setting up a new repo. |
 | `CONVENTIONS/GITHUB/REPO/METADATA.md` | creating a repo, first push, release, or editing README/manifest/license. |
 | `CONVENTIONS/GITHUB/REPO/SETTINGS.md` | creating a repo, changing its GitHub settings, merge options, rulesets or feature toggles. |
