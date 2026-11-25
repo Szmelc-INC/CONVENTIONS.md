@@ -29,9 +29,18 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/CODE/SHELL.md` | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
 | `CONVENTIONS/CODE/STACK.md` | starting a project or tool, or choosing a language or dependencies. |
 | `CONVENTIONS/DESIGN/COLORS.md` | any UI, TUI, CLI color, web page, theme, badge or graphic. |
-| `CONVENTIONS/GITHUB/PULL-REQUESTS.md` | committing, pushing, opening/merging a PR, or fixing CI. |
+| `CONVENTIONS/GITHUB/CODE-SECURITY.md` | creating a repo, adding dependencies, or handling Dependabot, secret-scanning or code-scanning alerts. |
+| `CONVENTIONS/GITHUB/CODING-AGENTS.md` | assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow. |
+| `CONVENTIONS/GITHUB/DISCUSSIONS.md` | enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions. |
+| `CONVENTIONS/GITHUB/ISSUES.md` | creating, triaging or closing issues, or adding issue templates. |
+| `CONVENTIONS/GITHUB/ORGANIZATIONS.md` | creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults. |
+| `CONVENTIONS/GITHUB/PROJECTS.md` | planning work across issues, creating or editing a GitHub Project board. |
+| `CONVENTIONS/GITHUB/PULL-REQUESTS.md` | committing, pushing, opening/reviewing/merging a PR, or fixing CI. |
 | `CONVENTIONS/GITHUB/RELEASES/VERSIONING.md` | bumping a version, tagging a release, or planning a major version. |
+| `CONVENTIONS/GITHUB/REPO/LABELS.md` | creating, editing or applying issue/PR labels, or setting up a new repo. |
 | `CONVENTIONS/GITHUB/REPO/METADATA.md` | creating a repo, first push, release, or editing README/manifest/license. |
+| `CONVENTIONS/GITHUB/REPO/SETTINGS.md` | creating a repo, changing its GitHub settings, merge options, rulesets or feature toggles. |
+| `CONVENTIONS/GITHUB/WIKI.md` | enabling a GitHub wiki or deciding where project docs live. |
 | `CONVENTIONS/INTERFACES/CLI.md` | building or changing a command-line tool. |
 | `CONVENTIONS/INTERFACES/CONFIG.md` | adding a config file, options, env vars, or storage paths to a tool. |
 | `CONVENTIONS/INTERFACES/TUI.md` | building a TUI, or any project that has a CLI. |

@@ -13,9 +13,18 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/CODE/SHELL.md`](CONVENTIONS/CODE/SHELL.md) | Shell scripts | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
 | [`CONVENTIONS/CODE/STACK.md`](CONVENTIONS/CODE/STACK.md) | Stack defaults | starting a project or tool, or choosing a language or dependencies. |
 | [`CONVENTIONS/DESIGN/COLORS.md`](CONVENTIONS/DESIGN/COLORS.md) | Colors | any UI, TUI, CLI color, web page, theme, badge or graphic. |
-| [`CONVENTIONS/GITHUB/PULL-REQUESTS.md`](CONVENTIONS/GITHUB/PULL-REQUESTS.md) | Pull requests & CI | committing, pushing, opening/merging a PR, or fixing CI. |
+| [`CONVENTIONS/GITHUB/CODE-SECURITY.md`](CONVENTIONS/GITHUB/CODE-SECURITY.md) | Code security | creating a repo, adding dependencies, or handling Dependabot, secret-scanning or code-scanning alerts. |
+| [`CONVENTIONS/GITHUB/CODING-AGENTS.md`](CONVENTIONS/GITHUB/CODING-AGENTS.md) | Coding agents on GitHub | assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow. |
+| [`CONVENTIONS/GITHUB/DISCUSSIONS.md`](CONVENTIONS/GITHUB/DISCUSSIONS.md) | Discussions | enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions. |
+| [`CONVENTIONS/GITHUB/ISSUES.md`](CONVENTIONS/GITHUB/ISSUES.md) | Issues | creating, triaging or closing issues, or adding issue templates. |
+| [`CONVENTIONS/GITHUB/ORGANIZATIONS.md`](CONVENTIONS/GITHUB/ORGANIZATIONS.md) | Organizations | creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults. |
+| [`CONVENTIONS/GITHUB/PROJECTS.md`](CONVENTIONS/GITHUB/PROJECTS.md) | Projects | planning work across issues, creating or editing a GitHub Project board. |
+| [`CONVENTIONS/GITHUB/PULL-REQUESTS.md`](CONVENTIONS/GITHUB/PULL-REQUESTS.md) | Pull requests & CI | committing, pushing, opening/reviewing/merging a PR, or fixing CI. |
 | [`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`](CONVENTIONS/GITHUB/RELEASES/VERSIONING.md) | Releases & versioning | bumping a version, tagging a release, or planning a major version. |
+| [`CONVENTIONS/GITHUB/REPO/LABELS.md`](CONVENTIONS/GITHUB/REPO/LABELS.md) | Labels | creating, editing or applying issue/PR labels, or setting up a new repo. |
 | [`CONVENTIONS/GITHUB/REPO/METADATA.md`](CONVENTIONS/GITHUB/REPO/METADATA.md) | Repo metadata | creating a repo, first push, release, or editing README/manifest/license. |
+| [`CONVENTIONS/GITHUB/REPO/SETTINGS.md`](CONVENTIONS/GITHUB/REPO/SETTINGS.md) | Repo settings | creating a repo, changing its GitHub settings, merge options, rulesets or feature toggles. |
+| [`CONVENTIONS/GITHUB/WIKI.md`](CONVENTIONS/GITHUB/WIKI.md) | Wiki | enabling a GitHub wiki or deciding where project docs live. |
 | [`CONVENTIONS/INTERFACES/CLI.md`](CONVENTIONS/INTERFACES/CLI.md) | CLI | building or changing a command-line tool. |
 | [`CONVENTIONS/INTERFACES/CONFIG.md`](CONVENTIONS/INTERFACES/CONFIG.md) | Configuration | adding a config file, options, env vars, or storage paths to a tool. |
 | [`CONVENTIONS/INTERFACES/TUI.md`](CONVENTIONS/INTERFACES/TUI.md) | TUI | building a TUI, or any project that has a CLI. |
@@ -193,15 +202,106 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Project has config → make colors configurable.
 
 ---
+<!-- source: CONVENTIONS/GITHUB/CODE-SECURITY.md -->
+## Code security
+> Load when: creating a repo, adding dependencies, or handling Dependabot, secret-scanning or code-scanning alerts.
+
+- Dependabot alerts and security updates on for every repo.
+- `.github/dependabot.yml`: version updates for `github-actions` plus each package ecosystem, `interval: weekly`, `groups:` to batch minor/patch.
+- Dependabot PRs follow the normal PR flow; merge when CI is green, never skip checks.
+- Secret scanning + push protection on (`gh repo edit --enable-secret-scanning --enable-secret-scanning-push-protection`; free for public repos).
+- Leaked secret: rotate it first, then remove it; history rewriting needs owner approval.
+- CodeQL default setup for supported languages (free for public repos); fix or dismiss alerts with a reason.
+- Private vulnerability reporting on for public repos.
+- Never commit secrets, tokens or `.env` files; CI reads them from Actions secrets.
+
+---
+<!-- source: CONVENTIONS/GITHUB/CODING-AGENTS.md -->
+## Coding agents on GitHub
+> Load when: assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow.
+
+- Agents: Copilot coding agent (assign an issue; needs a paid Copilot plan), Claude Code / Codex GitHub apps or actions (@-mention or workflow).
+- Agent PRs follow the same rules: titles per `CONVENTIONS/WORKFLOW/COMMITS.md`, flow per `CONVENTIONS/GITHUB/PULL-REQUESTS.md`.
+- Branch names per `CONVENTIONS/WORKFLOW/BRANCHES.md` where the tool allows (e.g. a branch-prefix input); fixed tool prefixes are accepted.
+- Agent PRs stay draft until checks are green; a human or the orchestrating agent reviews and merges, never the agent itself unasked.
+- Instructions come from the repo `AGENTS.md`; `.github/copilot-instructions.md` and `.github/instructions/*.instructions.md` are generated from it (`CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`).
+- Issue for an agent: one task, acceptance criteria, files or commands to run; same as for a human.
+- Least-privilege tokens: repo-scoped, contents + pull requests + issues only; workflow `permissions:` set explicitly.
+- Never put secrets in prompts, issues or comments; agents read them from Actions secrets only.
+- Untrusted input (issues or comments from strangers) never triggers an agent with write access.
+
+---
+<!-- source: CONVENTIONS/GITHUB/DISCUSSIONS.md -->
+## Discussions
+> Load when: enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions.
+
+- Enable only when the project has users beyond its maintainers (`gh repo edit --enable-discussions`); otherwise issues suffice.
+- Categories: Announcements (maintainers post), Ideas, Q&A (answerable), Show and tell; delete unused defaults.
+- Issues are actionable work; questions, ideas and open-ended talk are discussions.
+- Convert a non-actionable issue to a discussion; open an issue from a discussion once work is agreed, linking both ways.
+- Accepted idea → proposal PR on an experimental branch (`CONVENTIONS/WORKFLOW/BRANCHES.md`); link the discussion in the PR.
+- Q&A: mark the answer; turn repeated questions into docs.
+- Release and breaking-change notes go to Announcements.
+- CLI: `gh discussion list/view/create/comment` (preview); otherwise `gh api graphql`.
+
+---
+<!-- source: CONVENTIONS/GITHUB/ISSUES.md -->
+## Issues
+> Load when: creating, triaging or closing issues, or adding issue templates.
+
+- Issue forms: `.github/ISSUE_TEMPLATE/<name>.yml` (bug, feature) with `labels:` preset; org default in the org `.github` repo (`CONVENTIONS/GITHUB/ORGANIZATIONS.md`).
+- `.github/ISSUE_TEMPLATE/config.yml`: `blank_issues_enabled: false`; `contact_links` to Discussions, docs or support.
+- Title: imperative, specific, no type prefix (`Fix crash on empty config`, `Add --json to list`); type goes in the label.
+- Label on creation (`CONVENTIONS/GITHUB/REPO/LABELS.md`); set the issue type when the org defines types (`--type Bug`).
+- Split work into sub-issues (`gh issue create --parent <n>`, `gh issue edit <n> --add-sub-issue <m>`); short checklists stay `- [ ]` task lists.
+- Dependencies: `--blocked-by <n>` / `--blocking <n>`, not prose.
+- Close via the PR: `Closes #<n>` in the PR body; keywords only fire when the PR targets the default branch.
+- Closing without a PR: comment why, close as not planned or duplicate (`gh issue close <n> -r "not planned" -c "<why>"`).
+- Roadmap: one issue with sub-issues, pinned (`gh issue pin <n>`); max 3 pinned.
+- Agents: `gh issue list/view/create/edit/comment` with `--json`; never close an issue you did not resolve.
+
+---
+<!-- source: CONVENTIONS/GITHUB/ORGANIZATIONS.md -->
+## Organizations
+> Load when: creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults.
+
+- Org profile: public `.github` repo with `profile/README.md` (`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`).
+- Org `.github` repo holds default community health files, `.github/ISSUE_TEMPLATE/` and `.github/PULL_REQUEST_TEMPLATE.md`; repos override only when they differ.
+- Access through teams with least privilege, never per-person grants on each repo.
+- Pin up to 6 flagship repos on the org profile.
+- Every repo: consistent name (`CONVENTIONS/CODE/NAMING.md`), description, homepage, topics (`CONVENTIONS/GITHUB/REPO/METADATA.md`).
+- Same labels and settings everywhere (`CONVENTIONS/GITHUB/REPO/LABELS.md`, `CONVENTIONS/GITHUB/REPO/SETTINGS.md`).
+- Cross-repo planning: org-level Projects (`CONVENTIONS/GITHUB/PROJECTS.md`).
+- Org settings, membership and repo visibility: owner approval first.
+
+---
+<!-- source: CONVENTIONS/GITHUB/PROJECTS.md -->
+## Projects
+> Load when: planning work across issues, creating or editing a GitHub Project board.
+
+- Projects (v2) only; one per org or per initiative, not one per repo.
+- Items are issues and PRs; draft items only for quick capture, converted to issues before work starts.
+- Fields: Status (Todo, In progress, Done), Priority (P0–P2), Size (S/M/L), Iteration when working in cycles.
+- Views: Board grouped by Status, Table for triage, Roadmap by Iteration or dates.
+- Built-in workflows: auto-add matching repo issues/PRs, item added → Todo, item closed and PR merged → Done.
+- Status follows issues and PRs (open, linked PR, closed), not hand-moved cards.
+- Link the project to its repos (`gh project link`).
+- CLI: `gh project view/item-list/item-add/item-edit/field-list --owner <org>`; needs the `project` scope (`gh auth refresh -s project`).
+
+---
 <!-- source: CONVENTIONS/GITHUB/PULL-REQUESTS.md -->
 ## Pull requests & CI
-> Load when: committing, pushing, opening/merging a PR, or fixing CI.
+> Load when: committing, pushing, opening/reviewing/merging a PR, or fixing CI.
 
 - Self-review before PR: correctness, security/escaping, docs + shell completions in sync.
+- Work in progress → draft PR (`gh pr create --draft`); `gh pr ready` only when done and self-reviewed.
+- Body follows `.github/PULL_REQUEST_TEMPLATE.md` (what, why, checks run); org default: `CONVENTIONS/GITHUB/ORGANIZATIONS.md`.
+- Link issues with `Closes #<n>` (`CONVENTIONS/GITHUB/ISSUES.md`); label on creation (`CONVENTIONS/GITHUB/REPO/LABELS.md`).
+- Review: concrete fixes as suggested changes (a `suggestion` code block); the author batch-applies them as one commit.
 - Wait for green CI → merge yourself → verify main CI + live result → one short report.
-- Never merge red, force-push, or bypass branch protection.
-- CI builds the package and runs the tests on every PR.
-- CI logic lives in a script that also runs on any machine with Docker/Podman; the workflow file only calls it, so no host lock-in.
+- Checks still running → `gh pr merge --auto --squash --delete-branch`; verify after it lands all the same.
+- Never merge red, force-push, or bypass branch protection; repo settings: `CONVENTIONS/GITHUB/REPO/SETTINGS.md`.
+- CI builds the package and runs the tests on every PR; its logic is a script that also runs locally (Docker/Podman), the workflow only calls it.
 - Commit and PR titles: `CONVENTIONS/WORKFLOW/COMMITS.md`.
 
 ---
@@ -217,6 +317,29 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Before tagging: versions agree; `--help`, completions and README match the code; tests pass on throwaway state; the package builds in CI; the architecture contract is current.
 
 ---
+<!-- source: CONVENTIONS/GITHUB/REPO/LABELS.md -->
+## Labels
+> Load when: creating, editing or applying issue/PR labels, or setting up a new repo.
+
+- Keep the set small; plain names, no `type:` prefixes, so `--force` recolors GitHub defaults instead of duplicating them.
+
+| Label | Color | Use |
+|---|---|---|
+| `bug` `feat` `docs` `chore` | `105c5c` | Type, one per issue/PR |
+| `area/<x>` | `1b1b1b` | Per-project subsystem, defined in the project |
+| `experimental` | `750f0f` | Proposal on an experimental branch |
+| `legacy` | `c0c0c0` | Superseded material |
+| `blocked` | `b83a3a` | Waiting on something external |
+| `good first issue` | `7fffd4` | Easy entry; the one highlight color |
+| `help wanted` | `1f8a8a` | Maintainer wants outside help |
+
+- Colors come from `CONVENTIONS/DESIGN/COLORS.md`, hex without `#`; recolor GitHub's purple defaults.
+- Labels as code: a script or `labels.tsv` in the repo, applied with `gh label create <name> -c <hex> -d <desc> --force`.
+- Same set across an org: `gh label clone <source-repo> --force`.
+- Never delete or rename a label others use; mark it deprecated in its description first.
+- Label on creation (`gh issue create -l`, `gh pr create -l`), not afterwards.
+
+---
 <!-- source: CONVENTIONS/GITHUB/REPO/METADATA.md -->
 ## Repo metadata
 > Load when: creating a repo, first push, release, or editing README/manifest/license.
@@ -226,6 +349,35 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Keep manifest fields (package.json, go.mod, PKGBUILD, flake.nix…) in sync with repo metadata.
 - License: MIT.
 - Fork of someone else's project: say "independent, not affiliated" in the README and the description; add a trademark note when the upstream name is a mark.
+
+---
+<!-- source: CONVENTIONS/GITHUB/REPO/SETTINGS.md -->
+## Repo settings
+> Load when: creating a repo, changing its GitHub settings, merge options, rulesets or feature toggles.
+
+- Apply settings as code: `gh repo edit` flags and `gh api` calls in a script, not web-UI clicks. Metadata: `CONVENTIONS/GITHUB/REPO/METADATA.md`.
+- Default branch `main` (`--default-branch main`); branch model: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
+- Merge: squash only (`--enable-squash-merge --enable-merge-commit=false --enable-rebase-merge=false`).
+- Squash message `--squash-merge-commit-message pr-title-commits`: PR title becomes the subject, commit trailers (`Co-Authored-By:`) survive.
+- `--delete-branch-on-merge`, `--enable-auto-merge`, `--allow-update-branch`.
+- Ruleset on the default branch via `gh api repos/<owner>/<repo>/rulesets` (`gh ruleset` only lists, views, checks):
+  - `pull_request` with 0 required approvals: PR required, solo maintainers self-merge.
+  - `required_status_checks`: only checks that run on every PR; a path-filtered or not-yet-existing check blocks merges forever.
+  - `non_fast_forward`, `deletion`, `required_linear_history`.
+- Rulesets are free on public repos; private repos on GitHub Free get none, so the PR flow is self-enforced there.
+- Features: issues on; discussions only for a community (`CONVENTIONS/GITHUB/DISCUSSIONS.md`); projects per `CONVENTIONS/GITHUB/PROJECTS.md`; wiki off (`CONVENTIONS/GITHUB/WIKI.md`).
+- Security toggles: `CONVENTIONS/GITHUB/CODE-SECURITY.md`.
+- Visibility change, transfer, archive or rename: owner approval first; never pass `--accept-visibility-change-consequences` on your own.
+
+---
+<!-- source: CONVENTIONS/GITHUB/WIKI.md -->
+## Wiki
+> Load when: enabling a GitHub wiki or deciding where project docs live.
+
+- Docs live in the repo (versioned, reviewed via PR) and on Pages; the repo is the source of truth.
+- Wiki off by default (`gh repo edit --enable-wiki=false`).
+- Wiki only if users expect one: generate or sync it from repo docs in CI; never edit it by hand.
+- The wiki never holds rules, specs or anything not also in the repo.
 
 ---
 <!-- source: CONVENTIONS/INTERFACES/CLI.md -->

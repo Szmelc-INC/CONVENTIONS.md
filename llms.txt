@@ -24,9 +24,18 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 - [Shell scripts](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/SHELL.md): Load when writing or editing a shell script (bash, zsh, POSIX sh) or an installer.
 - [Stack defaults](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/CODE/STACK.md): Load when starting a project or tool, or choosing a language or dependencies.
 - [Colors](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/DESIGN/COLORS.md): Load when any UI, TUI, CLI color, web page, theme, badge or graphic.
-- [Pull requests & CI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/PULL-REQUESTS.md): Load when committing, pushing, opening/merging a PR, or fixing CI.
+- [Code security](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/CODE-SECURITY.md): Load when creating a repo, adding dependencies, or handling Dependabot, secret-scanning or code-scanning alerts.
+- [Coding agents on GitHub](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/CODING-AGENTS.md): Load when assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow.
+- [Discussions](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/DISCUSSIONS.md): Load when enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions.
+- [Issues](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/ISSUES.md): Load when creating, triaging or closing issues, or adding issue templates.
+- [Organizations](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/ORGANIZATIONS.md): Load when creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults.
+- [Projects](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/PROJECTS.md): Load when planning work across issues, creating or editing a GitHub Project board.
+- [Pull requests & CI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/PULL-REQUESTS.md): Load when committing, pushing, opening/reviewing/merging a PR, or fixing CI.
 - [Releases & versioning](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/RELEASES/VERSIONING.md): Load when bumping a version, tagging a release, or planning a major version.
+- [Labels](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/REPO/LABELS.md): Load when creating, editing or applying issue/PR labels, or setting up a new repo.
 - [Repo metadata](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/REPO/METADATA.md): Load when creating a repo, first push, release, or editing README/manifest/license.
+- [Repo settings](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/REPO/SETTINGS.md): Load when creating a repo, changing its GitHub settings, merge options, rulesets or feature toggles.
+- [Wiki](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/WIKI.md): Load when enabling a GitHub wiki or deciding where project docs live.
 - [CLI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/INTERFACES/CLI.md): Load when building or changing a command-line tool.
 - [Configuration](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/INTERFACES/CONFIG.md): Load when adding a config file, options, env vars, or storage paths to a tool.
 - [TUI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/INTERFACES/TUI.md): Load when building a TUI, or any project that has a CLI.
