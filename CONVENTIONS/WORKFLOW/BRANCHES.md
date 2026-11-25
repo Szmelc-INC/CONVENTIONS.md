@@ -18,4 +18,4 @@
 - Demote: move to `CONVENTIONS/LEGACY/` in a `legacy/*` PR; add `> Superseded by: <path>` as line 3. Legacy files are never deleted.
 - `local/*`: one commit per proposal; never pushed (pre-push hook `META/tools/hooks/pre-push`, enable with `git config core.hooksPath META/tools/hooks`); CI rejects it. Approved commits are re-applied on a `feat/*` or `experimental/*` branch after review; rejected ones stay local.
 - CI enforces prefix scope (`META/tools/lane-check.sh`).
-- Projects that ship releases: `main` = stable channel; any other branch = `-ex` experimental build; tags on `main` only.
+- Projects that ship releases: `main` = stable, other branches = `-ex` builds; channels and tags: `CONVENTIONS/GITHUB/RELEASES/CHANNELS.md`.

@@ -9,7 +9,7 @@
 | `DESIGN.md` | new projects | The owner's brief (`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`) |
 | `docs/ARCHITECTURE-v<N>.md` | DB, daemon or plugin system | Binding contract per major version |
 | `PKGBUILD`, `flake.nix` | anything installable | `CONVENTIONS/PACKAGING/ARCH.md`, `CONVENTIONS/PACKAGING/NIX.md` |
-| CI workflow | always | Build the package and run tests on every PR (`CONVENTIONS/GITHUB/PULL-REQUESTS.md`) |
+| CI workflow | always | Build the package and run tests on every PR (`CONVENTIONS/GITHUB/ACTIONS/CI.md`) |
 
 - Directories by job: source (`cmd/`, `internal/`, `src/`), `scripts/`, `tests/`, `docs/`, `completions/`; packaging at the root or in a packaging subdirectory.
 - One entry point: one command with subcommands, not a pile of loose scripts.

@@ -1,5 +1,5 @@
-# Pull requests & CI
-> Load when: committing, pushing, opening/reviewing/merging a PR, or fixing CI.
+# Pull requests
+> Load when: committing, pushing, or opening/reviewing/merging a PR.
 
 - Self-review before PR: correctness, security/escaping, docs + shell completions in sync.
 - Work in progress → draft PR (`gh pr create --draft`); `gh pr ready` only when done and self-reviewed.
@@ -9,5 +9,5 @@
 - Wait for green CI → merge yourself → verify main CI + live result → one short report.
 - Checks still running → `gh pr merge --auto --squash --delete-branch`; verify after it lands all the same.
 - Never merge red, force-push, or bypass branch protection; repo settings: `CONVENTIONS/GITHUB/REPO/SETTINGS.md`.
-- CI builds the package and runs the tests on every PR; its logic is a script that also runs locally (Docker/Podman), the workflow only calls it.
+- What CI runs and requires: `CONVENTIONS/GITHUB/ACTIONS/CI.md`; workflow files: `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`.
 - Commit and PR titles: `CONVENTIONS/WORKFLOW/COMMITS.md`.

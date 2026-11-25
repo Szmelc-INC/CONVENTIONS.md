@@ -13,14 +13,22 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/CODE/SHELL.md`](CONVENTIONS/CODE/SHELL.md) | Shell scripts | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
 | [`CONVENTIONS/CODE/STACK.md`](CONVENTIONS/CODE/STACK.md) | Stack defaults | starting a project or tool, or choosing a language or dependencies. |
 | [`CONVENTIONS/DESIGN/COLORS.md`](CONVENTIONS/DESIGN/COLORS.md) | Colors | any UI, TUI, CLI color, web page, theme, badge or graphic. |
+| [`CONVENTIONS/GITHUB/ACTIONS/CI.md`](CONVENTIONS/GITHUB/ACTIONS/CI.md) | CI | setting up or changing CI checks or required status checks, or fixing a red CI run. |
+| [`CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`](CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md) | Workflows | writing or editing a GitHub Actions workflow, reusable workflow or composite action. |
 | [`CONVENTIONS/GITHUB/CODE-SECURITY.md`](CONVENTIONS/GITHUB/CODE-SECURITY.md) | Code security | creating a repo, adding dependencies, or handling Dependabot, secret-scanning or code-scanning alerts. |
 | [`CONVENTIONS/GITHUB/CODING-AGENTS.md`](CONVENTIONS/GITHUB/CODING-AGENTS.md) | Coding agents on GitHub | assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow. |
+| [`CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md`](CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md) | Deployment environments | deploying anything from Actions, or adding deployment secrets. |
+| [`CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md`](CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md) | GitHub Pages | publishing a site, docs or web UI on GitHub Pages. |
+| [`CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md`](CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md) | Web UI style | building or restyling a Szmelc web page, Pages site or web UI. |
 | [`CONVENTIONS/GITHUB/DISCUSSIONS.md`](CONVENTIONS/GITHUB/DISCUSSIONS.md) | Discussions | enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions. |
 | [`CONVENTIONS/GITHUB/ISSUES.md`](CONVENTIONS/GITHUB/ISSUES.md) | Issues | creating, triaging or closing issues, or adding issue templates. |
 | [`CONVENTIONS/GITHUB/ORGANIZATIONS.md`](CONVENTIONS/GITHUB/ORGANIZATIONS.md) | Organizations | creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults. |
 | [`CONVENTIONS/GITHUB/PROJECTS.md`](CONVENTIONS/GITHUB/PROJECTS.md) | Projects | planning work across issues, creating or editing a GitHub Project board. |
-| [`CONVENTIONS/GITHUB/PULL-REQUESTS.md`](CONVENTIONS/GITHUB/PULL-REQUESTS.md) | Pull requests & CI | committing, pushing, opening/reviewing/merging a PR, or fixing CI. |
-| [`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`](CONVENTIONS/GITHUB/RELEASES/VERSIONING.md) | Releases & versioning | bumping a version, tagging a release, or planning a major version. |
+| [`CONVENTIONS/GITHUB/PULL-REQUESTS.md`](CONVENTIONS/GITHUB/PULL-REQUESTS.md) | Pull requests | committing, pushing, or opening/reviewing/merging a PR. |
+| [`CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md`](CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md) | Release automation | writing or running a release workflow or script, attaching release assets, or bumping downstream packages. |
+| [`CONVENTIONS/GITHUB/RELEASES/CHANNELS.md`](CONVENTIONS/GITHUB/RELEASES/CHANNELS.md) | Release channels | deciding where a build is published: stable, pre-release, experimental or nightly. |
+| [`CONVENTIONS/GITHUB/RELEASES/TAGS.md`](CONVENTIONS/GITHUB/RELEASES/TAGS.md) | Tags | creating, pushing, protecting or fixing a release tag. |
+| [`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`](CONVENTIONS/GITHUB/RELEASES/VERSIONING.md) | Releases & versioning | bumping a version, preparing a release, or planning a major version. |
 | [`CONVENTIONS/GITHUB/REPO/LABELS.md`](CONVENTIONS/GITHUB/REPO/LABELS.md) | Labels | creating, editing or applying issue/PR labels, or setting up a new repo. |
 | [`CONVENTIONS/GITHUB/REPO/METADATA.md`](CONVENTIONS/GITHUB/REPO/METADATA.md) | Repo metadata | creating a repo, first push, release, or editing README/manifest/license. |
 | [`CONVENTIONS/GITHUB/REPO/SETTINGS.md`](CONVENTIONS/GITHUB/REPO/SETTINGS.md) | Repo settings | creating a repo, changing its GitHub settings, merge options, rulesets or feature toggles. |
@@ -195,11 +203,49 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | Silver | `#c0c0c0` | Secondary |
 | Aquamarine | `#7fffd4` | Max 1–2 highlights per screen, black text |
 | Neutrals | `#0b0b0b` `#131313` `#1b1b1b`, lines `#262626` | Everything else |
+| Light neutrals | `#f3f3f3` `#ffffff` `#e9e9e9`, lines `#d6d6d6`, text `#141414` | Light toggle only |
 
 - Dark by default; light only as a toggle. Never purple, never a framework's default accent.
 - Neutrals carry no blue or green tint.
 - Badges, banners and shields use the same palette: `105c5c` fill, `c0c0c0` for secondary values, `750f0f` for experimental.
 - Project has config → make colors configurable.
+
+---
+<!-- source: CONVENTIONS/GITHUB/ACTIONS/CI.md -->
+## CI
+> Load when: setting up or changing CI checks or required status checks, or fixing a red CI run.
+
+- `.github/workflows/check.yml` runs on every push and PR, without a `paths:` filter.
+- It runs format + lint, build, tests, package build, docs-in-sync; cheap steps first, fail fast, no `continue-on-error` on required steps.
+- Lint per stack: `shellcheck` for shell, `go vet` + `gofmt -l` for Go, the ecosystem's standard linter elsewhere.
+- Package build: `PKGBUILD` in an Arch container, `nix build` when a flake ships (`CONVENTIONS/PACKAGING/ARCH.md`, `CONVENTIONS/PACKAGING/NIX.md`).
+- Docs-in-sync: regenerate generated files, `--help` output and completions, then `git diff --exit-code`.
+- Tests run on throwaway state (temp `HOME`, temp dirs), never on real user config.
+- Required checks (`CONVENTIONS/GITHUB/REPO/SETTINGS.md`) match job names: keep them stable; renaming a job blocks merges until the ruleset is updated.
+- On failure, upload logs and test output: `actions/upload-artifact` with `if: failure()` and a short `retention-days`.
+- CI never pushes to `main`. Exception: bots listed in one place (README "Automation" section), pushing via a ruleset bypass actor or a PR.
+- Schedule heartbeat bot: commits one file (`.github/heartbeat`) only after ~45 quiet days, never daily.
+- Red CI: read `gh run view <id> --log-failed`, reproduce with the local script, fix, push; never rerun until green.
+
+---
+<!-- source: CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md -->
+## Workflows
+> Load when: writing or editing a GitHub Actions workflow, reusable workflow or composite action.
+
+- One purpose per file in `.github/workflows/`: `check.yml` (CI), `release.yml` (releases), `pages.yml` (site).
+- Triggers: `push` + `pull_request` for checks; add `workflow_dispatch` to anything worth rerunning by hand.
+- `schedule` only for data from outside the repo; public repos disable it after 60 days without activity, so add a heartbeat (`CONVENTIONS/GITHUB/ACTIONS/CI.md`).
+- Cross-repo triggers: `repository_dispatch` with a named `types:` entry.
+- Top-level `permissions: contents: read`; elevate per job only (`contents: write`, `pages: write`, `id-token: write`).
+- `concurrency:` group per workflow + ref; `cancel-in-progress: true` for checks, `false` for deploys and releases.
+- Pin actions to a major tag (`actions/*`) or a full commit SHA with a `# vX` comment (third-party); Dependabot keeps them current (`CONVENTIONS/GITHUB/CODE-SECURITY.md`).
+- Logic lives in repo scripts that run locally (Docker/Podman when the host differs); the workflow only checks out, sets up and calls them.
+- Pass `${{ }}` values into `run:` through `env:`, never inline (script injection).
+- Secrets only via `secrets.*` or OIDC (`id-token: write`); never echo them or put them on a command line; mask derived values with `::add-mask::`.
+- `GITHUB_TOKEN` over PATs. Events it causes start no workflows (except `workflow_dispatch`/`repository_dispatch`) and it cannot reach other repos; for those cases only, use a GitHub App token (`actions/create-github-app-token`) or a fine-grained PAT scoped to the target repo.
+- Same steps in 2+ repos → reusable workflow (`on: workflow_call`) or composite action in one org repo, called pinned.
+- Results people read go to `$GITHUB_STEP_SUMMARY` as Markdown, not only to logs.
+- Minutes: public repos run free on standard runners, private repos on GitHub Free get 2,000 min/month; keep matrices to supported targets, cache dependencies (`actions/cache` or a setup action's `cache:`).
 
 ---
 <!-- source: CONVENTIONS/GITHUB/CODE-SECURITY.md -->
@@ -213,7 +259,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Leaked secret: rotate it first, then remove it; history rewriting needs owner approval.
 - CodeQL default setup for supported languages (free for public repos); fix or dismiss alerts with a reason.
 - Private vulnerability reporting on for public repos.
-- Never commit secrets, tokens or `.env` files; CI reads them from Actions secrets.
+- Never commit secrets, tokens or `.env` files; workflows read them per `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`.
 
 ---
 <!-- source: CONVENTIONS/GITHUB/CODING-AGENTS.md -->
@@ -229,6 +275,53 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Least-privilege tokens: repo-scoped, contents + pull requests + issues only; workflow `permissions:` set explicitly.
 - Never put secrets in prompts, issues or comments; agents read them from Actions secrets only.
 - Untrusted input (issues or comments from strangers) never triggers an agent with write access.
+
+---
+<!-- source: CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md -->
+## Deployment environments
+> Load when: deploying anything from Actions, or adding deployment secrets.
+
+- Every deploy job declares `environment:` with `name` (`github-pages`, `production`) and `url` from the deploy step's output.
+- Deployment branches: `main` only (tags `v*` for release deploys).
+- Secrets used only by one deploy are environment secrets, not repo secrets.
+- Required reviewers or wait timers only when a second human can approve; solo repos rely on the branch policy.
+- GitHub Free: environment secrets and branch policies work in public repos only; private repos use repo secrets and deploy only from `main`.
+
+---
+<!-- source: CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md -->
+## GitHub Pages
+> Load when: publishing a site, docs or web UI on GitHub Pages.
+
+- Source "GitHub Actions" (`gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow`); never a `gh-pages` branch.
+- Build job → `actions/upload-pages-artifact`; deploy job → `actions/deploy-pages` with `pages: write`, `id-token: write`, environment `github-pages` (`CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md`).
+- Never commit build output; the output dir (`public/`) is gitignored.
+- Build script lives in the repo and gives the same result locally; the workflow only calls it.
+- Output: one self-contained `index.html` (CSS, JS, data inlined) that works offline and over `file://`.
+- Next to it: the same data as JSON; docs sites also ship `llms.txt`.
+- Deploy only from `main`; triggers: push on source paths, `workflow_dispatch`, `repository_dispatch` for refreshes from other repos.
+- Nightly `schedule` only when data comes from outside the repo (`CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`).
+- Repo homepage = the Pages URL unless a real site exists (`CONVENTIONS/GITHUB/REPO/METADATA.md`).
+- Custom domain only when one is owned: set it in Pages settings (`gh api -X PUT repos/<owner>/<repo>/pages -f cname=<domain>`); Actions deploys ignore a `CNAME` file.
+- Look and feel: `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md`.
+
+---
+<!-- source: CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md -->
+## Web UI style
+> Load when: building or restyling a Szmelc web page, Pages site or web UI.
+
+- Reference look: <https://szmelc-inc.github.io/SAUR/>.
+- Colors only from `CONVENTIONS/DESIGN/COLORS.md`, as CSS custom properties on `:root`.
+- Dark by default; light via a toggle (`data-theme` on `<html>`), choice kept in `localStorage` inside `try`/`catch`.
+- Monospace everywhere: `"JetBrains Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace`; never fetch webfonts.
+- Flat mono/material look: 1px lines `#262626`, radius 0–4px; no gradients, glassmorphism or heavy shadows.
+- Header: small `h1` (≤ 1.5rem, no hero), accent top rule (`border-top` 3–4px accent), stats row of counts below.
+- Navigation: folder-style tabs; keys `/` focus filter, `1`–`9` switch tabs, `esc` clear/close; deep links `#<path>` restore the view on load.
+- Install: one copyable command block with a copy button.
+- Icons: inline SVG with `currentColor`; no icon fonts or icon CDNs.
+- Effects stay subtle (hover underline or glow, blinking cursor); none under `prefers-reduced-motion: reduce`.
+- Contrast WCAG AA in both themes; visible keyboard focus.
+- No tracking, analytics or cookies; external JS only when unavoidable, from a CDN URL pinned to an exact version with `integrity`.
+- Works at 360px width: no horizontal page scroll; wide tables and code scroll inside their own box.
 
 ---
 <!-- source: CONVENTIONS/GITHUB/DISCUSSIONS.md -->
@@ -290,8 +383,8 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 
 ---
 <!-- source: CONVENTIONS/GITHUB/PULL-REQUESTS.md -->
-## Pull requests & CI
-> Load when: committing, pushing, opening/reviewing/merging a PR, or fixing CI.
+## Pull requests
+> Load when: committing, pushing, or opening/reviewing/merging a PR.
 
 - Self-review before PR: correctness, security/escaping, docs + shell completions in sync.
 - Work in progress → draft PR (`gh pr create --draft`); `gh pr ready` only when done and self-reviewed.
@@ -301,15 +394,66 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Wait for green CI → merge yourself → verify main CI + live result → one short report.
 - Checks still running → `gh pr merge --auto --squash --delete-branch`; verify after it lands all the same.
 - Never merge red, force-push, or bypass branch protection; repo settings: `CONVENTIONS/GITHUB/REPO/SETTINGS.md`.
-- CI builds the package and runs the tests on every PR; its logic is a script that also runs locally (Docker/Podman), the workflow only calls it.
+- What CI runs and requires: `CONVENTIONS/GITHUB/ACTIONS/CI.md`; workflow files: `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`.
 - Commit and PR titles: `CONVENTIONS/WORKFLOW/COMMITS.md`.
+
+---
+<!-- source: CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md -->
+## Release automation
+> Load when: writing or running a release workflow or script, attaching release assets, or bumping downstream packages.
+
+- Default: a human pushes the tag (`CONVENTIONS/GITHUB/RELEASES/TAGS.md`); `.github/workflows/release.yml` does the rest.
+- Trigger `on: push: tags: ['v*']`, plus `workflow_dispatch` with a tag input for reruns.
+- A tag pushed by a workflow with `GITHUB_TOKEN` triggers nothing; dispatch the release instead (`CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`).
+- `contents: write` on the release job only.
+- Build every asset on CI from the tag; never upload local builds.
+- Attach assets + `SHA256SUMS` (`sha256sum <assets> > SHA256SUMS`), plus a signature (`SHA256SUMS.sig`) when the project signs.
+- Publish: `gh release create "$TAG" --verify-tag --notes-from-tag <assets>`; no curated notes → `--generate-notes`; `-rc.N` → add `--prerelease`.
+- `.github/release.yml` groups generated notes by label (`CONVENTIONS/GITHUB/REPO/LABELS.md`): `changelog.categories` for `feat`, `bug`, `docs`, `chore`, last one `"*"`.
+- Release logic is a repo script that runs locally with `--dry-run`: builds, checksums, prints the `gh` commands without publishing.
+- Downstream bumps after publish: `PKGBUILD`/SAUR and `flake.nix` via PR, or `repository_dispatch` to the packaging repo.
+- Verify: `gh release view "$TAG"` lists every asset, checksums match, downstream PRs green.
+- Release-please style automation only when the project uses Conventional Commits strictly (`CONVENTIONS/WORKFLOW/COMMITS.md`).
+
+---
+<!-- source: CONVENTIONS/GITHUB/RELEASES/CHANNELS.md -->
+## Release channels
+> Load when: deciding where a build is published: stable, pre-release, experimental or nightly.
+
+| Channel | Built from | Tag | GitHub release |
+|---|---|---|---|
+| Stable | `main` | `vX.Y.Z` | Normal, marked Latest |
+| Pre-release | `main` | `vX.Y.Z-rc.N` | `--prerelease` |
+| Experimental | any other branch | none | none |
+| Nightly (optional) | `main`, scheduled | `nightly`, rolling | `--prerelease --latest=false` |
+
+- Latest = newest stable; never mark a pre-release or nightly as latest.
+- Experimental: `-ex` in package name or version, installs next to stable; ships as workflow artifacts or a package channel (Arch: `CONVENTIONS/PACKAGING/ARCH.md`).
+- Nightly is the only tag and release that is re-created: `gh release delete nightly --cleanup-tag -y`, then `gh release create nightly --target main --prerelease --latest=false`.
+- Nightly only when people test unreleased builds; skip the run when `main` has not changed.
+- Install docs point at stable; other channels are opt-in.
+
+---
+<!-- source: CONVENTIONS/GITHUB/RELEASES/TAGS.md -->
+## Tags
+> Load when: creating, pushing, protecting or fixing a release tag.
+
+- Annotated only: `git tag -a vX.Y.Z -F <notes-file>`; never lightweight.
+- Format `vMAJOR.MINOR.PATCH` (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`); pre-releases `vX.Y.Z-rc.N`.
+- Tag `main` only, on a commit whose CI is green.
+- `-ex` builds are never tagged `v*` (`CONVENTIONS/GITHUB/RELEASES/CHANNELS.md`).
+- Tag message: title `vX.Y.Z`, then that version's changelog section.
+- Push one tag explicitly: `git push origin vX.Y.Z`; never `git push --tags`.
+- Published tags are immutable: never move, delete or re-push one; fix a bad release with a new patch tag.
+- Only exception: the rolling `nightly` tag (`CONVENTIONS/GITHUB/RELEASES/CHANNELS.md`).
+- Protect with a tag ruleset (`gh api repos/<owner>/<repo>/rulesets`): `target: tag`, `conditions.ref_name.include: ["refs/tags/v*"]`, rules `update` + `deletion`; `nightly` stays outside it.
 
 ---
 <!-- source: CONVENTIONS/GITHUB/RELEASES/VERSIONING.md -->
 ## Releases & versioning
-> Load when: bumping a version, tagging a release, or planning a major version.
+> Load when: bumping a version, preparing a release, or planning a major version.
 
-- SemVer `vMAJOR.MINOR.PATCH`; tag on `main` only.
+- SemVer `MAJOR.MINOR.PATCH`. Tags: `CONVENTIONS/GITHUB/RELEASES/TAGS.md`; publishing: `CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md`; channels: `CONVENTIONS/GITHUB/RELEASES/CHANNELS.md`.
 - The version lives in package metadata and tags; never in the README title or repo name.
 - One bump moves every copy at once: source constant, PKGBUILD `pkgver`, `flake.nix` `version`, changelog if the project keeps one.
 - Breaking change to a command, flag, config key or file format → major bump, plus a new `docs/ARCHITECTURE-v<N>.md` when the project keeps one.
@@ -473,7 +617,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | `DESIGN.md` | new projects | The owner's brief (`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`) |
 | `docs/ARCHITECTURE-v<N>.md` | DB, daemon or plugin system | Binding contract per major version |
 | `PKGBUILD`, `flake.nix` | anything installable | `CONVENTIONS/PACKAGING/ARCH.md`, `CONVENTIONS/PACKAGING/NIX.md` |
-| CI workflow | always | Build the package and run tests on every PR (`CONVENTIONS/GITHUB/PULL-REQUESTS.md`) |
+| CI workflow | always | Build the package and run tests on every PR (`CONVENTIONS/GITHUB/ACTIONS/CI.md`) |
 
 - Directories by job: source (`cmd/`, `internal/`, `src/`), `scripts/`, `tests/`, `docs/`, `completions/`; packaging at the root or in a packaging subdirectory.
 - One entry point: one command with subcommands, not a pile of loose scripts.
@@ -580,7 +724,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 - Demote: move to `CONVENTIONS/LEGACY/` in a `legacy/*` PR; add `> Superseded by: <path>` as line 3. Legacy files are never deleted.
 - `local/*`: one commit per proposal; never pushed (pre-push hook `META/tools/hooks/pre-push`, enable with `git config core.hooksPath META/tools/hooks`); CI rejects it. Approved commits are re-applied on a `feat/*` or `experimental/*` branch after review; rejected ones stay local.
 - CI enforces prefix scope (`META/tools/lane-check.sh`).
-- Projects that ship releases: `main` = stable channel; any other branch = `-ex` experimental build; tags on `main` only.
+- Projects that ship releases: `main` = stable, other branches = `-ex` builds; channels and tags: `CONVENTIONS/GITHUB/RELEASES/CHANNELS.md`.
 
 ---
 <!-- source: CONVENTIONS/WORKFLOW/COMMITS.md -->

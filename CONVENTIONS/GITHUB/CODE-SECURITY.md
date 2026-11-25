@@ -8,4 +8,4 @@
 - Leaked secret: rotate it first, then remove it; history rewriting needs owner approval.
 - CodeQL default setup for supported languages (free for public repos); fix or dismiss alerts with a reason.
 - Private vulnerability reporting on for public repos.
-- Never commit secrets, tokens or `.env` files; CI reads them from Actions secrets.
+- Never commit secrets, tokens or `.env` files; workflows read them per `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`.

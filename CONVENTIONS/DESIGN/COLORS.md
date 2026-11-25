@@ -9,6 +9,7 @@
 | Silver | `#c0c0c0` | Secondary |
 | Aquamarine | `#7fffd4` | Max 1–2 highlights per screen, black text |
 | Neutrals | `#0b0b0b` `#131313` `#1b1b1b`, lines `#262626` | Everything else |
+| Light neutrals | `#f3f3f3` `#ffffff` `#e9e9e9`, lines `#d6d6d6`, text `#141414` | Light toggle only |
 
 - Dark by default; light only as a toggle. Never purple, never a framework's default accent.
 - Neutrals carry no blue or green tint.
