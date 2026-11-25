@@ -26,6 +26,7 @@ Entry point. This directory is the conventions repo; every path below is relativ
 | Machine index | `index.json` (schema: `schema/index.schema.json`) |
 | LLM web index | `llms.txt` |
 | All stable rules in one file (aider `--read`, web chats) | `CONVENTIONS.md` |
+| Browsable site (tabs per category + projects index) | <https://szmelc-inc.github.io/CONVENTIONS.md/> (`tools/site.sh`) |
 | Cursor / Copilot / Kiro rule files | `adapters/` |
 | Skills | `SKILL.md` (this), `skills/deep/SKILL.md` |
 | Templates | `_template/` |
