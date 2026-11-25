@@ -7,5 +7,5 @@
 - Secret scanning + push protection on (`gh repo edit --enable-secret-scanning --enable-secret-scanning-push-protection`; free for public repos).
 - Leaked secret: rotate it first, then remove it; history rewriting needs owner approval.
 - CodeQL default setup for supported languages (free for public repos); fix or dismiss alerts with a reason.
-- Private vulnerability reporting on for public repos.
+- Private vulnerability reporting on for public repos; policy file: `CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md`.
 - Never commit secrets, tokens or `.env` files; workflows read them per `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`.

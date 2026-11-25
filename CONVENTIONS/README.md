@@ -8,7 +8,7 @@ The rules themselves: how Szmelc projects are built, shipped and maintained. One
 |---|---|
 | `CONVENTIONS/WORKFLOW/` | Branches, commits, finishing work, verification, notifications |
 | `CONVENTIONS/GITHUB/` | Everything GitHub: repo settings, metadata and labels, pull requests, issues, discussions, projects, wiki, organisations, coding agents, code security, `ACTIONS/` (workflows, CI), `RELEASES/` (versioning, tags, automation, channels), `DEPLOYMENTS/` (Pages, environments, web UI style) |
-| `CONVENTIONS/SPECS/` | Named document files: `THIRD-PARTY/` (defined by an outside standard: `AGENTS.md`, `SKILL.md`, `README.md`, `llms.txt`), `ORIGINAL/` (Szmelc formats: `DESIGN.md`, core maps, indexes) |
+| `CONVENTIONS/SPECS/` | Named document files: `THIRD-PARTY/` (format set by an outside standard or tool: `AGENTS.md` + imports, `SKILL.md`, `README.md`, `llms.txt`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CODEOWNERS`, `LICENSE`, `.mcp.json`), `ORIGINAL/` (Szmelc formats: `DESIGN.md`, rule files, core maps, lazy-load indexes) |
 | `CONVENTIONS/REPO/` | Repo layout, writing and voice |
 | `CONVENTIONS/DESIGN/` | Colors and visual identity for UI, TUI, CLI, web, badges |
 | `CONVENTIONS/INTERFACES/` | CLI, TUI and configuration design |
@@ -20,9 +20,7 @@ The rules themselves: how Szmelc projects are built, shipped and maintained. One
 Agent behaviour rules (subagents, token efficiency) live in `AGENTS/RULES/`. How to add or change a rule: `CONTRIBUTING/README.md`.
 
 ## Rule format
-- Line 1 `# Title`, line 2 `> Load when: <trigger>`, then imperative one-liners. Skeleton: `META/templates/rule.md`.
-- Paths are UPPERCASE kebab; a rule about a file `X.ext` is `X-EXT.md` (`CONTRIBUTING/README.md`, "Naming").
-- Never duplicate a rule; reference it by path (`CONVENTIONS/DESIGN/COLORS.md`).
+- Header, length, naming (`X-EXT.md`), references and status: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. Skeleton: `META/templates/rule.md`.
 - New domain → new directory under `CONVENTIONS/`. New topic → copy the skeleton.
 
 ## Lifecycle
@@ -33,4 +31,4 @@ Agent behaviour rules (subagents, token efficiency) live in `AGENTS/RULES/`. How
 
 ## Formats
 - Root `CONVENTIONS.md` is the generated all-in-one bundle: a map of this tree plus every stable rule inlined, for tools that cannot lazy-load.
-- `INDEX.md`, `index.json`, `llms.txt` index the same rules for agents and the web.
+- `INDEX.md`, `index.json`, `llms.txt` index the same rules for agents and the web (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`, `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`).

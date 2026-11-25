@@ -103,7 +103,7 @@ while IFS= read -r l; do err "dangling symlink: $l"; done < <(find . -path ./.gi
 # 10. Scripts are executable.
 for s in install.sh META/tools/*.sh; do [[ -x $s ]] || err "$s: not executable"; done
 
-# 11. Naming: rule categories and topic files are UPPERCASE kebab (CONTRIBUTING/README.md).
+# 11. Naming: rule categories and topic files are UPPERCASE kebab (CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md).
 while IFS= read -r p; do
   n=${p##*/}
   [[ $n == README.md ]] && continue
