@@ -8,7 +8,8 @@ How the conventions repo works: sources in, every format out.
 |---|---|
 | `META/tools/build.sh` | Sources → `INDEX.md`, `index.json`, `llms.txt`, `CONVENTIONS.md`, core maps (`AGENTS.md` block, `HUMANS.md`, `SZMELC.md`, `META.md`), `AGENTS/adapters/`. `--check` fails when stale |
 | `META/tools/check.sh` | Generated files fresh, rule/core headers, skills frontmatter, index entries, path references, case collisions, dangling links |
-| `META/tools/lane-check.sh` | Branch-prefix scope for PRs (`CONVENTIONS/workflow/branches.md`) |
+| `META/tools/lane-check.sh` | Branch-prefix scope for PRs; rejects `local/*` (`CONVENTIONS/workflow/branches.md`) |
+| `META/tools/hooks/pre-push` | Refuses to push `local/*`; enable with `git config core.hooksPath META/tools/hooks` |
 | `META/tools/test-install.sh` | `install.sh` smoke test in a throwaway `$HOME` |
 | `META/tools/site.sh` | GitHub Pages site into gitignored `public/`; projects from the GitHub API over `SZMELC/sources.conf` |
 

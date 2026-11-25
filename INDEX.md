@@ -21,19 +21,32 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | File | Load when |
 |---|---|
 | `AGENTS/rules/agent-files.md` | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project. |
+| `AGENTS/rules/efficiency.md` | choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long. |
 | `AGENTS/rules/skills.md` | writing, editing, or installing an agent skill. |
 | `AGENTS/rules/subagents.md` | considering a subagent, parallel work, skills/MCP use, or long-running commands. |
-| `CONVENTIONS/code/stack.md` | starting a project or tool, or choosing language, dependencies or config format. |
+| `CONVENTIONS/code/dotfiles.md` | building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations. |
+| `CONVENTIONS/code/go.md` | writing, building or releasing Go code. |
+| `CONVENTIONS/code/naming.md` | naming a repo, binary, package, env var, config key, file or doc. |
+| `CONVENTIONS/code/shell.md` | writing or editing a shell script (bash, zsh, POSIX sh) or an installer. |
+| `CONVENTIONS/code/stack.md` | starting a project or tool, or choosing a language or dependencies. |
 | `CONVENTIONS/design/colors.md` | any UI, TUI, CLI color, web page, theme, badge or graphic. |
 | `CONVENTIONS/interfaces/cli.md` | building or changing a command-line tool. |
+| `CONVENTIONS/interfaces/config.md` | adding a config file, options, env vars, or storage paths to a tool. |
 | `CONVENTIONS/interfaces/tui.md` | building a TUI, or any project that has a CLI. |
 | `CONVENTIONS/packaging/arch.md` | packaging, releasing, or adding install instructions. |
+| `CONVENTIONS/packaging/install.md` | writing an installer, a setup script, install instructions, or uninstall steps. |
 | `CONVENTIONS/packaging/nix.md` | packaging, releasing, or setting up a dev environment. |
+| `CONVENTIONS/repo/design-docs.md` | starting a project, writing a brief for a coding agent, or changing a project's architecture. |
+| `CONVENTIONS/repo/layout.md` | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
+| `CONVENTIONS/repo/metadata.md` | creating a repo, first push, release, or editing README/manifest/license. |
+| `CONVENTIONS/repo/readme.md` | writing or editing a project README. |
+| `CONVENTIONS/repo/writing.md` | writing docs, help text, error messages, commit messages, or community and lore text. |
 | `CONVENTIONS/workflow/branches.md` | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
+| `CONVENTIONS/workflow/commits.md` | writing a commit message, PR title, or squash-merge title. |
 | `CONVENTIONS/workflow/finish.md` | finishing a feature or fix, before calling work done. |
 | `CONVENTIONS/workflow/git-pr-ci.md` | committing, pushing, opening/merging a PR, or fixing CI. |
 | `CONVENTIONS/workflow/notify.md` | a job runs > ~10 min, or a failure needs a human. |
-| `CONVENTIONS/workflow/repo-metadata.md` | creating a repo, first push, release, or editing README/manifest/license. |
+| `CONVENTIONS/workflow/releases.md` | bumping a version, tagging a release, or planning a major version. |
 | `CONVENTIONS/workflow/verification.md` | any code change. |
 
 ## Skills
@@ -48,7 +61,6 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/experimental/meta-grammar.md` | user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions. |
 | `CONVENTIONS/experimental/modules.md` | user opts into experimental conventions, or builds a Kombinat/KUR plugin module. |
 | `CONVENTIONS/experimental/spec-files.md` | user opts into experimental conventions, or designs Szmelc spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md). |
-| `CONVENTIONS/experimental/versioning.md` | user opts into experimental conventions, or tags releases / plans a major rewrite. |
 
 ## Legacy (archive; load only when asked)
 | File | Title |

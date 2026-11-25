@@ -1,9 +1,10 @@
 # Stack defaults
-> Load when: starting a project or tool, or choosing language, dependencies or config format.
+> Load when: starting a project or tool, or choosing a language or dependencies.
 
 - Minimal deps: write or cherry-pick the snippet before pulling a library for one small task.
-- CLI / TUI / system glue: Go, stdlib-first (`CONVENTIONS/interfaces/cli.md`, `CONVENTIONS/interfaces/tui.md`); shell (zsh/bash) first-class, python/node secondary.
-- Human-edited config: TOML (commented, merges cleanly). Machine config: strict JSON (reject unknown keys).
-- Avoid YAML for authored config (whitespace/type footguns); use it only where a tool demands it.
-- Local persistence: SQLite ("strap-in", portable) unless a plain file fits.
-- Config-driven and modular where it costs little: behaviour in config/plugins, not hardcoded.
+- CLI / TUI / daemons: Go, stdlib-first (`CONVENTIONS/code/go.md`, `CONVENTIONS/interfaces/cli.md`, `CONVENTIONS/interfaces/tui.md`).
+- Glue and installers: shell (`CONVENTIONS/code/shell.md`). Never add a runtime (node, python) for what shell or Go does in a few lines.
+- Web UI: static HTML/CSS/JS, no build step to run; frameworks only when the UI really needs them.
+- Python only where its ecosystem is the point (ML, data); keep the core light and heavy stacks optional.
+- Config-driven and modular where it costs little: behavior in config and plugins, not hardcoded (`CONVENTIONS/interfaces/config.md`).
+- Platforms: Arch first (reference, CI-tested), then Nix and other Linux, Windows via WSL2, macOS best effort; no hardcoded `/home/...` paths.

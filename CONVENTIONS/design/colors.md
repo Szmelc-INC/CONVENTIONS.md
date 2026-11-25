@@ -10,5 +10,7 @@
 | Aquamarine | `#7fffd4` | Max 1–2 highlights per screen, black text |
 | Neutrals | `#0b0b0b` `#131313` `#1b1b1b`, lines `#262626` | Everything else |
 
-- Dark by default. Never purple.
+- Dark by default; light only as a toggle. Never purple, never a framework's default accent.
+- Neutrals carry no blue or green tint.
+- Badges, banners and shields use the same palette: `105c5c` fill, `c0c0c0` for secondary values, `750f0f` for experimental.
 - Project has config → make colors configurable.

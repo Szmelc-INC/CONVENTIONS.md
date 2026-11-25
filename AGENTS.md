@@ -21,6 +21,7 @@ Map of `AGENTS/`. Full guide: [`AGENTS/README.md`](AGENTS/README.md).
 | [`AGENTS/adapters/kiro/szmelc-conventions.md`](AGENTS/adapters/kiro/szmelc-conventions.md) | Generated adapter: Szmelc global rules |  |
 | [`AGENTS/global/AGENTS.md`](AGENTS/global/AGENTS.md) | Szmelc global rules |  |
 | [`AGENTS/rules/agent-files.md`](AGENTS/rules/agent-files.md) | Agent instruction files | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, Cursor/Copilot/Kiro/Windsurf rules, or llms.txt in any project. |
+| [`AGENTS/rules/efficiency.md`](AGENTS/rules/efficiency.md) | Token efficiency | choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long. |
 | [`AGENTS/rules/skills.md`](AGENTS/rules/skills.md) | Skills (SKILL.md) | writing, editing, or installing an agent skill. |
 | [`AGENTS/rules/subagents.md`](AGENTS/rules/subagents.md) | Subagents & tools | considering a subagent, parallel work, skills/MCP use, or long-running commands. |
 | [`AGENTS/skills/deep/SKILL.md`](AGENTS/skills/deep/SKILL.md) | Skill `deep` |  |

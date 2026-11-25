@@ -6,15 +6,16 @@ The rules themselves: how Szmelc projects are built, shipped and maintained. One
 ## Categories
 | Directory | Covers |
 |---|---|
-| `CONVENTIONS/workflow/` | Branches, git/PR/CI, finishing work, verification, notifications, repo metadata |
+| `CONVENTIONS/workflow/` | Branches, commits, git/PR/CI, releases, finishing work, verification, notifications |
+| `CONVENTIONS/repo/` | Repo layout, README, design docs and agent briefs, writing and voice, metadata and license |
 | `CONVENTIONS/design/` | Colors and visual identity for UI, TUI, CLI, web, badges |
-| `CONVENTIONS/interfaces/` | CLI and TUI design |
-| `CONVENTIONS/packaging/` | Arch `PKGBUILD`, Nix flakes |
-| `CONVENTIONS/code/` | Stack defaults: language, dependencies, config formats, persistence |
+| `CONVENTIONS/interfaces/` | CLI, TUI and configuration design |
+| `CONVENTIONS/packaging/` | Arch `PKGBUILD` and SAUR, Nix flakes, installers |
+| `CONVENTIONS/code/` | Stack defaults, naming, Go, shell scripts, shell environment and dotfiles |
 | `CONVENTIONS/experimental/` | Opt-in proposals; load only when the user opts in (branch `experimental/<x>`) |
 | `CONVENTIONS/legacy/` | Superseded drafts, never deleted; load only when asked (branch `legacy/<x>`) |
 
-Agent-specific rules (subagents, agent-file formats, skills) live in `AGENTS/rules/`.
+Agent-specific rules (subagents, token efficiency, agent-file formats, skills) live in `AGENTS/rules/`.
 
 ## Rule format
 - Line 1 `# Title`, line 2 `> Load when: <trigger>`, then imperative one-liners. Skeleton: `META/templates/rule.md`.

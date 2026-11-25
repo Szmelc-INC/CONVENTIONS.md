@@ -3,4 +3,5 @@
 
 - Tool: `dc-notify` (`-h` for help). Embed with outcome title; `-s ok|fail|warn|run`; fields `-F "k|v"`; links `-b "label|url"`.
 - Send on long-job start + end, and on failures needing a human.
-- `-p` pings @sx66 (818166724641030193): critical only.
+- `-p` pings the owner: critical only.
+- Webhooks and user IDs live in the tool's local config (`$DC_WEBHOOK` or the user config dir); never in a repo.
