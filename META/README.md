@@ -11,7 +11,7 @@ How the conventions repo works: sources in, every format out.
 | `META/tools/lane-check.sh` | Branch-prefix scope for PRs; rejects `local/*` (`CONVENTIONS/WORKFLOW/BRANCHES.md`) |
 | `META/tools/hooks/pre-push` | Refuses to push `local/*`; enable with `git config core.hooksPath META/tools/hooks` |
 | `META/tools/test-install.sh` | `install.sh` smoke test in a throwaway `$HOME` |
-| `META/tools/site.sh` | GitHub Pages site into gitignored `public/`; projects from the GitHub API over `SZMELC/sources.conf` |
+| `META/tools/site.sh` | GitHub Pages site into gitignored `public/`: `index.html`, JSON, and `llms.txt`, `index.json`, `INDEX.md`, `CONVENTIONS.md`, `SKILL.md` at the site root; projects from the GitHub API over `SZMELC/sources.conf` |
 | `META/tools/release.sh` | Verifies the tag (annotated, on `main`), runs check, builds bundle assets + `SHA256SUMS` into gitignored `dist/`, publishes the GitHub release. `--dry-run` prints instead |
 | `META/tools/labels.sh` | Applies `.github/labels.tsv` with `gh label create --force`; never deletes. `--dry-run` |
 | `META/tools/github-setup.sh` | Repo settings, security toggles, rulesets (`main`, `release-tags`) and labels as code; idempotent. `--dry-run` |
