@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the public site (GitHub Pages): one tab per core with its rendered guide, rules and files, plus a Projects index.
+# Build the public site (GitHub Pages): one tab per core with its rendered guide, readable rules and files, plus a Projects index.
 # Output goes to public/ (gitignored), built in CI and deployed to Pages — never committed,
 # so it never makes check.sh stale.
 #
@@ -85,7 +85,7 @@ for f in "${STABLE[@]}"; do
   cat=${rest%%/*}
   [[ $cat == "$rest" ]] && cat=general
   jq -nc --arg core "${f%%/*}" --arg cat "$cat" --arg path "$f" --arg title "$(title "$f")" --arg trigger "$(trigger "$f")" \
-    '{core:$core,cat:$cat,path:$path,title:$title,load:$trigger}' >>"$tmp/rules.ndjson"
+    --rawfile src "$f" '{core:$core,cat:$cat,path:$path,title:$title,load:$trigger,src:$src}' >>"$tmp/rules.ndjson"
 done
 
 : >"$tmp/skills.ndjson"
@@ -100,12 +100,13 @@ done
 : >"$tmp/experimental.ndjson"
 for f in "${EXPERIMENTAL[@]}"; do
   jq -nc --arg path "$f" --arg title "$(title "$f")" --arg trigger "$(trigger "$f")" \
-    '{path:$path,title:$title,load:$trigger}' >>"$tmp/experimental.ndjson"
+    --rawfile src "$f" '{path:$path,title:$title,load:$trigger,src:$src}' >>"$tmp/experimental.ndjson"
 done
 
 : >"$tmp/legacy.ndjson"
 for f in "${LEGACY[@]}"; do
-  jq -nc --arg path "$f" --arg title "$(head -5 "$f" | grep -m1 '^# ' | sed 's/^# //')" '{path:$path,title:$title}' >>"$tmp/legacy.ndjson"
+  jq -nc --arg path "$f" --arg title "$(head -5 "$f" | grep -m1 '^# ' | sed 's/^# //')" --rawfile src "$f" \
+    '{path:$path,title:$title,src:$src}' >>"$tmp/legacy.ndjson"
 done
 
 # Every repo path a guide may mention, so `code` spans that name one become links.
@@ -172,7 +173,10 @@ jq -n \
 # Secondary machine-readable artifact: just the projects list.
 jq '{built:.built, note:.projects_note, projects:.projects}' "$OUT/conventions.json" >"$OUT/projects.json"
 
+
 # --- index.html (data inlined, so it also works offline / over file://) ------
+# Retro-minimal, modeled on the SAUR site: accent top rule, folder tabs, stats row,
+# copyable install block, rules readable inline. Colors: CONVENTIONS/design/colors.md.
 DATA=$(jq -c . "$OUT/conventions.json" | sed 's#</#<\\/#g')
 {
   cat <<'HTML_HEAD'
@@ -181,113 +185,195 @@ DATA=$(jq -c . "$OUT/conventions.json" | sed 's#</#<\\/#g')
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Szmelc Conventions</title>
-<meta name="description" content="Global Szmelc conventions for humans and AI agents: one source, every format. Five cores: conventions, agents, humans, szmelc, meta.">
+<title>CONVENTIONS.md · Szmelc</title>
+<meta name="description" content="CONVENTIONS.md by Szmelc: global conventions for humans and AI agents from one source. Read every rule inline, copy it raw, install it into any agent harness.">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap">
 <style>
 :root{
-  --accent:#1f8a8a; --accent-fill:#105c5c; --danger:#b83a3a; --danger-fill:#750f0f;
+  --brand:#105c5c; --brand-t:#1f8a8a; --ex:#750f0f; --ex-t:#b83a3a;
   --silver:#c0c0c0; --aqua:#7fffd4;
-  --bg:#0b0b0b; --surface:#131313; --surface2:#1b1b1b; --line:#262626;
-  --fg:#e8e8e8; --muted:#9a9a9a;
+  --bg:#0b0b0b; --surface:#131313; --raise:#1b1b1b; --line:#262626;
+  --fg:#e8e8e8; --mute:#8e8e8e;
+  --mono:"JetBrainsMono Nerd Font","JetBrainsMono NF","JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;
+  color-scheme:dark;
 }
 :root[data-theme="light"]{
-  --accent:#105c5c; --accent-fill:#105c5c; --danger:#750f0f;
-  --silver:#555; --bg:#f4f4f4; --surface:#fff; --surface2:#ececec;
-  --line:#d4d4d4; --fg:#161616; --muted:#5a5a5a;
+  --brand-t:#105c5c; --ex-t:#750f0f; --silver:#555;
+  --bg:#f3f3f3; --surface:#fff; --raise:#e9e9e9; --line:#d6d6d6; --fg:#141414; --mute:#5b5b5b;
+  color-scheme:light;
 }
+body{--acc:var(--brand); --acc-t:var(--brand-t)}
+body[data-tab="experimental"]{--acc:var(--ex); --acc-t:var(--ex-t)}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--fg);font:15px/1.5 ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif}
-a{color:var(--accent);text-decoration:none}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--sans);border-top:4px solid var(--acc);transition:border-color .2s}
+button,input{font:inherit;color:inherit}
+a{color:var(--acc-t);text-decoration:none}
 a:hover{text-decoration:underline}
-code{font-family:ui-monospace,monospace;font-size:.88em;background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:0 4px}
-header{border-bottom:1px solid var(--line);padding:18px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline}
-header h1{font-size:19px;margin:0;letter-spacing:.3px}
-header h1 .dot{color:var(--accent)}
-header .sub{color:var(--muted);font-size:13px}
-header .spacer{flex:1 1 auto}
-header .meta{color:var(--muted);font-size:12px}
-.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
-nav.tabs{display:flex;flex-wrap:wrap;gap:6px;padding:12px 0;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
-nav.tabs button{background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:999px;
-  padding:5px 13px;font-size:13px;cursor:pointer;transition:.12s}
-nav.tabs button:hover{border-color:var(--accent)}
-nav.tabs button.core{font-weight:600;letter-spacing:.4px}
-nav.tabs button[aria-selected="true"]{background:var(--accent-fill);color:#fff;border-color:var(--accent-fill)}
-nav.tabs button.ex[aria-selected="true"]{background:var(--danger-fill);border-color:var(--danger-fill)}
-nav.tabs button .n{opacity:.6;margin-left:6px;font-variant-numeric:tabular-nums}
-nav.tabs .sep{width:1px;background:var(--line);margin:2px 4px}
-.toolbar{display:flex;gap:10px;align-items:center;padding:14px 0}
-.toolbar input{flex:1 1 auto;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;
-  color:var(--fg);padding:9px 12px;font-size:14px}
-.toolbar input:focus{outline:none;border-color:var(--accent)}
-.btn{background:var(--surface);border:1px solid var(--line);color:var(--fg);border-radius:8px;
-  padding:9px 12px;font-size:13px;cursor:pointer}
-.btn:hover{border-color:var(--accent)}
-.lead{color:var(--muted);font-size:13px;padding:0 0 10px}
-.lead a{margin-left:6px}
-section.sec{margin:0 0 18px}
-section.sec>h2{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--silver);font-weight:600;
-  margin:18px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:0 0 10px}
-.card h3{margin:0 0 4px;font-size:15px}
-.card h3 .path{color:var(--muted);font-weight:400;font-size:12px;margin-left:8px;font-family:ui-monospace,monospace}
-.card p{margin:4px 0 0;color:var(--muted);font-size:13.5px}
-.card .row{display:flex;gap:8px;align-items:center;margin-top:9px;flex-wrap:wrap}
-.card .row a,.card .row button{font-size:12px;border:1px solid var(--line);background:var(--surface2);
-  color:var(--fg);border-radius:6px;padding:4px 9px;cursor:pointer}
-.card .row a:hover,.card .row button:hover{border-color:var(--accent);text-decoration:none}
-.files .card{padding:9px 14px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-.files .card h3{font-size:13px;font-family:ui-monospace,monospace;font-weight:400;margin:0}
-.files .card p{margin:0;flex:1 1 200px}
-.guide{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent-fill);border-radius:10px;padding:6px 18px 12px;margin:0 0 10px}
-.guide summary{cursor:pointer;color:var(--silver);font-size:13px;padding:8px 0;list-style:none}
-.guide summary::before{content:"▸ ";color:var(--accent)}
-.guide[open] summary::before{content:"▾ "}
+code,pre,kbd{font-family:var(--mono)}
+code{font-size:.86em;background:var(--raise);border:1px solid var(--line);border-radius:4px;padding:0 4px}
+kbd{font-size:11px;padding:0 5px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;color:var(--silver);background:var(--surface)}
+main{max-width:1080px;margin:0 auto;padding:18px 16px 56px}
+
+/* header pills */
+.top{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin-bottom:22px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border:1px solid var(--line);border-radius:999px;
+  background:var(--surface);color:var(--silver);font:500 12.5px var(--mono);white-space:nowrap;text-decoration:none;cursor:pointer;transition:border-color .15s,color .15s}
+.pill:hover{text-decoration:none;border-color:var(--brand);color:var(--fg)}
+.pill.main{background:var(--brand);border-color:var(--brand);color:#fff}
+
+/* hero: big retro title */
+.hero{margin:6px 0 22px}
+.title{margin:0;font:800 clamp(30px,8.6vw,92px)/1 var(--mono);letter-spacing:-.03em;color:var(--fg);
+  text-shadow:.045em .045em 0 var(--brand),.09em .09em 0 var(--line);white-space:nowrap}
+.title .ext{color:var(--acc-t);transition:color .2s}
+.title .cur{display:inline-block;width:.5em;height:.82em;margin-left:.06em;vertical-align:-.04em;background:var(--aqua);text-shadow:none;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.title .cur{animation:none}}
+.by{margin:14px 0 0;font:600 clamp(13px,2.2vw,17px) var(--mono);letter-spacing:.22em;color:var(--silver)}
+.by::before{content:"── ";color:var(--acc-t)}
+.tagline{margin:10px 0 0;color:var(--mute);max-width:62ch}
+.stats{display:flex;flex-wrap:wrap;gap:6px 18px;margin:14px 0 0;font:13px var(--mono);color:var(--mute)}
+.stats b{color:var(--silver);font-weight:600;font-variant-numeric:tabular-nums}
+.cmd{position:relative;margin:16px 0 0}
+.cmd pre{margin:0;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:8px;
+  padding:11px 80px 11px 14px;overflow-x:auto;font-size:13px;line-height:1.55}
+.cmd pre .c{color:var(--mute)}
+.cmd .cp{position:absolute;top:8px;right:8px}
+.cp{padding:2px 9px;font:12px var(--mono);border:1px solid var(--line);border-radius:6px;background:var(--raise);color:var(--silver);cursor:pointer;text-decoration:none}
+.cp:hover{border-color:var(--acc);color:var(--fg);text-decoration:none}
+.cp.done{background:var(--acc);border-color:var(--acc);color:#fff}
+
+/* folder tabs */
+.tabs{display:flex;gap:6px;overflow-x:auto;margin:26px 0 0;border-bottom:2px solid var(--acc);transition:border-color .2s;scrollbar-width:thin}
+.tab{flex:none;padding:8px 14px;border:1px solid var(--line);border-bottom:0;border-radius:8px 8px 0 0;background:var(--surface);
+  color:var(--silver);font:600 13px var(--mono);letter-spacing:.04em;cursor:pointer}
+.tab:hover{color:var(--fg)}
+.tab small{font-weight:400;color:var(--mute);margin-left:6px;font-variant-numeric:tabular-nums}
+.tab[aria-selected="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.tab[aria-selected="true"] small{color:#ffffffb3}
+.tab.hit:not([aria-selected="true"]){border-color:var(--brand-t);color:var(--fg)}
+.tab.gap{margin-left:10px}
+
+/* filter bar */
+.bar{display:flex;gap:8px;align-items:center;margin:14px 0 6px}
+.bar input{flex:1;min-width:0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.bar input:focus{outline:2px solid var(--acc);outline-offset:-1px}
+.bar .btn{padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--silver);font:12.5px var(--mono);cursor:pointer;white-space:nowrap}
+.bar .btn:hover{border-color:var(--acc);color:var(--fg)}
+.lead{color:var(--mute);font-size:13.5px;margin:4px 0 0}
+.lead a{font-family:var(--mono);font-size:12.5px;margin-left:10px}
+
+/* sections and rule rows */
+.sec>h2{display:flex;align-items:baseline;gap:8px;margin:22px 0 6px;font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--silver)}
+.sec>h2::before{content:"#";color:var(--acc-t)}
+.sec>h2 small{color:var(--mute);font-weight:400}
+details.item{border-bottom:1px solid var(--line)}
+details.item>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(180px,2fr) 3fr auto;gap:4px 16px;align-items:baseline;padding:10px 6px;border-radius:6px}
+details.item>summary::-webkit-details-marker{display:none}
+details.item>summary:hover{background:var(--surface)}
+details.item>summary:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.it-name{font-weight:600;min-width:0}
+.it-name::before{content:"▸ ";color:var(--acc-t);font-family:var(--mono)}
+details[open]>summary .it-name::before{content:"▾ "}
+.it-path{display:block;font:12px var(--mono);color:var(--mute);font-weight:400;overflow-wrap:anywhere}
+.it-load{color:var(--mute);font-size:13.5px}
+.it-tag{font:11px var(--mono);border:1px solid currentColor;border-radius:999px;padding:0 7px;color:var(--ex-t);white-space:nowrap}
+.body{margin:0 6px 14px 22px;padding:4px 16px 12px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:8px}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px}
+.files .row{display:grid;grid-template-columns:minmax(180px,2fr) 3fr;gap:4px 16px;padding:8px 6px;border-bottom:1px solid var(--line);font-size:13.5px}
+.files .row a{font:12.5px var(--mono);overflow-wrap:anywhere}
+.files .row span{color:var(--mute)}
+details.guide{margin:16px 0 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+details.guide>summary{list-style:none;cursor:pointer;padding:10px 14px;color:var(--silver);font:500 13px var(--mono)}
+details.guide>summary::-webkit-details-marker{display:none}
+details.guide>summary::before{content:"▸ ";color:var(--acc-t)}
+details.guide[open]>summary::before{content:"▾ "}
+details.guide[open]>summary{border-bottom:1px solid var(--line)}
+details.guide .md{padding:2px 16px 12px}
+
+/* projects table */
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 11.5px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--silver)}
+td.n a{font-weight:600;white-space:nowrap}
+td.n small{display:block;font:11.5px var(--mono);color:var(--mute)}
+td.d{color:var(--mute);font-size:13.5px}
+td.r{font:12px var(--mono);color:var(--mute);white-space:nowrap;font-variant-numeric:tabular-nums}
+.lang{font:11px var(--mono);color:var(--acc-t);border:1px solid var(--line);border-radius:999px;padding:0 7px;white-space:nowrap}
+
+/* rendered markdown */
 .md h2{font-size:15px;margin:16px 0 6px}
 .md h3,.md h4{font-size:14px;margin:12px 0 4px}
 .md p,.md li{font-size:14px}
 .md p{margin:6px 0}
 .md ul,.md ol{margin:6px 0;padding-left:22px}
-.md table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0;display:block;overflow-x:auto}
-.md th,.md td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
-.md th{background:var(--surface2)}
+.md hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+.md table{font-size:13px;margin:8px 0;display:block;overflow-x:auto}
+.md th,.md td{border:1px solid var(--line);padding:5px 8px;font-family:inherit;text-transform:none;letter-spacing:0;font-size:13px}
+.md th{background:var(--raise);color:var(--fg)}
 .md pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:12.5px}
 .md pre code{background:none;border:0;padding:0}
-.md blockquote{margin:6px 0;padding:2px 12px;border-left:3px solid var(--line);color:var(--muted)}
-.tag{display:inline-block;font-size:11px;color:var(--muted);border:1px solid var(--line);
-  border-radius:999px;padding:1px 8px;margin:0 4px 4px 0}
-.tag.lang{color:var(--accent);border-color:var(--accent)}
-.badge-ex{color:var(--danger);font-size:11px;border:1px solid var(--danger);border-radius:999px;padding:1px 7px;margin-left:8px}
-.proj .meta{color:var(--muted);font-size:12px;margin-top:6px;display:flex;gap:12px;flex-wrap:wrap}
-.empty{color:var(--muted);padding:30px 0;text-align:center}
-footer{border-top:1px solid var(--line);margin-top:30px;padding:18px 16px;color:var(--muted);font-size:12px}
-footer a{color:var(--accent)}
-mark{background:var(--aqua);color:#000;border-radius:2px}
+.md blockquote{margin:6px 0;padding:2px 12px;border-left:3px solid var(--line);color:var(--mute)}
+.empty{color:var(--mute);padding:30px 0;text-align:center;font-family:var(--mono)}
+
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--mute);font-size:12.5px;display:flex;flex-wrap:wrap;gap:6px 16px}
+footer .keys{margin-left:auto}
+
+@media (max-width:640px){
+  main{padding-top:12px}
+  .top{justify-content:flex-start}
+  details.item>summary,.files .row{grid-template-columns:1fr auto}
+  details.item>summary .it-load{grid-column:1/-1;order:3}
+  .files .row span{grid-column:1/-1}
+  .body{margin-left:0}
+  .cmd pre{padding:36px 14px 11px}
+  thead{display:none}
+  #proj tr{display:flex;flex-wrap:wrap;gap:2px 12px;padding:10px 2px;border-bottom:1px solid var(--line)}
+  #proj td{padding:0;border:0}
+  #proj td.d{flex-basis:100%;order:3}
+  #proj td.r{order:4}
+  footer .keys{display:none}
+}
 </style>
 </head>
-<body>
-<header>
-  <h1>Szmelc<span class="dot">·</span>Conventions</h1>
-  <span class="sub">one source, every format — for humans &amp; AI agents</span>
-  <span class="spacer"></span>
-  <span class="meta" id="built"></span>
-  <button class="btn" id="theme" style="padding:6px 10px">◐ theme</button>
+<body data-tab="conventions">
+<main>
+<header class="top" aria-label="Links">
+  <a class="pill main" href="https://szmelc.com/">szmelc.com</a>
+  <a class="pill" href="https://github.com/Szmelc-INC">Szmelc-INC</a>
+  <a class="pill" id="l-src" href="#">Source</a>
+  <a class="pill" id="l-llms" href="#" title="llms.txt: index for LLM agents">llms.txt</a>
+  <a class="pill" href="conventions.json" title="All data as JSON">JSON</a>
+  <a class="pill" href="https://szmelc-inc.github.io/SAUR/" title="Szmelc AUR">SAUR</a>
+  <button class="pill" id="theme" type="button">Light</button>
 </header>
-<div class="wrap">
-  <nav class="tabs" id="tabs"></nav>
-  <div class="toolbar">
-    <input id="q" type="search" placeholder="Filter…  (press /)" autocomplete="off">
-    <button class="btn" id="raw">Raw JSON</button>
-  </div>
-  <div class="lead" id="lead"></div>
-  <main id="list"></main>
+
+<section class="hero">
+  <h1 class="title">CONVENTIONS<span class="ext">.md</span><span class="cur" aria-hidden="true"></span></h1>
+  <p class="by">By Szmelc™</p>
+  <p class="tagline">One source of rules for humans and AI agents, shipped in every format: <code>SKILL.md</code>, <code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>llms.txt</code>, Cursor, Copilot and Kiro rules. Read any rule below, copy it raw, or install the lot.</p>
+  <div class="stats" id="stats"></div>
+  <div class="cmd"><pre id="install"></pre><button class="cp" type="button" data-cp-from="install">copy</button></div>
+</section>
+
+<nav class="tabs" id="tabs" role="tablist" aria-label="Sections"></nav>
+<div class="bar">
+  <input id="q" type="search" placeholder="Filter rules, files, projects…" aria-label="Filter" autocomplete="off">
+  <button class="btn" id="expand" type="button">expand all</button>
 </div>
-<footer class="wrap">
-  Generated by <code>META/tools/site.sh</code> from source files and the GitHub API ·
-  <a id="repolink" href="#">repo</a> · <a id="skilllink" href="#">SKILL.md</a> ·
-  <a href="https://szmelc-inc.github.io/SAUR/">SAUR</a> · <a href="https://szmelc.com/">szmelc.com</a>
+<p class="lead" id="lead"></p>
+<div id="list"></div>
+
+<footer>
+  <span>Generated by <code>META/tools/site.sh</code> from source files and the GitHub API · <span id="built"></span></span>
+  <span class="keys"><kbd>/</kbd> filter · <kbd>1</kbd>–<kbd>9</kbd> tabs · <kbd>e</kbd> expand · <kbd>esc</kbd> clear</span>
 </footer>
+</main>
 <script id="data" type="application/json">
 HTML_HEAD
   printf '%s\n' "$DATA"
@@ -302,12 +388,16 @@ const PATHS = new Set(D.paths||[]);
 const ghURL = p => D.repo + (p.endsWith('/') ? '/tree/main/' : '/blob/main/') + p.replace(/\/$/,'');
 const rawURL = p => D.raw + '/' + p;
 const safeHref = h => /^https?:\/\//i.test(h) ? h : (/^[\w./-]+$/.test(h) ? ghURL(h) : '#');
+const ext = (h,t) => `<a href="${esc(h)}" target="_blank" rel="noopener">${t}</a>`;
 
 $('#built').textContent = 'built ' + (D.built||'').replace('T',' ').replace('Z',' UTC');
-$('#repolink').href = D.repo;
-$('#skilllink').href = ghURL('SKILL.md');
+$('#l-src').href = D.repo;
+$('#l-llms').href = rawURL('llms.txt');
+const INSTALL = `git clone ${D.repo} ~/.config/szmelc/conventions\n~/.config/szmelc/conventions/install.sh`;
+$('#install').innerHTML = '<span class="c"># install for every supported agent harness</span>\n' + esc(INSTALL);
+$('#install').dataset.copy = INSTALL;
 
-// --- tiny Markdown renderer for the core guides (headings, lists, tables, code, quotes, links) ---
+// --- tiny Markdown renderer (headings, lists, tables, code, quotes, rules, links) ---
 function inline(s){
   const re = /`([^`]+)`|\[([^\]]+)\]\(([^)\s]+)\)|<(https?:\/\/[^>\s]+)>|\*\*([^*]+)\*\*/g;
   let out = '', last = 0, m;
@@ -315,11 +405,11 @@ function inline(s){
     out += esc(s.slice(last, m.index)); last = re.lastIndex;
     if (m[1] !== undefined){
       const c = m[1], p = c.replace(/:.*$/,'');
-      out += PATHS.has(p) ? `<a href="${esc(ghURL(p))}" target="_blank" rel="noopener"><code>${esc(c)}</code></a>` : `<code>${esc(c)}</code>`;
+      out += PATHS.has(p) ? ext(ghURL(p), `<code>${esc(c)}</code>`) : `<code>${esc(c)}</code>`;
     } else if (m[2] !== undefined){
-      out += `<a href="${esc(safeHref(m[3]))}" target="_blank" rel="noopener">${inline(m[2])}</a>`;
+      out += ext(safeHref(m[3]), inline(m[2]));
     } else if (m[4] !== undefined){
-      out += `<a href="${esc(m[4])}" target="_blank" rel="noopener">${esc(m[4])}</a>`;
+      out += ext(m[4], esc(m[4]));
     } else {
       out += `<strong>${inline(m[5])}</strong>`;
     }
@@ -333,7 +423,8 @@ function md(src){
     const l = L[i];
     if (/^```/.test(l)){ const b=[]; i++; while (i<L.length && !/^```/.test(L[i])) b.push(L[i++]); i++;
       out.push(`<pre><code>${esc(b.join('\n'))}</code></pre>`); continue; }
-    let h = l.match(/^(#{1,6})\s+(.*)$/);
+    if (/^\s*([-*_])(\s*\1){2,}\s*$/.test(l)){ out.push('<hr>'); i++; continue; }
+    const h = l.match(/^(#{1,6})\s+(.*)$/);
     if (h){ const n=Math.min(h[1].length+1,4); out.push(`<h${n}>${inline(h[2])}</h${n}>`); i++; continue; }
     if (/^\|/.test(l) && i+1<L.length && /^\|[\s:|-]+\|?\s*$/.test(L[i+1])){
       const head = cells(l); i += 2; const rows=[];
@@ -341,8 +432,7 @@ function md(src){
       out.push('<table><thead><tr>'+head.map(c=>`<th>${inline(c)}</th>`).join('')+'</tr></thead><tbody>'
         + rows.map(r=>'<tr>'+r.map(c=>`<td>${inline(c)}</td>`).join('')+'</tr>').join('')+'</tbody></table>');
       continue; }
-    const li = l.match(/^\s*([-*]|\d+\.)\s+(.*)$/);
-    if (li){ const ord=/\d/.test(li[1]); const items=[];
+    if (/^\s*([-*]|\d+\.)\s+/.test(l)){ const ord=/^\s*\d/.test(l); const items=[];
       while (i<L.length){ const x=L[i].match(/^\s*([-*]|\d+\.)\s+(.*)$/); if(!x) break; items.push(x[2]); i++; }
       const t = ord?'ol':'ul'; out.push(`<${t}>`+items.map(x=>`<li>${inline(x)}</li>`).join('')+`</${t}>`); continue; }
     if (/^>\s?/.test(l)){ const q=[]; while (i<L.length && /^>\s?/.test(L[i])) q.push(L[i++].replace(/^>\s?/,''));
@@ -354,153 +444,205 @@ function md(src){
   }
   return out.join('\n');
 }
+// Rule body without the "# Title" / "> Load when:" header, which the row already shows.
+const bodyOf = src => String(src||'').replace(/^# .*\n(> Load when: .*\n)?/,'');
 
-// --- tabs: one per core, then Projects / Experimental / Legacy ---
-const tabs = D.cores.map(c=>({id:c.id.toLowerCase(), label:c.id, kind:'core', core:c}));
-tabs.push({sep:true});
-tabs.push({id:'projects', label:'Projects', kind:'projects'});
-if (D.experimental.length) tabs.push({id:'experimental', label:'Experimental', kind:'experimental', ex:true});
-if (D.legacy.length) tabs.push({id:'legacy', label:'Legacy', kind:'legacy'});
-const realTabs = tabs.filter(t=>!t.sep);
+// --- model: every tab is a list of sections of items ---
+function ruleItem(r, tab, ex){ return {kind:'rule', tab, path:r.path, title:r.title||r.name||r.path, load:r.load||r.desc||'', src:r.src||'', ex,
+  text:[r.title,r.name,r.load,r.desc,r.path,r.src].join(' ').toLowerCase()}; }
+const tabs = D.cores.map(c=>({id:c.id.toLowerCase(), label:c.id, core:c}));
+tabs.push({id:'projects', label:'Projects', gap:true});
+if (D.experimental.length) tabs.push({id:'experimental', label:'Experimental'});
+if (D.legacy.length) tabs.push({id:'legacy', label:'Legacy'});
 
-const skillsOf = id => id==='AGENTS' ? D.skills : [];
-const count = t => t.kind==='core'
-  ? D.rules.filter(r=>r.core===t.core.id).length + skillsOf(t.core.id).length + t.core.files.length
-  : ({projects:D.projects.length, experimental:D.experimental.length, legacy:D.legacy.length}[t.id]);
-
-const nav = $('#tabs');
 for (const t of tabs){
-  if (t.sep){ nav.appendChild(el('span',{className:'sep'})); continue; }
-  const b = el('button');
-  const n = count(t);
-  b.innerHTML = esc(t.label) + (n ? `<span class="n">${n}</span>` : '');
-  if (t.ex) b.classList.add('ex');
-  if (t.kind==='core') b.classList.add('core');
-  b.dataset.id = t.id;
-  b.onclick = ()=>{ location.hash = t.id; };
-  nav.appendChild(b);
-}
-
-function fileCard(r, {ex=false}={}){
-  const c = el('div',{className:'card'});
-  const t = r.title || r.name;
-  c.innerHTML = `<h3>${esc(t)}${ex?'<span class="badge-ex">experimental</span>':''}<span class="path">${esc(r.path)}</span></h3>`
-    + `<p>${esc(r.load || r.desc || '')}</p>`;
-  const row = el('div',{className:'row'});
-  row.innerHTML = `<a href="${esc(ghURL(r.path))}" target="_blank" rel="noopener">view</a>`
-    + `<a href="${esc(rawURL(r.path))}" target="_blank" rel="noopener">raw</a>`
-    + `<button data-copy="${esc(rawURL(r.path))}">copy raw URL</button>`;
-  c.appendChild(row);
-  c._text = (t+' '+(r.load||r.desc||'')+' '+r.path).toLowerCase();
-  return c;
-}
-function smallCard(f){
-  const c = el('div',{className:'card'});
-  c.innerHTML = `<h3><a href="${esc(ghURL(f.path))}" target="_blank" rel="noopener">${esc(f.path)}</a></h3><p>${inline(f.about||'')}</p>`;
-  c._text = (f.path+' '+(f.about||'')).toLowerCase();
-  return c;
-}
-function projectCard(p){
-  const c = el('div',{className:'card proj'});
-  const home = p.home && /^https?:\/\//i.test(p.home) ? `<a href="${esc(p.home)}" target="_blank" rel="noopener">site</a>` : '';
-  c.innerHTML = `<h3><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>`
-    + `<span class="path">${esc(p.owner)}</span></h3>`
-    + `<p>${p.desc ? esc(p.desc) : '<em>no description</em>'}</p>`;
-  const tags = (p.lang?`<span class="tag lang">${esc(p.lang)}</span>`:'')
-    + (p.topics||[]).slice(0,6).map(t=>`<span class="tag">${esc(t)}</span>`).join('');
-  if (tags) c.insertAdjacentHTML('beforeend', `<div style="margin-top:9px">${tags}</div>`);
-  c.insertAdjacentHTML('beforeend',
-    `<div class="meta">★ ${esc(p.stars)} · updated ${esc((p.updated||'').slice(0,10))} ${home?'· '+home:''}</div>`);
-  c._text = (p.name+' '+p.desc+' '+p.owner+' '+(p.topics||[]).join(' ')+' '+p.lang).toLowerCase();
-  return c;
-}
-
-// sections: [{title, id, cards, cls}]
-function coreSections(core){
-  const secs = [];
-  const rules = D.rules.filter(r=>r.core===core.id);
-  for (const cat of [...new Set(rules.map(r=>r.cat))])
-    secs.push({title:cat, id:`${core.id.toLowerCase()}-${cat}`, cards:rules.filter(r=>r.cat===cat).map(r=>fileCard(r))});
-  const sk = skillsOf(core.id);
-  if (sk.length) secs.push({title:'skills', id:'agents-skills', cards:sk.map(r=>fileCard(r))});
-  if (core.files.length) secs.push({title:'files', id:`${core.id.toLowerCase()}-files`, cards:core.files.map(smallCard), cls:'files'});
-  return secs;
-}
-
-let current = realTabs[0].id, scrollTo = null;
-function render(){
-  const tab = realTabs.find(t=>t.id===current) || realTabs[0];
-  for (const b of nav.querySelectorAll('button')) b.setAttribute('aria-selected', b.dataset.id===tab.id);
-  const list = $('#list'); list.innerHTML = '';
-  const lead = $('#lead');
-  const q = $('#q').value.trim().toLowerCase();
-  let secs = [];
-  if (tab.kind==='core'){
-    const c = tab.core;
-    lead.innerHTML = `${esc(c.load ? 'Load when: '+c.load : '')}`
-      + `<a href="${esc(ghURL(c.id+'/README.md'))}" target="_blank" rel="noopener">${esc(c.id)}/README.md</a>`
-      + `<a href="${esc(ghURL(c.map))}" target="_blank" rel="noopener">${esc(c.map)}</a>`;
-    if (!q){
-      const g = el('details',{className:'guide',open:true});
-      g.innerHTML = `<summary>Guide — ${esc(c.id)}/README.md</summary><div class="md">${md(c.readme)}</div>`;
-      list.appendChild(g);
-    }
-    secs = coreSections(c);
-  } else if (tab.kind==='experimental'){
-    lead.textContent = 'Opt-in proposals. Load only when the user opts into experimental conventions.';
-    secs = [{title:'experimental', cards:D.experimental.map(r=>fileCard(r,{ex:true}))}];
-  } else if (tab.kind==='legacy'){
-    lead.textContent = 'Archived, superseded material. Load only when asked about history.';
-    secs = [{title:'legacy', cards:D.legacy.map(r=>fileCard(r))}];
+  t.secs = [];
+  if (t.core){
+    const id = t.core.id, rules = D.rules.filter(r=>r.core===id);
+    for (const cat of [...new Set(rules.map(r=>r.cat))])
+      t.secs.push({id:`${t.id}-${cat}`, title:cat, items:rules.filter(r=>r.cat===cat).map(r=>ruleItem(r,t.id))});
+    if (id==='AGENTS' && D.skills.length)
+      t.secs.push({id:'agents-skills', title:'skills', items:D.skills.map(s=>ruleItem({...s,title:s.name},t.id))});
+    if (t.core.files.length)
+      t.secs.push({id:`${t.id}-files`, title:'files', files:true, items:t.core.files.map(f=>({kind:'file', path:f.path, about:f.about||'',
+        text:(f.path+' '+(f.about||'')).toLowerCase()}))});
+  } else if (t.id==='projects'){
+    t.secs.push({id:'projects-all', title:'repositories', table:true, items:D.projects.map(p=>({kind:'project', p,
+      text:[p.name,p.desc,p.owner,p.lang,(p.topics||[]).join(' ')].join(' ').toLowerCase()}))});
+  } else if (t.id==='experimental'){
+    t.secs.push({id:'experimental-all', title:'proposals', items:D.experimental.map(r=>ruleItem(r,t.id,true))});
   } else {
+    t.secs.push({id:'legacy-all', title:'archive', items:D.legacy.map(r=>ruleItem(r,t.id))});
+  }
+  t.count = t.secs.reduce((n,s)=>n+s.items.length,0);
+}
+const tabOfPath = new Map();
+for (const t of tabs) for (const s of t.secs) for (const it of s.items) if (it.path && it.kind==='rule') tabOfPath.set(it.path, t.id);
+
+// --- stats ---
+const nRules = D.rules.length, nEx = D.experimental.length;
+$('#stats').innerHTML = [
+  `<span><b>${nRules}</b> rules</span>`,
+  `<span><b>${D.skills.length}</b> skills</span>`,
+  `<span><b>${nEx}</b> experimental</span>`,
+  `<span><b>${D.projects.length}</b> projects</span>`,
+  `<span>built <b>${esc((D.built||'').slice(0,10))}</b></span>`].join('');
+
+// --- tabs ---
+const nav = $('#tabs');
+tabs.forEach((t,i)=>{
+  const b = el('button',{className:'tab'+(t.gap?' gap':''), type:'button'});
+  b.setAttribute('role','tab'); b.dataset.id = t.id; b.title = `${t.label}  (key ${i+1})`;
+  b.append(t.label); b.appendChild(el('small'));
+  b.onclick = ()=>{ location.hash = t.id; };
+  nav.appendChild(b); t.btn = b;
+});
+
+// --- render ---
+const q = $('#q');
+let current = tabs[0].id, focusPath = null, allOpen = false;
+const match = (it,s)=>!s || it.text.includes(s);
+
+function itemRow(it, s){
+  if (it.kind==='file'){
+    const r = el('div',{className:'row'});
+    r.innerHTML = `${ext(ghURL(it.path), esc(it.path))}<span>${inline(it.about)}</span>`;
+    return r;
+  }
+  const d = el('details',{className:'item'}); d.id = it.path;
+  const tag = it.ex ? '<span class="it-tag">experimental</span>' : '<span></span>';
+  d.innerHTML = `<summary><span class="it-name">${esc(it.title)}<span class="it-path">${esc(it.path)}</span></span>`
+    + `<span class="it-load">${esc(it.load)}</span>${tag}</summary>`;
+  const fill = ()=>{
+    if (d.dataset.filled) return; d.dataset.filled = 1;
+    const b = el('div',{className:'body'});
+    b.innerHTML = (it.src ? `<div class="md">${md(bodyOf(it.src))}</div>` : '')
+      + `<div class="acts">`
+      + (it.src ? `<button class="cp" type="button" data-copy-src="${esc(it.path)}">copy markdown</button>` : '')
+      + `<button class="cp" type="button" data-copy="${esc(rawURL(it.path))}">copy raw URL</button>`
+      + `<button class="cp" type="button" data-copy="${esc(location.origin+location.pathname+'#'+it.path)}">copy link</button>`
+      + `<a class="cp" href="${esc(ghURL(it.path))}" target="_blank" rel="noopener">GitHub</a>`
+      + `<a class="cp" href="${esc(rawURL(it.path))}" target="_blank" rel="noopener">raw</a></div>`;
+    d.appendChild(b);
+  };
+  d.addEventListener('toggle', ()=>{ if (d.open) fill(); });
+  if (allOpen || (s && s.length>2 && it.src && it.src.toLowerCase().includes(s) && !it.title.toLowerCase().includes(s))) { d.open = true; fill(); }
+  return d;
+}
+function projectTable(items){
+  const t = el('table'); t.id = 'proj';
+  t.innerHTML = '<thead><tr><th>Repository</th><th>About</th><th>Lang</th><th>★</th><th>Updated</th></tr></thead>';
+  const tb = el('tbody');
+  for (const {p} of items){
+    const tr = el('tr');
+    const home = p.home && /^https?:\/\//i.test(p.home) ? ' · ' + ext(p.home,'site') : '';
+    tr.innerHTML = `<td class="n">${ext(p.url, esc(p.name))}<small>${esc(p.owner)}${home}</small></td>`
+      + `<td class="d">${p.desc ? esc(p.desc) : '<em>no description</em>'}</td>`
+      + `<td>${p.lang ? `<span class="lang">${esc(p.lang)}</span>` : ''}</td>`
+      + `<td class="r">${esc(p.stars)}</td><td class="r">${esc((p.updated||'').slice(0,10))}</td>`;
+    tb.appendChild(tr);
+  }
+  t.appendChild(tb); return t;
+}
+
+function render(){
+  const tab = tabs.find(t=>t.id===current) || tabs[0];
+  const s = q.value.trim().toLowerCase();
+  document.body.dataset.tab = tab.id;
+  for (const t of tabs){
+    const n = s ? t.secs.reduce((a,x)=>a+x.items.filter(it=>match(it,s)).length,0) : t.count;
+    t.btn.setAttribute('aria-selected', t===tab);
+    t.btn.classList.toggle('hit', !!s && n>0);
+    t.btn.lastChild.textContent = n;
+  }
+  const lead = $('#lead');
+  if (tab.core){
+    lead.innerHTML = esc(tab.core.load ? 'Load when: '+tab.core.load : '')
+      + ext(ghURL(tab.core.id+'/README.md'), esc(tab.core.id+'/README.md'))
+      + ext(ghURL(tab.core.map), esc(tab.core.map));
+  } else if (tab.id==='projects'){
     lead.textContent = D.projects.length
-      ? 'Public Szmelc projects, indexed from the GitHub API (sources: SZMELC/sources.conf). ' + D.projects.length + ' repositories.'
+      ? `Public Szmelc repositories from the GitHub API (owners in SZMELC/sources.conf), newest first.`
       : (D.projects_note||'');
-    secs = [{title:'projects', cards:D.projects.map(projectCard)}];
+  } else if (tab.id==='experimental'){
+    lead.textContent = 'Opt-in proposals. Load only when the user opts into experimental conventions.';
+  } else {
+    lead.textContent = 'Superseded material, archived and never deleted. Load only when asked about history.';
+  }
+  const list = $('#list'); list.innerHTML = '';
+  if (tab.core && !s){
+    const g = el('details',{className:'guide', open: !tab.count});
+    g.innerHTML = `<summary>Guide — ${esc(tab.core.id)}/README.md</summary><div class="md">${md(tab.core.readme)}</div>`;
+    list.appendChild(g);
   }
   let shown = 0;
-  for (const s of secs){
-    const cards = s.cards.filter(c=>!q || c._text.includes(q));
-    if (!cards.length) continue;
-    const sec = el('section',{className:'sec '+(s.cls||'')});
-    if (s.id) sec.id = s.id;
-    sec.appendChild(el('h2',{textContent:s.title}));
-    cards.forEach(c=>sec.appendChild(c));
-    list.appendChild(sec); shown += cards.length;
+  for (const sec of tab.secs){
+    const items = sec.items.filter(it=>match(it,s));
+    if (!items.length) continue;
+    const box = el('section',{className:'sec'+(sec.files?' files':'')}); box.id = sec.id;
+    box.innerHTML = `<h2>${esc(sec.title)} <small>${items.length}</small></h2>`;
+    if (sec.table) box.appendChild(projectTable(items));
+    else for (const it of items) box.appendChild(itemRow(it, s));
+    list.appendChild(box); shown += items.length;
   }
-  if (!shown && (q || tab.kind!=='core')) list.appendChild(el('div',{className:'empty',textContent: q?'Nothing matches your filter.':'Nothing here.'}));
-  if (scrollTo){ const t = document.getElementById(scrollTo); scrollTo = null; if (t) t.scrollIntoView(); }
+  if (!shown && (s || tab.count)) list.appendChild(el('div',{className:'empty',
+    textContent: s ? `No match in ${tab.label}.` + (tabs.some(t=>t.btn.classList.contains('hit')) ? ' Highlighted tabs have matches.' : '') : 'Nothing here.'}));
+  $('#expand').textContent = allOpen ? 'collapse all' : 'expand all';
+  if (focusPath){
+    const t = document.getElementById(focusPath); focusPath = null;
+    if (t){ if (t.tagName==='DETAILS') t.open = true; t.scrollIntoView({block:'start'}); }
+  }
 }
 
 function route(){
-  const id = location.hash.slice(1).toLowerCase();
-  if (realTabs.some(t=>t.id===id)) current = id;
+  let id = ''; try { id = decodeURIComponent(location.hash.slice(1)); } catch(e){}
+  const low = id.toLowerCase();
+  if (tabs.some(t=>t.id===low)) current = low;
+  else if (tabOfPath.has(id)){ current = tabOfPath.get(id); focusPath = id; }
   else {
     // Old deep-links (#design, #workflow, #skills): open the owning core, scroll to the group.
-    const r = D.rules.find(r=>r.cat===id);
-    if (r){ current = r.core.toLowerCase(); scrollTo = `${current}-${id}`; }
-    else if (id==='skills'){ current = 'agents'; scrollTo = 'agents-skills'; }
-    else current = realTabs[0].id;
+    const r = D.rules.find(r=>r.cat===low);
+    if (r){ current = r.core.toLowerCase(); focusPath = `${current}-${low}`; }
+    else if (low==='skills'){ current = 'agents'; focusPath = 'agents-skills'; }
+    else current = tabs[0].id;
   }
   render();
 }
 addEventListener('hashchange', route);
-$('#q').addEventListener('input', render);
-$('#raw').onclick = ()=>location.href='conventions.json';
-$('#list').addEventListener('click', e=>{
-  const b = e.target.closest('button[data-copy]');
-  if (b){ navigator.clipboard?.writeText(b.dataset.copy); b.textContent='copied'; setTimeout(()=>b.textContent='copy raw URL',900); }
+q.addEventListener('input', render);
+$('#expand').onclick = ()=>{ allOpen = !allOpen; render(); };
+
+// Copy buttons: literal value, a rule's markdown, or another element's text.
+const SRC = new Map(); for (const t of tabs) for (const s of t.secs) for (const it of s.items) if (it.src) SRC.set(it.path, it.src);
+document.addEventListener('click', e=>{
+  const b = e.target.closest('button.cp'); if (!b) return;
+  const v = b.dataset.copy ?? (b.dataset.copySrc ? SRC.get(b.dataset.copySrc) : document.getElementById(b.dataset.cpFrom)?.dataset.copy);
+  if (v == null || !navigator.clipboard) return;
+  navigator.clipboard.writeText(v).then(()=>{
+    const old = b.textContent; b.textContent = 'copied'; b.classList.add('done');
+    setTimeout(()=>{ b.textContent = old; b.classList.remove('done'); }, 900);
+  }).catch(()=>{});
 });
 
-// Theme toggle, remembered.
-const root = document.documentElement;
-try{ const saved=localStorage.getItem('pui-theme'); if(saved) root.dataset.theme=saved; }catch(e){}
-$('#theme').onclick = ()=>{
-  root.dataset.theme = root.dataset.theme==='light' ? 'dark' : 'light';
-  try{ localStorage.setItem('pui-theme', root.dataset.theme); }catch(e){}
+// Theme: dark default, remembered.
+const root = document.documentElement, themeBtn = $('#theme');
+const syncTheme = ()=>{ themeBtn.textContent = root.dataset.theme==='light' ? 'Dark' : 'Light'; };
+try { const saved = localStorage.getItem('pui-theme'); if (saved==='light'||saved==='dark') root.dataset.theme = saved; } catch(e){}
+syncTheme();
+themeBtn.onclick = ()=>{
+  root.dataset.theme = root.dataset.theme==='light' ? 'dark' : 'light'; syncTheme();
+  try { localStorage.setItem('pui-theme', root.dataset.theme); } catch(e){}
 };
+
+// Keys: / filter, 1-9 tabs, e expand, Esc clear.
 addEventListener('keydown', e=>{
-  if (e.key==='/' && document.activeElement!==$('#q')){ e.preventDefault(); $('#q').focus(); }
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName);
+  if (e.key==='Escape'){ if (q.value){ q.value=''; render(); } q.blur(); return; }
+  if (typing) return;
+  if (e.key==='/'){ e.preventDefault(); q.focus(); }
+  else if (/^[1-9]$/.test(e.key) && tabs[+e.key-1]){ location.hash = tabs[+e.key-1].id; }
+  else if (e.key==='e'){ allOpen = !allOpen; render(); }
 });
 
 route();
