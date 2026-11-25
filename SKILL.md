@@ -1,6 +1,6 @@
 ---
 name: szmelc-conventions
-description: Szmelc global conventions for humans and AI agents. Covers language rules, git/PR/CI flow, branch lanes (main/testing/experimental/legacy), repo metadata, notifications, verification, subagent policy, colors, CLI/TUI design, Arch/Nix packaging, and how to write AGENTS.md, CLAUDE.md, SKILL.md and llms.txt files. Use at the start of any coding, repo, release, UI or packaging task in a Szmelc project, when creating a repo or agent file, or when asked which convention applies. Loads only the rule files whose trigger matches the task.
+description: Szmelc global conventions for humans and AI agents. Covers language rules, git/PR/CI flow, branches (main only + short-lived prefixed branches), repo metadata, notifications, verification, subagent policy, colors, CLI/TUI design, Arch/Nix packaging, and how to write AGENTS.md, CLAUDE.md, SKILL.md and llms.txt files. Use at the start of any coding, repo, release, UI or packaging task in a Szmelc project, when creating a repo or agent file, or when asked which convention applies. Loads only the rule files whose trigger matches the task.
 license: MIT
 compatibility: Any harness that reads Agent Skills (Claude Code, Codex, Gemini/Antigravity, Qwen Code, Kiro, Grok, jcode) or plain AGENTS.md. Needs file read access to this repo.
 metadata:
@@ -38,4 +38,4 @@ Entry point. This directory is the conventions repo; every path below is relativ
 
 ## Change a convention
 - Edit sources only, then `META/tools/build.sh && META/tools/check.sh`. Rules of this repo: `README.md`.
-- Branch lanes and promotion/demotion: `CONVENTIONS/workflow/branches.md`.
+- Branches and promotion/demotion: `CONVENTIONS/workflow/branches.md`.

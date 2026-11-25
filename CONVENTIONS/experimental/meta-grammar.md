@@ -14,5 +14,5 @@ Proposal from draft v3. `CONVENTIONS.md` is the stud geometry, every `SKILL.md` 
 - Zero ambiguity: every spec has rigid headings + frontmatter; a parser and an LLM must extract the same tree.
 - Generative derivation: a repo that follows the conventions gets its `SKILL.md`, `ASSERTIONS.md` suites and `PKGBUILD` generated, never hand-guessed.
 - Primitives as bricks: `ada-agent` (assertion loop), `wrapi` (local OpenAI-compatible endpoint), `ultui` (JSON → TUI), `tesserae` (dashboard), `localui` (JSON → WebUI), `silkrouter` (proxy mesh), `cr0` (scheduler), SAUR (signed delivery).
-- Dual channel: default branch ships `[saur]` stable; `-ex` suffix builds ship `[saur-ex]` (matches lanes in `CONVENTIONS/workflow/branches.md`).
+- Dual channel: default branch ships `[saur]` stable; `-ex` suffix builds ship `[saur-ex]` (matches `CONVENTIONS/workflow/branches.md`).
 - First step toward this already exists: `META/tools/build.sh` derives `INDEX.md`, `index.json`, `llms.txt` and adapters from headers.

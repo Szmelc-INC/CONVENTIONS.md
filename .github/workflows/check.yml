@@ -15,7 +15,7 @@ jobs:
         run: shellcheck install.sh META/tools/*.sh
       - name: installer smoke test (throwaway HOME)
         run: bash META/tools/test-install.sh
-      - name: lane scope
+      - name: branch scope
         if: github.event_name == 'pull_request'
         env:
           HEAD_REF: ${{ github.head_ref }}

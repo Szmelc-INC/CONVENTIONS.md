@@ -3,7 +3,7 @@
 - Edit sources only: rule files, core `README.md`s, `AGENTS/global/AGENTS.md`, `SKILL.md`, `AGENTS/skills/`, `META/templates/`, `META/tools/`, `SZMELC/sources.conf`, `install.sh`, and this file above the map block.
 - Never hand-edit generated files: `INDEX.md`, `index.json`, `llms.txt`, `CONVENTIONS.md`, `HUMANS.md`, `SZMELC.md`, `META.md`, `AGENTS/adapters/`, the map block below. Run `META/tools/build.sh`.
 - After any change: `META/tools/build.sh && META/tools/check.sh`; both must pass. Installer change → also `META/tools/test-install.sh`.
-- Branch lanes: `CONVENTIONS/workflow/branches.md`. PRs target `main` from `testing`, `experimental` or `legacy`.
+- Branches: `CONVENTIONS/workflow/branches.md`. Only `main` lives; work on `feat/*`/`fix/*`/`docs/*`/`chore/*`/`experimental/*`/`legacy/*` branches, squash-merge into `main`, delete.
 - Public repo: commit only what is already public (public repos, orgs, sites). Never personal IDs, emails, private repo names or local paths.
 - Keep files terse: imperative one-liners, no prose. Every word here costs tokens in every session that loads it.
 

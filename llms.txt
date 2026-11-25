@@ -24,7 +24,7 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 - [TUI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/interfaces/tui.md): Load when building a TUI, or any project that has a CLI.
 - [Arch packaging](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/packaging/arch.md): Load when packaging, releasing, or adding install instructions.
 - [Nix packaging](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/packaging/nix.md): Load when packaging, releasing, or setting up a dev environment.
-- [Branches & lanes](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/branches.md): Load when creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.
+- [Branches](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/branches.md): Load when creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.
 - [Finish every change](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/finish.md): Load when finishing a feature or fix, before calling work done.
 - [Git, PRs & CI](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/git-pr-ci.md): Load when committing, pushing, opening/merging a PR, or fixing CI.
 - [Notifications](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/workflow/notify.md): Load when a job runs > ~10 min, or a failure needs a human.
