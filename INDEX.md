@@ -31,7 +31,13 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `skills/deep/SKILL.md` | Escalate to deep reasoning for hard problems — architecture and design decisions, cross-cutting refactors, bugs with unclear root cause, security-sensitive code, concurrency, or anything where a wrong first approach is expensive. Use it before writing code for such tasks. Do not use it for routine edits. |
 
 ## Experimental (opt-in only)
-_None._
+| File | Load when |
+|---|---|
+| `experimental/localization.md` | user opts into experimental conventions, or adds user-facing strings, locales or translations. |
+| `experimental/meta-grammar.md` | user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions. |
+| `experimental/modules.md` | user opts into experimental conventions, or builds a Kombinat/KUR plugin module. |
+| `experimental/spec-files.md` | user opts into experimental conventions, or designs Szmelc spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md). |
+| `experimental/versioning.md` | user opts into experimental conventions, or tags releases / plans a major rewrite. |
 
 ## Legacy (archive; load only when asked)
 | File | Title |
