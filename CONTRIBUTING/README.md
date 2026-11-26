@@ -11,7 +11,7 @@ How to use, extend and maintain the conventions: where a rule goes, how it is wr
 | `CONTRIBUTING/LIFECYCLE.md` | Propose, promote, change, demote; how installs see changes |
 | `CONTRIBUTING/VERSIONING.md` | SemVer of this repo, releases, pinning an install |
 | `CONTRIBUTING/INDEXING.md` | Sources to every generated format; adding a format |
-| `CONTRIBUTING/DIY.md` | Your own conventions repo on this skeleton; layering on Szmelc |
+| `CONTRIBUTING/DIY.md` | Your own conventions repo on this skeleton; layering on Szmelc™ |
 
 ## Flow
 1. Branch off `main` with a prefix (`CONVENTIONS/WORKFLOW/BRANCHES.md`). Private or unverified material: `local/*`, never pushed; run `git config core.hooksPath META/tools/hooks` once per clone to enforce it.

@@ -1,4 +1,4 @@
-# Szmelc global rules
+# Szmelc™ global rules
 > Install: `./install.sh` links this file as the global instructions of every detected harness (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.qwen/QWEN.md`, `~/.config/opencode/AGENTS.md`, …). Conventions repo: `~/.config/szmelc/conventions` (missing → `git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventions && ~/.config/szmelc/conventions/install.sh`). Paths below are relative to that repo.
 
 ## Always

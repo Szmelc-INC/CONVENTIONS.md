@@ -283,7 +283,7 @@ done
 
 # --- llms.txt ----------------------------------------------------------------
 {
-  echo '# Szmelc Conventions'
+  echo '# Szmelc™ Conventions'
   echo
   echo '> Global conventions for humans and AI agents, in seven cores: CONVENTIONS (rules by category: WORKFLOW, GITHUB (repo, pull requests, actions, releases, deployments), SPECS (third-party and original document formats), FORMATS, SYSTEMS, REPO, DESIGN, INTERFACES, PACKAGING, CODE), AGENTS (always-on rules, agent behaviour rules, prompt engineering and a prompt library, skills, adapters), HUMANS (install, browse), CONTRIBUTING (extend, write, version, prompts), SZMELC (organisation, projects index sources), META (build pipeline, schema, compatibility registry) and TEMPLATES (skeletons for rules, prompts, skills, project agent files). Agents load rules lazily: read INDEX.md, then only files whose trigger matches the task.'
   echo
@@ -315,7 +315,7 @@ done
 # --- CONVENTIONS.md (map of CONVENTIONS/ + all stable rules, one file) ---------
 demote() { sed -E 's/^(#+) /#\1 /' "$1"; }
 {
-  echo '# Szmelc Conventions (all-in-one)'
+  echo '# Szmelc™ Conventions (all-in-one)'
   echo "$GEN_NOTE"
   echo '> One-shot reference for tools that cannot lazy-load (aider `--read`, web chats, project knowledge). Agents with file access use `SKILL.md` + `INDEX.md` instead; never load this file alongside them. Stable rules only; the lazy-load instructions below do not apply here because every stable rule is inlined.'
   echo
@@ -338,7 +338,7 @@ adapter() {
     cat AGENTS/global/AGENTS.md
   } | emit "$dest"
 }
-adapter AGENTS/adapters/cursor/szmelc-conventions.mdc $'description: Szmelc global conventions (always on)\nalwaysApply: true'
+adapter AGENTS/adapters/cursor/szmelc-conventions.mdc $'description: Szmelc™ global conventions (always on)\nalwaysApply: true'
 adapter AGENTS/adapters/copilot/szmelc-conventions.instructions.md $'applyTo: "**"'
 adapter AGENTS/adapters/kiro/szmelc-conventions.md $'inclusion: always'
 

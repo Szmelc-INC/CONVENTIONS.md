@@ -54,7 +54,7 @@ All system intelligence, configuration, and execution protocols are governed by 
 * **`[EN]` Primary (Structural):** All source code, identifiers, schemas, comments, and technical specs are strictly English.
 * **`[PL]` Secondary (Conversational/Native):** User-facing strings, CLI/TUI/WebUI labels, and Discord embeds map dynamically via `translate-shell` locale packs without altering core logic.
 
-### 4. Szmelc Versioning & Evolution (`v1` \(\rightarrow\) `v2` \(\rightarrow\) `v3`)
+### 4. Szmelc™ Versioning & Evolution (`v1` \(\rightarrow\) `v2` \(\rightarrow\) `v3`)
 * **`v1` (`Legacy`):** Monolithic, chaotic prototypes. Source material for extraction.
 * **`v2` (`Kombinat`):** Standardized, modular, API-centric refactoring via CI/CD.
 * **`v3` (`Logos`):** The absolute convergence—self-assembling, fully fuzz-tested, universal meta-system where specification *is* execution.

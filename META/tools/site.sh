@@ -130,6 +130,8 @@ if [[ -f $CONF ]]; then
   done < <(grep -vE '^\s*(#|$)' "$CONF")
 fi
 ignore_json=$(printf '%s\n' "${ignores[@]:-}" | jq -R . | jq -sc 'map(select(length>0))')
+# Every configured owner is a Szmelc™ account; the page classifies project origin against this list.
+owners_json=$(printf '%s\n' "${owners[@]:-}" | jq -R . | jq -sc 'map(select(length>0))')
 
 if command -v gh >/dev/null && gh auth status >/dev/null 2>&1; then
   fields='name,description,url,homepageUrl,repositoryTopics,primaryLanguage,isArchived,isFork,isPrivate,stargazerCount,updatedAt'
@@ -181,7 +183,7 @@ done < <(jq -r '.compatible[].icon // empty' index.json | sort -u)
 mkdir -p "$OUT"
 jq -n \
   --arg repo "$REPO" --arg raw "$RAW" --arg site "$SITE" --arg roadmap "$ROADMAP" \
-  --arg built "$BUILT" --arg note "$projects_note" --argjson release "$release" \
+  --arg built "$BUILT" --arg note "$projects_note" --argjson release "$release" --argjson owners "$owners_json" \
   --slurpfile cores "$tmp/cores.ndjson" \
   --slurpfile rules "$tmp/rules.ndjson" \
   --slurpfile skills "$tmp/skills.ndjson" \
@@ -201,7 +203,7 @@ jq -n \
     skills:$skills, experimental:$experimental, legacy:$legacy,
     compatible:$ix.compatible, compatible_disclaimer:$ix.compatible_disclaimer, icons:($icons | from_entries),
     projects:($projects | sort_by(.updated) | reverse),
-    projects_note:$note, paths:$paths[0]
+    projects_note:$note, szmelc_owners:$owners, paths:$paths[0]
   }' >"$OUT/conventions.json"
 
 # Secondary machine-readable artifact: just the projects list.
@@ -230,8 +232,8 @@ DATA=$(jq -c . "$OUT/conventions.json" | sed 's#<#\\u003c#g')
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CONVENTIONS.md · Szmelc</title>
-<meta name="description" content="CONVENTIONS.md by Szmelc: global conventions for humans and AI agents from one source. Read every rule inline, copy it raw, install it into any agent harness.">
+<title>CONVENTIONS.md · Szmelc™</title>
+<meta name="description" content="CONVENTIONS.md by Szmelc™: global conventions for humans and AI agents from one source. Read every rule inline, copy it raw, install it into any agent harness.">
 <meta name="theme-color" content="#0b0b0b">
 <meta name="color-scheme" content="dark light">
 <link rel="alternate" type="text/plain" title="llms.txt" href="llms.txt">
@@ -908,7 +910,7 @@ function compatHTML(c){
     + `<dt>versioning</dt><dd>${esc(ver)}</dd>`
     + `<dt>added</dt><dd>${esc(c.added)}</dd>`
     + `<dt>last updated</dt><dd>${esc(c.updated)}</dd></dl>`
-    + (rules ? `<h3>Szmelc rules</h3><ul>${rules}</ul>` : '')
+    + (rules ? `<h3>Szmelc™ rules</h3><ul>${rules}</ul>` : '')
     + (links ? `<h3>Links</h3><div class="cx-l">${links}</div>` : '')
     + (D.compatible_disclaimer ? `<p class="cx-disc">${esc(D.compatible_disclaimer)}</p>` : '')
     + '</section>';
@@ -1165,9 +1167,10 @@ for (const t of tabs){
       t.groups.push({id:`${t.id}-files`, title:'files', items:t.core.files.map(f=>({kind:'file', path:f.path, about:f.about||'',
         text:(f.path+' '+(f.about||'')).toLowerCase()}))});
   } else if (t.id==='projects'){
-    // origin: the Szmelc-INC org is original work, every other configured owner counts as third-party
+    // origin: repos owned by a Szmelc™ account (every owner in SZMELC/sources.conf) are original, any other owner is third-party
+    const SZ = new Set((D.szmelc_owners||[]).map(o=>String(o).toLowerCase()));
     t.groups.push({id:'projects-all', title:'repositories', table:true, items:D.projects.map(p=>({kind:'project', p,
-      origin: p.origin || (p.owner==='Szmelc-INC' ? 'original' : 'third-party'),
+      origin: p.origin || (SZ.has(String(p.owner||'').toLowerCase()) ? 'original' : 'third-party'),
       text:[p.name,p.desc,p.owner,p.lang,(p.topics||[]).join(' ')].join(' ').toLowerCase()}))});
     if (D.experimental.length) t.groups.push({id:'experimental-all', title:'experimental proposals', tone:'ex',
       items:D.experimental.map(r=>ruleItem(r, t.id, 'flask', true))});
@@ -1200,9 +1203,9 @@ $('#kmax').textContent = tabs.length >= 10 ? '0' : tabs.length;   // footer hint
 const q = $('#q'), wide = matchMedia('(min-width: 960px)');
 let current = tabs[0].id, focusPath = null, activeGroup = null, allOpen = false, origin = 'all', focusTarget = false;
 const match = (it,s)=>!s || it.text.includes(s);
-// Origin sub-tabs (All · Third-party · Szmelc original) filter only the current tab; other items hide unless All.
-const ORIGINS = [['all','All'], ['third-party','Third-party'], ['original','Szmelc original']];
-const ORG_LABEL = {'third-party':'3rd-party', original:'original'};
+// Origin sub-tabs (All · Third-party · Szmelc™) filter only the current tab; other items hide unless All.
+const ORIGINS = [['all','All'], ['third-party','Third-party'], ['original','Szmelc™']];
+const ORG_LABEL = {'third-party':'3rd-party', original:'Szmelc™'};
 const hasOrigin = t => t.groups.some(g=>[g,...g.subs].some(x=>x.items.some(it=>it.origin)));   // rules and project rows
 const inOrigin = (it, o) => o==='all' || it.origin===o;
 
@@ -1220,7 +1223,7 @@ function itemRow(it, s){
   const d = el('details',{className:'item'}); d.id = it.path;
   const tag = it.ex ? `<span class="it-tag">${ic('flask')}experimental</span>`
     : it.lg ? `<span class="it-tag lg">${ic('archive')}legacy</span>` : '<span></span>';
-  const org = it.origin ? `<span class="org${it.origin==='third-party'?' o3':''}" title="${it.origin==='third-party'?'Third-party spec':'Szmelc original'}">${ORG_LABEL[it.origin]||esc(it.origin)}</span>` : '';
+  const org = it.origin ? `<span class="org${it.origin==='third-party'?' o3':''}" title="${it.origin==='third-party'?'Third-party spec':'Szmelc™ original'}">${ORG_LABEL[it.origin]||esc(it.origin)}</span>` : '';
   // chips in <summary> are a mouse shortcut only (summary is a button: no nested focusable content); the opened body repeats them as links
   const chipsOf = (attrs, t) => it.origin==='third-party' ? it.compat.map(id=>{ const c = COMPAT.get(id);
     return `<a class="chip" href="#compat/${esc(id)}" data-compat="${esc(id)}"${attrs} title="Compatible with ${esc(c.name)}">${c.icon && D.icons && D.icons[c.icon] ? badge(c) : ''}${t(c.name)}</a>`; }).join('') : '';
@@ -1308,7 +1311,7 @@ function render(){
       + ext(ghURL(tab.core.map), ic('index')+' '+esc(tab.core.map));
   } else {
     lead.textContent = (D.projects.length
-      ? 'Public Szmelc repositories from the GitHub API (owners in SZMELC/sources.conf), newest first.'
+      ? 'Public Szmelc™ repositories from the GitHub API (owners in SZMELC/sources.conf), newest first.'
       : (D.projects_note||''))
       + (D.experimental.length ? ' Experimental: opt-in proposals, load only when the user opts in.' : '')
       + (D.legacy.length ? ' Legacy: superseded material, archived and never deleted.' : '');

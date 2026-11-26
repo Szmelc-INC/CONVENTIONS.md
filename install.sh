@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install Szmelc conventions into every detected agent harness via symlinks.
+# Install Szmelc™ conventions into every detected agent harness via symlinks.
 # Existing files are never overwritten: they are moved to <path>.bak.<timestamp>.
 set -euo pipefail
 
@@ -39,7 +39,7 @@ die() { say "$DANGER" error "$*" >&2; exit 1; }
 
 usage() {
   cat <<EOF
-$(c "$ACCENT" "install.sh") $(c "$SILVER" "— link Szmelc conventions into agent harnesses")
+$(c "$ACCENT" "install.sh") $(c "$SILVER" "— link Szmelc™ conventions into agent harnesses")
 
 $(c "$ACCENT" Usage)
   ./install.sh [command] [flags]

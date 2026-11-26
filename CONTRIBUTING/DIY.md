@@ -19,7 +19,7 @@
 - List your owners in a `sources.conf` like `SZMELC/sources.conf`; point `META/tools/site.sh` at it.
 - Enable Pages with source GitHub Actions (`CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md`); set the repo homepage to the site.
 
-## Layer on top of Szmelc
+## Layer on top of Szmelc™
 - Reference upstream rules by raw URL (`https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/<path>`) or vendor it as a git submodule.
 - Precedence: your local rules > upstream stable > upstream experimental. Say so in your `SKILL.md` "Use" section.
 - Sync a fork: `git remote add upstream https://github.com/Szmelc-INC/CONVENTIONS.md`, then periodically `git fetch upstream && git merge upstream/main` on a `chore/*` branch; rebuild, check, PR.
