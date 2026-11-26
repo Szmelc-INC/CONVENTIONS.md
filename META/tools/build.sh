@@ -39,7 +39,7 @@ status() {
     */README.md) echo core; return ;;
   esac
   case $1 in
-    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/*) echo skip ;;
+    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/* | META/assets/*) echo skip ;;
     CONVENTIONS/EXPERIMENTAL/*) echo experimental ;;
     CONVENTIONS/LEGACY/*) echo legacy ;;
     *) echo stable ;;
@@ -111,7 +111,7 @@ map_rows() {
   while IFS= read -r f; do
     case $f in
       "$core/README.md") continue ;;
-      CONVENTIONS/EXPERIMENTAL/* | CONVENTIONS/LEGACY/* | META/compat/icons/*.svg) continue ;;
+      CONVENTIONS/EXPERIMENTAL/* | CONVENTIONS/LEGACY/* | META/compat/icons/*.svg | META/assets/screenshots/*.png) continue ;;
     esac
     echo "| $(link "$f") | $(cell "$(about "$f")") | $(cell "$(trigger "$f")") |"
   done < <(find "$core" \( -type f -o -type l \) | sort)
