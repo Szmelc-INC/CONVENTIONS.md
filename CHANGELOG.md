@@ -4,6 +4,10 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+### Added
+
+- STE100++ controlled writing (inspired by ASD-STE100, not certified): rule `CONVENTIONS/REPO/STE100PP.md`, skill `AGENTS/skills/ste100pp/` with procedures, error messages, help text, numbers and hedges, and a natively written `pl` companion. Scope: prose. Rule one-liners are exempt.
+
 ## [3.0.0] - 2026-11-26
 
 The neutral core and profile-aware installation contract are now stable.
@@ -18,15 +22,12 @@ The neutral core and profile-aware installation contract are now stable.
 - Stable rule IDs, profile-aware rendering and installation, layered profile overlays, and the neutral and Szmelc™ profiles.
 - A v2-to-v3 migration guide, profile template, profile request issue form, site profile switcher, and v2 compatibility snapshot checks.
 - Community governance files, contribution guidance, and weekly issue triage automation.
+- `AGENTS/RULES/MEMORY.md`: agent memory rules derived from the public #memory developer docs: one fact per memory, cue keywords, stable refs, stale-write skip, least-privilege grants, confirmed deletes, cited recall.
 
 ### Changed
 
 - The default profile now uses the user's language and does not prescribe a privilege tool or color palette.
 - The skill is now named `conventions`; the old `szmelc-conventions` name remains as a one-major-version alias.
-
-### Added
-
-- `AGENTS/RULES/MEMORY.md`: agent memory rules derived from the public #memory developer docs: one fact per memory, cue keywords, stable refs, stale-write skip, least-privilege grants, confirmed deletes, cited recall.
 
 ## [2.0.2] - 2026-11-26
 

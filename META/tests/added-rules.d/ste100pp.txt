@@ -1,0 +1,2 @@
+# STE100++ controlled writing (#68).
+conventions.repo.ste100pp
