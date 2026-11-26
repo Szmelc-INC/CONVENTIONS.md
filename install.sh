@@ -108,7 +108,7 @@ profile_value() {
 SKILL=$(profile_value profile.toml skill_name)
 install_path=$(profile_value profile.toml install_path)
 [[ -n $SKILL && $SKILL =~ ^[a-z0-9]([a-z0-9-]{0,62}[a-z0-9])?$ ]] || die "profile $PROFILE has invalid skill_name"
-[[ ${install_path:0:2} == '~/' ]] || die "profile $PROFILE install_path must start with ~/"
+[[ $install_path =~ ^~/ ]] || die "profile $PROFILE install_path must start with ~/"
 LINK_HOME="$HOME/${install_path#~/}"
 PROFILE_OUT="$PROFILE_DIR/rendered"
 if [[ -n $only ]]; then
