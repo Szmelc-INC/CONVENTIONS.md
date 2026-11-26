@@ -89,6 +89,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/PROFILES/OVERLAYS.md` | selecting a profile or applying team, project or user-specific rule overrides. |
 | `CONVENTIONS/REPO/DOCS.md` | writing or restructuring a README, guide or docs page, or filling the body of one of its sections. |
 | `CONVENTIONS/REPO/LAYOUT.md` | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
+| `CONVENTIONS/REPO/STE100PP.md` | writing or reviewing docs prose, procedures, help text, error messages, tool descriptions or agent prompts. |
 | `CONVENTIONS/REPO/WRITING.md` | writing docs, help text, error messages, commit messages, or community and lore text. |
 | `CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md` | organising a doc tree into cores, adding a core or category, or editing a core README. |
 | `CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md` | starting a project, writing a brief for a coding agent, or changing a project's architecture. |
@@ -122,6 +123,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | File | Load when |
 |---|---|
 | `AGENTS/skills/deep/SKILL.md` | Escalate to deep reasoning for hard problems — architecture and design decisions, cross-cutting refactors, bugs with unclear root cause, security-sensitive code, concurrency, or anything where a wrong first approach is expensive. Use it before writing code for such tasks. Do not use it for routine edits. |
+| `AGENTS/skills/ste100pp/SKILL.md` | STE100++ writing mode. Applies controlled technical writing (inspired by ASD-STE100 Simplified Technical English, not certified) to docs prose, procedures, help text, error messages, tool descriptions and agent prompts, in English or Polish. Use when the user asks for STE, STE100++, "plain technical English", "write it like a maintenance manual", "no fluff, no hedging", or wants text that a tired non-native reader cannot misread. Stays on until the user says "stop ste". |
 
 ## Experimental (opt-in only)
 | File | Load when |
