@@ -10,6 +10,9 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/compat/icons/README.md`](META/compat/icons/README.md) | Compatibility icons |  |
 | [`META/compat/registry.toml`](META/compat/registry.toml) | Compatibility registry: third-party formats, specs, platforms, languages and tools these conventions are compatible with. |  |
 | [`META/schema/index.schema.json`](META/schema/index.schema.json) | Conventions index |  |
+| [`META/tests/added-rules.d/docs-standard.txt`](META/tests/added-rules.d/docs-standard.txt) | Docs structure and voice profile (#67). |  |
+| [`META/tests/added-rules.d/v3.0-profiles.txt`](META/tests/added-rules.d/v3.0-profiles.txt) | Added with the v3 profile split. |  |
+| [`META/tests/profile-changes.d/00-README.tsv`](META/tests/profile-changes.d/00-README.tsv) | One <topic>.tsv per change that edits a v2.0.2 stable rule: path<TAB>reason. |  |
 | [`META/tests/v2.0.2-profile-changes.tsv`](META/tests/v2.0.2-profile-changes.tsv) | Stable rule files whose content intentionally changed during neutralization. |  |
 | [`META/tools/build.sh`](META/tools/build.sh) | Generate indexes, core maps, the all-in-one bundle and tool adapters from source files. |  |
 | [`META/tools/check.sh`](META/tools/check.sh) | Validate the repo: generated files, core/rule headers, skills, index entries, path references, case collisions, links. |  |
