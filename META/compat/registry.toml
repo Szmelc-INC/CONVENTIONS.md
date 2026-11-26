@@ -12,7 +12,7 @@
 #   added        required; date the entry was added
 #   updated      required; date the entry last changed (bump on every edit)
 #   icon         optional; path under META/compat/icons/ (monochrome, fill currentColor); omit when none exists
-#   spec         optional; rule files that cover it (CONVENTIONS/...)
+#   spec         optional; rule files that cover it (CONVENTIONS/..., AGENTS/RULES/..., AGENTS/PROMPT/...)
 # [compat.links] keys, official https URLs only, each returning HTTP 200 when added: homepage, repo, docs, community.
 
 disclaimer = "Names and logos are trademarks of their respective owners. Szmelc™ is not affiliated with, sponsored or endorsed by them. A listing means only that these conventions are compatible with the named format, specification, platform, language or tool."
@@ -489,3 +489,17 @@ homepage = "https://awesome.re/"
 repo = "https://github.com/sindresorhus/awesome"
 docs = "https://github.com/sindresorhus/awesome/blob/main/awesome.md"
 community = "https://github.com/topics/awesome-list"
+
+[[compat]]
+id = "usememory"
+name = "#memory"
+kind = "tool"
+description = "Keyword-cued personal memory with an MCP server and REST API; agent memory rules derive from its public developer docs."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+spec = ["AGENTS/RULES/MEMORY.md"]
+
+[compat.links]
+homepage = "https://www.usememory.com/"
+docs = "https://www.usememory.com/developers"
