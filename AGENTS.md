@@ -16,6 +16,7 @@ Map of `AGENTS/`. Full guide: [`AGENTS/README.md`](AGENTS/README.md).
 | [`AGENTS/PROMPT/TESTING.md`](AGENTS/PROMPT/TESTING.md) | Testing a prompt | checking a prompt before use, or after it produced a wrong or uneven output. |
 | [`AGENTS/PROMPT/WRITING.md`](AGENTS/PROMPT/WRITING.md) | Writing a prompt | wording or tightening the lines of a prompt, or choosing its examples, placeholders and untrusted-input handling. |
 | [`AGENTS/RULES/EFFICIENCY.md`](AGENTS/RULES/EFFICIENCY.md) | Token efficiency | choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long. |
+| [`AGENTS/RULES/MEMORY.md`](AGENTS/RULES/MEMORY.md) | Agent memory | saving, recalling, updating or deleting an agent memory, or designing a memory store or memory MCP tool. |
 | [`AGENTS/RULES/SUBAGENTS.md`](AGENTS/RULES/SUBAGENTS.md) | Subagents & tools | considering a subagent, parallel work, skills/MCP use, or long-running commands. |
 | [`AGENTS/adapters/copilot/szmelc-conventions.instructions.md`](AGENTS/adapters/copilot/szmelc-conventions.instructions.md) | Generated adapter: Global rules |  |
 | [`AGENTS/adapters/cursor/szmelc-conventions.mdc`](AGENTS/adapters/cursor/szmelc-conventions.mdc) | Generated adapter: Global rules |  |
