@@ -128,6 +128,12 @@ public/           the built site, made in CI, never committed     [generated]
 - Dependabot opens one PR each week for GitHub Actions updates.
 - `review-gate` keeps outside PRs from merging until the maintainer approves their latest commit.
 
+## Roadmap
+The goal is one open conventions format for any project and any agent.
+The plan has 10 stages. The pinned issue [#49](https://github.com/Szmelc-INC/CONVENTIONS.md/issues/49) lists them, and each stage is a sub-issue with a milestone.
+Progress notes are in the [Development](https://github.com/Szmelc-INC/CONVENTIONS.md/discussions/60) discussion.
+Ideas for working with other convention projects go in [Integrations](https://github.com/Szmelc-INC/CONVENTIONS.md/discussions/61).
+
 ## Contributing
 Read [`CONTRIBUTING/README.md`](CONTRIBUTING/README.md) first.
 
