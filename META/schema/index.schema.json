@@ -3,7 +3,7 @@
   "$id": "https://szmelc-inc.github.io/CONVENTIONS.md/SPEC/schemas/index-v2.schema.json",
   "title": "Conventions index",
   "type": "object",
-  "required": ["format_version", "name", "repo", "entries", "compatible_disclaimer", "compatible"],
+  "required": ["$schema", "format_version", "name", "repo", "entries", "compatible_disclaimer", "compatible"],
   "additionalProperties": false,
   "properties": {
     "$schema": {"type": "string"},

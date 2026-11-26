@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 import pathlib
 import argparse
+import copy
+import math
 import re
 import sys
 
@@ -21,14 +23,38 @@ NAMES = {"front-matter": "front-matter.schema.json", "index-v2": "index-v2.schem
          "profile": "profile.schema.json", "compat-registry": "compat-registry.schema.json"}
 
 
-class UniqueKeyLoader(yaml.BaseLoader):
+class UniqueKeyLoader(yaml.SafeLoader):
     pass
+
+
+UniqueKeyLoader.yaml_implicit_resolvers = copy.deepcopy(yaml.SafeLoader.yaml_implicit_resolvers)
+for first, resolvers in list(UniqueKeyLoader.yaml_implicit_resolvers.items()):
+    UniqueKeyLoader.yaml_implicit_resolvers[first] = [
+        item for item in resolvers if item[0] not in {
+            "tag:yaml.org,2002:bool", "tag:yaml.org,2002:int", "tag:yaml.org,2002:float", "tag:yaml.org,2002:timestamp"
+        }
+    ]
+UniqueKeyLoader.add_implicit_resolver(
+    "tag:yaml.org,2002:bool", re.compile(r"^(?:true|True|TRUE|false|False|FALSE)$"), list("tTfF")
+)
+UniqueKeyLoader.add_implicit_resolver(
+    "tag:yaml.org,2002:int",
+    re.compile(r"^[-+]?(?:0|[1-9][0-9_]*|0o[0-7_]+|0x[0-9a-fA-F_]+|0b[01_]+)$"),
+    list("-+0123456789")
+)
+UniqueKeyLoader.add_implicit_resolver(
+    "tag:yaml.org,2002:float",
+    re.compile(r"^(?:[-+]?(?:[0-9][0-9_]*)?\.[0-9_]+(?:[eE][-+]?[0-9]+)?|[-+]?[0-9][0-9_]*[eE][-+]?[0-9]+|[-+]?\.(?:inf|Inf|INF|nan|NaN|NAN))$"),
+    list("-+0123456789.")
+)
 
 
 def construct_mapping(loader, node, deep=False):
     mapping = {}
     for key_node, value_node in node.value:
         key = loader.construct_object(key_node, deep=deep)
+        if not isinstance(key, str):
+            raise ValueError("YAML mapping keys must be strings")
         if key in mapping:
             raise ValueError(f"duplicate YAML key: {key}")
         mapping[key] = loader.construct_object(value_node, deep=deep)
@@ -36,6 +62,26 @@ def construct_mapping(loader, node, deep=False):
 
 
 UniqueKeyLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, construct_mapping)
+
+
+def check_json_values(value):
+    if value is None or isinstance(value, (str, bool, int)):
+        return
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise ValueError("non-finite YAML numbers are forbidden")
+        return
+    if isinstance(value, list):
+        for item in value:
+            check_json_values(item)
+        return
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if not isinstance(key, str):
+                raise ValueError("YAML mapping keys must be strings")
+            check_json_values(item)
+        return
+    raise ValueError(f"non-JSON YAML value: {type(value).__name__}")
 
 
 def safe_relative(value: str) -> bool:
@@ -102,12 +148,13 @@ def parse_rule(path: pathlib.Path, front_validator, root: pathlib.Path) -> dict:
         for token in yaml.scan(front_text, Loader=UniqueKeyLoader):
             if isinstance(token, (yaml.tokens.AnchorToken, yaml.tokens.AliasToken, yaml.tokens.TagToken)):
                 raise ValueError("YAML anchors, aliases, and explicit tags are forbidden")
+            if isinstance(token, yaml.tokens.ScalarToken) and token.value == "<<":
+                raise ValueError("YAML merge keys are forbidden")
         documents = list(yaml.load_all(front_text, Loader=UniqueKeyLoader))
         if len(documents) != 1 or not isinstance(documents[0], dict):
             raise ValueError("front matter must be exactly one YAML mapping")
         metadata = documents[0]
-        if "<<" in metadata:
-            raise ValueError("YAML merge keys are forbidden")
+        check_json_values(metadata)
         body_lines = lines[end + 1:]
     errors = list(front_validator.iter_errors(metadata))
     if errors:
