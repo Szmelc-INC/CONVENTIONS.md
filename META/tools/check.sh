@@ -37,7 +37,7 @@ while IFS= read -r f; do
     */README.md) continue ;;
   esac
   case $f in
-    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/* | CONVENTIONS/LEGACY/*) continue ;;
+    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/* | META/assets/* | CONVENTIONS/LEGACY/*) continue ;;
   esac
   header "$f"
   grep -qF "\`$f\`" INDEX.md || err "$f: not listed in INDEX.md"

@@ -12,6 +12,7 @@ How the conventions repo works: sources in, every format out.
 | `META/tools/hooks/pre-push` | Refuses to push `local/*`; enable with `git config core.hooksPath META/tools/hooks` |
 | `META/tools/test-install.sh` | `install.sh` smoke test in a throwaway `$HOME` |
 | `META/tools/site.sh` | GitHub Pages site into gitignored `public/`: `index.html`, JSON, and `llms.txt`, `index.json`, `INDEX.md`, `CONVENTIONS.md`, `COMPATIBILITY.md`, `SKILL.md` at the site root, registry icons at their repo paths; projects from the GitHub API over `SZMELC/sources.conf` |
+| `META/tools/screenshots.sh` | README screenshots into `META/assets/screenshots/`: builds the site, captures it with headless Chromium over CDP (Node >= 22), optimizes the PNGs. `--help` |
 | `META/tools/release.sh` | Verifies the tag (annotated, on `main`), runs check, builds bundle assets + `SHA256SUMS` into gitignored `dist/`, publishes the GitHub release. `--dry-run` prints instead |
 | `META/tools/labels.sh` | Applies `.github/labels.tsv` with `gh label create --force`; never deletes. `--dry-run` |
 | `META/tools/github-setup.sh` | Repo settings, security toggles, rulesets (`main`, `release-tags`) and labels as code; idempotent. `--dry-run` |
@@ -25,6 +26,7 @@ How the conventions repo works: sources in, every format out.
 
 ## Other
 - `META/schema/index.schema.json`: JSON Schema for `index.json`.
+- `META/assets/`: non-rule files such as `screenshots/` for the root `README.md`; build, check and site skip it as rules.
 
 ## Compatibility registry
 - Source: `META/compat/registry.toml`, one `[[compat]]` record per third-party format, spec, platform, language or tool; fields and the TOML subset in its header. Parsed by `META/tools/compat.awk` (POSIX awk, no new deps).

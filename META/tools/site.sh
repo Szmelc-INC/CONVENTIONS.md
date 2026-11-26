@@ -39,7 +39,7 @@ status() {
     */README.md) echo core; return ;;
   esac
   case $1 in
-    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/*) echo skip ;;
+    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/* | META/assets/*) echo skip ;;
     CONVENTIONS/EXPERIMENTAL/*) echo experimental ;;
     CONVENTIONS/LEGACY/*) echo legacy ;;
     *) echo stable ;;
@@ -72,7 +72,7 @@ mapfile -t SKILLS < <(find AGENTS/skills -mindepth 2 -maxdepth 2 -name SKILL.md 
 for c in "${CORES[@]}"; do
   : >"$tmp/files.ndjson"
   while IFS= read -r f; do
-    case $f in "$c/README.md" | CONVENTIONS/EXPERIMENTAL/* | CONVENTIONS/LEGACY/* | AGENTS/skills/* | META/compat/icons/*.svg) continue ;; esac
+    case $f in "$c/README.md" | CONVENTIONS/EXPERIMENTAL/* | CONVENTIONS/LEGACY/* | AGENTS/skills/* | META/compat/icons/*.svg | META/assets/screenshots/*.png) continue ;; esac
     [[ $f == *.md && $(status "$f") == stable ]] && continue
     jq -nc --arg path "$f" --arg about "$(about "$f")" '{path:$path,about:$about}' >>"$tmp/files.ndjson"
   done < <(find "$c" -type f | sort)
