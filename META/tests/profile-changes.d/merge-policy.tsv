@@ -1,0 +1,4 @@
+# Merge policy: merge commit or rebase, never squash; more maintainers.
+CONVENTIONS/GITHUB/PULL-REQUESTS.md	merge commit or rebase allowed
+CONVENTIONS/GITHUB/REPO/SETTINGS.md	merge commit or rebase allowed, no linear history
+CONVENTIONS/WORKFLOW/BRANCHES.md	merge commit or rebase allowed
