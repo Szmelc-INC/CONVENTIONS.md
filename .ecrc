@@ -9,6 +9,7 @@
     "^\\.github/PULL_REQUEST_TEMPLATE\\.md$",
     "^CONVENTIONS/LEGACY/",
     "^META/tools/site\\.sh$",
+    "^internal/build/site_test\\.go$",
     "^SPEC/tools/validate\\.py$",
     "^TEMPLATES/webui\\.html$"
   ],
