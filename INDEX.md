@@ -81,6 +81,10 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/INTERFACES/CLI.md` | building or changing a command-line tool. |
 | `CONVENTIONS/INTERFACES/CONFIG.md` | adding a config file, options, env vars, or storage paths to a tool. |
 | `CONVENTIONS/INTERFACES/TUI.md` | building a TUI, or any project that has a CLI. |
+| `CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md` | building a web UI, docs site or Pages site from scratch, or restructuring its build or page code. |
+| `CONVENTIONS/INTERFACES/WEBUI/KEYBOARD.md` | adding keyboard shortcuts or keyboard navigation to a web UI. |
+| `CONVENTIONS/INTERFACES/WEBUI/OVERLAYS.md` | adding a modal, popup, menu, copy button or share action to a web UI. |
+| `CONVENTIONS/INTERFACES/WEBUI/ROUTING.md` | adding views, deep links or URL handling to a web UI. |
 | `CONVENTIONS/PACKAGING/ARCH.md` | packaging, releasing, or adding install instructions. |
 | `CONVENTIONS/PACKAGING/INSTALL.md` | writing an installer, a setup script, install instructions, or uninstall steps. |
 | `CONVENTIONS/PACKAGING/NIX.md` | packaging, releasing, or setting up a dev environment. |

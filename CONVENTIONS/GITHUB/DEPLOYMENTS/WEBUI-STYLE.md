@@ -5,6 +5,7 @@ id: conventions.github.deployments.webui-style
 > Load when: building or restyling a project web page, Pages site or web UI.
 
 - Reference look: follow the project's published design reference, if one exists.
+- Architecture, routing, overlays and keys: `CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md` and its siblings.
 - Colors only from `CONVENTIONS/DESIGN/COLORS.md`, as CSS custom properties on `:root`, overridden per `[data-theme]`.
 - Themes: `dark` (default), `light`; optional `mono` (greys and silver, no accent hue) and `terminal` (near-black, accent-text headings and links).
 - Theme: `data-theme` on `<html>` set before first paint; cycle item in `[MENU]` + `t` key; choice in `localStorage` inside `try`/`catch`; first visit follows `prefers-color-scheme`, else dark.
