@@ -19,7 +19,7 @@ How to use, extend and maintain the conventions: where a rule goes, how it is wr
 1. Branch off `main` with a prefix (`CONVENTIONS/WORKFLOW/BRANCHES.md`). Private or unverified material: `local/*`, never pushed; run `git config core.hooksPath META/tools/hooks` once per clone to enforce it.
 2. Edit sources only; generated files are rebuilt by `META/tools/build.sh` (`CONTRIBUTING/INDEXING.md`).
 3. `META/tools/build.sh && META/tools/check.sh` must pass; CI runs the same plus shellcheck and the installer smoke test.
-4. PR into `main`; it is rebase-merged and the branch deleted (`CONVENTIONS/GITHUB/PULL-REQUESTS.md`). Outside PRs (from a fork) merge only after the maintainer approves the latest commit (`review-gate` status); fork CI starts once a maintainer approves the run.
+4. PR into `main`; it is merged (merge commit or rebase, never squash) and the branch deleted (`CONVENTIONS/GITHUB/PULL-REQUESTS.md`). Outside PRs (from a fork) merge only after a maintainer approves the latest commit (`review-gate` status); fork CI starts once a maintainer approves the run.
 
 ## Five-minute wording fix
 

@@ -8,4 +8,4 @@ id: conventions.workflow.commits
 - Type prefix with optional scope: `feat(core): …`, `fix(core): …`, `docs: …`, `ci: …`, `chore: …`, `refactor: …`, `test: …`.
 - Version bump → append the version: `feat: signed package lists (0.3.1)`.
 - Never web-UI defaults (`Update README.md`, `Create file`) on `main`.
-- One topic per commit and per PR; commits are rebase-merged as written, so each one follows this format (`CONVENTIONS/WORKFLOW/BRANCHES.md`).
+- One topic per commit and per PR; commits land on `main` as written (merge commit or rebase, never squash), so each one follows this format (`CONVENTIONS/WORKFLOW/BRANCHES.md`).
