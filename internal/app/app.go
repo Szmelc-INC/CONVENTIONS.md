@@ -1,6 +1,7 @@
 package app
 
 import (
+	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -92,7 +93,7 @@ func Run(args []string, out, errOut io.Writer) int {
 		if e := os.WriteFile(path, []byte(data), 0600); e != nil {
 			return fail(errOut, "E_CONFIG_WRITE", e, 1)
 		}
-		fmt.Fprintf(out, "✓ created %s\n", path)
+		fmt.Fprintf(errOut, "✓ created %s\n", path)
 		return 0
 	case "status":
 		targets := installer.Status()
@@ -108,20 +109,32 @@ func Run(args []string, out, errOut io.Writer) int {
 		return 0
 	case "install", "uninstall":
 		only := ""
+		dryRun, yes := false, false
 		for i := 0; i < len(rest); i++ {
 			if rest[i] == "--only" && i+1 < len(rest) {
 				i++
 				only = rest[i]
+			} else if rest[i] == "--dry-run" {
+				dryRun = true
+			} else if rest[i] == "--yes" || rest[i] == "-y" {
+				yes = true
 			}
 		}
 		selected, e := installer.ParseOnly(only)
 		if e != nil {
 			return fail(errOut, "E_USAGE", e, 2)
 		}
-		if e := installer.Apply(cmd == "uninstall", selected); e != nil {
+		if cmd == "uninstall" && !dryRun && !yes && !confirmUninstall(errOut) {
+			return fail(errOut, "E_CONFIRM_REQUIRED", errors.New("uninstall needs confirmation; rerun with --yes"), 2)
+		}
+		if e := installer.Apply(cmd == "uninstall", selected, dryRun); e != nil {
 			return fail(errOut, "E_INSTALL", e, 1)
 		}
-		fmt.Fprintf(out, "✓ %s complete\n", cmd)
+		if dryRun {
+			fmt.Fprintf(errOut, "==> dry run: no changes made\n")
+		} else {
+			fmt.Fprintf(errOut, "✓ %s complete\n", cmd)
+		}
 		return 0
 	case "lint", "build":
 		root, sarif := ".", ""
@@ -154,7 +167,7 @@ func Run(args []string, out, errOut io.Writer) int {
 			for _, f := range report.Findings {
 				fmt.Fprintf(out, "%s:%d: %s: %s\n", f.File, f.Line, f.ID, f.Message)
 			}
-			fmt.Fprintf(out, "%d markdown files, %d finding(s)\n", report.Files, len(report.Findings))
+			fmt.Fprintf(errOut, "%d markdown files, %d finding(s)\n", report.Files, len(report.Findings))
 		}
 		if len(report.Findings) > 0 {
 			return 1
@@ -208,7 +221,7 @@ func Run(args []string, out, errOut io.Writer) int {
 	case "add", "update":
 		return fail(errOut, "E_NOT_IMPLEMENTED", fmt.Errorf("%s requires pack registry support", cmd), 1)
 	case "tui":
-		return runTUI()
+		return runTUI(noColor || os.Getenv("NO_COLOR") != "")
 	default:
 		fmt.Fprintf(errOut, "E_USAGE: unknown command %q (run conventions help)\n", cmd)
 		return 2
@@ -217,6 +230,14 @@ func Run(args []string, out, errOut io.Writer) int {
 func fail(w io.Writer, id string, e error, code int) int {
 	fmt.Fprintf(w, "✗ %s: %v\n", id, e)
 	return code
+}
+func confirmUninstall(w io.Writer) bool {
+	if !isTerminal(os.Stdin) {
+		return false
+	}
+	fmt.Fprint(w, "!! Type uninstall to continue: ")
+	line, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	return err == nil && strings.TrimSpace(line) == "uninstall"
 }
 func has(a []string, s string) bool {
 	for _, v := range a {
@@ -240,7 +261,7 @@ func help(w io.Writer) {
 }
 
 var commandUsages = map[string]string{
-	"init": "init [path]", "install": "install [--only HARNESS,...]", "uninstall": "uninstall [--only HARNESS,...]",
+	"init": "init [path]", "install": "install [--only HARNESS,...] [--dry-run]", "uninstall": "uninstall [--only HARNESS,...] [--dry-run] [--yes]",
 	"status": "status", "lint": "lint [dir] [--format sarif [file]]", "build": "build [dir]",
 	"add": "add <pack|git-url>", "update": "update", "doctor": "doctor", "explain": "explain <rule-id>",
 	"match": "match <task> [files…]", "tui": "tui", "completion": "completion <zsh|bash|fish>", "version": "version [--json]",

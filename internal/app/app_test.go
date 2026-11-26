@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/Szmelc-INC/CONVENTIONS.md/internal/catalog"
 )
 
 func TestVersionJSONAndUsageExit(t *testing.T) {
@@ -59,5 +61,42 @@ func TestNoColorOverridesAlwaysConfig(t *testing.T) {
 	}
 	if strings.Contains(out.String(), "\x1b[") {
 		t.Fatal("NO_COLOR did not override color=always")
+	}
+}
+
+func TestTUIStylesRespectNoColor(t *testing.T) {
+	for _, render := range []func(string, bool) string{tuiAccent, func(s string, off bool) string { return tuiSubdued(s, off) }} {
+		if got := render("plain", true); got != "plain" {
+			t.Fatalf("expected unstyled text, got %q", got)
+		}
+	}
+}
+
+func TestPaletteOpenWithoutRendererIsSafe(t *testing.T) {
+	m := tuiModel{items: []catalog.Rule{{ID: "sample", Body: "# Sample"}}}
+	if cmd := m.executeCommand("open sample"); cmd != nil {
+		t.Fatal("open should not schedule a command")
+	}
+	if m.message != "Markdown renderer unavailable." {
+		t.Fatalf("message = %q", m.message)
+	}
+}
+
+func TestInstallerDryRunAndUninstallConfirmation(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+	t.Setenv("USERPROFILE", "")
+	t.Setenv("CONVENTIONS_REPO", "")
+	var out, errOut bytes.Buffer
+	if code := Run([]string{"install", "--only", "codex", "--dry-run"}, &out, &errOut); code != 0 {
+		t.Fatalf("dry run: %d %s", code, errOut.String())
+	}
+	if _, err := os.Stat(filepath.Join(home, ".codex")); !os.IsNotExist(err) {
+		t.Fatalf("dry run changed home: %v", err)
+	}
+	out.Reset()
+	errOut.Reset()
+	if code := Run([]string{"uninstall", "--only", "codex"}, &out, &errOut); code != 2 || !strings.Contains(errOut.String(), "E_CONFIRM_REQUIRED") {
+		t.Fatalf("uninstall confirmation: %d %q", code, errOut.String())
 	}
 }

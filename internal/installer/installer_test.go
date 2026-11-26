@@ -16,6 +16,12 @@ func TestInstallUninstallAndRefuseForeignPath(t *testing.T) {
 		t.Fatal("test must run inside a conventions checkout")
 	}
 	codex := filepath.Join(home, ".codex")
+	if err := Apply(false, []string{"codex"}, true); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := os.Lstat(codex); !os.IsNotExist(err) {
+		t.Fatalf("dry run created harness home: %v", err)
+	}
 	if err := os.MkdirAll(codex, 0700); err != nil {
 		t.Fatal(err)
 	}
@@ -23,7 +29,7 @@ func TestInstallUninstallAndRefuseForeignPath(t *testing.T) {
 	if err := os.WriteFile(foreign, []byte("keep"), 0600); err != nil {
 		t.Fatal(err)
 	}
-	if err := Apply(false, []string{"codex"}); err == nil {
+	if err := Apply(false, []string{"codex"}, false); err == nil {
 		t.Fatal("expected refusal to replace existing file")
 	}
 	if b, err := os.ReadFile(foreign); err != nil || string(b) != "keep" {
@@ -32,13 +38,19 @@ func TestInstallUninstallAndRefuseForeignPath(t *testing.T) {
 	if err := os.Remove(foreign); err != nil {
 		t.Fatal(err)
 	}
-	if err := Apply(false, []string{"codex"}); err != nil {
+	if err := Apply(false, []string{"codex"}, false); err != nil {
 		t.Fatal(err)
 	}
 	if p, err := os.Readlink(foreign); err != nil || filepath.Clean(p) != filepath.Clean(root) {
 		t.Fatalf("link=%q err=%v", p, err)
 	}
-	if err := Apply(true, []string{"codex"}); err != nil {
+	if err := Apply(true, []string{"codex"}, true); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := os.Lstat(foreign); err != nil {
+		t.Fatalf("dry run removed link: %v", err)
+	}
+	if err := Apply(true, []string{"codex"}, false); err != nil {
 		t.Fatal(err)
 	}
 	if _, err := os.Lstat(foreign); !os.IsNotExist(err) {

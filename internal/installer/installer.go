@@ -43,7 +43,7 @@ func Status() []Target {
 	}
 	return out
 }
-func Apply(uninstall bool, selected []string) error {
+func Apply(uninstall bool, selected []string, dryRun bool) error {
 	allow := map[string]bool{}
 	for _, h := range selected {
 		allow[h] = true
@@ -59,6 +59,9 @@ func Apply(uninstall bool, selected []string) error {
 		if uninstall {
 			p, e := os.Readlink(t.Path)
 			if e == nil && filepath.Clean(p) == filepath.Clean(root) {
+				if dryRun {
+					continue
+				}
 				if e = os.Remove(t.Path); e != nil {
 					return e
 				}
@@ -69,9 +72,21 @@ func Apply(uninstall bool, selected []string) error {
 			if len(allow) == 0 {
 				continue
 			}
+			if dryRun {
+				continue
+			}
 			if e := os.MkdirAll(t.Home, 0755); e != nil {
 				return e
 			}
+		}
+		if dryRun {
+			if _, e := os.Lstat(t.Path); e == nil {
+				if p, re := os.Readlink(t.Path); re == nil && filepath.Clean(p) == filepath.Clean(root) {
+					continue
+				}
+				return fmt.Errorf("refusing to replace existing path %s", t.Path)
+			}
+			continue
 		}
 		if e := os.MkdirAll(t.Home, 0755); e != nil {
 			return e

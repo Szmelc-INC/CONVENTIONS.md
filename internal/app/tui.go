@@ -35,13 +35,14 @@ type tuiModel struct {
 	width, height int
 	renderer      *glamour.TermRenderer
 	message       string
+	noColor       bool
 }
 
 var tabs = []string{"CONVENTIONS", "AGENTS", "HUMANS", "CONTRIBUTING", "TEMPLATES"}
 var accent = lipgloss.NewStyle().Foreground(lipgloss.Color("#1f8a8a"))
 var subdued = lipgloss.NewStyle().Foreground(lipgloss.Color("#c0c0c0"))
 
-func runTUI() int {
+func runTUI(noColor bool) int {
 	items, _ := catalog.Find(".")
 	renderer, _ := glamour.NewTermRenderer(glamour.WithAutoStyle())
 	l := list.New([]list.Item{}, list.NewDefaultDelegate(), 0, 0)
@@ -51,7 +52,7 @@ func runTUI() int {
 	input := textinput.New()
 	input.Prompt = ":"
 	input.Placeholder = "help, install, status, lint, open <rule-id>, tab <core>, quit"
-	m := tuiModel{items: items, list: l, detail: viewport.New(0, 0), input: input, renderer: renderer}
+	m := tuiModel{items: items, list: l, detail: viewport.New(0, 0), input: input, renderer: renderer, noColor: noColor}
 	m.refresh()
 	if _, e := tea.NewProgram(m, tea.WithAltScreen()).Run(); e != nil {
 		fmt.Fprintln(os.Stderr, "E_TUI:", e)
@@ -153,10 +154,16 @@ func (m *tuiModel) executeCommand(command string) tea.Cmd {
 		}
 	case "open":
 		if len(parts) > 1 {
+			if m.renderer == nil {
+				m.message = "Markdown renderer unavailable."
+				break
+			}
 			for _, r := range m.items {
 				if r.ID == parts[1] {
 					if b, e := m.renderer.Render(r.Body); e == nil {
 						m.detail.SetContent(b)
+					} else {
+						m.message = "Markdown render failed: " + e.Error()
 					}
 					break
 				}
@@ -171,7 +178,7 @@ func (m *tuiModel) executeCommand(command string) tea.Cmd {
 		}
 		m.message = fmt.Sprintf("%d detected harness home(s).", found)
 	case "install":
-		if err := installer.Apply(false, nil); err != nil {
+		if err := installer.Apply(false, nil, false); err != nil {
 			m.message = "Install failed: " + err.Error()
 		} else {
 			m.message = "Install links created for detected harnesses."
@@ -192,9 +199,9 @@ func (m *tuiModel) executeCommand(command string) tea.Cmd {
 }
 func (m tuiModel) View() string {
 	if m.help {
-		return accent.Render("Help") + "\n\n↑/↓ or j/k move · enter open Markdown · tab/right and left change section · : command palette · ?/F1 close help · q quit\n\nCommands: help, status, install, lint, tab <section>, open <rule-id>, quit\n"
+		return tuiAccent("Help", m.noColor) + "\n\n↑/↓ or j/k move · enter open Markdown · tab/right and left change section · : command palette · ?/F1 close help · q quit\n\nCommands: help, status, install, lint, tab <section>, open <rule-id>, quit\n"
 	}
-	header := accent.Render("conventions") + "  " + strings.Join(tabs, "  ") + "\n" + subdued.Render("←/→ sections · ↑/↓ browse · enter render · : commands · ? help · q quit") + "\n"
+	header := tuiAccent("conventions", m.noColor) + "  " + strings.Join(tabs, "  ") + "\n" + tuiSubdued("←/→ sections · ↑/↓ browse · enter render · : commands · ? help · q quit", m.noColor) + "\n"
 	body := lipgloss.JoinHorizontal(lipgloss.Top, m.list.View(), m.detail.View())
 	if m.palette {
 		return header + body + "\n" + m.input.View()
@@ -203,4 +210,17 @@ func (m tuiModel) View() string {
 		header += m.message + "\n"
 	}
 	return header + body
+}
+
+func tuiAccent(text string, noColor bool) string {
+	if noColor {
+		return text
+	}
+	return accent.Render(text)
+}
+func tuiSubdued(text string, noColor bool) string {
+	if noColor {
+		return text
+	}
+	return subdued.Render(text)
 }
