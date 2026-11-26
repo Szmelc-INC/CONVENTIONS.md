@@ -13,7 +13,10 @@ git show "$tag:index.json" >"$tmp/v2-index.json"
 old_count=$(jq '[.entries[] | select(.kind == "rule" and .status == "stable")] | length' "$tmp/v2-index.json")
 new_count=$(jq '[.entries[] | select(.kind == "rule" and .status == "stable")] | length' "$tmp/szmelc/index.json")
 [[ $old_count == 86 ]] || { echo "v2 snapshot changed: expected 86 stable rules, found $old_count" >&2; exit 1; }
-[[ $new_count == 88 ]] || { echo "update the profile snapshot allowlist: expected 88 stable rules, found $new_count" >&2; exit 1; }
+# Stable rules added since v2.0.2: one id per line in META/tests/added-rules.d/*.txt (one file per change).
+mapfile -t want_ids < <(cat META/tests/added-rules.d/*.txt | grep -v '^#' | grep . | sort)
+want_count=$((old_count + ${#want_ids[@]}))
+[[ $new_count == "$want_count" ]] || { echo "update META/tests/added-rules.d: expected $want_count stable rules, found $new_count" >&2; exit 1; }
 
 while IFS= read -r path; do
   old=$(jq -c --arg path "$path" '[.entries[] | select(.path == $path)][0]' "$tmp/v2-index.json")
@@ -36,8 +39,9 @@ added_ids=$(jq -r --slurpfile old "$tmp/v2-index.json" '
   ([ $old[0].entries[].path ]) as $paths
   | [.entries[] | select(.kind == "rule" and .status == "stable") | select(.path as $p | ($paths | index($p) | not)) | .id]
   | sort | join(",")' "$tmp/szmelc/index.json")
-[[ $added_ids == 'contributing.decisions,conventions.profiles.overlays' ]] || {
-  echo "update the profile snapshot allowlist: unexpected new stable rules: $added_ids" >&2; exit 1;
+want_list=$(IFS=,; echo "${want_ids[*]}")
+[[ $added_ids == "$want_list" ]] || {
+  echo "update META/tests/added-rules.d: new stable rules are '$added_ids', listed '$want_list'" >&2; exit 1;
 }
 
 # These values were explicit in v2 and must survive in the Szmelc profile after neutralization.
@@ -51,7 +55,7 @@ for color in '#105c5c' '#1f8a8a' '#750f0f' '#b83a3a' '#c0c0c0' '#7fffd4'; do
 done
 grep -q '^name: conventions$' "$tmp/szmelc/SKILL.md"
 
-python3 - "$tag" "$tmp/szmelc/index.json" META/tests/v2.0.2-profile-changes.tsv <<'PY'
+python3 - "$tag" "$tmp/szmelc/index.json" META/tests/v2.0.2-profile-changes.tsv META/tests/profile-changes.d <<'PY'
 import json
 import re
 import subprocess
@@ -59,7 +63,7 @@ import sys
 import tomllib
 from pathlib import Path
 
-tag, rendered_index, allowlist = sys.argv[1:]
+tag, rendered_index, allowlist, dropins = sys.argv[1:]
 old_index = json.loads(subprocess.check_output(["git", "show", f"{tag}:index.json"], text=True))
 new_paths = {entry["path"] for entry in json.loads(Path(rendered_index).read_text())["entries"]}
 neutral = tomllib.loads(Path("PROFILES/neutral/profile.toml").read_text())["profile"]
@@ -91,9 +95,12 @@ for entry in old_index["entries"]:
     if old != new:
         changed.add(path)
 
+# v2.0.2 neutralization list, plus one drop-in TSV per later change (path<TAB>reason)
+lists = [Path(allowlist), *sorted(Path(dropins).glob("*.tsv"))]
 expected = {
     line.split("\t", 1)[0]
-    for line in Path(allowlist).read_text().splitlines()
+    for f in lists
+    for line in f.read_text().splitlines()
     if line and not line.startswith("#")
 }
 if changed != expected:
@@ -107,4 +114,4 @@ if changed != expected:
 print(f"stable rule snapshot matches v2.0.2 except for {len(changed)} listed neutralization changes")
 PY
 
-echo 'profile compatibility snapshot OK (86 v2 stable rules retained; 2 documented additions)'
+echo "profile compatibility snapshot OK ($old_count v2 stable rules retained; ${#want_ids[@]} documented additions)"

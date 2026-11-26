@@ -1,0 +1,5 @@
+# Web UI blueprint (#69).
+conventions.interfaces.webui.architecture
+conventions.interfaces.webui.keyboard
+conventions.interfaces.webui.overlays
+conventions.interfaces.webui.routing
