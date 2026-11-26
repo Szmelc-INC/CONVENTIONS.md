@@ -1,12 +1,14 @@
 # README
-> Load when: writing or editing a project README.
+> Load when: writing or editing a project README or its badges.
 
 - English. Truthful: every feature and dependency listed exists; update it in the same change as the code.
-- Top: `# Name`, one bold sentence saying what it is, the one-line install, badges (`CONVENTIONS/DESIGN/COLORS.md`).
+- Top: `# Name`, one bold sentence saying what it is, the one-line install, badges.
+- Badges: Shields.io (<https://shields.io/>) only, service chosen from Awesome Badges (<https://github.com/badges/awesome-badges>); dynamic endpoints (`github/v/release`, `github/license`, CI) over static; `logo=<Simple Icons slug>`; colors from `CONVENTIONS/DESIGN/COLORS.md`; each wrapped in a link with real `alt` text.
 - Then, skipping empty ones: Usage, How it works, Configuration, Packaging, License.
 - Install: package first (SAUR `pacman -S`, `nix run`); never distro-by-distro package-manager blocks; elevation via `pkexec`.
 - No `curl … | bash` from a branch tip; point at a tag or a signed script.
 - State limits, risks and trust boundaries plainly: what leaves the machine, who can reach a key.
 - Plain headings for structure; no blockquote-as-heading, no `\` line breaks, no version in the title.
 - Polish readers → separate `README-PL.md`; one language per file (`CONVENTIONS/REPO/WRITING.md`).
+- Awesome list → `CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md` overrides this order.
 - Remove agent leftovers ("CONSOLIDATED DELIVERABLE", "Here is…", "As an AI…") before committing.

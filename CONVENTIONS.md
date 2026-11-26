@@ -55,6 +55,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`](CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md) | Lazy-load indexes | generating, reading or changing INDEX.md, index.json or an all-in-one rule bundle. |
 | [`CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`](CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md) | Rule files | writing, naming or reviewing a convention rule file. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md) | Agent instruction files | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, or Cursor/Copilot/Kiro/Windsurf rules in any project. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md`](CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md) | Awesome list | creating, editing or submitting an awesome list (`awesome-<topic>` repo). |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md) | Changelog | creating or updating CHANGELOG.md, or preparing a release in a project that keeps one. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/CODE-OF-CONDUCT-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/CODE-OF-CONDUCT-MD.md) | Code of conduct | adding a code of conduct to a repo or organization, or opening a project to outside contributors. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/CODEOWNERS.md`](CONVENTIONS/SPECS/THIRD-PARTY/CODEOWNERS.md) | Code owners | adding or editing CODEOWNERS, or requiring owner review on pull requests. |
@@ -62,7 +63,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/SPECS/THIRD-PARTY/LICENSE.md`](CONVENTIONS/SPECS/THIRD-PARTY/LICENSE.md) | License file | adding or changing a project's license file, or writing license fields in manifests. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`](CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md) | llms.txt | publishing docs or a site meant for LLMs, or generating an llms.txt. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md`](CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md) | MCP server config | adding, sharing or committing MCP server configuration (.mcp.json) in a project. |
-| [`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md) | README | writing or editing a project README. |
+| [`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md) | README | writing or editing a project README or its badges. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md) | Security policy | creating or editing SECURITY.md, or setting up vulnerability reporting. |
 | [`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`](CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md) | Skills (SKILL.md) | writing, editing, or installing an agent skill. |
 | [`CONVENTIONS/SYSTEMS/ARCH.md`](CONVENTIONS/SYSTEMS/ARCH.md) | Arch Linux | targeting, installing on, or integrating a tool with Arch Linux. |
@@ -693,7 +694,8 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Dark by default; light only as a toggle. Never purple, never a framework's default accent.
 - Neutrals carry no blue or green tint.
 - Text meets WCAG AA (4.5:1) on the surface it sits on; check raised and hover surfaces too, not only the page.
-- Badges, banners and shields use the same palette: `105c5c` fill, `c0c0c0` for secondary values, `750f0f` for experimental.
+- Badges, banners and shields use the same palette: `105c5c` fill, `c0c0c0` for secondary values, `750f0f` for experimental; Shields.io params without `#` (`color=105c5c&labelColor=1b1b1b&logoColor=white`).
+- Brand icons and logos: Simple Icons (<https://simpleicons.org/>) at a pinned version, monochrome `currentColor`, never brand colors; per-icon license absent or CC0, else leave it out.
 - Project has config → make colors configurable.
 
 ---
@@ -1103,10 +1105,10 @@ Shade ramps (UIs with layers; all derived from the values above):
 ## Repo metadata
 > Load when: creating a repo, first push, release, or editing README/manifest/license.
 
-- `gh repo view` first; fill gaps via `gh repo edit`: description, homepage, topics, badges.
+- `gh repo view` first; fill gaps via `gh repo edit`: description, homepage, topics, badges (`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`).
 - Homepage priority: real site → GitHub Pages → repo URL. Never invent.
 - Keep manifest fields (package.json, go.mod, PKGBUILD, flake.nix…) in sync with repo metadata.
-- License: MIT.
+- License: MIT; awesome lists CC0 (`CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md`).
 - Fork of someone else's project: say "independent, not affiliated" in the README and the description; add a trademark note when the upstream name is a mark.
 
 ---
@@ -1334,6 +1336,24 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Skeleton: `TEMPLATES/AGENTS.md`. Related: `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`, `CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md`, `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`.
 
 ---
+<!-- source: CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md -->
+## Awesome list
+> Load when: creating, editing or submitting an awesome list (`awesome-<topic>` repo).
+
+- Standard: <https://github.com/sindresorhus/awesome/blob/main/awesome.md>; submission checklist: its `pull_request_template.md`.
+- Repo name lowercase slug `awesome-<topic>`; default branch `main`; topics `awesome` and `awesome-list` (`CONVENTIONS/GITHUB/REPO/METADATA.md`).
+- Heading title case `# Awesome <Topic>`, awesome badge to its right: `[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)` (the one non-Shields.io badge).
+- Under the heading: one short description of the topic, not of the list.
+- `## Contents` is the first section; one nesting level at most; never lists `Contributing` or `Footnotes`.
+- Entry: `- [Name](url) - Description.`; description starts uppercase, ends with a period; no unmaintained, archived or deprecated items.
+- Only the best items; curation, not everything.
+- `contributing.md` in the root; optional `Contributing` section at the top or bottom; extra notices in a `Footnotes` section at the bottom.
+- License: CC0 1.0 (any Creative Commons license accepted; code licenses rejected) in a root `license` file; no license section in the readme. Overrides MIT.
+- Overrides the README section order of `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`.
+- Lint: `npx awesome-lint` clean before every push.
+- Upstream submission: list at least 30 days old, not AI-generated.
+
+---
 <!-- source: CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md -->
 ## Changelog
 > Load when: creating or updating CHANGELOG.md, or preparing a release in a project that keeps one.
@@ -1420,16 +1440,18 @@ Shade ramps (UIs with layers; all derived from the values above):
 ---
 <!-- source: CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md -->
 ## README
-> Load when: writing or editing a project README.
+> Load when: writing or editing a project README or its badges.
 
 - English. Truthful: every feature and dependency listed exists; update it in the same change as the code.
-- Top: `# Name`, one bold sentence saying what it is, the one-line install, badges (`CONVENTIONS/DESIGN/COLORS.md`).
+- Top: `# Name`, one bold sentence saying what it is, the one-line install, badges.
+- Badges: Shields.io (<https://shields.io/>) only, service chosen from Awesome Badges (<https://github.com/badges/awesome-badges>); dynamic endpoints (`github/v/release`, `github/license`, CI) over static; `logo=<Simple Icons slug>`; colors from `CONVENTIONS/DESIGN/COLORS.md`; each wrapped in a link with real `alt` text.
 - Then, skipping empty ones: Usage, How it works, Configuration, Packaging, License.
 - Install: package first (SAUR `pacman -S`, `nix run`); never distro-by-distro package-manager blocks; elevation via `pkexec`.
 - No `curl … | bash` from a branch tip; point at a tag or a signed script.
 - State limits, risks and trust boundaries plainly: what leaves the machine, who can reach a key.
 - Plain headings for structure; no blockquote-as-heading, no `\` line breaks, no version in the title.
 - Polish readers → separate `README-PL.md`; one language per file (`CONVENTIONS/REPO/WRITING.md`).
+- Awesome list → `CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md` overrides this order.
 - Remove agent leftovers ("CONSOLIDATED DELIVERABLE", "Here is…", "As an AI…") before committing.
 
 ---

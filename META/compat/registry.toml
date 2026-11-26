@@ -70,6 +70,7 @@ description = "Skill folders with a SKILL.md entry file; the repo itself install
 version = "unversioned"
 added = 2026-11-26
 updated = 2026-11-26
+icon = "META/compat/icons/agentskills.svg"
 spec = ["CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md"]
 
 [compat.links]
@@ -425,3 +426,66 @@ spec = ["CONVENTIONS/INTERFACES/TUI.md"]
 [compat.links]
 homepage = "https://charm.land/"
 repo = "https://github.com/charmbracelet/bubbletea"
+
+[[compat]]
+id = "simple-icons"
+name = "Simple Icons"
+kind = "tool"
+description = "CC0 set of monochrome 24x24 SVG brand icons; the source of every brand icon and Shields.io logo slug."
+version = "16.38.1"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/simpleicons.svg"
+spec = ["CONVENTIONS/DESIGN/COLORS.md", "CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md"]
+
+[compat.links]
+homepage = "https://simpleicons.org/"
+repo = "https://github.com/simple-icons/simple-icons"
+community = "https://github.com/simple-icons/simple-icons/discussions"
+
+[[compat]]
+id = "shields-io"
+name = "Shields.io"
+kind = "platform"
+description = "Badge service rendering static and dynamic SVG badges from URLs; every README and site badge uses it."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/shieldsdotio.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md"]
+
+[compat.links]
+homepage = "https://shields.io/"
+docs = "https://shields.io/docs"
+repo = "https://github.com/badges/shields"
+community = "https://github.com/badges/shields/discussions"
+
+[[compat]]
+id = "awesome-badges"
+name = "Awesome Badges"
+kind = "spec"
+description = "Curated list of badge services and tools, maintained by the Shields.io team; badges are chosen from it."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md"]
+
+[compat.links]
+repo = "https://github.com/badges/awesome-badges"
+
+[[compat]]
+id = "awesome"
+name = "Awesome lists"
+kind = "spec"
+description = "Curated awesome-<topic> lists and their guidelines: naming, Contents, entry format, awesome badge, CC0 license, awesome-lint."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/awesomelists.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md"]
+
+[compat.links]
+homepage = "https://awesome.re/"
+repo = "https://github.com/sindresorhus/awesome"
+docs = "https://github.com/sindresorhus/awesome/blob/main/awesome.md"
+community = "https://github.com/topics/awesome-list"
