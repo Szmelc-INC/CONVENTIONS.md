@@ -88,6 +88,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/PROFILES/OVERLAYS.md` | selecting a profile or applying team, project or user-specific rule overrides. |
 | `CONVENTIONS/REPO/LAYOUT.md` | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
 | `CONVENTIONS/REPO/WRITING.md` | writing docs, help text, error messages, commit messages, or community and lore text. |
+| `CONVENTIONS/SPECS/ORIGINAL/CONVENTIONS-FORMAT.md` | implementing, validating, or changing the Conventions Format 1.0 document contract. |
 | `CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md` | organising a doc tree into cores, adding a core or category, or editing a core README. |
 | `CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md` | starting a project, writing a brief for a coding agent, or changing a project's architecture. |
 | `CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md` | generating, reading or changing INDEX.md, index.json or an all-in-one rule bundle. |
