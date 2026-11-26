@@ -2,8 +2,6 @@
 # Smoke-test install.sh against a throwaway $HOME. Never touches the real one.
 set -euo pipefail
 cd "$(dirname "$0")/../.."
-repo=$PWD
-
 fake=$(mktemp -d)
 trap 'rm -rf "$fake"' EXIT
 export HOME=$fake NO_COLOR=1
