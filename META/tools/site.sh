@@ -1439,6 +1439,7 @@ menuP.innerHTML = mBtn('m-install', 'term', 'Install / use')
   + `<li><button type="button" id="theme" title="Theme (key t)"></button></li>`
   + mBtn('m-keys', 'keys', 'Keyboard shortcuts', 'Keyboard shortcuts (key ?)')
   + mSep
+  + mBtn('m-about', 'szmelc', 'About Szmelc™')
   + (tabs.some(t=>t.id==='contributing') ? mItem('#contributing', ic('contributing') + 'Contribute') : '')
   + mItem(D.repo, ic('star') + 'Star on GitHub')
   + mLink('github') + mLink('tag') + mLink('chat')
@@ -1468,6 +1469,7 @@ menu.addEventListener('focusout', e=>{ const r = e.relatedTarget;
 // the item keeps focus, so the modal returns focus to it on close
 $('#m-install').onclick = e=>openInstall(e.currentTarget);
 $('#m-keys').onclick = e=>openKeys(e.currentTarget);
+$('#m-about').onclick = e=>openAbout(e.currentTarget);
 $('#m-expand').onclick = toggleAll;
 const copyItem = (id, v) => { $(id).onclick = e=>{ const b = e.currentTarget; copyText(v()).then(()=>copied(b), ()=>{}); }; };
 copyItem('#m-copy-page', ()=>location.href);
