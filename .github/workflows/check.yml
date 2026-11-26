@@ -16,6 +16,19 @@ jobs:
           fetch-depth: 0
       - name: structure, generated files, references
         run: bash META/tools/check.sh
+      - name: Go tests and coverage report
+        run: |
+          go test -coverprofile="$RUNNER_TEMP/go-coverage.out" ./...
+          go tool cover -func="$RUNNER_TEMP/go-coverage.out" | tee "$RUNNER_TEMP/go-coverage.txt"
+          {
+            echo '## Go test coverage'
+            echo
+            echo '```text'
+            cat "$RUNNER_TEMP/go-coverage.txt"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: generated artifact goldens and reproducibility
+        run: bash META/tools/test-generated.sh
       - name: actionlint
         run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 .github/workflows/*.yml
       - name: index schema
@@ -42,10 +55,22 @@ jobs:
           test -s "$RUNNER_TEMP/conventions-adapters/aider-read-commands.txt"
       - name: shellcheck
         run: shellcheck install.sh META/tools/*.sh META/tools/hooks/*
+      - name: markdownlint
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: bash META/tools/markdownlint.sh
+      - name: editorconfig-checker
+        run: |
+          go install github.com/editorconfig-checker/editorconfig-checker/v4/cmd/editorconfig-checker@v4.0.2
+          "$HOME/go/bin/editorconfig-checker" -config .ecrc
+      - name: typos
+        uses: crate-ci/typos@7f9d0819ca1c008ade73f4b41fa9d258d48f605b # v1.51.1
+      - name: local Markdown links
+        uses: lycheeverse/lychee-action@649b0e4890508ea3e11ea6b3ee35ce899a25afd5 # v2
+        with:
+          args: --offline --no-progress --verbose './**/*.md'
       - name: review-gate decision tests
         run: bash META/tools/review-gate.sh --self-test
-      - name: installer smoke test (throwaway HOME)
-        run: bash META/tools/test-install.sh
       - name: release dry run
         run: bash META/tools/release.sh --dry-run
       - name: dependency review
@@ -63,3 +88,47 @@ jobs:
           HEAD_REF: ${{ github.head_ref }}
           BASE_REF: ${{ github.base_ref }}
         run: bash META/tools/lane-check.sh "$HEAD_REF" "origin/$BASE_REF"
+
+  installer-matrix:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Install current Bash for the macOS runner
+        if: runner.os == 'macOS'
+        run: |
+          brew install bash
+          echo "$(brew --prefix)/bin" >> "$GITHUB_PATH"
+      - name: installer lifecycle for every harness
+        run: bash META/tools/test-install.sh
+
+  site-quality:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Build site with a stable timestamp
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_DATE_EPOCH: '1700000000'
+        run: |
+          META/tools/site.sh --output "$RUNNER_TEMP/site"
+          grep -q '<noscript>' "$RUNNER_TEMP/site/index.html"
+          grep -q 'href="INDEX.md"' "$RUNNER_TEMP/site/index.html"
+          grep -q '2023-11-14T22:13:20Z' "$RUNNER_TEMP/site/index.html"
+      - name: Install Lighthouse CI and axe CLI
+        run: |
+          npm install --global @lhci/cli@0.15.1 @axe-core/cli@4.10.2 browser-driver-manager@2.0.1
+          browser-driver-manager install chrome
+      - name: Accessibility and performance budgets
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory "$RUNNER_TEMP/site" >"$RUNNER_TEMP/site-server.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 40); do curl --fail --silent http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+          axe http://127.0.0.1:4173/ --exit --chrome-options='no-sandbox,disable-setuid-sandbox,disable-dev-shm-usage'
+          lhci autorun --config=.lighthouserc.json

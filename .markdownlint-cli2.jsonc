@@ -1,0 +1,20 @@
+{
+  "config": {
+    "default": true,
+    "MD013": false,
+    "MD022": false
+  },
+  "frontMatter": "(^---\\s*$[\\s\\S]*?^---\\s*$)(\\r\\n|\\r|\\n|$)",
+  "ignores": [
+    "AGENTS/adapters/**",
+    "INDEX.md",
+    "CONVENTIONS.md",
+    "COMPATIBILITY.md",
+    "AGENTS.md",
+    "HUMANS.md",
+    "CONTRIBUTING.md",
+    "META.md",
+    "TEMPLATES.md",
+    "PROFILES/*/rendered/**"
+  ]
+}
