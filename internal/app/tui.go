@@ -177,8 +177,12 @@ func (m *tuiModel) executeCommand(command string) tea.Cmd {
 			m.message = "Install links created for detected harnesses."
 		}
 	case "lint":
-		report := lint.Run(".")
-		m.message = fmt.Sprintf("Lint checked %d Markdown files and found %d issue(s).", report.Files, len(report.Findings))
+		report, err := lint.Run(".")
+		if err != nil {
+			m.message = "Lint failed: " + err.Error()
+		} else {
+			m.message = fmt.Sprintf("Lint checked %d Markdown files and found %d issue(s).", report.Files, len(report.Findings))
+		}
 	default:
 		m.message = "Unknown command: " + parts[0]
 	}

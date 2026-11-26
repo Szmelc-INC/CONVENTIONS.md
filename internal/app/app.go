@@ -60,6 +60,9 @@ func Run(args []string, out, errOut io.Writer) int {
 			cmd = rest[0]
 		}
 		color := cfg.Color == "always" || (cfg.Color == "auto" && !noColor && os.Getenv("NO_COLOR") == "" && isTerminal(out))
+		if noColor || os.Getenv("NO_COLOR") != "" {
+			color = false
+		}
 		commandHelp(out, cmd, color)
 		return 0
 	}
@@ -134,7 +137,10 @@ func Run(args []string, out, errOut io.Writer) int {
 				root = rest[i]
 			}
 		}
-		report := lint.Run(root)
+		report, lintErr := lint.Run(root)
+		if lintErr != nil {
+			return fail(errOut, "E_LINT", lintErr, 1)
+		}
 		if sarif != "" {
 			b := lint.SARIF(report)
 			if sarif == "-" {

@@ -19,11 +19,11 @@ type Report struct {
 	Files    int       `json:"files"`
 }
 
-func Run(root string) Report {
+func Run(root string) (Report, error) {
 	report := Report{}
-	_ = filepath.WalkDir(root, func(p string, d os.DirEntry, e error) error {
+	err := filepath.WalkDir(root, func(p string, d os.DirEntry, e error) error {
 		if e != nil {
-			return nil
+			return e
 		}
 		if d.IsDir() {
 			if p != root && (d.Name() == ".git" || d.Name() == "vendor" || d.Name() == "node_modules") {
@@ -37,7 +37,7 @@ func Run(root string) Report {
 		report.Files++
 		b, err := os.ReadFile(p)
 		if err != nil {
-			return nil
+			return err
 		}
 		text := string(b)
 		rel, _ := filepath.Rel(root, p)
@@ -78,7 +78,7 @@ func Run(root string) Report {
 		}
 		return nil
 	})
-	return report
+	return report, err
 }
 
 func isRuleDocument(path, text string) bool {

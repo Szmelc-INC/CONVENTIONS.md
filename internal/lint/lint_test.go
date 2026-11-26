@@ -18,7 +18,10 @@ func TestRunAndSARIF(t *testing.T) {
 	if err := os.WriteFile(filepath.Join(root, "CONVENTIONS", "bad.md"), []byte("# Missing trigger\n"), 0600); err != nil {
 		t.Fatal(err)
 	}
-	r := Run(root)
+	r, err := Run(root)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if r.Files != 2 || len(r.Findings) < 1 {
 		t.Fatalf("unexpected report: %#v", r)
 	}
@@ -28,5 +31,11 @@ func TestRunAndSARIF(t *testing.T) {
 	}
 	if payload["version"] != "2.1.0" {
 		t.Fatalf("invalid SARIF: %#v", payload)
+	}
+}
+
+func TestRunReportsMissingRoot(t *testing.T) {
+	if _, err := Run(filepath.Join(t.TempDir(), "missing")); err == nil {
+		t.Fatal("expected missing root error")
 	}
 }
