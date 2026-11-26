@@ -17,6 +17,7 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/tests/added-rules.d/v3.0-profiles.txt`](META/tests/added-rules.d/v3.0-profiles.txt) | Added with the v3 profile split. |  |
 | [`META/tests/added-rules.d/webui-blueprint.txt`](META/tests/added-rules.d/webui-blueprint.txt) | Web UI blueprint (#69). |  |
 | [`META/tests/added-rules.d/webui-style-split.txt`](META/tests/added-rules.d/webui-style-split.txt) | Web UI style split (#71). |  |
+| [`META/tests/install.bats`](META/tests/install.bats) |  |  |
 | [`META/tests/profile-changes.d/00-README.tsv`](META/tests/profile-changes.d/00-README.tsv) | One <topic>.tsv per change that edits a v2.0.2 stable rule: path<TAB>reason. |  |
 | [`META/tests/profile-changes.d/release-signing.tsv`](META/tests/profile-changes.d/release-signing.tsv) | Stage 4 quality gates: require cryptographically signed annotated release tags. |  |
 | [`META/tests/profile-changes.d/ste-prose-migration.tsv`](META/tests/profile-changes.d/ste-prose-migration.tsv) | STE100++ prose migration (#70): semicolons split into sentences. |  |
