@@ -9,6 +9,7 @@ git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventi
 ```
 
 [![CI status](https://img.shields.io/github/actions/workflow/status/Szmelc-INC/CONVENTIONS.md/check.yml?branch=main&label=check&logo=githubactions&logoColor=white)](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/check.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Szmelc-INC/CONVENTIONS.md/badge)](https://scorecard.dev/viewer/?uri=github.com/Szmelc-INC/CONVENTIONS.md)
 [![Latest release](https://img.shields.io/github/v/release/Szmelc-INC/CONVENTIONS.md?logo=github&color=105c5c)](https://github.com/Szmelc-INC/CONVENTIONS.md/releases/latest)
 [![License: MIT](https://img.shields.io/github/license/Szmelc-INC/CONVENTIONS.md?logo=opensourceinitiative&logoColor=white&color=105c5c)](LICENSE)
 [![Live site](https://img.shields.io/website?url=https%3A%2F%2Fszmelc-inc.github.io%2FCONVENTIONS.md%2F&label=site&logo=githubpages&logoColor=white&up_color=105c5c&up_message=live)](https://szmelc-inc.github.io/CONVENTIONS.md/)
@@ -138,7 +139,7 @@ public/           the built site, made in CI, never committed     [generated]
 </details>
 
 ### Automation
-- CI checks each PR: `META/tools/check.sh`, ShellCheck and the install test.
+- CI checks each PR: generated files, the JSON Schema, ShellCheck, installer behavior, release dry run, dependency review and branch scope. Release assets receive a build provenance attestation. OpenSSF Scorecard runs weekly.
 - GitHub Pages builds the site when its sources change on `main`, and each night at 03:00 UTC.
 - A `vX.Y.Z` tag starts the release. The release gets the bundle files and `SHA256SUMS`.
 - Dependabot opens one PR each week for GitHub Actions updates.

@@ -3,12 +3,13 @@ on:
   schedule:
     - cron: '0 9 * * 1'
   workflow_dispatch:
-permissions:
-  contents: read
-  issues: write
+permissions: {}
 jobs:
   reminder:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     steps:
       - name: Create the weekly triage checklist if none is open
         env:

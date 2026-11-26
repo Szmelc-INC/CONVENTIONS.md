@@ -14,7 +14,7 @@ How the conventions repo works: sources in, every format out.
 | `META/tools/test-install.sh` | `install.sh` smoke test in a throwaway `$HOME` |
 | `META/tools/site.sh` | GitHub Pages site into gitignored `public/`: `index.html`, JSON, `llms.txt`, `index.json`, `INDEX.md`, `CONVENTIONS.md`, `COMPATIBILITY.md`, `SKILL.md` at the site root, registry icons at their repo paths; projects from the GitHub API using the selected profile's source list |
 | `META/tools/screenshots.sh` | README screenshots into `META/assets/screenshots/`: builds the site, captures it with headless Chromium over CDP (Node >= 22), optimizes the PNGs. `--help` |
-| `META/tools/release.sh` | Verifies the tag (annotated, on `main`), runs check, builds bundle assets + `SHA256SUMS` into gitignored `dist/`, publishes the GitHub release. `--dry-run` prints instead |
+| `META/tools/release.sh` | Verifies the signed, annotated tag on `main`, runs check, builds bundle assets + `SHA256SUMS` into gitignored `dist/`, publishes the GitHub release. `--dry-run` prints instead |
 | `META/tools/labels.sh` | Applies `.github/labels.tsv` with `gh label create --force`; never deletes. `--dry-run` |
 | `META/tools/github-setup.sh` | Repo settings, security toggles, rulesets (`main`, `release-tags`) and labels as code; idempotent. `--dry-run` |
 
@@ -42,5 +42,5 @@ How the conventions repo works: sources in, every format out.
 - check.sh rule 12: grammar, required fields, unique kebab ids, kind, real dates, icon files and their safety, spec paths, https links, every `CONVENTIONS/SPECS/THIRD-PARTY/` file cited, no unused icon.
 - Origin: `origin` on `index.json` entries and site rules, from the path: `*/THIRD-PARTY/*` → `third-party`, `*/ORIGINAL/*` → `original`; absent otherwise.
 - Skeletons live in the `TEMPLATES/` core (`TEMPLATES/README.md`); build, check, site and install skip them as rules.
-- CI: `.github/workflows/check.yml` (check, shellcheck, installer test, branch scope), `.github/workflows/pages.yml` (site on push to `main`, nightly, on demand), `.github/workflows/release.yml` (`v*` tag push, or dispatch with `dry_run`).
+- CI: `.github/workflows/check.yml` (generated files, pinned actions, actionlint, schema, shellcheck, installer test, release dry run, dependency review, branch scope), `.github/workflows/scorecard.yml` (weekly supply-chain score), `.github/workflows/pages.yml` (site on push to `main`, nightly, on demand), `.github/workflows/release.yml` (`v*` tag push, provenance attestation, or dispatch with `dry_run`).
 - GitHub setup in `.github/`: issue forms, PR template, `release.yml` note categories, `dependabot.yml`, `labels.tsv`, `SECURITY.md`.

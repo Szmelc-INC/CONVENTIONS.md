@@ -129,12 +129,12 @@ for profile_file in "${profiles[@]}"; do
   skill_name=$(awk -F'"' '$1 ~ /^[[:space:]]*skill_name[[:space:]]*=[[:space:]]*$/ {print $2; exit}' "$profile_file")
   [[ -n $skill_name ]] || err "$profile_file: missing profile.skill_name"
   grep -q "^name: $skill_name$" "$out/SKILL.md" || err "profile '$profile' rendered the wrong skill name"
-  if rg -nF '{{profile.' "$out" >/dev/null; then
+  if grep -r -n -F '{{profile.' "$out" >/dev/null; then
     err "profile '$profile' output contains an unresolved profile variable"
   fi
   if [[ $profile == neutral ]]; then
     grep -qF "Chat: reply in the user's language." "$out/AGENTS/global/AGENTS.md" || err "neutral profile must preserve the user's language preference"
-    if rg -n -i 'Szmelc™|Polish|pkexec|dc-notify|\bSAUR\b|#105c5c|#1f8a8a|#750f0f|#b83a3a|#c0c0c0|#7fffd4' \
+    if grep -r -n -i -E 'Szmelc™|Polish|pkexec|dc-notify|(^|[^[:alnum:]_])SAUR([^[:alnum:]_]|$)|#105c5c|#1f8a8a|#750f0f|#b83a3a|#c0c0c0|#7fffd4' \
       "$out/SKILL.md" "$out/AGENTS/global/AGENTS.md" "$out/CONVENTIONS.md" \
       "$out/AGENTS/adapters" >/dev/null; then
       err "neutral profile contains Szmelc-only values"
@@ -210,6 +210,7 @@ while IFS= read -r p; do
 done < <(find CONVENTIONS AGENTS/RULES AGENTS/PROMPT -mindepth 1 | sort)
 
 # 12. Compatibility registry (META/compat/registry.toml): grammar, required fields, ids, dates, icons, specs, links.
+if ! META/tools/check-actions-pinned.sh; then err "workflow actions must be pinned to full commit SHAs"; fi
 REGISTRY=META/compat/registry.toml
 ICONS=META/compat/icons
 US=$'\037'
