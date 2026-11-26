@@ -4,19 +4,23 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+## [3.1.0] - 2026-11-26
+
 ### Added
-- Conventions Format 1.0 schemas, conformance fixtures, validator, migration guide, and native rule compiler.
-- Experimental opt-in rule-ID bundles for review, research and release modes under `AGENTS/modes/`; the bundles stay out of default instructions and are listed separately in `INDEX.md`.
-- Locale companions for rules: front matter `locales: <lang>=<path>` (`CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`), validated by `check.sh`. The site shows an EN/PL toggle in the opened rule (first: STE100++). The English file stays canonical.
+
+- Conventions Format 1.0: normative spec, schemas, conformance fixtures, validator, migration guide, interop compiler, and minimal adopter example.
+- Opt-in rule-ID bundles for review, research and release modes, and English-canonical locale companions for rules.
+- Repository support routes and the inbound MIT, no-CLA contribution policy.
 
 ### Changed
 
-- Split Web UI style rules into theme, layout, components and accessibility guides beside the Web UI interface rules; retained the old path as a linked stub.
-- STE100++ prose pass over hand-written docs (README-like files, prompts, governance, skill entry): semicolons split into sentences, actors named, the docs-voice before/after example quoted.
+- Split Web UI guidance into theme, layout, components and accessibility rules, while preserving the legacy rule ID.
+- Apply the STE100++ prose pass to hand-written documentation.
 
-### Added
+### Security and release integrity
 
-- `META/tools/prose-lint.sh`: STE100++ prose checks for hand-written Markdown (semicolons, claim words in EN and PL, sentences over 30 words). Skips code, tables, quotes and rule one-liners. CI gates with `--strict`; `--summary` shows counts.
+- Pin workflow actions to full commit SHAs, limit workflow permissions, and check schema conformance, dependencies, and release dry runs in CI.
+- Require signed release tags and attest release asset provenance.
 
 ## [3.0.0] - 2026-11-26
 
