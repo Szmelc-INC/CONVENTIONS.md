@@ -12,7 +12,7 @@ To resolve the tension between *"just write a skill"* and *"solve conventions gl
 
 | Layer | Artifact | Ontological Role | Generation Direction |
 | :--- | :--- | :--- | :--- |
-| **0. Meta-Law** | `CONVENTIONS.md` | **The Parser Contract.** Defines universal AST/schema rules, naming, versioning, and file topology across all `Szmelc-INC` & `CYBERSZP0NT` repos. | **Root Source of Truth** (Human + Architect) |
+| **0. Meta-Law** | `CONVENTIONS.md` | **The Parser Contract.** Defines universal AST/schema rules, naming, versioning, and file topology across all `Szmelc-INC` repos. | **Root Source of Truth** (Human + Architect) |
 | **1. Governance** | `SZMELC.md`, `KOMBINAT.md`, `TEAM.md` | **Domain Axioms.** Anti-bloat constraints, central API rules, and operator roles (`Sernik`, `Polski Kotek`, `Henderson`). | Derived from Layer 0 |
 | **2. Agent Runtime** | `AGENTS.md`, `CLAUDE.md`, `ASSERTIONS.md` | **Cognitive Guardrails.** Fleet orchestration, context injection, and deterministic verification loops (`ada-agent`). | Compiled from Layers 0–1 |
 | **3. Atomic Tools** | `SKILL.md`, `MODULE.md` | **Executable Bricks.** Single-purpose AI capabilities and `KUR` plugins packaged for immediate agent consumption. | **Auto-generated** from Layers 0–2 |

@@ -9,7 +9,6 @@ Indexed on the site's Projects tab from `PROFILES/szmelc/sources.conf` (GitHub A
 | Owner | Kind |
 |---|---|
 | [Szmelc-INC](https://github.com/Szmelc-INC) | Organisation; home of this repo |
-| [CYBERSZP0NT](https://github.com/CYBERSZP0NT) | Organisation; AI-focused projects |
 | [Entropy-Linux](https://github.com/Entropy-Linux) | Organisation; v0-era sister project |
 | [sernik77](https://github.com/sernik77) | User |
 
