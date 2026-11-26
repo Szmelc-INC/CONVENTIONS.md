@@ -1,5 +1,9 @@
 name: check
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 permissions: {}
 concurrency:
   group: check-${{ github.event_name }}-${{ github.ref }}
@@ -102,8 +106,15 @@ jobs:
         run: |
           brew install bash
           echo "$(brew --prefix)/bin" >> "$GITHUB_PATH"
-      - name: installer lifecycle for every harness
-        run: bash META/tools/test-install.sh
+      - name: Install Bats
+        env:
+          BATS_VERSION: v1.14.0
+        run: |
+          git clone --depth 1 --branch "$BATS_VERSION" https://github.com/bats-core/bats-core.git "$RUNNER_TEMP/bats-core"
+          "$RUNNER_TEMP/bats-core/install.sh" "$RUNNER_TEMP/bats"
+          echo "$RUNNER_TEMP/bats/bin" >> "$GITHUB_PATH"
+      - name: Bats installer lifecycle tests
+        run: bats META/tests/install.bats
 
   site-quality:
     runs-on: ubuntu-latest
