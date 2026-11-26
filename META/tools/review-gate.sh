@@ -51,7 +51,7 @@ self_test() {
   return "$fail"
 }
 
-dry=0 repo= prs=()
+dry=0 repo='' prs=()
 while (($#)); do
   case $1 in
     --self-test) self_test; exit ;;
