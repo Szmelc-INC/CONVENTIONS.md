@@ -207,7 +207,8 @@ cp META/compat/icons/*.svg "$OUT/META/compat/icons/"
 
 # --- index.html (data inlined, so it also works offline / over file://) ------
 # Flat mono, retro-minimal (CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md): accent top rule,
-# small h1, bracketed folder tabs, nested category groups, themes dark/light/mono/terminal.
+# large one-line h1, [MENU] top right, one reusable <dialog> modal (install), bracketed folder tabs,
+# nested category groups, themes dark/light/mono/terminal.
 # Colors: CONVENTIONS/DESIGN/COLORS.md only. The heredocs are quoted: build-time values
 # reach the page through the JSON data block, never through shell expansion.
 DATA=$(jq -c . "$OUT/conventions.json" | sed 's#<#\\u003c#g')
@@ -293,8 +294,11 @@ main{max-width:1160px;margin:0 auto;padding:18px 16px 56px}
 
 /* == components == */
 /* header */
-h1{margin:0;font-size:clamp(1.6rem,4.2vw,2.4rem);line-height:1.2;font-weight:800;letter-spacing:.02em;color:var(--head);overflow-wrap:anywhere}
-h1 .pr{color:var(--faint);font-weight:400;margin-right:.45em}
+/* sized to stay on one line down to 280px: ~10.5em wide, so the vw term carries small screens */
+h1{margin:0;font-size:clamp(1.25rem,8.2vw,3.3rem);line-height:1.15;font-weight:800;letter-spacing:.02em;color:var(--head);white-space:nowrap}
+/* prompt glyph U+276F: fonts without it fall back, so pin weight and size and sit it on the baseline */
+h1 .pr{color:var(--faint);font-family:"JetBrains Mono","DejaVu Sans Mono",Menlo,"Segoe UI Symbol","Noto Sans Symbols 2",var(--font);
+  font-weight:400;font-size:.9em;line-height:1;vertical-align:baseline;margin-right:.4em}
 h1 .ext{color:var(--link)}
 h1 .cur{display:inline-block;width:.55em;height:1.05em;margin-left:.12em;vertical-align:-.18em;background:var(--hl);animation:blink 1.1s steps(1) infinite}
 .by{letter-spacing:.12em;color:var(--sec);white-space:nowrap}
@@ -302,18 +306,45 @@ h1 .cur{display:inline-block;width:.55em;height:1.05em;margin-left:.12em;vertica
   color:var(--sec);font-size:12.5px;white-space:nowrap;transition:border-color .15s,color .15s,background .15s}
 .btn:hover{background:var(--s3);border-color:var(--line-3);color:var(--head)}
 .btn:active{background:var(--raise)}
-/* centered nav row: links + theme toggle between full-width rules */
-.navrow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 22px;margin:0 -16px;padding:9px 16px;
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:13.5px}
+/* placeholder under the h1 for the "Compatible with" carousel; invisible while empty */
+.compat:empty{display:none}
 .links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;font-size:inherit}
-.tbtn{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;margin:0;border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);color:var(--sec);
+.tbtn{display:inline-flex;align-items:center;gap:6px;min-height:26px;padding:2px 8px;margin:0;border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);color:var(--sec);
   font-size:12.5px;transition:color .15s,border-color .15s,background .15s}
 .tbtn:hover{color:var(--head);border-color:var(--line-3);background:var(--s3)}
+.tbtn .br{color:var(--mute)}
+.tbtn[aria-expanded="true"]{background:var(--fill);border-color:var(--fill);color:var(--on-fill)}
+.tbtn[aria-expanded="true"] .br{color:inherit}
+
+/* [MENU]: top-right disclosure; scrolls with the page so it never covers the sticky toolbar */
+.menu{position:absolute;top:12px;right:12px;z-index:12}
+.menu-p{position:absolute;top:calc(100% + 6px);right:0;width:max-content;min-width:220px;max-width:calc(100vw - 24px);max-height:calc(100dvh - 60px);overflow:auto;
+  margin:0;padding:4px;list-style:none;background:var(--surface);border:1px solid var(--line-2);border-top:2px solid var(--acc);border-radius:var(--r);
+  box-shadow:0 10px 24px -12px #000;animation:unfold .12s ease-out}
+.menu-p[hidden]{display:none}
+.menu-p li.sep{height:1px;margin:4px 2px;background:var(--line)}
+.menu-p a,.menu-p button{display:flex;align-items:center;gap:8px;width:100%;min-height:30px;padding:4px 10px;border:0;border-radius:2px;background:none;
+  color:var(--sec);font-size:13px;text-align:left;text-decoration:none;white-space:nowrap}
+.menu-p .ic{color:var(--mute)}
+.menu-p a:hover,.menu-p button:hover,.menu-p a:focus-visible,.menu-p button:focus-visible{background:var(--s3);color:var(--head);text-decoration:none;text-shadow:none}
+.menu-p :is(a,button):hover .ic{color:var(--link)}
+.menu-p :focus-visible{outline-offset:-2px}
+
+/* modal: one native <dialog>, reused by openModal(); the backdrop is a vignette */
+.modal{width:min(640px,calc(100vw - 32px));max-width:none;max-height:calc(100dvh - 32px);margin:auto;padding:0;border:1px solid var(--line-2);border-top:2px solid var(--acc);
+  border-radius:var(--r);background:var(--surface);color:var(--fg);overflow:hidden;animation:unfold .14s ease-out}
+.modal[open]{display:flex;flex-direction:column}
+.modal::backdrop{background:radial-gradient(ellipse at center,rgba(0,0,0,.45) 0%,rgba(0,0,0,.72) 55%,rgba(0,0,0,.92) 100%)}
+:root[data-theme="light"] .modal::backdrop{background:radial-gradient(ellipse at center,rgba(0,0,0,.18) 0%,rgba(0,0,0,.38) 55%,rgba(0,0,0,.62) 100%)}
+.m-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 16px;background:var(--raise);border-bottom:1px solid var(--line)}
+.m-hd h2{margin:0;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--head)}
+.m-bd{padding:14px 16px 16px;overflow:auto;overscroll-behavior:contain}
+body:has(.modal[open]){overflow:hidden}
 .links a{display:inline-flex;align-items:center;gap:6px;color:var(--sec);transition:color .15s,text-shadow .15s}
 .links a .ic{color:var(--mute)}
 .links a:hover,.links a:hover .ic{color:var(--link)}
-/* intro panel below the toolbar */
-.intro{margin:16px 0 0;padding:14px 16px 16px;background:var(--s1);border:1px solid var(--line);border-radius:var(--r)}
+/* intro: tagline, stats, install; rendered inside the install modal */
+.intro{margin:0}
 .tagline{margin:0;color:var(--sec);font-size:13.5px;line-height:1.65;max-width:92ch}
 .stats{display:flex;flex-wrap:wrap;gap:4px 20px;margin:10px 0 0;font-size:12.5px;color:var(--mute)}
 .stats b{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
@@ -478,9 +509,10 @@ footer .keys{margin-left:auto}
 
 @media (max-width:640px){
   main{padding-top:12px}
-  .hd{padding:16px 0 14px}
-  .navrow,.links{gap:4px 16px;font-size:12.5px}
-  .intro{padding:12px}
+  .hd{padding:42px 0 14px}
+  .links{gap:4px 16px;font-size:12.5px}
+  .menu{top:8px;right:8px}
+  .m-bd{padding:12px}
   details.item>summary,.frow{grid-template-columns:minmax(0,1fr) auto;padding:9px 10px}
   details.item>summary .it-load{grid-column:1/-1;order:3}
   .frow span{grid-column:1/-1}
@@ -578,16 +610,20 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
   <symbol id="i-map" viewBox="0 0 16 16"><rect x="1.5" y="2" width="13" height="12"/><path d="M6 2v12M10.5 2v12M3 4.5h1.5M7.5 4.5h1.5M7.5 7h1.5M12 4.5h1"/></symbol>
   <symbol id="i-globe" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M2 8h12M8 2c2 2 2 10 0 12M8 2C6 4 6 12 8 14"/></symbol>
   <symbol id="i-expand" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></symbol>
+  <symbol id="i-star" viewBox="0 0 16 16"><path d="M8 1.8l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.6l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></symbol>
+  <symbol id="i-term" viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="11"/><path d="M4 6l2.5 2L4 10M8 10.5h4"/></symbol>
+  <symbol id="i-x" viewBox="0 0 16 16"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></symbol>
 </svg>
 <a class="skip" href="#list" id="skip">Skip to the rules</a>
+<nav class="menu" id="menu" aria-label="Menu">
+  <button class="tbtn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu-p"><span class="br">[</span>MENU<span class="br">]</span></button>
+  <ul class="menu-p" id="menu-p" hidden></ul>
+</nav>
 <main>
 <header class="hd">
-  <h1><span class="pr" aria-hidden="true">&gt;</span>CONVENTIONS<span class="ext">.md</span><span class="cur" aria-hidden="true"></span></h1>
+  <h1><span class="pr" aria-hidden="true">&#x276F;</span>CONVENTIONS<span class="ext">.md</span><span class="cur" aria-hidden="true"></span></h1>
 </header>
-<div class="navrow">
-  <nav class="links" id="links" aria-label="Links"></nav>
-  <button class="tbtn" id="theme" type="button" title="Theme (key t)"></button>
-</div>
+<div class="compat" id="compat"></div>
 
 <div class="tbar" id="tbar">
 <nav class="tabs" id="tabs" role="tablist" aria-label="Sections"></nav>
@@ -597,21 +633,21 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
   <button class="btn" id="expand" type="button" title="Expand or collapse all (key e)"></button>
 </div>
 </div>
-<section class="intro" aria-label="About">
-  <p class="tagline">One source of rules for humans and AI agents, shipped as <code>SKILL.md</code>, <code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>llms.txt</code>, Cursor, Copilot and Kiro rules. Read any rule below, copy it raw, or install the lot.</p>
-  <div class="stats" id="stats"></div>
-  <div class="cmd"><pre id="install"></pre><button class="cp" type="button" data-cp-from="install"></button></div>
-</section>
 <noscript><p class="lead">The index renders with JavaScript. Without it read <a href="INDEX.md">INDEX.md</a>, <a href="llms.txt">llms.txt</a> or <a href="CONVENTIONS.md">CONVENTIONS.md</a>.</p></noscript>
 <p class="lead" id="lead"></p>
 <div id="list" role="tabpanel" tabindex="-1" aria-labelledby="tabs"></div>
+
+<dialog class="modal" id="modal" aria-labelledby="modal-t">
+  <div class="m-hd"><h2 id="modal-t"></h2><button class="tbtn" id="modal-x" type="button" aria-label="Close (esc)" title="Close (esc)"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg>close</button></div>
+  <div class="m-bd" id="modal-b"></div>
+</dialog>
 
 <footer>
   <nav class="links" id="flinks" aria-label="More links"></nav>
   <div class="meta">
     <span class="by">By Szmelc™</span>
     <span>Generated by <code>META/tools/site.sh</code> from source files and the GitHub API · <span id="built"></span></span>
-    <span class="keys"><kbd>/</kbd> filter · <kbd>1</kbd>–<kbd>9</kbd> tabs · <kbd>e</kbd> expand · <kbd>t</kbd> theme · <kbd>esc</kbd> clear</span>
+    <span class="keys"><kbd>/</kbd> filter · <kbd>1</kbd>–<kbd>9</kbd> tabs · <kbd>e</kbd> expand · <kbd>t</kbd> theme · <kbd>esc</kbd> close / clear</span>
   </div>
 </footer>
 </main>
@@ -663,23 +699,56 @@ const FOOT = [
   ['json', 'projects.json', 'projects.json'],
 ];
 const linkRow = L => L.filter(l=>l[2]).map(([i,t,h])=>/^https?:/.test(h) ? ext(h, ic(i)+esc(t)) : `<a href="${esc(h)}">${ic(i)}${esc(t)}</a>`).join('');
-$('#links').innerHTML = linkRow(LINKS);
 $('#flinks').innerHTML = linkRow(FOOT.concat(LINKS.slice(2)));
 $('#built').textContent = 'built ' + (D.built||'').replace('T',' ').replace('Z',' UTC');
 
+// Install / use panel (tagline, stats, copyable command); shown in the modal, never in the page flow.
 const INSTALL = `git clone ${D.repo} ~/.config/szmelc/conventions\n~/.config/szmelc/conventions/install.sh`;
-$('#install').innerHTML = '<span class="c"># install for every supported agent harness</span>\n'
-  + INSTALL.split('\n').map(l=>'<span class="p">$ </span>'+esc(l)).join('\n');
-$('#install').dataset.copy = INSTALL;
-$('[data-cp-from="install"]').innerHTML = ic('copy') + '<span class="lb">copy</span>';
+const installHTML = () => '<section class="intro">'
+  + '<p class="tagline">One source of rules for humans and AI agents, shipped as <code>SKILL.md</code>, <code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>llms.txt</code>, Cursor, Copilot and Kiro rules. Read any rule, copy it raw, or install the lot.</p>'
+  + '<div class="stats">' + [
+    `<span><b>${D.rules.length}</b> rules</span>`,
+    `<span><b>${D.skills.length}</b> skills</span>`,
+    `<span><b>${D.experimental.length}</b> experimental</span>`,
+    `<span><b>${D.projects.length}</b> projects</span>`,
+    REL.tag ? `<span>release <b>${esc(REL.tag)}</b></span>` : '',
+    `<span>built <b>${esc((D.built||'').slice(0,10))}</b></span>`].join('') + '</div>'
+  + '<div class="cmd"><pre><span class="c"># install for every supported agent harness</span>\n'
+  + INSTALL.split('\n').map(l=>'<span class="p">$ </span>'+esc(l)).join('\n') + '</pre>'
+  + copyBtn(INSTALL, 'copy') + '</div></section>';
 
-$('#stats').innerHTML = [
-  `<span><b>${D.rules.length}</b> rules</span>`,
-  `<span><b>${D.skills.length}</b> skills</span>`,
-  `<span><b>${D.experimental.length}</b> experimental</span>`,
-  `<span><b>${D.projects.length}</b> projects</span>`,
-  REL.tag ? `<span>release <b>${esc(REL.tag)}</b></span>` : '',
-  `<span>built <b>${esc((D.built||'').slice(0,10))}</b></span>`].join('');
+// == modal: one native <dialog>; Esc, backdrop click and the close button close it; focus returns to the opener ==
+// openModal({title, html, opener, onClose}): title is text; html is trusted markup, so callers esc() any data in it;
+// opener (default: the focused element) gets focus back on close. closeModal() closes; modalOpen() tells if shown.
+const modal = $('#modal'), modalT = $('#modal-t'), modalB = $('#modal-b');
+let modalOpener = null, modalOnClose = null;
+const modalOpen = () => modal.open;
+function openModal({title='', html='', opener=null, onClose=null} = {}){
+  if (!modal.open) modalOpener = opener || document.activeElement;
+  modalOnClose = onClose;
+  modalT.textContent = title;
+  modalB.innerHTML = html;
+  if (!modal.open) modal.showModal();
+  modalB.scrollTop = 0;
+  return modal;
+}
+function closeModal(){ if (modal.open) modal.close(); }
+modal.addEventListener('close', ()=>{
+  modalB.innerHTML = '';
+  const f = modalOnClose, o = modalOpener; modalOnClose = modalOpener = null;
+  if (f) f();
+  if (o && o.isConnected && typeof o.focus === 'function') o.focus({preventScroll:true});
+});
+// backdrop click: the dialog has no padding, so a press that starts and ends on the dialog itself hit the backdrop
+let modalDown = false;
+modal.addEventListener('pointerdown', e=>{ modalDown = e.target === modal; });
+modal.addEventListener('click', e=>{ if (e.target === modal && modalDown) closeModal(); modalDown = false; });
+$('#modal-x').onclick = closeModal;
+
+function openInstall(opener){
+  openModal({title:'Install / use', html:installHTML(), opener,
+    onClose: ()=>{ if (location.hash === '#install') history.replaceState(null, '', location.pathname + location.search); }});
+}
 
 // == tiny Markdown renderer (headings, lists, tables, code, quotes, rules, links) ==
 function inline(s){
@@ -951,6 +1020,7 @@ function render(){
 function route(){
   let id = ''; try { id = decodeURIComponent(location.hash.slice(1)); } catch(e){}
   const low = id.toLowerCase(), key = low.replace(/\/$/,'');
+  if (low === 'install'){ openInstall(); if (!$('#list').hasChildNodes()) render(); return; }   // deep link: modal over the current view
   activeGroup = null;
   if (!id) current = tabs[0].id;
   else if (tabs.some(t=>t.id===low)) current = low;
@@ -996,10 +1066,36 @@ document.addEventListener('click', e=>{
   copyText(v).then(()=>copied(b), ()=>{});
 });
 
+// == [MENU]: top-right disclosure (button + aria-expanded/aria-controls + list); arrows/Home/End move, Esc/outside click/Tab out close ==
+const menu = $('#menu'), menuBtn = $('#menu-btn'), menuP = $('#menu-p');
+const mItem = (h, body) => /^https?:/.test(h) ? `<li><a href="${esc(h)}" target="_blank" rel="noopener">${body}</a></li>` : `<li><a href="${esc(h)}">${body}</a></li>`;
+menuP.innerHTML = mItem(D.repo, ic('star') + 'Star on GitHub')
+  + `<li><button type="button" id="m-install">${ic('term')}Install / use</button></li>`
+  + `<li><button type="button" id="theme" title="Theme (key t)"></button></li>`
+  + '<li class="sep" role="separator"></li>'
+  + LINKS.map(([i,t,h])=>mItem(h, ic(i) + esc(t))).join('');
+const menuOpen = () => !menuP.hidden;
+const menuItems = () => [...menuP.querySelectorAll('a,button')];
+function setMenu(open, focusBtn){
+  menuP.hidden = !open; menuBtn.setAttribute('aria-expanded', String(open));
+  if (open) menuItems()[0].focus(); else if (focusBtn) menuBtn.focus();
+}
+menuBtn.onclick = ()=>setMenu(!menuOpen());
+menuP.addEventListener('click', e=>{ if (e.target.closest('a,button')) setMenu(false, true); });
+menuP.addEventListener('keydown', e=>{
+  const L = menuItems(), i = L.indexOf(document.activeElement);
+  const k = {ArrowDown:i+1, ArrowUp:i-1, Home:0, End:L.length-1}[e.key]; if (k===undefined) return;
+  e.preventDefault(); L[(k+L.length) % L.length].focus();
+});
+menuBtn.addEventListener('keydown', e=>{ if (e.key==='ArrowDown' && !menuOpen()){ e.preventDefault(); setMenu(true); } });
+document.addEventListener('pointerdown', e=>{ if (menuOpen() && !menu.contains(e.target)) setMenu(false); });
+menu.addEventListener('focusout', e=>{ if (menuOpen() && e.relatedTarget && !menu.contains(e.relatedTarget)) setMenu(false); });
+$('#m-install').onclick = ()=>openInstall(menuBtn);   // the item hides on activation, so focus returns to [MENU]
+
 // == theme: dark (default) → light → mono → terminal; saved in localStorage ==
 const THEMES = ['dark','light','mono','terminal'], root = document.documentElement, themeBtn = $('#theme');
 function syncTheme(){
-  themeBtn.innerHTML = ic('theme') + 'theme: ' + esc(root.dataset.theme);
+  themeBtn.innerHTML = ic('theme') + 'Theme: ' + esc(root.dataset.theme);
   const m = $('meta[name="theme-color"]'); if (m) m.content = root.dataset.theme==='light' ? '#f3f3f3' : '#0b0b0b';
 }
 function cycleTheme(){
@@ -1011,9 +1107,11 @@ if (!THEMES.includes(root.dataset.theme)) root.dataset.theme = 'dark';
 syncTheme();
 themeBtn.onclick = cycleTheme;
 
-// == keys: / filter, 1-9 tabs, e expand, t theme, esc clear ==
+// == keys: / filter, 1-9 tabs, e expand, t theme, esc closes menu or modal first, then clears ==
 addEventListener('keydown', e=>{
   if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (menuOpen()){ if (e.key==='Escape'){ e.preventDefault(); setMenu(false, true); } return; }
+  if (modal.open) return;   // the dialog handles its own Esc (cancel → close)
   const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName);
   if (e.key==='Escape'){ if (q.value){ q.value=''; render(); } q.blur(); return; }
   if (typing) return;
