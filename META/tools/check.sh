@@ -108,6 +108,7 @@ for profile_file in "${profiles[@]}"; do
     err "profile '$profile' output contains an unresolved profile variable"
   fi
   if [[ $profile == neutral ]]; then
+    grep -qF "Chat: reply in the user's language." "$out/AGENTS/global/AGENTS.md" || err "neutral profile must preserve the user's language preference"
     if rg -n -i 'Szmelc™|Polish|pkexec|dc-notify|\bSAUR\b|#105c5c|#1f8a8a|#750f0f|#b83a3a|#c0c0c0|#7fffd4' \
       "$out/SKILL.md" "$out/AGENTS/global/AGENTS.md" "$out/CONVENTIONS.md" \
       "$out/AGENTS/adapters" >/dev/null; then
