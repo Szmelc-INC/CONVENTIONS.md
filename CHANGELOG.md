@@ -4,6 +4,18 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-11-26
+
+README rewrite and roadmap setup; no rule path, schema or install change.
+
+### Changed
+
+- README: centered header with four badges and the main screenshot, collapsible gallery, short what-it-is, install, update and browse sections, plain compatible-with section, short cores table, build note, collapsible file layout, automation, contributing as numbered steps, simpler repo rules, license line.
+
+### Added
+
+- Label `roadmap` (`.github/labels.tsv`) for the pinned roadmap issue and its stage sub-issues (`CONVENTIONS/GITHUB/ISSUES.md`).
+
 ## [2.0.0] - 2026-11-26
 
 First tagged release. Rule paths were renamed (major); see Changed first.
@@ -43,5 +55,6 @@ First tagged release. Rule paths were renamed (major); see Changed first.
 - This repo follows its own GitHub conventions: issue forms, PR template, labels as code (`META/tools/labels.sh`), settings and rulesets as code (`META/tools/github-setup.sh`), Dependabot for Actions, security policy, release workflow with bundle assets and `SHA256SUMS` (`META/tools/release.sh`).
 - `CONVENTIONS/GITHUB/ACTIONS/CI.md`: scheduled workflows stay alive through an API re-enable keepalive, not a heartbeat commit; bots never bypass rulesets.
 
-[Unreleased]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/Szmelc-INC/CONVENTIONS.md/commits/v2.0.0
