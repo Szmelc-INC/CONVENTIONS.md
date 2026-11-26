@@ -1,3 +1,6 @@
+---
+id: conventions.systems.arch
+---
 # Arch Linux
 > Load when: targeting, installing on, or integrating a tool with Arch Linux.
 

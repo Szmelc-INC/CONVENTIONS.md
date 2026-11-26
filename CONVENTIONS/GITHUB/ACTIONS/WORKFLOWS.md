@@ -1,3 +1,6 @@
+---
+id: conventions.github.actions.workflows
+---
 # Workflows
 > Load when: writing or editing a GitHub Actions workflow, reusable workflow or composite action.
 

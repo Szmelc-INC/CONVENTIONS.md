@@ -1,3 +1,6 @@
+---
+id: conventions.experimental.meta-grammar
+---
 # Meta-grammar ("LEGO everything")
 > Load when: user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions.
 

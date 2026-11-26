@@ -1,3 +1,6 @@
+---
+id: conventions.github.releases.tags
+---
 # Tags
 > Load when: creating, pushing, protecting or fixing a release tag.
 

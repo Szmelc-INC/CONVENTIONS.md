@@ -5,11 +5,11 @@
 # llms.txt, index.json, INDEX.md, CONVENTIONS.md, COMPATIBILITY.md and SKILL.md, served from the site root,
 # and the compatibility icons under META/compat/icons/.
 #
-# Usage: META/tools/site.sh            build into ./public
-#        SITE_OUT=dir META/tools/site.sh
+# Usage: META/tools/site.sh [--profile NAME] [--output DIR]
+# Without a profile, builds the neutral site at the output root and each other profile below it.
 #
 # Reproducible: rule data comes from the source files; the Projects index comes from
-# `gh` over SZMELC/sources.conf (owners), so the same run works in CI and locally.
+# `gh` over the selected profile's source list, so the same run works in CI and locally.
 # Without a working `gh`, the Projects tab is built empty with a note — the rest is identical.
 # Literal Markdown backticks in single quotes are intended.
 # shellcheck disable=SC2016
@@ -20,16 +20,100 @@ export LC_ALL=C
 command -v jq >/dev/null || { echo 'site.sh needs jq' >&2; exit 1; }
 
 OUT=${SITE_OUT:-public}
-REPO='https://github.com/Szmelc-INC/CONVENTIONS.md'
-RAW='https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main'
-SITE='https://szmelc-inc.github.io/CONVENTIONS.md/'
-ROADMAP='https://github.com/orgs/Szmelc-INC/projects/3'
+PROFILE=neutral profile_explicit=0
+while (($#)); do
+  case $1 in
+    --profile) PROFILE=${2:?--profile needs a name}; profile_explicit=1; shift ;;
+    --output) OUT=${2:?--output needs a directory}; shift ;;
+    -h|--help) echo 'Usage: META/tools/site.sh [--profile NAME] [--output DIR]'; exit 0 ;;
+    *) echo "unknown argument: $1" >&2; exit 2 ;;
+  esac
+  shift
+done
+if ((!profile_explicit)); then
+  shopt -s nullglob
+  profile_files=(PROFILES/*/profile.toml)
+  shopt -u nullglob
+  ((${#profile_files[@]})) || { echo 'site.sh: no profiles found' >&2; exit 1; }
+  root_profile=''
+  for file in "${profile_files[@]}"; do
+    id=${file#PROFILES/}; id=${id%/profile.toml}
+    [[ $id == neutral ]] && root_profile=$id
+  done
+  [[ -n $root_profile ]] || { root_profile=${profile_files[0]#PROFILES/}; root_profile=${root_profile%/profile.toml}; }
+  for file in "${profile_files[@]}"; do
+    id=${file#PROFILES/}; id=${id%/profile.toml}
+    if [[ $id == "$root_profile" ]]; then profile_out=$OUT; else profile_out="$OUT/$id"; fi
+    SITE_OUT="$profile_out" "$0" --profile "$id"
+  done
+  exit 0
+fi
+[[ $PROFILE =~ ^[a-z0-9][a-z0-9-]*$ ]] || { echo "site.sh: invalid profile name: $PROFILE" >&2; exit 2; }
+PROFILE_FILE="PROFILES/$PROFILE/profile.toml"
+[[ -f $PROFILE_FILE ]] || { echo "site.sh: profile not found: $PROFILE" >&2; exit 2; }
+declare -A PROFILE_VALUES=()
+while IFS=$'\t' read -r key value; do PROFILE_VALUES["$key"]=$value; done < <(awk '
+  /^[[:space:]]*#/ {next}
+  /^\[/ {section=$0; gsub(/^\[|\]$/, "", section); next}
+  (section=="profile" || section ~ /^profile\./) && /^[[:space:]]*[A-Za-z0-9_.-]+[[:space:]]*=[[:space:]]*"/ {
+    line=$0; split(line,a,"="); key=a[1]; gsub(/[[:space:]]/,"",key)
+    value=line; sub(/^[^=]*=[[:space:]]*"/,"",value); sub(/"[[:space:]]*$/,"",value)
+    print section "." key "\t" value
+  }
+  section=="overrides.set" && /^[[:space:]]*profile\.[A-Za-z0-9_.-]+[[:space:]]*=[[:space:]]*"/ {
+    line=$0; split(line,a,"="); key=a[1]; gsub(/[[:space:]]/,"",key)
+    value=line; sub(/^[^=]*=[[:space:]]*"/,"",value); sub(/"[[:space:]]*$/,"",value)
+    print key "\t" value
+  }
+' "$PROFILE_FILE")
+profile_value() { [[ -n ${PROFILE_VALUES[$1]+x} ]] || { echo "site.sh: profile $PROFILE missing $1" >&2; exit 2; }; printf '%s' "${PROFILE_VALUES[$1]}"; }
+render_profile_file() {
+  local text key value search escaped
+  text=$(cat "$1")
+  for key in "${!PROFILE_VALUES[@]}"; do
+    value=${PROFILE_VALUES[$key]}
+    search=${key//./\\.}
+    escaped=${value//\\/\\\\}; escaped=${escaped//&/\\&}; escaped=${escaped//|/\\|}
+    text=$(printf '%s' "$text" | sed "s|{{${search}}}|$escaped|g")
+  done
+  printf '%s' "$text"
+}
+REPO=$(profile_value profile.repository_url)
+RAW=$(profile_value profile.raw_url)
+SITE=$(profile_value profile.site_url)
+ROADMAP=$(profile_value profile.roadmap_url)
+CONF=$(profile_value profile.projects_source)
+PROJECT_NAME=$(profile_value profile.project_name)
+BRAND=$(profile_value profile.brand)
+ORG_NAME=$(profile_value profile.organization)
+ORG_URL=$(profile_value profile.organization_url)
+INSTALL_PATH=$(profile_value profile.install_path)
 BUILT=$(date -u +%FT%TZ)
-CONF=SZMELC/sources.conf
-CORES=(CONVENTIONS AGENTS HUMANS CONTRIBUTING SZMELC META TEMPLATES)
+
+# Profile switcher links are relative so the generated tree works at any Pages base path.
+profile_nav='[]'
+shopt -s nullglob
+profile_files=(PROFILES/*/profile.toml)
+shopt -u nullglob
+for file in "${profile_files[@]}"; do
+  id=${file#PROFILES/}; id=${id%/profile.toml}
+  label=$(awk -F '"' '/^[[:space:]]*name[[:space:]]*=/{print $2;exit}' "$file")
+  [[ -n $label ]] || label=$id
+  href=./; [[ $id == neutral ]] || href="./$id/"
+  [[ $PROFILE == neutral ]] || { [[ $id == neutral ]] && href=../ || href=./; }
+  profile_nav=$(jq -c --arg id "$id" --arg label "$label" --arg href "$href" '. + [{id:$id,label:$label,href:$href}]' <<<"$profile_nav")
+done
 
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
+
+PROFILE_BUILD="$tmp/profile"
+META/tools/build.sh --profile "$PROFILE" --output "$PROFILE_BUILD" >/dev/null
+PROFILE_INDEX="$PROFILE_BUILD/index.json"
+mapfile -t CORES < <(jq -r '.entries[] | select(.kind == "core") | .path | sub("/README.md$"; "")' "$PROFILE_INDEX")
+mapfile -t STABLE < <(jq -r '.entries[] | select(.kind == "rule" and .status == "stable") | .path' "$PROFILE_INDEX")
+mapfile -t EXPERIMENTAL < <(jq -r '.entries[] | select(.kind == "rule" and .status == "experimental") | .path' "$PROFILE_INDEX")
+mapfile -t LEGACY < <(jq -r '.entries[] | select(.kind == "archive" and .status == "legacy") | .path' "$PROFILE_INDEX")
 
 # --- source discovery (mirrors META/tools/build.sh) --------------------------
 all_md() { find "${CORES[@]}" -type f -name '*.md' | sort; }
@@ -46,8 +130,8 @@ status() {
   esac
 }
 files_with() { local f; while IFS= read -r f; do [[ $(status "$f") == "$1" ]] && echo "$f"; done < <(all_md); }
-title() { sed -n '1s/^# //p' "$1"; }
-trigger() { sed -n '2s/^> Load when: //p' "$1"; }
+title() { awk '/^# /{sub(/^# /, ""); print; exit}' "$1"; }
+trigger() { awk '/^> Load when: /{sub(/^> Load when: /, ""); print; exit}' "$1"; }
 fm() { awk -v k="$2" 'NR==1&&/^---$/{f=1;next} f&&/^---$/{exit} f&&index($0,k": ")==1{print substr($0,length(k)+3)}' "$1"; }
 about() {
   local f=$1 t
@@ -62,9 +146,6 @@ about() {
   esac
 }
 
-mapfile -t STABLE < <(files_with stable)
-mapfile -t EXPERIMENTAL < <(files_with experimental)
-mapfile -t LEGACY < <(files_with legacy)
 mapfile -t SKILLS < <(find AGENTS/skills -mindepth 2 -maxdepth 2 -name SKILL.md | sort)
 
 # --- cores: guide (README body), map, non-rule files ------------------------
@@ -76,7 +157,7 @@ for c in "${CORES[@]}"; do
     [[ $f == *.md && $(status "$f") == stable ]] && continue
     jq -nc --arg path "$f" --arg about "$(about "$f")" '{path:$path,about:$about}' >>"$tmp/files.ndjson"
   done < <(find "$c" -type f | sort)
-  tail -n +3 "$c/README.md" >"$tmp/readme.md"
+  render_profile_file "$c/README.md" | tail -n +3 >"$tmp/readme.md"
   jq -nc --arg id "$c" --arg title "$(title "$c/README.md")" --arg load "$(trigger "$c/README.md")" \
     --rawfile readme "$tmp/readme.md" --slurpfile files "$tmp/files.ndjson" \
     '{id:$id,title:$title,load:$load,readme:$readme,map:($id+".md"),files:$files}' >>"$tmp/cores.ndjson"
@@ -88,8 +169,9 @@ for f in "${STABLE[@]}"; do
   rest=${f#*/}
   cat=${rest%/*} # full category path below the core: WORKFLOW, GITHUB/RELEASES
   [[ $cat == "$rest" ]] && cat=general
+  render_profile_file "$f" >"$tmp/rendered-rule.md"
   jq -nc --arg core "${f%%/*}" --arg cat "$cat" --arg path "$f" --arg title "$(title "$f")" --arg trigger "$(trigger "$f")" \
-    --rawfile src "$f" '{core:$core,cat:$cat,path:$path,title:$title,load:$trigger,src:$src}' >>"$tmp/rules.ndjson"
+    --rawfile src "$tmp/rendered-rule.md" '{core:$core,cat:$cat,path:$path,title:$title,load:$trigger,src:$src}' >>"$tmp/rules.ndjson"
 done
 
 : >"$tmp/skills.ndjson"
@@ -103,8 +185,9 @@ done
 
 : >"$tmp/experimental.ndjson"
 for f in "${EXPERIMENTAL[@]}"; do
+  render_profile_file "$f" >"$tmp/rendered-rule.md"
   jq -nc --arg path "$f" --arg title "$(title "$f")" --arg trigger "$(trigger "$f")" \
-    --rawfile src "$f" '{path:$path,title:$title,load:$trigger,src:$src}' >>"$tmp/experimental.ndjson"
+    --rawfile src "$tmp/rendered-rule.md" '{path:$path,title:$title,load:$trigger,src:$src}' >>"$tmp/experimental.ndjson"
 done
 
 : >"$tmp/legacy.ndjson"
@@ -117,7 +200,7 @@ done
 { find "${CORES[@]}" -type d -printf '%p/\n'; find "${CORES[@]}" -type f; find . -maxdepth 1 -type f -not -name ".*" -printf "%f\n"; } |
   sort -u | jq -R . | jq -sc . >"$tmp/paths.json"
 
-# --- Projects index, from the GitHub API over SZMELC/sources.conf ------------
+# --- Projects index, from the GitHub API over the selected profile source list -
 : >"$tmp/projects.ndjson"; : >"$tmp/compat-gh.ndjson"
 projects_note=''
 owners=(); ignores=(); thirdparty=()
@@ -131,7 +214,7 @@ if [[ -f $CONF ]]; then
   done < <(grep -vE '^\s*(#|$)' "$CONF")
 fi
 ignore_json=$(printf '%s\n' "${ignores[@]:-}" | jq -R . | jq -sc 'map(select(length>0))')
-# Every configured owner is a Szmelc™ account; the page classifies project origin against this list.
+# Configured owners define which listed repositories count as original to this profile.
 owners_json=$(printf '%s\n' "${owners[@]:-}" | jq -R . | jq -sc 'map(select(length>0))')
 
 if command -v gh >/dev/null && gh auth status >/dev/null 2>&1; then
@@ -178,7 +261,7 @@ if command -v gh >/dev/null && gh auth status >/dev/null 2>&1; then
       "$tmp/raw.json" >>"$tmp/compat-gh.ndjson" || true
   done < <(jq -r '.compatible[] | (.links.repo // "") as $r
     | select($r | test("^https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/?$"))
-    | [.id, ($r | sub("^https://github\\.com/"; "") | rtrimstr("/"))] | @tsv' index.json)
+    | [.id, ($r | sub("^https://github\\.com/"; "") | rtrimstr("/"))] | @tsv' "$PROFILE_INDEX")
 else
   projects_note='Built without GitHub access; the Projects index populates in CI.'
 fi
@@ -208,7 +291,7 @@ while IFS= read -r ip; do
   d=$(tr '\n' ' ' <"$ip" | grep -o ' d="[^"]*"' | head -1 | sed 's/^ d="//; s/"$//')
   [[ -n $d ]] || { echo "site.sh: no path data in $ip" >&2; exit 1; }
   jq -nc --arg k "$ip" --arg d "$d" '{key:$k, value:$d}' >>"$tmp/icons.ndjson"
-done < <(jq -r '.compatible[].icon // empty' index.json | sort -u)
+done < <(jq -r '.compatible[].icon // empty' "$PROFILE_INDEX" | sort -u)
 
 # --- assemble one data object ------------------------------------------------
 mkdir -p "$OUT"
@@ -224,19 +307,21 @@ jq -n \
   --slurpfile paths "$tmp/paths.json" \
   --slurpfile icons "$tmp/icons.ndjson" \
   --slurpfile cgh "$tmp/compat-gh.ndjson" \
-  --slurpfile idx index.json '
+  --arg profile "$PROFILE" --arg project_name "$PROJECT_NAME" --arg brand "$BRAND" --arg organization "$ORG_NAME" --arg org_url "$ORG_URL" --arg install_path "$INSTALL_PATH" --argjson profile_nav "$profile_nav" \
+  --slurpfile idx "$PROFILE_INDEX" '
   # origin and compat ids per rule path, and the compatible list, come from index.json (META/tools/build.sh).
   ($idx[0]) as $ix
   | ($ix.entries | map({key:.path, value:{origin:(.origin // null), compat:(.compat // [])}}) | from_entries) as $by
   | ($cgh | from_entries) as $gh
   | {
-    name:"szmelc-conventions", repo:$repo, raw:$raw, site:$site, roadmap:$roadmap, built:$built, release:$release, stars:$stars,
+    name:$profile, project_name:$project_name, brand:$brand, organization:$organization, org_url:$org_url, install_path:$install_path, profile_nav:$profile_nav,
+    repo:$repo, raw:$raw, site:$site, roadmap:$roadmap, built:$built, release:$release, stars:$stars,
     cores:$cores,
     rules:($rules | map(. + ($by[.path] // {origin:null, compat:[]}))),
     skills:$skills, experimental:$experimental, legacy:$legacy,
     compatible:$ix.compatible, compatible_disclaimer:$ix.compatible_disclaimer, icons:($icons | from_entries),
     projects:($projects | sort_by(.updated) | reverse),
-    projects_note:$note, szmelc_owners:$owners, paths:$paths[0],
+    projects_note:$note, owners:$owners, paths:$paths[0],
     # Third-party projects: every compat registry entry, linked to its repo (else homepage); GitHub stats when fetched.
     third_party:($ix.compatible | map({id, name, kind, version, desc:(.description // ""), icon:(.icon // null),
       url:(.links.repo // .links.homepage // ""), home:(.links.homepage // ""), origin:"third-party"}
@@ -248,7 +333,7 @@ jq '{built:.built, note:.projects_note, projects:.projects, third_party:.third_p
 
 # Index files served at the site root, so relative links work and llms.txt sits next to
 # index.html (CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md).
-cp llms.txt index.json INDEX.md CONVENTIONS.md COMPATIBILITY.md SKILL.md "$OUT/"
+cp "$PROFILE_BUILD/llms.txt" "$PROFILE_BUILD/index.json" "$PROFILE_BUILD/INDEX.md" "$PROFILE_BUILD/CONVENTIONS.md" "$PROFILE_BUILD/COMPATIBILITY.md" "$PROFILE_BUILD/SKILL.md" "$OUT/"
 # Registry icons at their repo paths, so `icon` in the data is also the site URL.
 mkdir -p "$OUT/META/compat/icons"
 cp META/compat/icons/*.svg "$OUT/META/compat/icons/"
@@ -269,8 +354,8 @@ DATA=$(jq -c . "$OUT/conventions.json" | sed 's#<#\\u003c#g')
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CONVENTIONS.md · Szmelc™</title>
-<meta name="description" content="CONVENTIONS.md by Szmelc™: global conventions for humans and AI agents from one source. Read every rule inline, copy it raw, install it into any agent harness.">
+<title>CONVENTIONS.md</title>
+<meta name="description" content="Global conventions for humans and AI agents from one source. Read every rule inline, copy it raw, install it into any agent harness.">
 <meta name="theme-color" content="#0b0b0b">
 <meta name="color-scheme" content="dark light">
 <link rel="alternate" type="text/plain" title="llms.txt" href="llms.txt">
@@ -339,6 +424,9 @@ mark{background:var(--tint-2);color:var(--head);border-bottom:1px solid var(--ed
 /* == layout == */
 main{max-width:1160px;margin:0 auto;padding:18px 16px 56px}
 .hd{display:flex;flex-direction:column;align-items:center;padding:26px 0 22px;text-align:center}
+.profiles{display:flex;justify-content:center;gap:8px;margin:-12px auto 18px;font:12px var(--mono)}
+.profiles a{padding:4px 8px;border:1px solid var(--line);color:var(--sec);text-decoration:none}
+.profiles a[aria-current=page]{border-color:var(--edge);color:var(--head)}
 .cols{display:block}
 @media (min-width:960px){
   .cols{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start}
@@ -818,8 +906,9 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
 <main>
 <header class="hd">
   <h1><span class="pr" aria-hidden="true">&#x276F;</span>CONVENTIONS<span class="ext">.md</span><span class="cur" aria-hidden="true"></span></h1>
-  <button class="cw-l sig" id="sig" type="button" aria-haspopup="dialog">By Szmelc&#x2122;</button>
+  <button class="cw-l sig" id="sig" type="button" aria-haspopup="dialog"></button>
 </header>
+<nav class="profiles" id="profiles" aria-label="Profiles"></nav>
 <div class="compat" id="compat"></div>
 
 <div class="tbar" id="tbar">
@@ -845,7 +934,7 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
   <nav class="f-nav" id="flinks" aria-label="More links"></nav>
   <p class="f-meta" id="fmeta"></p>
   <p class="f-keys"><kbd>/</kbd> filter<span class="sep">·</span><kbd>1</kbd>–<kbd id="kmax">9</kbd> tabs<span class="sep">·</span><kbd>e</kbd> expand<span class="sep">·</span><kbd>t</kbd> theme<span class="sep">·</span><kbd>?</kbd> keys<span class="sep">·</span><kbd>esc</kbd> close / clear</p>
-  <p class="f-by"><button class="cw-l" id="fsig" type="button" aria-haspopup="dialog">By Szmelc&#x2122;</button></p>
+  <p class="f-by"><button class="cw-l" id="fsig" type="button" aria-haspopup="dialog"></button></p>
   <p class="f-fine">Generated by <code>META/tools/site.sh</code> from source files and the GitHub API.<span id="fdisc"></span></p>
 </footer>
 </main>
@@ -874,7 +963,7 @@ const hl = (t,s) => { t = String(t??''); if (!s) return esc(t);
   return o + esc(t.slice(i)); };
 const copyBtn = (v,label,iconOnly) => `<button class="cp${iconOnly?' ico':''}" type="button" data-copy="${esc(v)}" title="${esc(label)}" aria-label="${esc(label)}">`
   + ic('copy') + (iconOnly ? '' : `<span class="lb">${esc(label)}</span>`) + '</button>';
-const CORE_IC = {CONVENTIONS:'conventions', AGENTS:'agents', HUMANS:'humans', CONTRIBUTING:'contributing', SZMELC:'szmelc', META:'meta', TEMPLATES:'templates'};
+const CORE_IC = {CONVENTIONS:'conventions', AGENTS:'agents', HUMANS:'humans', CONTRIBUTING:'contributing', META:'meta', TEMPLATES:'templates'};
 
 // == header: links, stats, install ==
 const REL = D.release && D.release.url ? D.release : {tag:'', url:D.repo+'/releases'};
@@ -890,11 +979,11 @@ const LINKS = [
   ['chat', 'Discussions', D.repo+'/discussions'],
   ['map', 'Roadmap', D.roadmap],
 ].filter(l => l[2]);
-// footer: link groups (files, szmelc™), meta line, fine print; GitHub, releases and Discussions live in [MENU]
+// footer: link groups (artifacts, organization), meta line, fine print; GitHub, releases and Discussions live in [MENU]
 const FOOT = [
   ['files', LINKS.filter(l=>!/^https?:/.test(l[2])).map(l=>[l[1], l[2]])
     .concat([['conventions.json','conventions.json'], ['projects.json','projects.json']], D.roadmap ? [['Roadmap', D.roadmap]] : [])],
-  ['szmelc™', [['szmelc.com','https://szmelc.com/'], ['Szmelc-INC','https://github.com/Szmelc-INC'], ['SAUR','https://szmelc-inc.github.io/SAUR/']]],
+  [D.organization || 'project', [[D.organization || 'organization', D.org_url || D.repo]]],
 ];
 const fSep = '<span class="sep" aria-hidden="true">·</span>';
 $('#flinks').innerHTML = FOOT.map(([g, L]) => `<div class="fg"><span class="fl"><span class="br">[</span>${esc(g)}<span class="br">]</span></span>`
@@ -905,7 +994,7 @@ $('#fmeta').innerHTML = [REL.tag ? `release <b>${esc(REL.tag)}</b>` : '',
 if (D.compatible_disclaimer) $('#fdisc').textContent = ' ' + D.compatible_disclaimer;
 
 // Install / use panel (tagline, stats, copyable command); shown in the modal, never in the page flow.
-const INSTALL = `git clone ${D.repo} ~/.config/szmelc/conventions\n~/.config/szmelc/conventions/install.sh`;
+const INSTALL = `git clone ${D.repo} ${D.install_path}\n${D.install_path}/install.sh`;
 const installHTML = () => '<section class="intro">'
   + '<p class="tagline">One source of rules for humans and AI agents, shipped as <code>SKILL.md</code>, <code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>llms.txt</code>, Cursor, Copilot and Kiro rules. Read any rule, copy it raw, or install the lot.</p>'
   + '<div class="stats">' + [
@@ -989,7 +1078,7 @@ function compatHTML(c){
     + `<dt>versioning</dt><dd>${esc(ver)}</dd>`
     + `<dt>added</dt><dd>${esc(c.added)}</dd>`
     + `<dt>last updated</dt><dd>${esc(c.updated)}</dd></dl>`
-    + (rules ? `<h3>Szmelc™ rules</h3><ul>${rules}</ul>` : '')
+    + (rules ? `<h3>${esc(D.brand || D.project_name)} rules</h3><ul>${rules}</ul>` : '')
     + (links ? `<h3>Links</h3><div class="cx-l">${links}</div>` : '')
     + (D.compatible_disclaimer ? `<p class="cx-disc">${esc(D.compatible_disclaimer)}</p>` : '')
     + '</section>';
@@ -1029,8 +1118,8 @@ modalB.addEventListener('click', e=>{
   e.preventDefault(); openCompat(a.dataset.compat);
 });
 
-// == about: Szmelc and this repo; public links only, badges from Shields.io (CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md) ==
-const ORG = 'https://github.com/Szmelc-INC';
+// == about: selected profile and this repo; public links only, badges from Shields.io ==
+const ORG = D.org_url || D.repo;
 const GH = D.repo.replace(/^https:\/\/github\.com\//, '');   // owner/repo for dynamic endpoints
 // static badge path segment: '-' and '_' are separators in Shields.io, doubled to stay literal
 const seg = t => encodeURIComponent(String(t).replace(/-/g, '--').replace(/_/g, '__'));
@@ -1040,12 +1129,10 @@ const dbadge = (path, logo, color, label) => `https://img.shields.io/${path}` + 
 const shield = (href, src, alt) => `<li><a class="sh" href="${esc(href)}" target="_blank" rel="noopener" title="${esc(alt)}">`
   + `<img src="${esc(src)}" alt="${esc(alt)}" height="20" loading="lazy" decoding="async"></a></li>`;
 const aboutHTML = () => '<section class="ab">'
-  + '<p><b>Szmelc&#x2122;</b> is a resistance movement in the war for free software, free hardware and a free internet, based in Poland. It builds and publishes open-source tools, packages and conventions.</p>'
-  + '<p><b>CONVENTIONS.md</b> is its single source of rules for humans and AI agents, MIT-licensed. <b>SAUR</b> is its signed pacman repository of Szmelc software.</p>'
+  + `<p><b>${esc(D.brand || D.project_name)}</b> publishes these conventions for humans and AI agents.</p>`
+  + `<p><b>CONVENTIONS.md</b> is a single source of rules, MIT-licensed. The selected profile is <b>${esc(D.project_name)}</b>.</p>`
   + '<ul class="shields">'
-  + shield(ORG, sbadge('Szmelc™', 'Szmelc-INC', 'github'), 'Szmelc™ on GitHub: Szmelc-INC')
-  + shield('https://szmelc.com', sbadge('site', 'szmelc.com'), 'Website: szmelc.com')
-  + shield('https://szmelc-inc.github.io/SAUR/', sbadge('pacman', 'SAUR', 'archlinux'), 'pacman repository: SAUR')
+  + shield(ORG, sbadge(D.organization || D.brand || 'organization', D.organization || 'GitHub', 'github'), `${D.organization || D.brand} on GitHub`)
   + shield(D.repo, dbadge('github/stars/' + GH, 'github', '', 'CONVENTIONS.md'), 'CONVENTIONS.md on GitHub, stars')
   + (D.site ? shield(D.site, sbadge('pages', 'live', 'githubpages'), 'GitHub Pages: live') : '')
   + shield(D.repo + '/blob/main/LICENSE', dbadge('github/license/' + GH, 'opensourceinitiative'), 'License: MIT')
@@ -1054,8 +1141,10 @@ const aboutHTML = () => '<section class="ab">'
   + '</ul></section>';
 function openAbout(opener){
   transientOpen('#about');
-  openModal({title:'About Szmelc\u2122', html:aboutHTML(), opener: opener || $('#sig'), onClose: transientClose});
+  openModal({title:`About ${D.brand || D.project_name}`, html:aboutHTML(), opener: opener || $('#sig'), onClose: transientClose});
 }
+$('#sig').textContent = $('#fsig').textContent = `By ${D.brand || D.project_name}`;
+$('#profiles').innerHTML = (D.profile_nav || []).map(p => `<a href="${esc(p.href)}"${p.id===D.name?' aria-current="page"':''}>${esc(p.label)}</a>`).join('');
 $('#sig').onclick = $('#fsig').onclick = e => openAbout(e.currentTarget);
 
 // Carousel: a scroll box whose scrollLeft glides (rAF, float accumulator) over the track plus aria-hidden clones,
@@ -1201,7 +1290,7 @@ function md(src){
   return out.join('\n');
 }
 // Rule body without the "# Title" / "> Load when:" header, which the row already shows.
-const bodyOf = src => String(src||'').replace(/^# .*\n(> Load when: .*\n)?/,'');
+const bodyOf = src => String(src||'').replace(/^(?:---\r?\n[\s\S]*?\r?\n---\r?\n)?# .*\r?\n(> Load when: .*\r?\n)?/,'');
 // Prompt rows from any Markdown table with a "Prompt" column, grouped by the preceding "## " heading.
 function promptsOf(src){
   const L = String(src||'').split('\n'), out = []; let h = '';
@@ -1253,10 +1342,10 @@ for (const t of tabs){
       t.groups.push({id:`${t.id}-files`, title:'files', items:t.core.files.map(f=>({kind:'file', path:f.path, about:f.about||'',
         text:(f.path+' '+(f.about||'')).toLowerCase()}))});
   } else if (t.id==='projects'){
-    // origin: repos owned by a Szmelc™ account (every owner in SZMELC/sources.conf) are original, any other owner is third-party
-    const SZ = new Set((D.szmelc_owners||[]).map(o=>String(o).toLowerCase()));
+    // Origin follows the selected profile's owner list; other repositories are third-party.
+    const OWNERS = new Set((D.owners||[]).map(o=>String(o).toLowerCase()));
     t.groups.push({id:'projects-all', title:'repositories', table:true, items:D.projects.map(p=>({kind:'project', p,
-      origin: p.origin || (SZ.has(String(p.owner||'').toLowerCase()) ? 'original' : 'third-party'),
+      origin: p.origin || (OWNERS.has(String(p.owner||'').toLowerCase()) ? 'original' : 'third-party'),
       text:[p.name,p.desc,p.owner,p.lang,(p.topics||[]).join(' ')].join(' ').toLowerCase()}))});
     // third-party: the upstream projects these conventions build on (compat registry, D.third_party), always origin third-party
     t.groups.push({id:'projects-third-party', title:'third-party', table:'tp', items:(D.third_party||[]).map(c=>({kind:'project', c, origin:'third-party',
@@ -1292,9 +1381,9 @@ $('#kmax').textContent = tabs.length >= 10 ? '0' : tabs.length;   // footer hint
 const q = $('#q'), wide = matchMedia('(min-width: 960px)');
 let current = tabs[0].id, focusPath = null, activeGroup = null, allOpen = false, origin = 'all', focusTarget = false;
 const match = (it,s)=>!s || it.text.includes(s);
-// Origin sub-tabs (All · Third-party · Szmelc™) filter only the current tab; other items hide unless All.
-const ORIGINS = [['all','All'], ['third-party','Third-party'], ['original','Szmelc™']];
-const ORG_LABEL = {'third-party':'3rd-party', original:'Szmelc™'};
+// Origin sub-tabs filter only the current tab; other items hide unless All.
+const ORIGINS = [['all','All'], ['third-party','Third-party'], ['original',D.brand || D.project_name]];
+const ORG_LABEL = {'third-party':'3rd-party', original:D.brand || D.project_name};
 const hasOrigin = t => t.groups.some(g=>[g,...g.subs].some(x=>x.items.some(it=>it.origin)));   // rules and project rows
 const inOrigin = (it, o) => o==='all' || it.origin===o;
 
@@ -1312,7 +1401,7 @@ function itemRow(it, s){
   const d = el('details',{className:'item'}); d.id = it.path;
   const tag = it.ex ? `<span class="it-tag">${ic('flask')}experimental</span>`
     : it.lg ? `<span class="it-tag lg">${ic('archive')}legacy</span>` : '<span></span>';
-  const org = it.origin ? `<span class="org${it.origin==='third-party'?' o3':''}" title="${it.origin==='third-party'?'Third-party spec':'Szmelc™ original'}">${ORG_LABEL[it.origin]||esc(it.origin)}</span>` : '';
+  const org = it.origin ? `<span class="org${it.origin==='third-party'?' o3':''}" title="${it.origin==='third-party'?'Third-party spec':esc(D.brand || D.project_name)+' original'}">${ORG_LABEL[it.origin]||esc(it.origin)}</span>` : '';
   // chips in <summary> are a mouse shortcut only (summary is a button: no nested focusable content); the opened body repeats them as links
   const chipsOf = (attrs, t) => it.origin==='third-party' ? it.compat.map(id=>{ const c = COMPAT.get(id);
     return `<a class="chip" href="#compat/${esc(id)}" data-compat="${esc(id)}"${attrs} title="Compatible with ${esc(c.name)}">${c.icon && D.icons && D.icons[c.icon] ? badge(c) : ''}${t(c.name)}</a>`; }).join('') : '';
@@ -1418,7 +1507,7 @@ function render(){
       + ext(ghURL(tab.core.map), ic('index')+' '+esc(tab.core.map));
   } else {
     lead.textContent = (D.projects.length
-      ? 'Public Szmelc™ repositories from the GitHub API (owners in SZMELC/sources.conf), newest first.'
+      ? `Public ${D.brand || D.project_name} repositories from the GitHub API, newest first.`
       : (D.projects_note||''))
       + ((D.third_party||[]).length ? ' Third-party: upstream projects these conventions build on (META/compat/registry.toml).' : '')
       + (D.experimental.length ? ' Experimental: opt-in proposals, load only when the user opts in.' : '')
@@ -1553,7 +1642,7 @@ menuP.innerHTML = mBtn('m-install', 'term', 'Install / use')
   + mLink('github')
   + mItem(REL.url, ic('tag') + '<span class="lb">Releases</span>' + (REL.tag ? `<span class="mt">${esc(REL.tag)}</span>` : ''))
   + mLink('chat')
-  + mBtn('m-about', 'szmelc', 'About Szmelc™')
+  + mBtn('m-about', 'globe', `About ${D.brand || D.project_name}`)
   + mSep
   + mBtn('m-share', 'share', 'Share')
   + `<li><button type="button" id="theme" title="Theme (key t)"></button></li>`

@@ -1,3 +1,6 @@
+---
+id: contributing.decisions
+---
 # Project decisions
 > Load when: checking why the project adopted a policy, format, or compatibility change.
 

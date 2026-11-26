@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.license
+---
 # License file
 > Load when: adding or changing a project's license file, or writing license fields in manifests.
 

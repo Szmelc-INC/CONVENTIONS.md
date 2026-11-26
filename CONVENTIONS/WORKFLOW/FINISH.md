@@ -1,3 +1,6 @@
+---
+id: conventions.workflow.finish
+---
 # Finish every change
 > Load when: finishing a feature or fix, before calling work done.
 

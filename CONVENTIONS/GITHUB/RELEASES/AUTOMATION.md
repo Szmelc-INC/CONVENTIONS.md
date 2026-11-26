@@ -1,3 +1,6 @@
+---
+id: conventions.github.releases.automation
+---
 # Release automation
 > Load when: writing or running a release workflow or script, attaching release assets, or bumping downstream packages.
 

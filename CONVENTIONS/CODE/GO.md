@@ -1,3 +1,6 @@
+---
+id: conventions.code.go
+---
 # Go
 > Load when: writing, building or releasing Go code.
 

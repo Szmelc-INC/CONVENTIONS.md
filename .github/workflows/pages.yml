@@ -9,7 +9,7 @@ on:
       - index.json
       - META/tools/site.sh
       - 'META/compat/**'
-      - SZMELC/sources.conf
+      - PROFILES/szmelc/sources.conf
       - .github/workflows/pages.yml
   schedule:
     - cron: '0 3 * * *' # nightly 03:00 UTC: refresh the Projects index as repos change

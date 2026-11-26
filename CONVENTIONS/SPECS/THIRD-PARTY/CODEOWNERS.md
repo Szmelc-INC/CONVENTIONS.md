@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.codeowners
+---
 # Code owners
 > Load when: adding or editing CODEOWNERS, or requiring owner review on pull requests.
 

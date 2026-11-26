@@ -1,3 +1,6 @@
+---
+id: contributing.writing
+---
 # Writing a rule
 > Load when: writing or reviewing a convention rule, deciding where a rule goes, or creating a category.
 
@@ -31,5 +34,5 @@
 | Bad | Good |
 |---|---|
 | "It is generally a good idea to keep commits small and focused." | "One logical change per commit." |
-| "Use the accent color #105c5c for buttons." (restates a rule) | "Buttons: accent fill (`CONVENTIONS/DESIGN/COLORS.md`)." |
+| "Use the configured accent color for buttons." (restates a rule) | "Buttons: accent fill (`CONVENTIONS/DESIGN/COLORS.md`)." |
 | Trigger "git" | Trigger "creating branches or opening/merging PRs" |

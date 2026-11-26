@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.security-md
+---
 # Security policy
 > Load when: creating or editing SECURITY.md, or setting up vulnerability reporting.
 

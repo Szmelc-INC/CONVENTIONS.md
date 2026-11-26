@@ -1,3 +1,6 @@
+---
+id: conventions.formats.markdown.tables
+---
 # Markdown tables
 > Load when: adding a table to a Markdown file.
 

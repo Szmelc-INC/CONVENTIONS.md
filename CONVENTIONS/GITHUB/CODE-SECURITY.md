@@ -1,3 +1,6 @@
+---
+id: conventions.github.code-security
+---
 # Code security
 > Load when: creating a repo, adding dependencies, or handling Dependabot, secret-scanning or code-scanning alerts.
 

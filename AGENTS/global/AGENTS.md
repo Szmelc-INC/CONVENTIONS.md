@@ -1,5 +1,5 @@
 # Global rules
-> Install: `./install.sh` links this file as the global instructions of every detected harness. Repository path: `{{profile.repository_path}}`. Paths below are relative to that repo.
+> Install: `./install.sh` adds this file inside a marked block in each detected harness's global instructions. Repository path: `{{profile.repository_path}}`. Paths below are relative to that repo.
 
 ## Always
 - Chat: reply in the user's language. Code, comments, docs, commits: English.

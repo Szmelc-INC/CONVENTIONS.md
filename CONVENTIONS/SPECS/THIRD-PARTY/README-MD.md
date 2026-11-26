@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.readme-md
+---
 # README
 > Load when: writing or editing a project README or its badges.
 

@@ -1,3 +1,6 @@
+---
+id: conventions.code.dotfiles
+---
 # Shell environment & dotfiles
 > Load when: building or changing a shell setup: rc files, dotfiles, plugins, prompt, shell integrations.
 

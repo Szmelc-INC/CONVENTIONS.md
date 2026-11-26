@@ -1,3 +1,6 @@
+---
+id: contributing.lifecycle
+---
 # Rule lifecycle
 > Load when: proposing, promoting, demoting or deprecating a convention, or tracking how a rule changed.
 
@@ -16,6 +19,6 @@
 - Every lifecycle step is its own PR; its commit subjects name the rule path.
 
 ## How users' agents notice changes
-- Installs track `main`: `git -C ~/.config/szmelc/conventions pull`; agents re-read `INDEX.md` next session.
-- What changed: `git -C ~/.config/szmelc/conventions log --oneline -- CONVENTIONS` or the releases page.
+- Installs track `main`: run `git -C <install-path> pull`; agents re-read `INDEX.md` next session.
+- What changed: run `git -C <install-path> log --oneline -- CONVENTIONS` or read the releases page.
 - Pinned installs change only when the user moves the pin (`CONTRIBUTING/VERSIONING.md`).

@@ -1,3 +1,6 @@
+---
+id: conventions.github.releases.versioning
+---
 # Releases & versioning
 > Load when: bumping a version, preparing a release, or planning a major version.
 

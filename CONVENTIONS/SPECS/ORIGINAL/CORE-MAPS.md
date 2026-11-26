@@ -1,3 +1,6 @@
+---
+id: conventions.specs.original.core-maps
+---
 # Core maps
 > Load when: organising a doc tree into cores, adding a core or category, or editing a core README.
 

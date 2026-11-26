@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/META/schema/index.schema.json",
-  "title": "Szmelc conventions index",
+  "title": "Conventions index",
   "type": "object",
   "required": ["name", "repo", "entries", "compatible_disclaimer", "compatible"],
   "additionalProperties": false,
@@ -21,9 +21,12 @@
           "load_when": {"type": "string", "description": "Trigger: when an agent should load this file"},
           "status": {"enum": ["always", "stable", "experimental", "legacy"]},
           "kind": {"enum": ["global", "core", "skill", "rule", "archive"]},
+          "id": {"type": "string", "pattern": "^[a-z0-9]+([.-][a-z0-9]+)*$", "description": "Stable rule identifier; independent of its current path"},
           "origin": {"enum": ["third-party", "original"], "description": "From the path: */THIRD-PARTY/* or */ORIGINAL/*; absent otherwise"},
           "compat": {"type": "array", "items": {"type": "string"}, "description": "Ids of compatible entries whose spec cites this file"}
-        }
+        },
+        "if": {"properties": {"kind": {"const": "rule"}}},
+        "then": {"required": ["id"]}
       }
     },
     "compatible_disclaimer": {"type": "string", "description": "Trademark and non-affiliation notice for the compatible list"},

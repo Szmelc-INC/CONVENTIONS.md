@@ -1,3 +1,6 @@
+---
+id: conventions.github.projects
+---
 # Projects
 > Load when: planning work across issues, creating or editing a GitHub Project board.
 

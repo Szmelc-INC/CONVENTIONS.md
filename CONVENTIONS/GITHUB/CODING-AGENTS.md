@@ -1,3 +1,6 @@
+---
+id: conventions.github.coding-agents
+---
 # Coding agents on GitHub
 > Load when: assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow.
 

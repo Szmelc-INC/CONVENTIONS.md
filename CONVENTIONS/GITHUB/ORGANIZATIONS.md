@@ -1,3 +1,6 @@
+---
+id: conventions.github.organizations
+---
 # Organizations
 > Load when: creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults.
 

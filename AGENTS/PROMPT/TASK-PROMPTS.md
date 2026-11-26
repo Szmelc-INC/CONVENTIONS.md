@@ -1,3 +1,6 @@
+---
+id: agents.prompt.task-prompts
+---
 # Task prompts
 > Load when: looking for a ready prompt for everyday work: planning, debugging, reviewing, summarizing, distilling, deciding, learning.
 

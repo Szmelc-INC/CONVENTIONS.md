@@ -1,3 +1,6 @@
+---
+id: conventions.github.repo.labels
+---
 # Labels
 > Load when: creating, editing or applying issue/PR labels, or setting up a new repo.
 

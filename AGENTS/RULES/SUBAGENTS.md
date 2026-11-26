@@ -1,3 +1,6 @@
+---
+id: agents.rules.subagents
+---
 # Subagents & tools
 > Load when: considering a subagent, parallel work, skills/MCP use, or long-running commands.
 

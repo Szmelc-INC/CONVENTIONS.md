@@ -1,3 +1,6 @@
+---
+id: conventions.experimental.localization
+---
 # Localization (en + pl)
 > Load when: user opts into experimental conventions, or adds user-facing strings, locales or translations.
 

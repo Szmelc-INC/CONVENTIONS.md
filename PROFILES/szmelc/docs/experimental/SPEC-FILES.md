@@ -1,3 +1,6 @@
+---
+id: conventions.experimental.spec-files
+---
 # Spec file taxonomy
 > Load when: user opts into experimental conventions, or designs Szmelc™ spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md).
 

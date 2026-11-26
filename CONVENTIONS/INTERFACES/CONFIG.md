@@ -1,3 +1,6 @@
+---
+id: conventions.interfaces.config
+---
 # Configuration
 > Load when: adding a config file, options, env vars, or storage paths to a tool.
 

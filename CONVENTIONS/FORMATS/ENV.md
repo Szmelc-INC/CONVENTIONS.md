@@ -1,3 +1,6 @@
+---
+id: conventions.formats.env
+---
 # .env files
 > Load when: adding a `.env` file, `.env.example`, or env-file loading to a project.
 

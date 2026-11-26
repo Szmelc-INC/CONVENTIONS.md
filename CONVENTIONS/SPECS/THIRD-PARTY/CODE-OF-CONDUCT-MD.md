@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.code-of-conduct-md
+---
 # Code of conduct
 > Load when: adding a code of conduct to a repo or organization, or opening a project to outside contributors.
 
