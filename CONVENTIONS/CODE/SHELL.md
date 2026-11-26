@@ -1,3 +1,6 @@
+---
+id: conventions.code.shell
+---
 # Shell scripts
 > Load when: writing or editing a shell script (bash, zsh, POSIX sh) or an installer.
 

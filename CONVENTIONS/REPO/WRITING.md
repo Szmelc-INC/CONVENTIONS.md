@@ -1,3 +1,6 @@
+---
+id: conventions.repo.writing
+---
 # Writing & voice
 > Load when: writing docs, help text, error messages, commit messages, or community and lore text.
 

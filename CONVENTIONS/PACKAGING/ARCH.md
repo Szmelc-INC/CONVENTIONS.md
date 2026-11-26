@@ -1,3 +1,6 @@
+---
+id: conventions.packaging.arch
+---
 # Arch packaging
 > Load when: packaging, releasing, or adding install instructions.
 

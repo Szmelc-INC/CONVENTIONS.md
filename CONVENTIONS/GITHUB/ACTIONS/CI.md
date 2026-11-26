@@ -1,3 +1,6 @@
+---
+id: conventions.github.actions.ci
+---
 # CI
 > Load when: setting up or changing CI checks or required status checks, or fixing a red CI run.
 

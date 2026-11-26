@@ -7,7 +7,7 @@ cd "$(dirname "$0")/../.."
 branch=${1:?head branch}
 base=${2:?base ref}
 # Files META/tools/build.sh regenerates; any branch may touch them.
-generated='^(INDEX\.md|index\.json|llms\.txt|CONVENTIONS\.md|AGENTS\.md|HUMANS\.md|CONTRIBUTING\.md|SZMELC\.md|META\.md|TEMPLATES\.md|COMPATIBILITY\.md|AGENTS/adapters/.*)$'
+generated='^(INDEX\.md|index\.json|llms\.txt|CONVENTIONS\.md|AGENTS\.md|HUMANS\.md|CONTRIBUTING\.md|META\.md|TEMPLATES\.md|COMPATIBILITY\.md|AGENTS/adapters/.*)$'
 
 case $branch in
   local/*)

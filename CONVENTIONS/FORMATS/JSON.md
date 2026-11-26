@@ -1,3 +1,6 @@
+---
+id: conventions.formats.json
+---
 # JSON
 > Load when: writing, generating or validating a JSON file or JSON output.
 

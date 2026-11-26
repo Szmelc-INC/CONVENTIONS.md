@@ -1,3 +1,6 @@
+---
+id: conventions.github.repo.metadata
+---
 # Repo metadata
 > Load when: creating a repo, first push, release, or editing README/manifest/license.
 

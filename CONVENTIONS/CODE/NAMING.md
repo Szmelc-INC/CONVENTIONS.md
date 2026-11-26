@@ -1,3 +1,6 @@
+---
+id: conventions.code.naming
+---
 # Naming
 > Load when: naming a repo, binary, package, env var, config key, file or doc.
 

@@ -1,3 +1,6 @@
+---
+id: conventions.packaging.nix
+---
 # Nix packaging
 > Load when: packaging, releasing, or setting up a dev environment.
 

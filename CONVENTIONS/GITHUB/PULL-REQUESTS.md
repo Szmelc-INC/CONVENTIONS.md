@@ -1,3 +1,6 @@
+---
+id: conventions.github.pull-requests
+---
 # Pull requests
 > Load when: committing, pushing, or opening/reviewing/merging a PR.
 

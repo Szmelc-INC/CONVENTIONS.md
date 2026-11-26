@@ -1,3 +1,6 @@
+---
+id: conventions.formats.markdown.style
+---
 # Markdown style
 > Load when: writing or editing any Markdown file.
 

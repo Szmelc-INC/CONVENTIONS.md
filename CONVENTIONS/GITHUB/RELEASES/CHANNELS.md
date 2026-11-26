@@ -1,3 +1,6 @@
+---
+id: conventions.github.releases.channels
+---
 # Release channels
 > Load when: deciding where a build is published: stable, pre-release, experimental or nightly.
 

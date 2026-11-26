@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.contributing-md
+---
 # Contributing guide
 > Load when: creating or editing a project's CONTRIBUTING.md.
 

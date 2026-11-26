@@ -1,3 +1,6 @@
+---
+id: conventions.workflow.notify
+---
 # Notifications
 > Load when: a job runs > ~10 min, or a failure needs a human.
 

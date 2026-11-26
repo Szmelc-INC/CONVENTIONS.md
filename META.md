@@ -9,7 +9,7 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/assets/screenshots/README.md`](META/assets/screenshots/README.md) | Site screenshots |  |
 | [`META/compat/icons/README.md`](META/compat/icons/README.md) | Compatibility icons |  |
 | [`META/compat/registry.toml`](META/compat/registry.toml) | Compatibility registry: third-party formats, specs, platforms, languages and tools these conventions are compatible with. |  |
-| [`META/schema/index.schema.json`](META/schema/index.schema.json) | Szmelc conventions index |  |
+| [`META/schema/index.schema.json`](META/schema/index.schema.json) | Conventions index |  |
 | [`META/tools/build.sh`](META/tools/build.sh) | Generate indexes, core maps, the all-in-one bundle and tool adapters from source files. |  |
 | [`META/tools/check.sh`](META/tools/check.sh) | Validate the repo: generated files, core/rule headers, skills, index entries, path references, case collisions, links. |  |
 | [`META/tools/compat.awk`](META/tools/compat.awk) | Parse META/compat/registry.toml (the TOML subset documented in its header) into records |  |

@@ -1,3 +1,6 @@
+---
+id: conventions.formats.editorconfig
+---
 # EditorConfig & line endings
 > Load when: creating a repo, or adding `.editorconfig` or `.gitattributes`.
 

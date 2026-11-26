@@ -1,3 +1,6 @@
+---
+id: conventions.formats.toml
+---
 # TOML
 > Load when: writing or parsing a TOML file.
 

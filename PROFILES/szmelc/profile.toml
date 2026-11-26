@@ -1,8 +1,17 @@
 [profile]
 id = "szmelc"
 name = "Szmelc"
+project_name = "Szmelc™"
+skill_name = "conventions"
 language = "Polish"
 repository_path = "~/.config/szmelc/conventions"
+repository_url = "https://github.com/Szmelc-INC/CONVENTIONS.md"
+raw_url = "https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main"
+site_url = "https://szmelc-inc.github.io/CONVENTIONS.md/"
+install_path = "~/.config/szmelc/conventions"
+projects_source = "PROFILES/szmelc/sources.conf"
+organization_url = "https://github.com/Szmelc-INC"
+roadmap_url = "https://github.com/orgs/Szmelc-INC/projects/3"
 privilege_tool = "pkexec"
 notification_tool = "dc-notify"
 package_registry = "SAUR"
@@ -19,4 +28,5 @@ highlight = "#7fffd4"
 
 [overrides]
 disable = []
-set = {}
+
+[overrides.set]

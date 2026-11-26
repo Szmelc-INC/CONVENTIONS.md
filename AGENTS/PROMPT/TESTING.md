@@ -1,3 +1,6 @@
+---
+id: agents.prompt.testing
+---
 # Testing a prompt
 > Load when: checking a prompt before use, or after it produced a wrong or uneven output.
 

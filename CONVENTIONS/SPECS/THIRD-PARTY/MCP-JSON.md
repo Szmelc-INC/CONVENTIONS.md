@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.mcp-json
+---
 # MCP server config
 > Load when: adding, sharing or committing MCP server configuration (.mcp.json) in a project.
 

@@ -1,3 +1,6 @@
+---
+id: conventions.github.issues
+---
 # Issues
 > Load when: creating, triaging or closing issues, or adding issue templates.
 

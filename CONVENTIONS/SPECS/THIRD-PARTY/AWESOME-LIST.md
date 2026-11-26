@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.awesome-list
+---
 # Awesome list
 > Load when: creating, editing or submitting an awesome list (`awesome-<topic>` repo).
 

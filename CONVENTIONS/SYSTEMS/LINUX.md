@@ -1,3 +1,6 @@
+---
+id: conventions.systems.linux
+---
 # Other Linux distros
 > Load when: supporting or documenting install on Debian, Ubuntu, Fedora or another non-Arch, non-NixOS distro.
 

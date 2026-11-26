@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.agents-md
+---
 # Agent instruction files
 > Load when: creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, or Cursor/Copilot/Kiro/Windsurf rules in any project.
 

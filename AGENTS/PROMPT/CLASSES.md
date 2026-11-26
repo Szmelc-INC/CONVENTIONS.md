@@ -1,3 +1,6 @@
+---
+id: agents.prompt.classes
+---
 # Prompt classes
 > Load when: deciding which sections a prompt needs, or combining two kinds of work in one prompt.
 

@@ -1,3 +1,6 @@
+---
+id: conventions.systems.nix
+---
 # Nix and NixOS
 > Load when: targeting NixOS, Nix on another OS, or nix-darwin.
 
