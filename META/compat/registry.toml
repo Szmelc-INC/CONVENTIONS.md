@@ -15,7 +15,7 @@
 #   spec         optional; rule files that cover it (CONVENTIONS/...)
 # [compat.links] keys, official https URLs only, each returning HTTP 200 when added: homepage, repo, docs, community.
 
-disclaimer = "Names and logos are trademarks of their respective owners. Szmelc is not affiliated with, sponsored or endorsed by them. A listing means only that these conventions are compatible with the named format, specification, platform, language or tool."
+disclaimer = "Names and logos are trademarks of their respective owners. Szmelc™ is not affiliated with, sponsored or endorsed by them. A listing means only that these conventions are compatible with the named format, specification, platform, language or tool."
 
 [[compat]]
 id = "github"

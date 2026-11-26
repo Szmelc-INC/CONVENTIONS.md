@@ -4,7 +4,7 @@
 - Standard: <https://agents.md/>. Canonical `AGENTS.md` at the project root; add one per subdir only when a subtree has its own rules.
 - `CLAUDE.md`, `GEMINI.md`, `QWEN.md`: a single line `@AGENTS.md` (import). Never duplicate content.
 - Codex, Cursor, Copilot, OpenCode, Zed, Jules and Amp read `AGENTS.md` natively; add tool-specific files only when a tool needs frontmatter.
-- Tool-specific files (`.cursor/rules/*.mdc`, `.github/instructions/*.instructions.md`, `.kiro/steering/*.md`): generate from a source, never hand-edit copies. `./install.sh project <dir>` drops the Szmelc ones.
+- Tool-specific files (`.cursor/rules/*.mdc`, `.github/instructions/*.instructions.md`, `.kiro/steering/*.md`): generate from a source, never hand-edit copies. `./install.sh project <dir>` drops the Szmelc™ ones.
 - Never keep two diverging copies (e.g. `CLAUDE.md` with the tool name swapped); one source, imports elsewhere.
 - Content: only what an agent cannot infer — build/test/lint commands, layout map, project-specific rules, gotchas.
 - Never restate global conventions; reference them by path in this repo (`CONVENTIONS/INTERFACES/CLI.md`).

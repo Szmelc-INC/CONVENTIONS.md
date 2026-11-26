@@ -15,7 +15,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `AGENTS/README.md` | installing the conventions into an agent harness, deciding on subagents, model or effort, or writing a prompt for an agent. |
 | `HUMANS/README.md` | a person asks how to install, browse or use the conventions. |
 | `CONTRIBUTING/README.md` | adding, changing, promoting, versioning or indexing a convention, or contributing to this repo. |
-| `SZMELC/README.md` | asked about Szmelc itself, its public organisations and projects, the ecosystem, or the projects index. |
+| `SZMELC/README.md` | asked about Szmelc™ itself, its public organisations and projects, the ecosystem, or the projects index. |
 | `META/README.md` | changing how this repo is built, checked, indexed or published (tools, schema, compatibility registry, site, CI). |
 | `TEMPLATES/README.md` | starting a new rule, prompt, skill, category or project agent file from a skeleton. |
 
@@ -64,7 +64,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/GITHUB/CODING-AGENTS.md` | assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow. |
 | `CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md` | deploying anything from Actions, or adding deployment secrets. |
 | `CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md` | publishing a site, docs or web UI on GitHub Pages. |
-| `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md` | building or restyling a Szmelc web page, Pages site or web UI. |
+| `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md` | building or restyling a Szmelc™ web page, Pages site or web UI. |
 | `CONVENTIONS/GITHUB/DISCUSSIONS.md` | enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions. |
 | `CONVENTIONS/GITHUB/ISSUES.md` | creating, triaging or closing issues, or adding issue templates. |
 | `CONVENTIONS/GITHUB/ORGANIZATIONS.md` | creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults. |
@@ -126,7 +126,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/EXPERIMENTAL/META-GRAMMAR.md` | user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions. |
 | `CONVENTIONS/EXPERIMENTAL/MODULES.md` | user opts into experimental conventions, or builds a Kombinat/KUR plugin module. |
 | `CONVENTIONS/EXPERIMENTAL/REPO-BASELINE.md` | user opts into experimental conventions, or ports a v1 project to the v2 baseline. |
-| `CONVENTIONS/EXPERIMENTAL/SPEC-FILES.md` | user opts into experimental conventions, or designs Szmelc spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md). |
+| `CONVENTIONS/EXPERIMENTAL/SPEC-FILES.md` | user opts into experimental conventions, or designs Szmelc™ spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md). |
 
 ## Legacy (archive; load only when asked)
 | File | Title |

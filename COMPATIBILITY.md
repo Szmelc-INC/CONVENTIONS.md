@@ -34,4 +34,4 @@ Third-party formats, specs, platforms, languages and tools these conventions are
 | ShellCheck | tool | 0.11.0 | Static analysis for shell scripts; every script is clean before delivery. | `CONVENTIONS/CODE/SHELL.md` | [homepage](<https://www.shellcheck.net/>) · [repo](<https://github.com/koalaman/shellcheck>) · [docs](<https://www.shellcheck.net/wiki/>) | 2026-11-26 |
 | Bubble Tea | stack | 2.1.3 | Go TUI framework, used with Lip Gloss, Bubbles and Glamour. | `CONVENTIONS/INTERFACES/TUI.md` | [homepage](<https://charm.land/>) · [repo](<https://github.com/charmbracelet/bubbletea>) | 2026-11-26 |
 
-_Disclaimer:_ Names and logos are trademarks of their respective owners. Szmelc is not affiliated with, sponsored or endorsed by them. A listing means only that these conventions are compatible with the named format, specification, platform, language or tool.
+_Disclaimer:_ Names and logos are trademarks of their respective owners. Szmelc™ is not affiliated with, sponsored or endorsed by them. A listing means only that these conventions are compatible with the named format, specification, platform, language or tool.

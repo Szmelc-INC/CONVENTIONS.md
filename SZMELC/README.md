@@ -1,7 +1,7 @@
 # SZMELC
-> Load when: asked about Szmelc itself, its public organisations and projects, the ecosystem, or the projects index.
+> Load when: asked about Szmelc™ itself, its public organisations and projects, the ecosystem, or the projects index.
 
-Szmelc: the public organisations and projects these conventions serve. Only public material lives here.
+Szmelc™: the public organisations and projects these conventions serve. Only public material lives here.
 
 ## Organisations
 Indexed on the site's Projects tab from `SZMELC/sources.conf` (GitHub API, public, non-archived, non-fork repos only).
@@ -14,12 +14,12 @@ Indexed on the site's Projects tab from `SZMELC/sources.conf` (GitHub API, publi
 | [sernik77](https://github.com/sernik77) | User |
 
 ## Sites
-- <https://szmelc.com/> — Szmelc home.
+- <https://szmelc.com/> — Szmelc™ home.
 - <https://szmelc-inc.github.io/CONVENTIONS.md/> — this repo, browsable, with the projects index.
-- <https://szmelc-inc.github.io/SAUR/> — SAUR, the signed pacman repository of Szmelc software (`[saur]` stable, `[saur-ex]` experimental).
+- <https://szmelc-inc.github.io/SAUR/> — SAUR, the signed pacman repository of Szmelc™ software (`[saur]` stable, `[saur-ex]` experimental).
 
 ## Principles
-The Szmelc DNA: every era keeps these.
+The Szmelc™ DNA: every era keeps these.
 - No bloat: single binaries, stdlib first, the simplest thing that works (`CONVENTIONS/CODE/STACK.md`). Motto: *NIE TOLERUJEMY BLOATU*.
 - Portable and removable: one prefix, reversible install, user layer untouched by upgrades (`CONVENTIONS/PACKAGING/INSTALL.md`).
 - One command: every project has one entry point with subcommands (`CONVENTIONS/INTERFACES/CLI.md`).
@@ -35,9 +35,9 @@ Ecosystem generations; independent of project versions (`CONVENTIONS/GITHUB/RELE
 
 | Era | Name | When | Defining idea |
 |---|---|---|---|
-| v0 | GNU-Szmelc | 2023 | One Bash suite in one folder, removable with one command; sister project Entropy Linux |
-| v1 | Szmelc | 2024 – mid 2026 | Many small tools, scripts and configs; README-driven; source material for later eras |
-| v1.9 | Modern Szmelc | Aug – Nov 2026 | Agent-built, packaged, signed, documented contracts (SAUR, SilkRouter, Modern-Shell); the base of the stable rules here |
+| v0 | GNU-Szmelc™ | 2023 | One Bash suite in one folder, removable with one command; sister project Entropy Linux |
+| v1 | Szmelc™ | 2024 – mid 2026 | Many small tools, scripts and configs; README-driven; source material for later eras |
+| v1.9 | Modern Szmelc™ | Aug – Nov 2026 | Agent-built, packaged, signed, documented contracts (SAUR, SilkRouter, Modern-Shell); the base of the stable rules here |
 | v2 | Kombinat | Nov 2026 → | One core, one API, everything a module; v1.9 habits made law |
 | v3 | Logos | future | One universal format for everything; not designed yet |
 
