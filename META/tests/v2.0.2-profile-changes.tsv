@@ -1,0 +1,28 @@
+# Stable rule files whose content intentionally changed during neutralization.
+AGENTS/PROMPT/AGENT-PROMPTS.md	Use shared agent wording instead of Szmelc-specific text.
+CONTRIBUTING/101.md	Use configured install path and renamed skill.
+CONTRIBUTING/DIY.md	Generalize DIY instructions and upstream workflow.
+CONTRIBUTING/INDEXING.md	Describe profile-aware sources and generated core maps.
+CONTRIBUTING/LIFECYCLE.md	Replace the fixed Szmelc install path with the profile path.
+CONTRIBUTING/PROMPTS.md	Use the configured profile path and generic repository language.
+CONTRIBUTING/VERSIONING.md	Remove profile-specific history and paths.
+CONTRIBUTING/WRITING.md	Replace the forced brand palette with configured colors.
+CONVENTIONS/CODE/NAMING.md	Replace Szmelc binary and environment examples with generic examples.
+CONVENTIONS/CODE/SHELL.md	Use the configured privilege mechanism.
+CONVENTIONS/DESIGN/COLORS.md	Read colors from the selected profile.
+CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md	Use the project's design reference instead of a Szmelc site.
+CONVENTIONS/GITHUB/RELEASES/AUTOMATION.md	Generalize the package registry reference.
+CONVENTIONS/GITHUB/RELEASES/VERSIONING.md	Remove Szmelc-specific history.
+CONVENTIONS/GITHUB/REPO/LABELS.md	Use profile colors and generic platform-default wording.
+CONVENTIONS/INTERFACES/CLI.md	Describe unsafe privilege shortcuts without banning a named tool.
+CONVENTIONS/PACKAGING/ARCH.md	Use the configured package registry.
+CONVENTIONS/PACKAGING/INSTALL.md	Make managed-block installation the non-destructive default.
+CONVENTIONS/REPO/WRITING.md	Use the profile's cultural language.
+CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md	Describe project-defined cores and profile identity.
+CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md	Document stable rule IDs and front matter.
+CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md	Document front matter and stable IDs.
+CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md	Refer to adapters from the selected profile.
+CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md	Use profile-aware package and language wording.
+CONVENTIONS/SYSTEMS/ARCH.md	Use the profile's package command.
+CONVENTIONS/SYSTEMS/LINUX.md	Refer to supported privilege mechanisms generically.
+CONVENTIONS/WORKFLOW/COMMITS.md	Replace the organization-specific package example.
