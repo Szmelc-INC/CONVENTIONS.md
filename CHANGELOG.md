@@ -6,6 +6,7 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ### Changed
 
+- `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md` (31 lines) split: it keeps look, themes, type and icons. `CONVENTIONS/INTERFACES/WEBUI/COMPONENTS.md` takes header, navbar, carousel, popup, origin tabs, menu, filter and install. `CONVENTIONS/INTERFACES/WEBUI/ACCESSIBILITY.md` takes contrast, focus, ARIA and the 360px layout. The privacy line moved to `ARCHITECTURE.md`. The stable id is unchanged.
 - STE100++ prose pass over hand-written docs (README-like files, prompts, governance, skill entry): semicolons split into sentences, actors named, the docs-voice before/after example quoted.
 
 ### Added
