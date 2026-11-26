@@ -41,9 +41,10 @@ added_ids=$(jq -r --slurpfile old "$tmp/v2-index.json" '
 }
 
 # These values were explicit in v2 and must survive in the Szmelc profile after neutralization.
+backtick=$'\x60'
 grep -qF -- '- Chat: Polish.' "$tmp/szmelc/AGENTS/global/AGENTS.md"
-grep -qF '`pkexec`' "$tmp/szmelc/AGENTS/global/AGENTS.md"
-grep -qF '`dc-notify`' "$tmp/szmelc/CONVENTIONS.md"
+grep -qF "${backtick}pkexec${backtick}" "$tmp/szmelc/AGENTS/global/AGENTS.md"
+grep -qF "${backtick}dc-notify${backtick}" "$tmp/szmelc/CONVENTIONS.md"
 grep -qF 'SAUR' "$tmp/szmelc/CONVENTIONS.md"
 for color in '#105c5c' '#1f8a8a' '#750f0f' '#b83a3a' '#c0c0c0' '#7fffd4'; do
   grep -qF "$color" "$tmp/szmelc/CONVENTIONS.md"
