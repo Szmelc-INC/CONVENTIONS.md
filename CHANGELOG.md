@@ -8,6 +8,15 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 - The repository now has six neutral cores; Szmelc identity data and project discovery moved under `PROFILES/szmelc/`. Rule IDs are stable across file renames, profile rendering is explicit, and global installation preserves existing instruction files by managing only a marked block. See [`MIGRATION-v2-to-v3.md`](MIGRATION-v2-to-v3.md) before upgrading.
 
+### Added
+
+- `CONVENTIONS/REPO/DOCS.md`: docs structure (hook + payoff, "Start here" table, annotated tree, install options, concept + minimal example, limits as numbers).
+- `AGENTS/PROMPT/DOCS-VOICE.md`: docs voice profile from an analysis of the everything-claude-code README (six pillars, keep/reject table, Voice Card, agent prompt block).
+
+### Changed
+
+- `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`: full section order, no star calls or `(NEW)` markers. `CONVENTIONS/REPO/WRITING.md`: no claim words, no bold lead-ins.
+
 ## [2.0.2] - 2026-11-26
 
 Governance and roadmap; no rule path, schema or install change.

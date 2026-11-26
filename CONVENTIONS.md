@@ -49,6 +49,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/PACKAGING/INSTALL.md`](CONVENTIONS/PACKAGING/INSTALL.md) | Install & uninstall | writing an installer, a setup script, install instructions, or uninstall steps. |
 | [`CONVENTIONS/PACKAGING/NIX.md`](CONVENTIONS/PACKAGING/NIX.md) | Nix packaging | packaging, releasing, or setting up a dev environment. |
 | [`CONVENTIONS/PROFILES/OVERLAYS.md`](CONVENTIONS/PROFILES/OVERLAYS.md) | Profile overlays | selecting a profile or applying team, project or user-specific rule overrides. |
+| [`CONVENTIONS/REPO/DOCS.md`](CONVENTIONS/REPO/DOCS.md) | Docs structure | writing or restructuring a README, guide or docs page, or filling the body of one of its sections. |
 | [`CONVENTIONS/REPO/LAYOUT.md`](CONVENTIONS/REPO/LAYOUT.md) | Repository layout | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
 | [`CONVENTIONS/REPO/WRITING.md`](CONVENTIONS/REPO/WRITING.md) | Writing & voice | writing docs, help text, error messages, commit messages, or community and lore text. |
 | [`CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md`](CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md) | Core maps | organising a doc tree into cores, adding a core or category, or editing a core README. |
@@ -212,6 +213,73 @@ Role and objective; ordered instructions; the literal output format; edge cases 
 1. Name the primary class: the one that produces the main deliverable.
 2. Take the additions of both; where they overlap keep the stricter; where they conflict the primary class wins.
 3. Order the sections by the primary class's execution flow and fold the others in where they fire. Never two parallel section sets.
+
+---
+<!-- source: AGENTS/PROMPT/DOCS-VOICE.md -->
+---
+id: agents.prompt.docs-voice
+---
+## Docs voice profile
+> Load when: drafting or rewriting a README or guide in the house docs voice, or briefing an agent to write docs.
+
+Voice profile built with the clone-my-style method (six pillars) and the Voice Card attributes of match-my-writing-style. Source sample: the README of everything-claude-code by Affaan Mustafa (<https://github.com/affaan-m/everything-claude-code>; copy analysed: <https://github.com/WorldFlowAI/everything-claude-code>, read 2026-11-26). The sample gives the structure. `CONVENTIONS/REPO/WRITING.md` overrides its voice. Rules: `CONVENTIONS/REPO/DOCS.md`.
+
+### 1. Persona core
+- Vibe: a practitioner who hands over a working kit and tells you where to start.
+- Tone: direct, second person, practical. It tells the reader what to do next.
+- Registers: README is scannable and command-first. Guides carry the long explanations. Notes carry the warnings and the limits.
+
+### 2. Linguistic mechanics
+- Lexicon: tool nouns stay verbatim (`agents`, `skills`, `hooks`, `rules`, `MCP`). Verbs are plain: install, copy, add, run, keep, remove.
+- Sentences: short. A section opens with one sentence that frames it ("Rules are always-follow guidelines."), then a block or a list.
+- Person: "you" for the reader, "I" only in a background or author section.
+- Casing: sentence case in prose. Title Case headings in the sample; this repo keeps sentence case (`CONVENTIONS/FORMATS/MARKDOWN/STYLE.md`).
+- Punctuation: colon before a block or list. In the sample a hyphen often replaces a dash or colon ("install it directly - or copy"); here, write a colon or two sentences.
+
+### 3. Structure moves (keep)
+| Move | Sample | Here |
+|---|---|---|
+| Hook + payoff | bold one-liner, then "what you get" | `CONVENTIONS/REPO/DOCS.md` open |
+| Guide router | two-cell table, "Read this first" | "Start here" table |
+| Topic map | `Topic \| What You'll Learn` | ≤ 8 rows |
+| Annotated tree | `\|--` tree with aligned comments | `text` block, aligned comments |
+| Ranked lookup | numbered precedence, highest first | `` `source` `` then effect |
+| Install options | Option 1 (Recommended), Option 2 manual | same, a comment above every command |
+| Concept + minimal example | one sentence, then a 5–10 line file | same |
+| Rule of thumb | "20-30 configured, under 10 enabled, under 80 tools" | limits as numbers |
+| Customization | start, modify, remove, add | same |
+
+### 4. Anti-patterns (reject)
+- Claim words: "Production-ready", "battle-tested", "comprehensive", "complete collection", "maximum compatibility", "instant access". State the fact instead: count, test command, platform list.
+- Closers and calls to action: "Star this repo if it helps", "Build something great", "Please contribute!".
+- `(NEW)` markers in trees: the changelog records what is new.
+- Bold lead-ins on list items (`**Environment variable**: …`): use the identifier in backticks.
+- Static badges and badge colors outside the palette (`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`).
+- Unverified config syntax presented as working. Example: the sample's hook matchers (`tool == "Bash" && …`) do not match the documented Claude Code hook schema. Verify every config block against its upstream docs.
+- Background and social links above the install section.
+
+### 5. Voice Card snapshot
+- Opening: name, one bold sentence, one payoff sentence. No greeting.
+- Rhythm: frame sentence → block → one result line.
+- Formatting: tables for maps, numbered lists for order, fenced blocks for anything the reader types.
+- Closing: license line. Nothing after it.
+- Never: claim words, hedging stacks, "Here is…", emoji in headings.
+
+### 6. Agent prompt block
+```text
+Write project docs in this voice:
+1. Open with "# <Name>", one bold sentence (what it is, for whom), one plain sentence (what the reader gets). Facts only.
+2. Each section: one framing sentence, then a table, list or fenced block, then one line that says the result.
+3. Install: "Option 1 (recommended)" before "Option 2 (manual)"; a "#" comment above every command.
+4. Limits as numbers in a notes section near the end.
+5. Never write quality claims (production-ready, comprehensive, battle-tested), calls to star or share, or bold lead-ins.
+6. Keep every command, path, flag and number verbatim. Do not invent features, counts or versions.
+Return only the Markdown.
+```
+
+### 7. Example
+Before: "**The complete, battle-tested toolkit!** Production-ready configs for maximum productivity."
+After: "**Claude Code agents, skills, hooks and rules in one plugin.** Install it once and get 9 agents, 11 skills and 15 commands."
 
 ---
 <!-- source: AGENTS/PROMPT/META-PROMPTS.md -->
@@ -1411,6 +1479,30 @@ id: conventions.profiles.overlays
 - Overlay values are strings; define new variables in the profile template before referencing them in a rule.
 
 ---
+<!-- source: CONVENTIONS/REPO/DOCS.md -->
+---
+id: conventions.repo.docs
+---
+## Docs structure
+> Load when: writing or restructuring a README, guide or docs page, or filling the body of one of its sections.
+
+Section order: `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`. Voice: `CONVENTIONS/REPO/WRITING.md`. Voice profile and examples: `AGENTS/PROMPT/DOCS-VOICE.md`.
+
+- Open: `# Name`, one bold sentence that says what it is and for whom, one plain sentence that says what the reader gets. Facts only: count, scope, platform.
+- More than one guide → a "Start here" table first: guide, what it covers, when to read it. Mark the one to read first.
+- Topic map: two-column table `Topic | What you learn`, one row per topic, ≤ 8 rows.
+- What's inside: annotated tree in a `text` block; one entry per line, comments aligned in one column, ≤ 2 levels unless the third level teaches something.
+- Install: `Option 1` (recommended) before `Option 2` (manual). Each option is one fenced block with a `#` comment above every command, then one line that says what the reader now has.
+- Precedence or lookup order: numbered list, highest first, each line `` `source` `` then its effect.
+- Key concepts: one `###` per concept, one sentence that defines it, then the smallest real example (front matter, a five-line file, one command).
+- Limits as numbers: "keep under 10 enabled per project", never "too many". Put them in a notes section near the end.
+- Customization: tell readers what to keep, change and remove; never imply that one setup fits all.
+- Contributing: a short list of wanted contribution kinds, then the link to `CONTRIBUTING.md`.
+- Horizontal rules (`---`) only between top-level sections of a README longer than ~150 lines.
+- End with the license line. No star request, slogan or sign-off after it.
+- Every command, path and count in the doc exists and is current; update it in the same change as the code.
+
+---
 <!-- source: CONVENTIONS/REPO/LAYOUT.md -->
 ---
 id: conventions.repo.layout
@@ -1449,7 +1541,8 @@ id: conventions.repo.writing
 - English for everything structural: code, identifiers, comments, docs, config keys, commits, logs.
 - Use the profile's cultural language for `README-<locale>.md`, community posts and lore. One language per file.
 - Never translate machine-parsed identifiers (commands, config keys, schema fields, event names).
-- Docs voice: plain, honest, specific. Name limits and risks. No filler adjectives ("modern", "clean", "powerful", "seamless").
+- Docs voice: plain, honest, specific, second person. Name limits and risks. No filler adjectives ("modern", "clean", "powerful", "seamless") and no claim words ("production-ready", "battle-tested", "comprehensive"): state the count, test or platform instead. Profile and examples: `AGENTS/PROMPT/DOCS-VOICE.md`.
+- No bold lead-ins on list items; put the identifier in backticks.
 - Humor (™, memes, lore) lives in profiles, banners and lore docs; never in specs, error messages or identifiers.
 - `™` and other marks never appear in identifiers, package names or config.
 - Dense: cut every word that does not change the meaning. Rules are imperative one-liners.
@@ -1683,7 +1776,8 @@ id: conventions.specs.third-party.readme-md
 - English. Truthful: every feature and dependency listed exists; update it in the same change as the code.
 - Top: `# Name`, one bold sentence saying what it is, the one-line install, badges.
 - Badges: Shields.io (<https://shields.io/>) only, service chosen from Awesome Badges (<https://github.com/badges/awesome-badges>); dynamic endpoints (`github/v/release`, `github/license`, CI) over static; `logo=<Simple Icons slug>`; colors from `CONVENTIONS/DESIGN/COLORS.md`; each wrapped in a link with real `alt` text.
-- Then, skipping empty ones: Usage, How it works, Configuration, Packaging, License.
+- Then, skipping empty ones: Start here (guides), What's inside, Install, Usage, Key concepts, How it works, Configuration, Packaging, Notes, Contributing, License. Section bodies: `CONVENTIONS/REPO/DOCS.md`.
+- No calls to star or share, no slogan after the license line, no `(NEW)` markers (the changelog records them).
 - Install: package first (`the project's package registry`, `nix run`); never distro-by-distro package-manager blocks; use `the platform-supported privilege mechanism` when elevation is required.
 - No `curl … | bash` from a branch tip; point at a tag or a signed script.
 - State limits, risks and trust boundaries plainly: what leaves the machine, who can reach a key.

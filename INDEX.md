@@ -29,6 +29,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `AGENTS/PROMPT/101.md` | writing a prompt, system prompt or agent brief from scratch, or asked for prompt-engineering basics. |
 | `AGENTS/PROMPT/AGENT-PROMPTS.md` | writing a system prompt, subagent or task brief for an agent that runs commands, edits files or calls tools. |
 | `AGENTS/PROMPT/CLASSES.md` | deciding which sections a prompt needs, or combining two kinds of work in one prompt. |
+| `AGENTS/PROMPT/DOCS-VOICE.md` | drafting or rewriting a README or guide in the house docs voice, or briefing an agent to write docs. |
 | `AGENTS/PROMPT/META-PROMPTS.md` | asking an agent to write, review, tighten or test a prompt. |
 | `AGENTS/PROMPT/TASK-PROMPTS.md` | looking for a ready prompt for everyday work: planning, debugging, reviewing, summarizing, distilling, deciding, learning. |
 | `AGENTS/PROMPT/TESTING.md` | checking a prompt before use, or after it produced a wrong or uneven output. |
@@ -84,6 +85,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/PACKAGING/INSTALL.md` | writing an installer, a setup script, install instructions, or uninstall steps. |
 | `CONVENTIONS/PACKAGING/NIX.md` | packaging, releasing, or setting up a dev environment. |
 | `CONVENTIONS/PROFILES/OVERLAYS.md` | selecting a profile or applying team, project or user-specific rule overrides. |
+| `CONVENTIONS/REPO/DOCS.md` | writing or restructuring a README, guide or docs page, or filling the body of one of its sections. |
 | `CONVENTIONS/REPO/LAYOUT.md` | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
 | `CONVENTIONS/REPO/WRITING.md` | writing docs, help text, error messages, commit messages, or community and lore text. |
 | `CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md` | organising a doc tree into cores, adding a core or category, or editing a core README. |
