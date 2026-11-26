@@ -6,6 +6,7 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 
 | Path | What | Load when |
 |---|---|---|
+| [`META/assets/screenshots/README.md`](META/assets/screenshots/README.md) | Site screenshots |  |
 | [`META/compat/icons/README.md`](META/compat/icons/README.md) | Compatibility icons |  |
 | [`META/compat/registry.toml`](META/compat/registry.toml) | Compatibility registry: third-party formats, specs, platforms, languages and tools these conventions are compatible with. |  |
 | [`META/schema/index.schema.json`](META/schema/index.schema.json) | Szmelc conventions index |  |
@@ -17,5 +18,6 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/tools/labels.sh`](META/tools/labels.sh) | Apply .github/labels.tsv to the repo (CONVENTIONS/GITHUB/REPO/LABELS.md). |  |
 | [`META/tools/lane-check.sh`](META/tools/lane-check.sh) | Enforce branch-prefix scope (CONVENTIONS/WORKFLOW/BRANCHES.md). |  |
 | [`META/tools/release.sh`](META/tools/release.sh) | Publish the GitHub release for a tag with the bundle assets + SHA256SUMS. |  |
+| [`META/tools/screenshots.sh`](META/tools/screenshots.sh) | Rebuild the README screenshots of the site into META/assets/screenshots/. |  |
 | [`META/tools/site.sh`](META/tools/site.sh) | Build the public site (GitHub Pages): one tab per core with nested rule groups, themes, a Projects tab (repositories, experimental, legacy) and the index files. |  |
 | [`META/tools/test-install.sh`](META/tools/test-install.sh) | Smoke-test install.sh against a throwaway $HOME. Never touches the real one. |  |
