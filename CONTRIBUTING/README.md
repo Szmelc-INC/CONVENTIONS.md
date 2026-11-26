@@ -22,9 +22,9 @@ How to use, extend and maintain the conventions: where a rule goes, how it is wr
 
 ## Five-minute wording fix
 
-1. Open the page with the wording issue and edit the source file in your fork.
-2. Commit the change and open a pull request. You do not need to run the build for wording-only changes; CI builds generated files and reports problems.
-3. A maintainer aims to acknowledge the PR within 48 hours. The maintainer merges after review and green CI.
+1. Find the source file for the page and edit it in your fork. Do not edit generated maps or bundles directly.
+2. Run `META/tools/build.sh && META/tools/check.sh`; commit the source and refreshed generated files together.
+3. Open a pull request. CI repeats the generated-file and content checks; a maintainer aims to acknowledge it within 48 hours and merges after review and green CI.
 
 Contributions are licensed under the repository's MIT License. By submitting a contribution, you agree that it may be distributed under MIT. There is no CLA.
 
