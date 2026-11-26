@@ -4,6 +4,10 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+### Added
+
+- Locale companions for rules: front matter `locales: <lang>=<path>` (`CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`), validated by `check.sh`. The site shows an EN/PL toggle in the opened rule (first: STE100++). The English file stays canonical.
+
 ### Changed
 
 - `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md` (31 lines) split: it keeps look, themes, type and icons. `CONVENTIONS/INTERFACES/WEBUI/COMPONENTS.md` takes header, navbar, carousel, popup, origin tabs, menu, filter and install. `CONVENTIONS/INTERFACES/WEBUI/ACCESSIBILITY.md` takes contrast, focus, ARIA and the 360px layout. The privacy line moved to `ARCHITECTURE.md`. The stable id is unchanged.

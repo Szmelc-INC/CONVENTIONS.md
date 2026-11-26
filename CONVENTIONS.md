@@ -1694,6 +1694,7 @@ id: conventions.repo.layout
 <!-- source: CONVENTIONS/REPO/STE100PP.md -->
 ---
 id: conventions.repo.ste100pp
+locales: pl=AGENTS/skills/ste100pp/references/PL.md
 ---
 ## STE100++ controlled writing
 > Load when: writing or reviewing docs prose, procedures, help text, error messages, tool descriptions or agent prompts.
@@ -1796,6 +1797,7 @@ id: conventions.specs.original.rule-files
 > Load when: writing, naming or reviewing a convention rule file.
 
 - Optional YAML front matter precedes the content; every stable and experimental rule has a unique, path-independent `id` there. The first content line is `# Title`, followed immediately by `> Load when: <concrete trigger>`; generators read both (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`). Skeleton `TEMPLATES/rule.md`.
+- Optional front matter `locales: <lang>=<path> ...` names companions written natively in other languages (BCP 47 primary tag, e.g. `pl`). The English file stays canonical. Companions live outside the rule tree (e.g. a skill `references/` dir), never enter the bundle, and the site offers a language toggle.
 - One topic per file, one rule per line: imperative one-liners (`- ...`); a table only when denser than lines.
 - ~5–20 lines; longer → split the topic.
 - No prose, no filler adjectives; rationale only when the rule is non-obvious.
