@@ -159,7 +159,7 @@ Read [`CONTRIBUTING/README.md`](CONTRIBUTING/README.md) first.
 2. Edit only source files.
 3. Run `META/tools/build.sh && META/tools/check.sh`. Both must pass.
 4. Open a PR into `main`.
-5. A maintainer (`sernik77`, `PolskiKocurek` or `hajtuszko`) reviews it. A PR from outside merges only after a maintainer approves its latest commit (the `review-gate` check). Maintainers merge with `gh pr merge --merge --delete-branch` or `--rebase --delete-branch`, never squash.
+5. The maintainer reviews it. A PR from outside merges only after the maintainer approves its latest commit (the `review-gate` check). Maintainers merge with `gh pr merge --rebase --delete-branch`.
 6. Sync your copy with `git checkout main && git pull --ff-only`.
 
 Rebase-merge puts each commit of the branch on `main`.
