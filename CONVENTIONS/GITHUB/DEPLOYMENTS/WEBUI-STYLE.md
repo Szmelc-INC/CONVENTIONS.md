@@ -9,7 +9,8 @@
 - Flat mono/material look: 1px lines, radius 0–4px; no gradients, glassmorphism or heavy shadows.
 - Depth by shade, not size: step the surface and line ramps of `COLORS.md` per level (page, panel, header band, hover, raised); groups are framed panels, an opened item is a sunken reading well with an accent edge.
 - Type: 14px base, 13–13.5px body copy at line-height 1.6–1.7, nothing under 11.5px; reading width ≤ 92ch.
-- Header: small `h1` (≤ 1.5rem, no hero) with a small byline tag, accent top rule (`border-top` 3–4px accent), icon link row, stats row of counts.
+- Header: centered `h1` (≤ 2.5rem, no hero, no tagline under it), accent top rule (`border-top` 3–4px accent); below it a centered icon link row with the theme toggle between full-width 1px rules; byline in the footer.
+- Navbar order: title, link row, tabs (stretched to the full width), filter; intro (tagline, stats, install) is a panel below the toolbar.
 - Navigation: folder-style tabs and the filter in a sticky toolbar; keys `/` focus filter, `1`–`9` switch tabs, arrows/`Home`/`End` inside the tab list, `t` theme, `esc` clear/close; deep links `#<path>` restore the view on load and clear the toolbar (`scroll-margin-top`).
 - Filter: highlights hits with `<mark>` (accent tint), flags tabs with hits, announces the count in an `aria-live` status.
 - Nested categories: collapsible groups with counts, category index (sidebar when wide, collapsible when narrow), deep link per group.

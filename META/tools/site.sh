@@ -272,7 +272,7 @@ mark{background:var(--tint-2);color:var(--head);border-bottom:1px solid var(--ed
 
 /* == layout == */
 main{max-width:1160px;margin:0 auto;padding:18px 16px 56px}
-.hd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.hd{display:flex;justify-content:center;padding:26px 0 22px;text-align:center}
 .cols{display:block}
 @media (min-width:960px){
   .cols{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start}
@@ -282,21 +282,28 @@ main{max-width:1160px;margin:0 auto;padding:18px 16px 56px}
 
 /* == components == */
 /* header */
-.brand{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;min-width:0}
-h1{margin:0;font-size:1.35rem;line-height:1.3;font-weight:800;letter-spacing:.02em;color:var(--head)}
+h1{margin:0;font-size:clamp(1.6rem,4.2vw,2.4rem);line-height:1.2;font-weight:800;letter-spacing:.02em;color:var(--head);overflow-wrap:anywhere}
 h1 .pr{color:var(--faint);font-weight:400;margin-right:.45em}
 h1 .ext{color:var(--link)}
 h1 .cur{display:inline-block;width:.55em;height:1.05em;margin-left:.12em;vertical-align:-.18em;background:var(--hl);animation:blink 1.1s steps(1) infinite}
-.by{font-size:11.5px;letter-spacing:.12em;color:var(--sec);background:var(--s1);border:1px solid var(--line-2);padding:0 7px;border-radius:2px;white-space:nowrap}
+.by{letter-spacing:.12em;color:var(--sec);white-space:nowrap}
 .btn{display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:4px 11px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);
   color:var(--sec);font-size:12.5px;white-space:nowrap;transition:border-color .15s,color .15s,background .15s}
 .btn:hover{background:var(--s3);border-color:var(--line-3);color:var(--head)}
 .btn:active{background:var(--raise)}
-.links{display:flex;flex-wrap:wrap;gap:2px 18px;margin:12px 0 0;padding:7px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:12.5px}
+/* centered nav row: links + theme toggle between full-width rules */
+.navrow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 22px;margin:0 -16px;padding:9px 16px;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:13.5px}
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;font-size:inherit}
+.tbtn{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;margin:0;border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);color:var(--sec);
+  font-size:12.5px;transition:color .15s,border-color .15s,background .15s}
+.tbtn:hover{color:var(--head);border-color:var(--line-3);background:var(--s3)}
 .links a{display:inline-flex;align-items:center;gap:6px;color:var(--sec);transition:color .15s,text-shadow .15s}
 .links a .ic{color:var(--mute)}
 .links a:hover,.links a:hover .ic{color:var(--link)}
-.tagline{margin:14px 0 0;color:var(--sec);font-size:13.5px;line-height:1.65;max-width:82ch}
+/* intro panel below the toolbar */
+.intro{margin:16px 0 0;padding:14px 16px 16px;background:var(--s1);border:1px solid var(--line);border-radius:var(--r)}
+.tagline{margin:0;color:var(--sec);font-size:13.5px;line-height:1.65;max-width:92ch}
 .stats{display:flex;flex-wrap:wrap;gap:4px 20px;margin:10px 0 0;font-size:12.5px;color:var(--mute)}
 .stats b{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
 .cmd{position:relative;margin:14px 0 0}
@@ -314,12 +321,12 @@ h1 .cur{display:inline-block;width:.55em;height:1.05em;margin-left:.12em;vertica
 .cp.done{background:var(--fill);border-color:var(--fill);color:var(--on-fill)}
 
 /* sticky toolbar: tabs + filter stay reachable on long lists */
-.tbar{position:sticky;top:0;z-index:5;margin:22px -16px 0;padding:8px 16px 0;background:var(--bg);border-bottom:1px solid var(--line)}
+.tbar{position:sticky;top:0;z-index:5;margin:0 -16px;padding:12px 16px 0;background:var(--bg);border-bottom:1px solid var(--line)}
 .tbar.stuck{box-shadow:0 6px 12px -8px #000}
 
 /* tabs: folder-style; the selected one is [bracketed] */
 .tabs{position:relative;display:flex;gap:3px;overflow-x:auto;border-bottom:2px solid var(--acc);scrollbar-width:thin}
-.tab{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:5px 10px;border:1px solid var(--line-2);border-bottom:0;border-radius:var(--r) var(--r) 0 0;
+.tab{flex:1 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:32px;padding:5px 10px;border:1px solid var(--line-2);border-bottom:0;border-radius:var(--r) var(--r) 0 0;
   background:var(--s1);color:var(--sec);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:color .15s,border-color .15s,background .15s}
 .tab:hover{color:var(--head);background:var(--s3);border-color:var(--line-3)}
 .tab small{font-weight:400;color:var(--mute);font-variant-numeric:tabular-nums}
@@ -454,13 +461,15 @@ td.r{font-size:12px;color:var(--mute);white-space:nowrap;font-variant-numeric:ta
 .empty{color:var(--mute);margin:14px 0 0;padding:28px 16px;text-align:center;border:1px dashed var(--line-2);border-radius:var(--r)}
 
 footer{margin-top:44px;padding-top:14px;border-top:1px solid var(--line);color:var(--mute);font-size:12.5px}
-footer .links{border:0;margin:0 0 8px;padding:0}
+footer .links{justify-content:flex-start;margin:0 0 8px;gap:4px 18px;font-size:12.5px}
 footer .meta{display:flex;flex-wrap:wrap;gap:4px 16px}
 footer .keys{margin-left:auto}
 
 @media (max-width:640px){
   main{padding-top:12px}
-  .tbar{margin-top:16px}
+  .hd{padding:16px 0 14px}
+  .navrow,.links{gap:4px 16px;font-size:12.5px}
+  .intro{padding:12px}
   details.item>summary,.frow{grid-template-columns:minmax(0,1fr) auto;padding:9px 10px}
   details.item>summary .it-load{grid-column:1/-1;order:3}
   .frow span{grid-column:1/-1}
@@ -562,18 +571,12 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
 <a class="skip" href="#list" id="skip">Skip to the rules</a>
 <main>
 <header class="hd">
-  <div class="brand">
-    <h1><span class="pr" aria-hidden="true">&gt;</span>CONVENTIONS<span class="ext">.md</span><span class="cur" aria-hidden="true"></span></h1>
-    <span class="by">By Szmelc™</span>
-  </div>
-  <button class="btn" id="theme" type="button" title="Theme (key t)"></button>
+  <h1><span class="pr" aria-hidden="true">&gt;</span>CONVENTIONS<span class="ext">.md</span><span class="cur" aria-hidden="true"></span></h1>
 </header>
-<nav class="links" id="links" aria-label="Links"></nav>
-
-<p class="tagline">One source of rules for humans and AI agents, shipped as <code>SKILL.md</code>, <code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>llms.txt</code>, Cursor, Copilot and Kiro rules. Read any rule below, copy it raw, or install the lot.</p>
-<div class="stats" id="stats"></div>
-<div class="cmd"><pre id="install"></pre><button class="cp" type="button" data-cp-from="install"></button></div>
-<noscript><p class="lead">The index renders with JavaScript. Without it read <a href="INDEX.md">INDEX.md</a>, <a href="llms.txt">llms.txt</a> or <a href="CONVENTIONS.md">CONVENTIONS.md</a>.</p></noscript>
+<div class="navrow">
+  <nav class="links" id="links" aria-label="Links"></nav>
+  <button class="tbtn" id="theme" type="button" title="Theme (key t)"></button>
+</div>
 
 <div class="tbar" id="tbar">
 <nav class="tabs" id="tabs" role="tablist" aria-label="Sections"></nav>
@@ -583,12 +586,19 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
   <button class="btn" id="expand" type="button" title="Expand or collapse all (key e)"></button>
 </div>
 </div>
+<section class="intro" aria-label="About">
+  <p class="tagline">One source of rules for humans and AI agents, shipped as <code>SKILL.md</code>, <code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>llms.txt</code>, Cursor, Copilot and Kiro rules. Read any rule below, copy it raw, or install the lot.</p>
+  <div class="stats" id="stats"></div>
+  <div class="cmd"><pre id="install"></pre><button class="cp" type="button" data-cp-from="install"></button></div>
+</section>
+<noscript><p class="lead">The index renders with JavaScript. Without it read <a href="INDEX.md">INDEX.md</a>, <a href="llms.txt">llms.txt</a> or <a href="CONVENTIONS.md">CONVENTIONS.md</a>.</p></noscript>
 <p class="lead" id="lead"></p>
 <div id="list" role="tabpanel" tabindex="-1" aria-labelledby="tabs"></div>
 
 <footer>
   <nav class="links" id="flinks" aria-label="More links"></nav>
   <div class="meta">
+    <span class="by">By Szmelc™</span>
     <span>Generated by <code>META/tools/site.sh</code> from source files and the GitHub API · <span id="built"></span></span>
     <span class="keys"><kbd>/</kbd> filter · <kbd>1</kbd>–<kbd>9</kbd> tabs · <kbd>e</kbd> expand · <kbd>t</kbd> theme · <kbd>esc</kbd> clear</span>
   </div>
