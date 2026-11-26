@@ -77,14 +77,14 @@ Przed:
 Po:
 > Jeśli serwis nie wczytał konfiguracji, sprawdź logi. Najczęstsza przyczyna to złe uprawnienia do pliku. Jeśli logi nic nie pokazują, zrestartuj kontener.
 
-Co się zmieniło: wata na otwarcie zniknęła, warunek stoi przed poleceniem, strona bierna przeszła w czynną, „dokonać weryfikacji” zmieniło się w „sprawdź”, średnik w dwa zdania, a każde zdanie niesie jedną myśl.
+Co się zmieniło: usunąłem watę na otwarcie. Warunek stoi przed poleceniem, strona bierna przeszła w czynną, `dokonać weryfikacji` zmieniło się w `sprawdź`, a średnik w dwa zdania. Każde zdanie niesie jedną myśl.
 
 ## 10. Autokontrola
 
 1. Czy pierwsze zdanie daje odpowiedź?
 2. Szukaj `;` w prozie. Podziel zdanie.
 3. Szukaj „został”, „zostanie”, „zostały”. Nazwij wykonawcę.
-4. Szukaj „dokonać”, „przeprowadzić”, „należy”, „w przypadku”, „w celu”. Zamień na czasownik albo „jeśli”.
+4. Szukaj `dokonać`, `przeprowadzić`, `należy`, `w przypadku`, `w celu`. Zamień na czasownik albo `jeśli`.
 5. Szukaj imiesłowów na „-ąc” i „-wszy”. Więcej niż jeden w zdaniu? Podziel.
 6. Przeczytaj trzy najdłuższe zdania. Ponad limit? Podziel.
 7. Czy zmieniłeś liczbę, identyfikator albo siłę zastrzeżenia? Cofnij.

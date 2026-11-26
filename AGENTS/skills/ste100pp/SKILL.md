@@ -18,7 +18,7 @@ Rule summary: `CONVENTIONS/REPO/STE100PP.md`. Polish: `references/PL.md`.
 6. No semicolons in prose.
 7. One word, one meaning per document. Do not rotate check/verify/validate or config/settings/options for one idea.
 8. Verb, not noun. "Analyze the log", not "perform an analysis of the log".
-9. No claim words and no slop: robust, seamless, powerful, leverage, comprehensive, production-ready, "it is worth noting", "not just X but Y", summary closers.
+9. No claim words and no slop: `robust`, `seamless`, `powerful`, `leverage`, `comprehensive`, `production-ready`, `it is worth noting`, `not just X but Y`, summary closers.
 10. No dropped words. Keep articles, subjects and "that".
 11. Never change code, commands, flags, paths, identifiers, quoted errors, product names, numbers or the strength of a hedge.
 
