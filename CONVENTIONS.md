@@ -45,7 +45,9 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/INTERFACES/CLI.md`](CONVENTIONS/INTERFACES/CLI.md) | CLI | building or changing a command-line tool. |
 | [`CONVENTIONS/INTERFACES/CONFIG.md`](CONVENTIONS/INTERFACES/CONFIG.md) | Configuration | adding a config file, options, env vars, or storage paths to a tool. |
 | [`CONVENTIONS/INTERFACES/TUI.md`](CONVENTIONS/INTERFACES/TUI.md) | TUI | building a TUI, or any project that has a CLI. |
+| [`CONVENTIONS/INTERFACES/WEBUI/ACCESSIBILITY.md`](CONVENTIONS/INTERFACES/WEBUI/ACCESSIBILITY.md) | Web UI accessibility | checking or fixing contrast, focus, screen-reader support or the small-screen layout of a web UI. |
 | [`CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md`](CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md) | Web UI architecture | building a web UI, docs site or Pages site from scratch, or restructuring its build or page code. |
+| [`CONVENTIONS/INTERFACES/WEBUI/COMPONENTS.md`](CONVENTIONS/INTERFACES/WEBUI/COMPONENTS.md) | Web UI components | adding or restyling a header, navbar, tabs, filter, carousel, popup, menu or install block in a web UI. |
 | [`CONVENTIONS/INTERFACES/WEBUI/KEYBOARD.md`](CONVENTIONS/INTERFACES/WEBUI/KEYBOARD.md) | Web UI keyboard | adding keyboard shortcuts or keyboard navigation to a web UI. |
 | [`CONVENTIONS/INTERFACES/WEBUI/OVERLAYS.md`](CONVENTIONS/INTERFACES/WEBUI/OVERLAYS.md) | Web UI overlays | adding a modal, popup, menu, copy button or share action to a web UI. |
 | [`CONVENTIONS/INTERFACES/WEBUI/ROUTING.md`](CONVENTIONS/INTERFACES/WEBUI/ROUTING.md) | Web UI routing | adding views, deep links or URL handling to a web UI. |
@@ -1156,7 +1158,7 @@ id: conventions.github.deployments.webui-style
 > Load when: building or restyling a project web page, Pages site or web UI.
 
 - Reference look: follow the project's published design reference, if one exists.
-- Architecture, routing, overlays and keys: `CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md` and its siblings.
+- Architecture, routing, overlays and keys: `CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md` and its siblings. Components: `CONVENTIONS/INTERFACES/WEBUI/COMPONENTS.md`. Accessibility: `CONVENTIONS/INTERFACES/WEBUI/ACCESSIBILITY.md`.
 - Colors only from `CONVENTIONS/DESIGN/COLORS.md`, as CSS custom properties on `:root`, overridden per `[data-theme]`.
 - Themes: `dark` (default), `light`; optional `mono` (greys and silver, no accent hue) and `terminal` (near-black, accent-text headings and links).
 - Theme: `data-theme` on `<html>` set before first paint; cycle item in `[MENU]` + `t` key; choice in `localStorage` inside `try`/`catch`; first visit follows `prefers-color-scheme`, else dark.
@@ -1164,23 +1166,8 @@ id: conventions.github.deployments.webui-style
 - Flat mono/material look: 1px lines, radius 0–4px; no gradients (except the modal vignette and carousel edge-fade masks), glassmorphism or heavy shadows.
 - Depth by shade, not size: step the surface and line ramps of `COLORS.md` per level (page, panel, header band, hover, raised); groups are framed panels, an opened item is a sunken reading well with an accent edge.
 - Type: 14px base, 13–13.5px body copy at line-height 1.6–1.7, nothing under 11.5px; reading width ≤ 92ch.
-- Header: centered one-line `h1` (≤ 3.3rem, `vw`-scaled to fit 320px, no wrap, no hero, no tagline under it) with a `❯` prompt glyph, accent top rule (`border-top` 3–4px accent); byline in the footer.
-- Navbar order: title, "Compatible with" carousel (hidden while empty), tabs (stretched to the full width), filter.
-- Carousel: registry entries only, icon or monogram + name, small muted label; one slow continuous glide driven by `requestAnimationFrame` (left; 1% of page loads right), looped seamlessly by `aria-hidden` clones with `tabindex=-1`; hover, keyboard focus or touch ease it to a stop, then wheel, trackpad, drag or swipe scroll it by hand and it wraps; leaving eases it back; paused while the tab is hidden; edge-fade masks; `prefers-reduced-motion: reduce` → static scrollable row, no clones.
-- Compat popup (click/`Enter` on an item or a rule chip, deep link `#compat/<id>`): icon or monogram, name, kind, description, compatible version, versioning note (pinned or unversioned upstream), added and updated dates, covering rules linked to `#<path>`, external links in a new tab, the registry disclaimer in small muted text.
-- Origin sub-tabs `All · Third-party · the project`: segmented, same look as the folder tabs, shown only on tabs with origin-tagged rules; filter that tab's rules (other items hide unless All), combine with the text filter, update tab count and filter status; rows carry a `3rd-party`/`the project` badge, third-party rows their registry chips (a mouse shortcut in the row; real links in the opened body).
-- `[MENU]` in the top-right corner: disclosure button (`aria-expanded`/`aria-controls`) opening a list of actions (star, install, theme) and links; arrows/`Home`/`End` move, closes on outside click, `esc`, Tab out and item activation.
-- Modal: one native `<dialog>` (`showModal()`), vignette `::backdrop`; closes on `esc`, backdrop click and a close button; focus returns to the opener; scrolls inside at 320px.
-- Navigation: folder-style tabs and the filter in a sticky toolbar; keys `/` focus filter, `1`–`9` and `0` (10th) switch tabs, arrows/`Home`/`End` inside the tab list, `t` theme, `esc` closes menu or modal first, then clears the filter; single-key shortcuts are off while the menu or modal is open or focus is in the carousel (arrows move between its items); deep links `#<path>` restore the view on load and clear the toolbar (`scroll-margin-top`).
-- Filter: highlights hits with `<mark>` (accent tint), flags tabs with hits, announces the count in an `aria-live` status.
-- Nested categories: collapsible groups with counts, category index (sidebar when wide, collapsible when narrow), deep link per group.
-- Install: intro (tagline, stats, one copyable command block that wraps instead of clipping) in the modal, opened from `[MENU]` or deep link `#install`; copy feedback swaps the icon to a check for ~1s.
 - Icons: inline SVG with `currentColor`, 14–16px, defined once (sprite); registry icons inlined at build time as filled paths; no icon fonts, `<img>` icons or icon CDNs; never brand colors.
 - Effects stay subtle (hover underline or glow, blinking cursor, carousel glide, `terminal` faint scanlines); none under `prefers-reduced-motion: reduce`.
-- Contrast WCAG AA in every theme; visible keyboard focus; targets ≥ 26px tall.
-- Accessibility: skip link, tabs with `role=tab`/`tabpanel`, `aria-current` on the active index item; `prefers-contrast: more` raises muted text and lines; `forced-colors` keeps selection visible.
-- No tracking, analytics or cookies; external JS only when unavoidable, from a CDN URL pinned to an exact version with `integrity`.
-- Works at 360px width: no horizontal page scroll; wide tables and code scroll inside their own box.
 
 ---
 <!-- source: CONVENTIONS/GITHUB/DISCUSSIONS.md -->
@@ -1480,6 +1467,20 @@ id: conventions.interfaces.tui
 - Colors: `CONVENTIONS/DESIGN/COLORS.md`.
 
 ---
+<!-- source: CONVENTIONS/INTERFACES/WEBUI/ACCESSIBILITY.md -->
+---
+id: conventions.interfaces.webui.accessibility
+---
+## Web UI accessibility
+> Load when: checking or fixing contrast, focus, screen-reader support or the small-screen layout of a web UI.
+
+- Contrast WCAG AA in every theme; visible keyboard focus; targets ≥ 26px tall.
+- Accessibility: skip link, tabs with `role=tab`/`tabpanel`, `aria-current` on the active index item; `prefers-contrast: more` raises muted text and lines; `forced-colors` keeps selection visible.
+- Works at 360px width: no horizontal page scroll; wide tables and code scroll inside their own box.
+- Every interactive element has a visible label or an `aria-label`. Icon-only buttons carry a `title` as well.
+- Check each theme with `prefers-contrast: more`, `forced-colors: active` and `prefers-reduced-motion: reduce` emulated.
+
+---
 <!-- source: CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md -->
 ---
 id: conventions.interfaces.webui.architecture
@@ -1497,9 +1498,32 @@ Reference implementation: `META/tools/site.sh`. Look and themes: `CONVENTIONS/GI
 - A small inline `<head>` script sets the theme before first paint.
 - State is a few top-level variables (view, filter, open item). One `render()` rebuilds the view from state and data. Handlers change state, then call `render()` or set the hash.
 - Escape every data string before it enters HTML (`esc()`). Render Markdown with a small local renderer.
+- No tracking, analytics or cookies; external JS only when unavoidable, from a CDN URL pinned to an exact version with `integrity`.
 - One sprite of inline SVG icons, defined once and used with `<use>`.
 - Output goes to a gitignored directory (`public/`) and CI deploys it (`CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md`). Never commit it.
 - Verify: build, open over `file://` and over HTTP, try each deep link and each key, check 360px width and every theme.
+
+---
+<!-- source: CONVENTIONS/INTERFACES/WEBUI/COMPONENTS.md -->
+---
+id: conventions.interfaces.webui.components
+---
+## Web UI components
+> Load when: adding or restyling a header, navbar, tabs, filter, carousel, popup, menu or install block in a web UI.
+
+Look and themes: `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md`.
+
+- Header: centered one-line `h1` (≤ 3.3rem, `vw`-scaled to fit 320px, no wrap, no hero, no tagline under it) with a `❯` prompt glyph, accent top rule (`border-top` 3–4px accent); byline in the footer.
+- Navbar order: title, "Compatible with" carousel (hidden while empty), tabs (stretched to the full width), filter.
+- Carousel: registry entries only, icon or monogram + name, small muted label; one slow continuous glide driven by `requestAnimationFrame` (left; 1% of page loads right), looped seamlessly by `aria-hidden` clones with `tabindex=-1`; hover, keyboard focus or touch ease it to a stop, then wheel, trackpad, drag or swipe scroll it by hand and it wraps; leaving eases it back; paused while the tab is hidden; edge-fade masks; `prefers-reduced-motion: reduce` → static scrollable row, no clones.
+- Compat popup (click/`Enter` on an item or a rule chip, deep link `#compat/<id>`): icon or monogram, name, kind, description, compatible version, versioning note (pinned or unversioned upstream), added and updated dates, covering rules linked to `#<path>`, external links in a new tab, the registry disclaimer in small muted text.
+- Origin sub-tabs `All · Third-party · the project`: segmented, same look as the folder tabs, shown only on tabs with origin-tagged rules; filter that tab's rules (other items hide unless All), combine with the text filter, update tab count and filter status; rows carry a `3rd-party`/`the project` badge, third-party rows their registry chips (a mouse shortcut in the row; real links in the opened body).
+- `[MENU]` in the top-right corner: a list of actions (star, install, theme) and links. Behaviour: `CONVENTIONS/INTERFACES/WEBUI/OVERLAYS.md`.
+- Modal: one native `<dialog>` with a vignette `::backdrop`, scrolling inside at 320px. Behaviour: `CONVENTIONS/INTERFACES/WEBUI/OVERLAYS.md`.
+- Navigation: folder-style tabs and the filter in a sticky toolbar. Keys: `CONVENTIONS/INTERFACES/WEBUI/KEYBOARD.md`. Deep links: `CONVENTIONS/INTERFACES/WEBUI/ROUTING.md`.
+- Filter: highlights hits with `<mark>` (accent tint), flags tabs with hits, announces the count in an `aria-live` status.
+- Nested categories: collapsible groups with counts, category index (sidebar when wide, collapsible when narrow), deep link per group.
+- Install: intro (tagline, stats, one copyable command block that wraps instead of clipping) in the modal, opened from `[MENU]` or deep link `#install`; copy feedback swaps the icon to a check for ~1s.
 
 ---
 <!-- source: CONVENTIONS/INTERFACES/WEBUI/KEYBOARD.md -->

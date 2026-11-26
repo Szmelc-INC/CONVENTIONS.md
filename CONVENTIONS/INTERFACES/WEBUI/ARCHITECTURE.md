@@ -14,6 +14,7 @@ Reference implementation: `META/tools/site.sh`. Look and themes: `CONVENTIONS/GI
 - A small inline `<head>` script sets the theme before first paint.
 - State is a few top-level variables (view, filter, open item). One `render()` rebuilds the view from state and data. Handlers change state, then call `render()` or set the hash.
 - Escape every data string before it enters HTML (`esc()`). Render Markdown with a small local renderer.
+- No tracking, analytics or cookies; external JS only when unavoidable, from a CDN URL pinned to an exact version with `integrity`.
 - One sprite of inline SVG icons, defined once and used with `<use>`.
 - Output goes to a gitignored directory (`public/`) and CI deploys it (`CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md`). Never commit it.
 - Verify: build, open over `file://` and over HTTP, try each deep link and each key, check 360px width and every theme.
