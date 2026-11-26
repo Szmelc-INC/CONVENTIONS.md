@@ -1,0 +1,3 @@
+# Added with the v3 profile split.
+contributing.decisions
+conventions.profiles.overlays
