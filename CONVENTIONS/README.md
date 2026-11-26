@@ -14,7 +14,7 @@ The rules themselves: how {{profile.project_name}} projects are built, shipped a
 | `CONVENTIONS/REPO/` | Repo layout, writing and voice, docs structure |
 | `CONVENTIONS/PROFILES/` | Profile values and layered rule overrides |
 | `CONVENTIONS/DESIGN/` | Colors and visual identity for UI, TUI, CLI, web, badges |
-| `CONVENTIONS/INTERFACES/` | CLI, TUI and configuration design |
+| `CONVENTIONS/INTERFACES/` | CLI, TUI and configuration design, `WEBUI/` (web UI architecture, routing, overlays, keyboard) |
 | `CONVENTIONS/PACKAGING/` | Arch `PKGBUILD` and `{{profile.package_registry}}`, Nix flakes, installers |
 | `CONVENTIONS/CODE/` | Stack defaults, naming, Go, shell scripts, shell environment and dotfiles |
 | `CONVENTIONS/EXPERIMENTAL/` | Opt-in proposals; load only when the user opts in (branch `experimental/*`) |

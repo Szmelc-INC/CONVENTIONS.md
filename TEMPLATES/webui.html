@@ -1,0 +1,155 @@
+<!doctype html>
+<!-- Web UI starter. Rules: CONVENTIONS/INTERFACES/WEBUI/ (architecture, routing, overlays, keyboard),
+     look: CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md, colors: CONVENTIONS/DESIGN/COLORS.md.
+     The build script replaces the JSON in #data; everything else is static. Replace <placeholders>. -->
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title><Project name></title>
+<script>
+// Theme before first paint: ?theme= (not saved) > saved choice > system light preference > dark.
+(function(){
+  var T = ['dark','light'], t = null;
+  try { t = new URLSearchParams(location.search).get('theme'); } catch (e) {}
+  if (T.indexOf(t) < 0) { t = null; try { t = localStorage.getItem('<project>-theme'); } catch (e) {} }
+  if (T.indexOf(t) < 0) t = (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+})();
+</script>
+<style>
+/* Replace the accent values with the profile palette (CONVENTIONS/DESIGN/COLORS.md). */
+:root{--bg:#0b0b0b;--panel:#131313;--raised:#1b1b1b;--line:#262626;--text:#e6e6e6;--mute:#a0a0a0;--accent:#8a8a8a;--accent-text:#d0d0d0;
+  --font:"JetBrains Mono",ui-monospace,"Cascadia Mono",Menlo,Consolas,monospace}
+:root[data-theme="light"]{--bg:#fafafa;--panel:#f0f0f0;--raised:#e6e6e6;--line:#d0d0d0;--text:#141414;--mute:#555;--accent:#5a5a5a;--accent-text:#333}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.6 var(--font)}
+main{max-width:92ch;margin:0 auto;padding:16px;border-top:3px solid var(--accent)}
+a{color:var(--accent-text)} :focus-visible{outline:2px solid var(--accent-text);outline-offset:2px}
+h1{font-size:clamp(1.4rem,7vw,3rem);margin:.4em 0;white-space:nowrap}
+.bar{position:sticky;top:0;display:flex;gap:8px;flex-wrap:wrap;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line)}
+.bar button,.bar input{font:inherit;color:inherit;background:var(--panel);border:1px solid var(--line);border-radius:2px;min-height:28px;padding:2px 8px}
+[role=tab][aria-selected=true]{background:var(--raised);border-color:var(--accent)}
+.item{scroll-margin-top:64px;border:1px solid var(--line);background:var(--panel);margin:8px 0;padding:8px}
+.menu{position:fixed;top:8px;right:8px} .menu ul{list-style:none;margin:4px 0 0;padding:4px;background:var(--panel);border:1px solid var(--line)}
+.menu button{font:inherit;color:inherit;background:none;border:0;padding:4px 8px;width:100%;text-align:left}
+dialog{background:var(--panel);color:var(--text);border:1px solid var(--line);max-width:min(92ch,calc(100vw - 32px));max-height:80vh;overflow:auto}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+mark{background:var(--raised);color:inherit;outline:1px solid var(--accent)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<a href="#list" id="skip">Skip to content</a>
+<nav class="menu" aria-label="Menu">
+  <button type="button" id="menu-btn" aria-expanded="false" aria-controls="menu-p">[MENU]</button>
+  <ul id="menu-p" hidden>
+    <li><button type="button" id="m-about">About</button></li>
+    <li><button type="button" id="m-theme">Theme</button></li>
+    <li><button type="button" id="m-keys">Keys (?)</button></li>
+  </ul>
+</nav>
+<main>
+  <h1>❯ &lt;Project name&gt;</h1>
+  <div class="bar">
+    <div id="tabs" role="tablist" aria-label="Views"></div>
+    <input id="q" type="search" placeholder="filter (/)" aria-label="Filter">
+    <span id="status" aria-live="polite"></span>
+  </div>
+  <div id="list" role="tabpanel" aria-label="Items" tabindex="-1"></div>
+</main>
+<dialog id="modal" aria-labelledby="modal-t"><h2 id="modal-t"></h2><div id="modal-b"></div><button type="button" id="modal-x">Close</button></dialog>
+<script type="application/json" id="data">{"views":[{"id":"start","title":"Start","items":[{"path":"start/hello","title":"Hello","body":"Replace this data block at build time."}]}]}</script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const D = JSON.parse($('#data').textContent);
+const root = document.documentElement, q = $('#q'), modal = $('#modal'), menuBtn = $('#menu-btn'), menuP = $('#menu-p');
+let view = D.views[0].id, focusPath = '';           // state: render() reads only these and D
+
+// == render: rebuild the view from state + data ==
+function render(){
+  $('#tabs').innerHTML = D.views.map((v,i) => `<button type="button" role="tab" data-v="${esc(v.id)}" aria-selected="${v.id===view}">${i+1} ${esc(v.title)}</button>`).join('');
+  const f = q.value.trim().toLowerCase(), v = D.views.find(x => x.id === view);
+  const hit = s => {   // match on raw text, escape each piece: a filter like "amp" never splits an entity
+    s = String(s ?? ''); if (!f) return esc(s);
+    const re = new RegExp(f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'); let out = '', i = 0, m;
+    while ((m = re.exec(s))){ out += esc(s.slice(i, m.index)) + '<mark>' + esc(m[0]) + '</mark>'; i = m.index + m[0].length; }
+    return out + esc(s.slice(i));
+  };
+  const items = v.items.filter(it => !f || (it.title + ' ' + it.body).toLowerCase().includes(f));
+  $('#list').innerHTML = items.map(it => `<article class="item" id="${esc(it.path)}"><h3><a href="#${esc(it.path)}">${hit(it.title)}</a></h3><p>${hit(it.body)}</p></article>`).join('') || '<p>No matches.</p>';
+  $('#status').textContent = f ? `${items.length} match${items.length===1?'':'es'}` : '';
+  if (focusPath){ const el = document.getElementById(focusPath); if (el) el.scrollIntoView({block:'start'}); focusPath = ''; }
+}
+
+// == modal: one <dialog>; Esc, backdrop and close button close it; focus returns to the opener ==
+let opener = null, back = '';
+const TRANSIENT = /^#(about|keys)$/;
+function openModal(title, html, from, hash){
+  opener = from || document.activeElement; $('#modal-t').textContent = title; $('#modal-b').innerHTML = html;
+  if (hash){ if (!modal.open) back = TRANSIENT.test(location.hash) ? '' : location.hash; history.replaceState(null, '', hash); }   // transient route
+  if (!modal.open) modal.showModal();
+}
+modal.addEventListener('close', () => { if (TRANSIENT.test(location.hash)) history.replaceState(null, '', location.pathname + location.search + back); if (opener) opener.focus(); });
+modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });
+$('#modal-x').onclick = () => modal.close();
+const KEYS = [['/', 'Focus the filter'], ['1–9', 'Switch views'], ['t', 'Theme'], ['?', 'This help'], ['Esc', 'Close the top layer, then clear the filter']];
+const openKeys = from => openModal('Keys', '<ul>' + KEYS.map(k => `<li><kbd>${esc(k[0])}</kbd> ${esc(k[1])}</li>`).join('') + '</ul>', from, '#keys');
+const openAbout = from => openModal('About', '<p>&lt;What the project is, in one sentence.&gt;</p>', from, '#about');
+
+// == routing: #<view>, #<item path>, transient #about / #keys ==
+function route(){
+  let id = ''; try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) {}
+  if (id === 'about'){ render(); return openAbout(); }
+  if (id === 'keys'){ render(); return openKeys(); }
+  if (modal.open) modal.close();
+  const v = D.views.find(x => x.id === id) || D.views.find(x => x.items.some(it => it.path === id));
+  view = v ? v.id : D.views[0].id; focusPath = v && v.id !== id ? id : '';
+  if (focusPath) q.value = '';
+  render();
+}
+addEventListener('hashchange', route);
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) location.hash = b.dataset.v; });
+q.addEventListener('input', render);
+$('#tabs').addEventListener('keydown', e => {   // WAI-ARIA tabs: arrows, Home, End
+  const b = [...$('#tabs').children], i = b.indexOf(document.activeElement); if (i < 0) return;
+  const k = {ArrowRight:i+1, ArrowLeft:i-1, Home:0, End:b.length-1}[e.key]; if (k === undefined) return;
+  e.preventDefault(); const n = (k+b.length)%b.length; location.hash = D.views[n].id; requestAnimationFrame(() => $('#tabs').children[n].focus());
+});
+
+// == theme ==
+function cycleTheme(){ const t = root.dataset.theme === 'dark' ? 'light' : 'dark'; root.dataset.theme = t; try { localStorage.setItem('<project>-theme', t); } catch (e) {} }
+
+// == menu: disclosure; Esc, outside click and Tab out close it ==
+function setMenu(open){ menuP.hidden = !open; menuBtn.setAttribute('aria-expanded', String(open)); if (open) menuP.querySelector('button').focus(); }
+menuBtn.onclick = () => setMenu(menuP.hidden);
+document.addEventListener('click', e => { if (!menuP.hidden && !e.target.closest('.menu') && !modal.contains(e.target)) setMenu(false); });
+menuP.addEventListener('focusout', e => { if (!menuP.contains(e.relatedTarget) && e.relatedTarget !== menuBtn && !modal.contains(e.relatedTarget)) setMenu(false); });
+menuP.addEventListener('keydown', e => {
+  const b = [...menuP.querySelectorAll('button')], i = b.indexOf(document.activeElement);
+  const k = {ArrowDown:i+1, ArrowUp:i-1, Home:0, End:b.length-1}[e.key];
+  if (k !== undefined){ e.preventDefault(); b[(k+b.length)%b.length].focus(); }
+});
+$('#m-about').onclick = e => openAbout(e.currentTarget);
+$('#m-theme').onclick = cycleTheme;
+$('#m-keys').onclick = e => openKeys(e.currentTarget);
+
+// == keys: gate order modal > menu > text field; then the map in KEYS ==
+addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey || e.altKey || modal.open) return;
+  if (!menuP.hidden){ if (e.key === 'Escape'){ setMenu(false); menuBtn.focus(); } return; }
+  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName);
+  if (e.key === 'Escape'){ if (q.value){ q.value = ''; render(); } q.blur(); return; }
+  if (typing) return;
+  if (e.key === '/'){ e.preventDefault(); q.focus(); }
+  else if (/^[1-9]$/.test(e.key) && D.views[+e.key-1]) location.hash = D.views[+e.key-1].id;
+  else if (e.key === 't') cycleTheme();
+  else if (e.key === '?'){ e.preventDefault(); openKeys(); }
+});
+$('#skip').onclick = e => { e.preventDefault(); $('#list').focus(); };
+route();
+</script>
+</body>
+</html>

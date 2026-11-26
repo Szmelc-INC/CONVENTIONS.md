@@ -38,6 +38,7 @@ The neutral core and profile-aware installation contract are now stable.
 ### Added
 
 - STE100++ controlled writing (inspired by ASD-STE100, not certified): rule `CONVENTIONS/REPO/STE100PP.md`, skill `AGENTS/skills/ste100pp/` with procedures, error messages, help text, numbers and hedges, and a natively written `pl` companion. Scope: prose; rule one-liners are exempt.
+- Web UI blueprint, extracted from the project's own Pages site: `CONVENTIONS/INTERFACES/WEBUI/` (`ARCHITECTURE.md`, `ROUTING.md`, `OVERLAYS.md`, `KEYBOARD.md`) and the starter `TEMPLATES/webui.html` (inlined data, hash router with transient overlay routes, one `<dialog>`, menu disclosure, gated keymap, theme before first paint).
 
 ## [2.0.2] - 2026-11-26
 
