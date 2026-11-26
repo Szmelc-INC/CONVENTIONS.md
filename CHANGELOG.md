@@ -6,6 +6,7 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ### Added
 
+- Experimental opt-in rule-ID bundles for review, research and release modes under `AGENTS/modes/`; the bundles stay out of default instructions and are listed separately in `INDEX.md`.
 - Locale companions for rules: front matter `locales: <lang>=<path>` (`CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`), validated by `check.sh`. The site shows an EN/PL toggle in the opened rule (first: STE100++). The English file stays canonical.
 
 ### Changed

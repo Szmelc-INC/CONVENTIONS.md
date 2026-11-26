@@ -7,7 +7,7 @@ How the conventions repo works: sources in, every format out.
 | Tool | Does |
 |---|---|
 | `META/tools/build.sh` | Sources → `INDEX.md`, `index.json`, `llms.txt`, `CONVENTIONS.md`, configured core maps, `COMPATIBILITY.md`, `AGENTS/adapters/`. `--check` fails when stale |
-| `META/tools/check.sh` | Generated files fresh, rule/core headers, skills frontmatter, index entries, path references, case collisions, dangling links, compatibility registry |
+| `META/tools/check.sh` | Generated files fresh, rule/core headers, skills and experimental mode bundle metadata, index entries, path references, case collisions, dangling links, compatibility registry |
 | `META/tools/lane-check.sh` | Branch-prefix scope for PRs; rejects `local/*` (`CONVENTIONS/WORKFLOW/BRANCHES.md`) |
 | `META/tools/prose-lint.sh` | STE100++ prose checks (semicolons, claim words, sentences over 30 words); CI runs `--strict`, `--summary` shows counts |
 | `META/tools/hooks/pre-push` | Refuses to push `local/*`; enable with `git config core.hooksPath META/tools/hooks` |
@@ -28,6 +28,7 @@ How the conventions repo works: sources in, every format out.
 ## Other
 - `META/schema/index.schema.json`: JSON Schema for `index.json`.
 - `META/assets/`: non-rule files such as `screenshots/` for the root `README.md`; build, check and site skip it as rules.
+- `AGENTS/modes/`: experimental, opt-in rule-ID bundles; the index lists these separately, and the default bundle excludes their contents.
 
 ## Compatibility registry
 - Source: `META/compat/registry.toml`, one `[[compat]]` record per third-party format, spec, platform, language or tool; fields and the TOML subset in its header. Parsed by `META/tools/compat.awk` (POSIX awk, no new deps).

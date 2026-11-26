@@ -127,6 +127,13 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/WORKFLOW/NOTIFY.md` | a job runs > ~10 min, or a failure needs a human. |
 | `CONVENTIONS/WORKFLOW/VERIFICATION.md` | any code change. |
 
+## Experimental mode bundles (explicit opt-in)
+| File | Load when |
+|---|---|
+| `AGENTS/modes/release.md` | the user explicitly requests the release mode. |
+| `AGENTS/modes/research.md` | the user explicitly requests the research mode. |
+| `AGENTS/modes/review.md` | the user explicitly requests the review mode. |
+
 ## Skills
 | File | Load when |
 |---|---|

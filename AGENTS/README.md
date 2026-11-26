@@ -18,6 +18,11 @@ Everything an AI agent consumes: the always-on global rules, agent behaviour rul
 3. `INDEX.md` once per session, then only files whose `Load when` matches. Never bulk-read.
 4. Precedence: user's direct instruction > project `AGENTS.md`/`CLAUDE.md` > stable rules > experimental.
 
+## Experimental mode bundles
+- A mode bundle is opt-in context for one named task mode; it does not change the default instruction set.
+- Load a file from `AGENTS/modes/` only when the user explicitly requests that mode. Then load only its listed stable rule IDs from `INDEX.md`.
+- Mode bundles cannot override direct user instructions, project instructions or stable rules. If a listed ID is missing, stop and report the stale bundle.
+
 ## Install
 - `./install.sh` links global rules and skills into every detected harness; `./install.sh status` shows state. Harness table: `HUMANS/README.md`.
 - `./install.sh project <dir>` drops adapters and an `AGENTS.md` skeleton into a project.

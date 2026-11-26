@@ -124,7 +124,7 @@ status() {
     */README.md) echo core; return ;;
   esac
   case $1 in
-    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/* | META/assets/*) echo skip ;;
+    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | AGENTS/modes/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/* | META/assets/*) echo skip ;;
     CONVENTIONS/EXPERIMENTAL/*) echo experimental ;;
     CONVENTIONS/LEGACY/*) echo legacy ;;
     *) echo stable ;;
@@ -281,6 +281,15 @@ done
   echo '| File | Load when |'
   echo '|---|---|'
   for f in "${STABLE[@]}"; do echo "| \`$f\` | $(cell "$(trigger "$f")") |"; done
+  echo
+  echo '## Experimental mode bundles (explicit opt-in)'
+  if [[ -d AGENTS/modes ]]; then
+    echo '| File | Load when |'
+    echo '|---|---|'
+    while IFS= read -r f; do echo "| \`$f\` | $(cell "$(trigger "$f")") |"; done < <(find AGENTS/modes -maxdepth 1 -type f -name '*.md' | sort)
+  else
+    echo '_None._'
+  fi
   echo
   echo '## Skills'
   echo '| File | Load when |'
