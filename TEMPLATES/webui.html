@@ -57,7 +57,7 @@ mark{background:var(--raised);color:inherit;outline:1px solid var(--accent)}
     <input id="q" type="search" placeholder="filter (/)" aria-label="Filter">
     <span id="status" aria-live="polite"></span>
   </div>
-  <div id="list" tabindex="-1"></div>
+  <div id="list" role="tabpanel" aria-label="Items" tabindex="-1"></div>
 </main>
 <dialog id="modal" aria-labelledby="modal-t"><h2 id="modal-t"></h2><div id="modal-b"></div><button type="button" id="modal-x">Close</button></dialog>
 <script type="application/json" id="data">{"views":[{"id":"start","title":"Start","items":[{"path":"start/hello","title":"Hello","body":"Replace this data block at build time."}]}]}</script>
@@ -72,7 +72,12 @@ let view = D.views[0].id, focusPath = '';           // state: render() reads onl
 function render(){
   $('#tabs').innerHTML = D.views.map((v,i) => `<button type="button" role="tab" data-v="${esc(v.id)}" aria-selected="${v.id===view}">${i+1} ${esc(v.title)}</button>`).join('');
   const f = q.value.trim().toLowerCase(), v = D.views.find(x => x.id === view);
-  const hit = s => f ? esc(s).replace(new RegExp(f.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'gi'), m => `<mark>${m}</mark>`) : esc(s);
+  const hit = s => {   // match on raw text, escape each piece: a filter like "amp" never splits an entity
+    s = String(s ?? ''); if (!f) return esc(s);
+    const re = new RegExp(f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'); let out = '', i = 0, m;
+    while ((m = re.exec(s))){ out += esc(s.slice(i, m.index)) + '<mark>' + esc(m[0]) + '</mark>'; i = m.index + m[0].length; }
+    return out + esc(s.slice(i));
+  };
   const items = v.items.filter(it => !f || (it.title + ' ' + it.body).toLowerCase().includes(f));
   $('#list').innerHTML = items.map(it => `<article class="item" id="${esc(it.path)}"><h3><a href="#${esc(it.path)}">${hit(it.title)}</a></h3><p>${hit(it.body)}</p></article>`).join('') || '<p>No matches.</p>';
   $('#status').textContent = f ? `${items.length} match${items.length===1?'':'es'}` : '';
