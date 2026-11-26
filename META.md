@@ -22,6 +22,7 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/tools/hooks/pre-push`](META/tools/hooks/pre-push) | Refuse to push local/* branches: private or unverified material that only |  |
 | [`META/tools/labels.sh`](META/tools/labels.sh) | Apply .github/labels.tsv to the repo (CONVENTIONS/GITHUB/REPO/LABELS.md). |  |
 | [`META/tools/lane-check.sh`](META/tools/lane-check.sh) | Enforce branch-prefix scope (CONVENTIONS/WORKFLOW/BRANCHES.md). |  |
+| [`META/tools/prose-lint.sh`](META/tools/prose-lint.sh) | prose-lint.sh [--strict] [--summary] [file...]: STE100++ checks on Markdown prose. |  |
 | [`META/tools/release.sh`](META/tools/release.sh) | Publish the GitHub release for a tag with the bundle assets + SHA256SUMS. |  |
 | [`META/tools/review-gate.sh`](META/tools/review-gate.sh) | Set the `review-gate` commit status on open PRs, required on main by META/tools/github-setup.sh. |  |
 | [`META/tools/screenshots.sh`](META/tools/screenshots.sh) | Rebuild the README screenshots of the site into META/assets/screenshots/. |  |
