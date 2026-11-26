@@ -4,6 +4,9 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+### Added
+- Conventions Format 1.0 schemas, conformance fixtures, validator, migration guide, and native rule compiler.
+
 ### Changed
 
 - `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md` (31 lines) split: it keeps look, themes, type and icons. `CONVENTIONS/INTERFACES/WEBUI/COMPONENTS.md` takes header, navbar, carousel, popup, origin tabs, menu, filter and install. `CONVENTIONS/INTERFACES/WEBUI/ACCESSIBILITY.md` takes contrast, focus, ARIA and the 360px layout. The privacy line moved to `ARCHITECTURE.md`. The stable id is unchanged.

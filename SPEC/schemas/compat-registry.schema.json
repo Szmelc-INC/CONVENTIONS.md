@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://szmelc-inc.github.io/CONVENTIONS.md/SPEC/schemas/compat-registry.schema.json",
+  "title": "Conventions compatibility registry interchange object",
+  "type": "object", "required": ["disclaimer", "compatible"], "additionalProperties": false,
+  "properties": {
+    "disclaimer": {"type": "string"}, "compatible": {"type": "array", "items": {"$ref": "#/$defs/record"}}
+  },
+  "$defs": {
+    "record": {
+      "type": "object", "required": ["id", "name", "kind", "description", "version", "added", "updated", "spec", "links"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"}, "name": {"type": "string"},
+        "kind": {"enum": ["format", "spec", "platform", "tool", "language", "stack"]}, "description": {"type": "string"},
+        "version": {"type": "string"}, "added": {"type": "string", "format": "date"}, "updated": {"type": "string", "format": "date"},
+        "icon": {"type": "string"}, "spec": {"type": "array", "items": {"type": "string"}},
+        "links": {"type": "object", "properties": {"homepage": {"type": "string", "format": "uri"}, "repo": {"type": "string", "format": "uri"}, "docs": {"type": "string", "format": "uri"}, "community": {"type": "string", "format": "uri"}}, "additionalProperties": false}
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -337,6 +337,7 @@ cp "$PROFILE_BUILD/llms.txt" "$PROFILE_BUILD/index.json" "$PROFILE_BUILD/INDEX.m
 # Registry icons at their repo paths, so `icon` in the data is also the site URL.
 mkdir -p "$OUT/META/compat/icons"
 cp META/compat/icons/*.svg "$OUT/META/compat/icons/"
+cp -R SPEC "$OUT/SPEC"
 
 
 

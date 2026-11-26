@@ -1,0 +1,11 @@
+{
+  "$schema": "https://szmelc-inc.github.io/CONVENTIONS.md/SPEC/schemas/index-v2.schema.json",
+  "format_version": "1.0",
+  "name": "minimal-example",
+  "repo": "https://example.invalid/minimal-example",
+  "entries": [
+    {"path": "rules/REVIEW.md", "title": "Review source changes", "load_when": "reviewing changes under src/", "status": "stable", "kind": "rule", "id": "example.review"}
+  ],
+  "compatible_disclaimer": "Example only.",
+  "compatible": []
+}

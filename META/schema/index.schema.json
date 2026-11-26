@@ -1,12 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/META/schema/index.schema.json",
+  "$id": "https://szmelc-inc.github.io/CONVENTIONS.md/SPEC/schemas/index-v2.schema.json",
   "title": "Conventions index",
   "type": "object",
-  "required": ["name", "repo", "entries", "compatible_disclaimer", "compatible"],
+  "required": ["format_version", "name", "repo", "entries", "compatible_disclaimer", "compatible"],
   "additionalProperties": false,
   "properties": {
     "$schema": {"type": "string"},
+    "format_version": {"const": "1.0"},
     "name": {"type": "string", "pattern": "^[a-z0-9-]{1,64}$"},
     "repo": {"type": "string", "format": "uri"},
     "entries": {

@@ -1,0 +1,1 @@
+{"schema":"index-v2","value":{"format_version":"1.0","name":"minimal-example","repo":"https://example.invalid/","entries":[{"path":"rules/REVIEW.md","title":"Review","load_when":"reviewing source","status":"stable","kind":"rule","id":"example.review"}],"compatible_disclaimer":"Example.","compatible":[]}}
