@@ -12,3 +12,4 @@ id: conventions.repo.writing
 - Humor (™, memes, lore) lives in profiles, banners and lore docs; never in specs, error messages or identifiers.
 - `™` and other marks never appear in identifiers, package names or config.
 - Dense: cut every word that does not change the meaning. Rules are imperative one-liners.
+- Prose structure (sentences, procedures, errors, hedges): `CONVENTIONS/REPO/STE100PP.md`.

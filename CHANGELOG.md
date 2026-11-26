@@ -35,6 +35,10 @@ The neutral core and profile-aware installation contract are now stable.
 - `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`: full section order, no star calls or `(NEW)` markers. `CONVENTIONS/REPO/WRITING.md`: no claim words, no bold lead-ins.
 - `AGENTS/RULES/MEMORY.md`: agent memory rules derived from the public #memory developer docs: one fact per memory, cue keywords, stable refs, stale-write skip, least-privilege grants, confirmed deletes, cited recall.
 
+### Added
+
+- STE100++ controlled writing (inspired by ASD-STE100, not certified): rule `CONVENTIONS/REPO/STE100PP.md`, skill `AGENTS/skills/ste100pp/` with procedures, error messages, help text, numbers and hedges, and a natively written `pl` companion. Scope: prose; rule one-liners are exempt.
+
 ## [2.0.2] - 2026-11-26
 
 Governance and roadmap; no rule path, schema or install change.
