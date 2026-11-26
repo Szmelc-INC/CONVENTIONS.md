@@ -4,7 +4,7 @@
 The human side: how to get the conventions into your tools and read them.
 
 ## Browse
-- Site: <https://szmelc-inc.github.io/CONVENTIONS.md/>. One tab per core with its guide and nested category groups; every rule readable inline, copyable as Markdown or raw URL; copyable prompts; the Szmelc projects index; themes dark, light, mono, terminal. Keys: `/` filter (searches rule text, flags tabs with hits), `1`-`9` tabs (arrows inside the tab bar), `e` expand all, `t` theme, `esc` clear; filter hits are highlighted. Deep-links: `#<core>`, `#<core>/<category>/` or `#<path>` (e.g. `#CONVENTIONS/GITHUB/RELEASES/`, `#CONVENTIONS/DESIGN/COLORS.md`).
+- Site: <https://szmelc-inc.github.io/CONVENTIONS.md/>. One tab per core with its guide and nested category groups; every rule readable inline, copyable as Markdown or raw URL; copyable prompts; the Szmelc projects index; themes dark, light, mono, terminal. A "Compatible with" carousel under the title lists the third-party formats and tools (`COMPATIBILITY.md`); hover or focus stops it, click opens details. On the CONVENTIONS tab, `All · Third-party · Szmelc original` filters rules by origin. Keys: `/` filter (searches rule text, flags tabs with hits), `1`-`9` and `0` tabs (arrows inside the tab bar), `e` expand all, `t` theme, `esc` clear; filter hits are highlighted. Deep-links: `#<core>`, `#<core>/<category>/`, `#<path>`, `#compat/<id>` or `#install` (e.g. `#CONVENTIONS/GITHUB/RELEASES/`, `#CONVENTIONS/DESIGN/COLORS.md`).
 - Repo root: one map per core (`CONVENTIONS.md`, `AGENTS.md`, `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`, `TEMPLATES.md`), each pointing at `X/README.md`. Compatible third-party formats and tools: `COMPATIBILITY.md`.
 
 ## Install

@@ -28,7 +28,8 @@ How the conventions repo works: sources in, every format out.
 
 ## Compatibility registry
 - Source: `META/compat/registry.toml`, one `[[compat]]` record per third-party format, spec, platform, language or tool; fields and the TOML subset in its header. Parsed by `META/tools/compat.awk` (POSIX awk, no new deps).
-- Outputs: `COMPATIBILITY.md` (table + disclaimer), `index.json` `compatible` and `compatible_disclaimer`, site data `compatible`, `compatible_disclaimer`.
+- Outputs: `COMPATIBILITY.md` (table + disclaimer), `index.json` `compatible` and `compatible_disclaimer`, site data `compatible`, `compatible_disclaimer`, `icons` (path data inlined by `META/tools/site.sh`).
+- Site: every entry is an item of the "Compatible with" carousel and a popup (`#compat/<id>`); third-party rules show their entries as chips (`CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md`).
 - Disclaimer: `disclaimer` key in the registry, the one source for every output.
 - `spec` links an entry to its rule files; build derives the reverse as `compat` ids on those `index.json` entries and site rules.
 - `version`: exact upstream version targeted, or `unversioned`. `added`/`updated` are stored, never derived from git; bump `updated` on every edit.

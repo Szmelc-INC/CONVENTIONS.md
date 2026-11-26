@@ -167,6 +167,16 @@ if command -v gh >/dev/null && rel=$(gh release view -R "${REPO#https://github.c
   release=$(jq -c '{tag:.tagName, url:.url}' <<<"$rel")
 fi
 
+# --- compatibility icons: path data inlined, so the page draws them with currentColor --
+# Each registry icon is a single 24x24 <path>; only its `d` reaches the page, escaped like all data.
+: >"$tmp/icons.ndjson"
+while IFS= read -r ip; do
+  [[ -f $ip ]] || { echo "site.sh: missing icon $ip" >&2; exit 1; }
+  d=$(tr '\n' ' ' <"$ip" | grep -o ' d="[^"]*"' | head -1 | sed 's/^ d="//; s/"$//')
+  [[ -n $d ]] || { echo "site.sh: no path data in $ip" >&2; exit 1; }
+  jq -nc --arg k "$ip" --arg d "$d" '{key:$k, value:$d}' >>"$tmp/icons.ndjson"
+done < <(jq -r '.compatible[].icon // empty' index.json | sort -u)
+
 # --- assemble one data object ------------------------------------------------
 mkdir -p "$OUT"
 jq -n \
@@ -179,6 +189,7 @@ jq -n \
   --slurpfile legacy "$tmp/legacy.ndjson" \
   --slurpfile projects "$tmp/projects.ndjson" \
   --slurpfile paths "$tmp/paths.json" \
+  --slurpfile icons "$tmp/icons.ndjson" \
   --slurpfile idx index.json '
   # origin and compat ids per rule path, and the compatible list, come from index.json (META/tools/build.sh).
   ($idx[0]) as $ix
@@ -188,7 +199,7 @@ jq -n \
     cores:$cores,
     rules:($rules | map(. + ($by[.path] // {origin:null, compat:[]}))),
     skills:$skills, experimental:$experimental, legacy:$legacy,
-    compatible:$ix.compatible, compatible_disclaimer:$ix.compatible_disclaimer,
+    compatible:$ix.compatible, compatible_disclaimer:$ix.compatible_disclaimer, icons:($icons | from_entries),
     projects:($projects | sort_by(.updated) | reverse),
     projects_note:$note, paths:$paths[0]
   }' >"$OUT/conventions.json"
@@ -306,8 +317,46 @@ h1 .cur{display:inline-block;width:.55em;height:1.05em;margin-left:.12em;vertica
   color:var(--sec);font-size:12.5px;white-space:nowrap;transition:border-color .15s,color .15s,background .15s}
 .btn:hover{background:var(--s3);border-color:var(--line-3);color:var(--head)}
 .btn:active{background:var(--raise)}
-/* placeholder under the h1 for the "Compatible with" carousel; invisible while empty */
+/* "Compatible with" carousel under the h1: registry entries only; JS glides scrollLeft (rAF), clones loop it */
 .compat:empty{display:none}
+.compat{max-width:920px;margin:-6px auto 20px;text-align:center}
+.cw-l{display:block;margin:0 0 6px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.cw{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:3px 0;cursor:grab;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent)}
+.cw::-webkit-scrollbar{display:none}
+.cw.drag{cursor:grabbing;user-select:none}
+.cw.static{scrollbar-width:thin;cursor:auto;padding-bottom:6px;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent)}
+.cw.static::-webkit-scrollbar{display:block;height:6px}
+.cw.static .cw-t{margin:0 auto}
+.cw-t{display:flex;gap:8px;margin:0;padding:0;list-style:none;flex:none}
+.cw-i{display:inline-flex;align-items:center;gap:7px;min-height:30px;padding:3px 11px 3px 8px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);
+  color:var(--sec);font-size:12.5px;white-space:nowrap;text-decoration:none;transition:color .15s,border-color .15s,background .15s}
+.cw-i:hover,.cw-i:focus-visible{color:var(--head);border-color:var(--line-3);background:var(--s3);text-decoration:none;text-shadow:none}
+.cw-i:focus-visible{outline-offset:-2px}
+.cw-i:hover .bi{color:var(--link)}
+/* registry icon (filled path) or monogram badge; both follow currentColor */
+.bi{width:16px;height:16px;flex:none;fill:currentColor;stroke:none;color:var(--fg)}
+.mono{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:20px;padding:0 3px;flex:none;border:1px solid var(--line-3);border-radius:2px;
+  font-size:11.5px;font-weight:700;letter-spacing:0;line-height:1;color:var(--fg)}
+/* compat popup */
+.cx-hd{display:flex;align-items:center;gap:12px}
+.cx-hd .bi{width:28px;height:28px}
+.cx-hd .mono{min-width:32px;height:30px;font-size:13px}
+.cx-hd b{display:block;font-size:15px;color:var(--head)}
+.cx-k{font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--mute)}
+.cx-d{margin:12px 0 0;color:var(--sec);font-size:13.5px;line-height:1.65}
+.cx-m{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px 16px;margin:12px 0 0;padding:10px 12px;background:var(--s1);border:1px solid var(--line);border-radius:var(--r);font-size:12.5px}
+.cx-m dt{color:var(--mute)}
+.cx-m dd{margin:0;color:var(--fg);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.cx h3{margin:16px 0 6px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--head)}
+.cx ul{margin:0;padding:0;list-style:none}
+.cx li{padding:4px 0;border-bottom:1px solid var(--line-soft);font-size:13px}
+.cx li:last-child{border-bottom:0}
+.cx li small{display:block;color:var(--mute);font-size:11.5px;overflow-wrap:anywhere}
+.cx-l{display:flex;flex-wrap:wrap;gap:6px}
+.cx-disc{margin:16px 0 0;padding-top:10px;border-top:1px solid var(--line-soft);color:var(--mute);font-size:11.5px;line-height:1.6}
 .links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;font-size:inherit}
 .tbtn{display:inline-flex;align-items:center;gap:6px;min-height:26px;padding:2px 8px;margin:0;border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);color:var(--sec);
   font-size:12.5px;transition:color .15s,border-color .15s,background .15s}
@@ -350,7 +399,7 @@ body:has(.modal[open]){overflow:hidden}
 .stats b{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
 .cmd{position:relative;margin:14px 0 0}
 .cmd pre{margin:0;background:var(--s1);color:var(--fg);border:1px solid var(--line-2);border-left:2px solid var(--acc);border-radius:var(--r);
-  padding:11px 116px 11px 14px;overflow-x:auto;font-size:13px;line-height:1.65}
+  padding:11px 116px 11px 14px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.65}
 .cmd pre .c,.cmd pre .p{color:var(--mute)}
 .cmd .cp{position:absolute;top:8px;right:8px}
 
@@ -443,6 +492,23 @@ details.item[open]>summary .it-name{color:var(--head)}
 .it-path{display:block;font-size:12px;color:var(--mute);font-weight:400;overflow-wrap:anywhere}
 .it-load{color:var(--mute);font-size:13px;min-width:0}
 details.item>summary:hover .it-load,details.item[open]>summary .it-load{color:var(--sec)}
+/* origin: badge per rule row, registry chips under third-party rows */
+.it-meta{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.org{display:inline-flex;align-items:center;font-size:11.5px;line-height:1.5;padding:0 6px;border:1px solid var(--line-3);border-radius:2px;color:var(--sec);background:var(--bg);font-weight:400;white-space:nowrap}
+.org.o3{border-color:var(--edge);color:var(--link)}
+.chip{display:inline-flex;align-items:center;gap:5px;min-height:20px;font-size:11.5px;line-height:1.5;padding:0 6px;border:1px solid var(--line-2);border-radius:2px;
+  background:var(--s1);color:var(--sec);font-weight:400;white-space:nowrap;cursor:pointer}
+.chip:hover{color:var(--head);border-color:var(--line-3);background:var(--s3)}
+.chip .bi{width:12px;height:12px;color:inherit}
+/* origin sub-tabs: segmented, same language as the folder tabs; outside #list so focus survives re-render */
+.otabs{display:flex;gap:3px;margin:12px 0 0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line-2)}
+.otabs[hidden]{display:none}
+.otab{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:3px 10px;border:1px solid var(--line-2);border-bottom:0;border-radius:var(--r) var(--r) 0 0;
+  background:var(--s1);color:var(--sec);font-size:12px;letter-spacing:.04em;transition:color .15s,border-color .15s,background .15s}
+.otab:hover{color:var(--head);background:var(--s3);border-color:var(--line-3)}
+.otab small{color:var(--mute);font-variant-numeric:tabular-nums}
+.otab[aria-pressed="true"]{background:var(--raise);border-color:var(--edge);color:var(--head);box-shadow:inset 0 2px 0 var(--edge)}
+.otab[aria-pressed="true"] small{color:var(--sec)}
 .it-tag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;background:var(--ex-tint);border:1px solid var(--danger-t);border-radius:2px;padding:0 7px;color:var(--ex-t);white-space:nowrap}
 .body{margin:0 12px 12px 34px;padding:4px 16px 12px;background:var(--bg);border:1px solid var(--line-2);border-left:2px solid var(--acc);border-radius:0 var(--r) var(--r) 0;animation:unfold .18s ease-out}
 .acts{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line-soft)}
@@ -513,6 +579,7 @@ footer .keys{margin-left:auto}
   .links{gap:4px 16px;font-size:12.5px}
   .menu{top:8px;right:8px}
   .m-bd{padding:12px}
+  .otab{padding:3px 7px;gap:4px}
   details.item>summary,.frow{grid-template-columns:minmax(0,1fr) auto;padding:9px 10px}
   details.item>summary .it-load{grid-column:1/-1;order:3}
   .frow span{grid-column:1/-1}
@@ -587,6 +654,8 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
   <symbol id="i-contributing" viewBox="0 0 16 16"><circle cx="4" cy="3.5" r="1.5"/><circle cx="4" cy="12.5" r="1.5"/><circle cx="12" cy="12.5" r="1.5"/><path d="M4 5v6M12 11V6.5a2 2 0 0 0-2-2H7.5M9 3 7.5 4.5 9 6"/></symbol>
   <symbol id="i-szmelc" viewBox="0 0 16 16"><path d="M8 1.5l5.5 3.25v6.5L8 14.5l-5.5-3.25v-6.5zM8 8v6.5M2.5 4.75 8 8l5.5-3.25"/></symbol>
   <symbol id="i-meta" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11"/><rect x="4.5" y="3.25" width="2.5" height="2.5" fill="currentColor"/><rect x="9.5" y="6.75" width="2.5" height="2.5" fill="currentColor"/><rect x="6" y="10.25" width="2.5" height="2.5" fill="currentColor"/></symbol>
+  <symbol id="i-templates" viewBox="0 0 16 16"><path d="M2.5 4.5v-2h2M6.5 2.5h3M11.5 2.5h2v2M13.5 6.5v3M13.5 11.5v2h-2M9.5 13.5h-3M4.5 13.5h-2v-2M2.5 9.5v-3"/><path d="M5.5 6h5M5.5 8h5M5.5 10h3"/></symbol>
+  <symbol id="i-compat" viewBox="0 0 16 16"><path d="M6 2.5h4v2.5a1.25 1.25 0 1 0 2.5 0V2.5h1v11h-11v-11h1V5A1.25 1.25 0 1 0 6 5z"/></symbol>
   <symbol id="i-projects" viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></symbol>
   <symbol id="i-rule" viewBox="0 0 16 16"><path d="M3.5 1.5h6l3 3v10h-9zM9.5 1.5v3h3M6 8h4.5M6 10.5h4.5"/></symbol>
   <symbol id="i-file" viewBox="0 0 16 16"><path d="M3.5 1.5h6l3 3v10h-9zM9.5 1.5v3h3"/></symbol>
@@ -635,6 +704,7 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
 </div>
 <noscript><p class="lead">The index renders with JavaScript. Without it read <a href="INDEX.md">INDEX.md</a>, <a href="llms.txt">llms.txt</a> or <a href="CONVENTIONS.md">CONVENTIONS.md</a>.</p></noscript>
 <p class="lead" id="lead"></p>
+<div class="otabs" id="otabs" role="group" aria-label="Filter rules by origin" hidden></div>
 <div id="list" role="tabpanel" tabindex="-1" aria-labelledby="tabs"></div>
 
 <dialog class="modal" id="modal" aria-labelledby="modal-t">
@@ -647,7 +717,7 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
   <div class="meta">
     <span class="by">By Szmelc™</span>
     <span>Generated by <code>META/tools/site.sh</code> from source files and the GitHub API · <span id="built"></span></span>
-    <span class="keys"><kbd>/</kbd> filter · <kbd>1</kbd>–<kbd>9</kbd> tabs · <kbd>e</kbd> expand · <kbd>t</kbd> theme · <kbd>esc</kbd> close / clear</span>
+    <span class="keys"><kbd>/</kbd> filter · <kbd>1</kbd>–<kbd>9</kbd> <kbd>0</kbd> tabs · <kbd>e</kbd> expand · <kbd>t</kbd> theme · <kbd>esc</kbd> close / clear</span>
   </div>
 </footer>
 </main>
@@ -676,7 +746,7 @@ const hl = (t,s) => { t = String(t??''); if (!s) return esc(t);
   return o + esc(t.slice(i)); };
 const copyBtn = (v,label,iconOnly) => `<button class="cp${iconOnly?' ico':''}" type="button" data-copy="${esc(v)}" title="${esc(label)}" aria-label="${esc(label)}">`
   + ic('copy') + (iconOnly ? '' : `<span class="lb">${esc(label)}</span>`) + '</button>';
-const CORE_IC = {CONVENTIONS:'conventions', AGENTS:'agents', HUMANS:'humans', CONTRIBUTING:'contributing', SZMELC:'szmelc', META:'meta'};
+const CORE_IC = {CONVENTIONS:'conventions', AGENTS:'agents', HUMANS:'humans', CONTRIBUTING:'contributing', SZMELC:'szmelc', META:'meta', TEMPLATES:'templates'};
 
 // == header: links, stats, install ==
 const REL = D.release && D.release.url ? D.release : {tag:'', url:D.repo+'/releases'};
@@ -688,6 +758,7 @@ const LINKS = [
   ['index', 'INDEX.md', 'INDEX.md'],
   ['bundle', 'CONVENTIONS.md', 'CONVENTIONS.md'],
   ['skill', 'SKILL.md', 'SKILL.md'],
+  ['compat', 'COMPATIBILITY.md', 'COMPATIBILITY.md'],
   ['chat', 'Discussions', D.repo+'/discussions'],
   ['map', 'Roadmap', D.roadmap],
 ].filter(l => l[2]);
@@ -749,6 +820,138 @@ function openInstall(opener){
   openModal({title:'Install / use', html:installHTML(), opener,
     onClose: ()=>{ if (location.hash === '#install') history.replaceState(null, '', location.pathname + location.search); }});
 }
+
+// == compatibility: registry entries (D.compatible) as a carousel under the h1, a popup per entry ==
+const COMPAT = new Map((D.compatible||[]).map(c=>[c.id, c]));
+const RULE_BY_PATH = new Map(D.rules.map(r=>[r.path, r]));
+// Registry icon as an inline filled path (currentColor), else a monogram from the name's first two words.
+const monogram = n => (String(n||'').match(/[A-Za-z0-9]+/g) || ['?']).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+const badge = c => c.icon && D.icons && D.icons[c.icon]
+  ? `<svg class="bi" viewBox="0 0 24 24" aria-hidden="true"><path d="${esc(D.icons[c.icon])}"/></svg>`
+  : `<span class="mono" aria-hidden="true">${esc(monogram(c.name))}</span>`;
+const LINK_LABEL = {homepage:['globe','homepage'], repo:['github','repository'], docs:['file','docs'], community:['chat','community']};
+function compatHTML(c){
+  const L = c.links || {};
+  const ver = c.version === 'unversioned'
+    ? 'unversioned upstream spec; tracks its current published behaviour'
+    : `pinned to ${c.version}; re-checked when upstream releases`;
+  const rules = (c.spec||[]).map(p=>{
+    const r = RULE_BY_PATH.get(p), t = r ? r.title : p;
+    return '<li>' + (tabOfPath.has(p) ? `<a href="#${esc(p)}">${ic('rule')} ${esc(t)}</a>` : esc(t)) + `<small>${esc(p)}</small></li>`;
+  }).join('');
+  const links = Object.keys(LINK_LABEL).filter(k=>L[k]).map(k=>
+    `<a class="cp" href="${esc(safeHref(L[k]))}" target="_blank" rel="noopener">${ic(LINK_LABEL[k][0])}${esc(LINK_LABEL[k][1])}${ic('ext')}</a>`).join('');
+  return '<section class="cx">'
+    + `<div class="cx-hd">${badge(c)}<div><b>${esc(c.name)}</b><span class="cx-k">${esc(c.kind)}</span></div></div>`
+    + `<p class="cx-d">${esc(c.description)}</p>`
+    + '<dl class="cx-m">'
+    + `<dt>compatible version</dt><dd>${esc(c.version)}</dd>`
+    + `<dt>versioning</dt><dd>${esc(ver)}</dd>`
+    + `<dt>added</dt><dd>${esc(c.added)}</dd>`
+    + `<dt>last updated</dt><dd>${esc(c.updated)}</dd></dl>`
+    + (rules ? `<h3>Szmelc rules</h3><ul>${rules}</ul>` : '')
+    + (links ? `<h3>Links</h3><div class="cx-l">${links}</div>` : '')
+    + (D.compatible_disclaimer ? `<p class="cx-disc">${esc(D.compatible_disclaimer)}</p>` : '')
+    + '</section>';
+}
+// Deep link #compat/<id>; the hash is cleared on close unless the user navigated elsewhere (a rule link).
+function openCompat(id, opener){
+  const c = COMPAT.get(id); if (!c) return false;
+  if (location.hash !== '#compat/' + id) history.replaceState(null, '', '#compat/' + id);
+  openModal({title:'Compatible with · ' + c.name, html:compatHTML(c),
+    opener: opener || document.querySelector(`#compat .cw-t:not([aria-hidden]) [data-compat="${CSS.escape(id)}"]`),
+    onClose: ()=>{ if (location.hash.startsWith('#compat/')) history.replaceState(null, '', location.pathname + location.search); }});
+  return true;
+}
+
+// Carousel: a scroll box whose scrollLeft glides (rAF, float accumulator) over the track plus aria-hidden clones,
+// wrapping by one track width. Hover, focus or touch eases it to a stop; then wheel, drag or swipe scroll it by hand.
+// Under prefers-reduced-motion it is a plain scrollable row with no clones.
+const compatBox = $('#compat'), RM = matchMedia('(prefers-reduced-motion: reduce)');
+const CW = {speed:0, pos:0, half:0, raf:0, last:0, dir: Math.random() < 0.01 ? -1 : 1, hover:false, touchUntil:0, drag:null, moved:false};
+const CRUISE = 28;   // px/s
+function buildCompat(){
+  if (!COMPAT.size){ compatBox.innerHTML = ''; return; }
+  const item = (c, clone) => `<li><a class="cw-i" href="#compat/${esc(c.id)}" data-compat="${esc(c.id)}"${clone ? ' tabindex="-1"' : ''}>${badge(c)}<span>${esc(c.name)}</span></a></li>`;
+  const track = clone => `<ul class="cw-t"${clone ? ' aria-hidden="true"' : ''}>` + [...COMPAT.values()].map(c=>item(c, clone)).join('') + '</ul>';
+  compatBox.innerHTML = '<span class="cw-l" id="cw-l">Compatible with</span>'
+    + `<div class="cw${RM.matches ? ' static' : ''}" id="cw" role="region" aria-labelledby="cw-l" tabindex="-1">${track(false)}</div>`;
+  const box = $('#cw');
+  if (RM.matches){ stopCompat(); CW.half = 0; return; }
+  // layout: [clone][real][clones…]; scrollLeft lives in [W, 2W) (W = one track + gap), so both directions wrap unseen
+  const w = box.firstElementChild.offsetWidth + 8;
+  const n = Math.max(1, Math.ceil(box.clientWidth / Math.max(w, 1)) + 1);
+  box.insertAdjacentHTML('afterbegin', track(true));
+  box.insertAdjacentHTML('beforeend', track(true).repeat(n));
+  CW.half = box.children[1].offsetLeft - box.children[0].offsetLeft;
+  CW.pos = CW.half; box.scrollLeft = CW.pos;
+  startCompat();
+}
+const cwBox = () => $('#cw');
+const kbFocus = () => { const a = document.activeElement; return !!(a && compatBox.contains(a) && a.matches(':focus-visible')); };
+function wrapPos(){ const W = CW.half; if (W > 0){ while (CW.pos >= 2*W) CW.pos -= W; while (CW.pos < W) CW.pos += W; } }
+const held = () => !!(CW.hover || CW.drag || performance.now() < CW.touchUntil || kbFocus());
+function tick(now){
+  const box = cwBox(); if (!box){ CW.raf = 0; return; }
+  const dt = Math.min(0.1, CW.last ? (now - CW.last) / 1000 : 0); CW.last = now;
+  const target = held() ? 0 : CRUISE;
+  CW.speed += (target - CW.speed) * (1 - Math.exp(-dt / 0.45));
+  if (Math.abs(CW.speed) < 0.05 && target === 0) CW.speed = 0;
+  if (CW.speed){ CW.pos += CW.dir * CW.speed * dt; wrapPos(); box.scrollLeft = CW.pos; }
+  CW.raf = requestAnimationFrame(tick);
+}
+function startCompat(){ if (!CW.raf && !RM.matches && !document.hidden && cwBox() && CW.half){ CW.last = 0; CW.raf = requestAnimationFrame(tick); } }
+function stopCompat(){ cancelAnimationFrame(CW.raf); CW.raf = 0; }
+document.addEventListener('visibilitychange', ()=>{ document.hidden ? stopCompat() : startCompat(); });
+// user scrolling (wheel, trackpad, swipe, keyboard focus): adopt its position, wrap seamlessly
+compatBox.addEventListener('scroll', e=>{
+  const box = cwBox(); if (e.target !== box || RM.matches || !CW.half) return;
+  if (Math.abs(box.scrollLeft - CW.pos) > 2){
+    CW.pos = box.scrollLeft;
+    if (kbFocus()) return;   // keyboard focus scrolled a real item into view: keep it there
+    const was = CW.pos; wrapPos();
+    if (CW.pos !== was){ box.scrollLeft = CW.pos; if (CW.drag) CW.drag.s += CW.pos - was; }
+  }
+}, true);
+compatBox.addEventListener('pointerenter', e=>{ if (e.pointerType === 'mouse') CW.hover = true; });
+compatBox.addEventListener('pointerleave', e=>{ if (e.pointerType === 'mouse') CW.hover = false; });
+compatBox.addEventListener('touchstart', ()=>{ CW.touchUntil = Infinity; }, {passive:true});
+compatBox.addEventListener('touchend', ()=>{ CW.touchUntil = performance.now() + 1800; }, {passive:true});
+compatBox.addEventListener('touchcancel', ()=>{ CW.touchUntil = performance.now() + 1800; }, {passive:true});
+// a vertical mouse wheel scrolls the row sideways once the glide has stopped under the pointer
+compatBox.addEventListener('wheel', e=>{
+  const box = cwBox(); if (!box || RM.matches || !CW.hover || CW.speed > 1) return;
+  if (Math.abs(e.deltaY) > Math.abs(e.deltaX)){ e.preventDefault(); box.scrollLeft += e.deltaY; }
+}, {passive:false});
+// mouse drag; a drag past 5px swallows the click that follows it
+compatBox.addEventListener('pointerdown', e=>{
+  const box = cwBox(); if (!box || e.pointerType !== 'mouse' || e.button !== 0) return;
+  CW.drag = {x:e.clientX, s:box.scrollLeft}; CW.moved = false;
+});
+addEventListener('pointermove', e=>{
+  const box = cwBox(); if (!CW.drag || !box) return;
+  const dx = e.clientX - CW.drag.x;
+  if (!CW.moved && Math.abs(dx) > 5){ CW.moved = true; box.classList.add('drag'); }
+  if (CW.moved) box.scrollLeft = CW.drag.s - dx;
+});
+addEventListener('pointerup', ()=>{ if (CW.drag){ CW.drag = null; const b = cwBox(); if (b) b.classList.remove('drag'); } });
+compatBox.addEventListener('dragstart', e=>e.preventDefault());
+compatBox.addEventListener('click', e=>{
+  const a = e.target.closest('[data-compat]'); if (!a) return;
+  e.preventDefault();
+  if (CW.moved){ CW.moved = false; return; }
+  const real = compatBox.querySelector(`.cw-t:not([aria-hidden]) [data-compat="${CSS.escape(a.dataset.compat)}"]`);
+  openCompat(a.dataset.compat, real || a);
+});
+// arrows / Home / End move focus between the real items
+compatBox.addEventListener('keydown', e=>{
+  const L = [...compatBox.querySelectorAll('.cw-t:not([aria-hidden]) .cw-i')], i = L.indexOf(document.activeElement); if (i < 0) return;
+  const k = {ArrowRight:i+1, ArrowLeft:i-1, Home:0, End:L.length-1}[e.key]; if (k === undefined) return;
+  e.preventDefault(); L[(k+L.length) % L.length].focus();
+});
+RM.addEventListener && RM.addEventListener('change', ()=>{ stopCompat(); CW.speed = 0; buildCompat(); });
+let cwW = innerWidth;
+addEventListener('resize', ()=>{ if (innerWidth !== cwW){ cwW = innerWidth; stopCompat(); buildCompat(); } });
 
 // == tiny Markdown renderer (headings, lists, tables, code, quotes, rules, links) ==
 function inline(s){
@@ -822,8 +1025,9 @@ function promptsOf(src){
 }
 
 // == model: tabs → groups (→ sub-groups) → items ==
-function ruleItem(r, tab, icon, ex){ return {kind:'rule', tab, icon, ex, path:r.path, title:r.title||r.name||r.path, load:r.load||r.desc||'', src:r.src||'',
-  text:[r.title,r.name,r.load,r.desc,r.path,r.src].join(' ').toLowerCase()}; }
+function ruleItem(r, tab, icon, ex){ const compat = (r.compat||[]).filter(id=>COMPAT.has(id));
+  return {kind:'rule', tab, icon, ex, path:r.path, title:r.title||r.name||r.path, load:r.load||r.desc||'', src:r.src||'', origin:r.origin||null, compat,
+  text:[r.title,r.name,r.load,r.desc,r.path,r.src,...compat.map(id=>COMPAT.get(id).name)].join(' ').toLowerCase()}; }
 const tabs = D.cores.map(c=>({id:c.id.toLowerCase(), label:c.id, icon:CORE_IC[c.id]||'file', core:c}));
 tabs.push({id:'projects', label:'Projects', icon:'projects', gap:true});
 if (D.experimental.length) tabs.push({id:'experimental', label:'Experimental', icon:'flask'});
@@ -876,7 +1080,8 @@ const SRC = new Map(); for (const t of tabs) for (const g of t.groups) for (cons
 const nav = $('#tabs');
 tabs.forEach((t,i)=>{
   const b = el('button',{className:'tab'+(t.gap?' gap':''), type:'button'});
-  b.setAttribute('role','tab'); b.setAttribute('aria-controls','list'); b.id = 'tab-'+t.id; b.dataset.id = t.id; b.title = `${t.label}  (key ${i+1})`;
+  b.setAttribute('role','tab'); b.setAttribute('aria-controls','list'); b.id = 'tab-'+t.id; b.dataset.id = t.id;
+  b.title = i < 10 ? `${t.label}  (key ${(i+1)%10})` : t.label;
   b.innerHTML = `${ic(t.icon)}<span>${esc(t.label)}</span><small></small>`;
   b.onclick = ()=>{ location.hash = t.id; };
   nav.appendChild(b); t.btn = b;
@@ -884,8 +1089,13 @@ tabs.forEach((t,i)=>{
 
 // == render ==
 const q = $('#q'), wide = matchMedia('(min-width: 960px)');
-let current = tabs[0].id, focusPath = null, activeGroup = null, allOpen = false;
+let current = tabs[0].id, focusPath = null, activeGroup = null, allOpen = false, origin = 'all', focusTarget = false;
 const match = (it,s)=>!s || it.text.includes(s);
+// Origin sub-tabs (All · Third-party · Szmelc original) filter only the current tab; other items hide unless All.
+const ORIGINS = [['all','All'], ['third-party','Third-party'], ['original','Szmelc original']];
+const ORG_LABEL = {'third-party':'3rd-party', original:'original'};
+const hasOrigin = t => t.groups.some(g=>[g,...g.subs].some(x=>x.items.some(it=>it.origin)));
+const inOrigin = (it, o) => o==='all' || it.origin===o;
 
 function itemRow(it, s){
   if (it.kind==='file'){
@@ -900,7 +1110,11 @@ function itemRow(it, s){
   }
   const d = el('details',{className:'item'}); d.id = it.path;
   const tag = it.ex ? `<span class="it-tag">${ic('flask')}experimental</span>` : '<span></span>';
-  d.innerHTML = `<summary><span class="it-name">${ic(it.icon)}<span>${hl(it.title,s)}<span class="it-path">${hl(it.path,s)}</span></span></span>`
+  const org = it.origin ? `<span class="org${it.origin==='third-party'?' o3':''}" title="${it.origin==='third-party'?'Third-party spec':'Szmelc original'}">${ORG_LABEL[it.origin]||esc(it.origin)}</span>` : '';
+  const chips = it.origin==='third-party' ? it.compat.map(id=>{ const c = COMPAT.get(id);
+    return `<a class="chip" href="#compat/${esc(id)}" data-compat="${esc(id)}" title="Compatible with ${esc(c.name)}">${c.icon && D.icons && D.icons[c.icon] ? badge(c) : ''}${hl(c.name,s)}</a>`; }).join('') : '';
+  const meta = org || chips ? `<span class="it-meta">${org}${chips}</span>` : '';
+  d.innerHTML = `<summary><span class="it-name">${ic(it.icon)}<span>${hl(it.title,s)}<span class="it-path">${hl(it.path,s)}</span>${meta}</span></span>`
     + `<span class="it-load">${hl(it.load,s)}</span>${tag}</summary>`;
   const fill = ()=>{
     if (d.dataset.filled) return; d.dataset.filled = 1;
@@ -934,9 +1148,9 @@ function projectTable(items, s){
   t.appendChild(tb); return t;
 }
 // One group (or sub-group) as a collapsible section; returns [element, visible count] or null.
-function groupEl(g, s, sub){
-  const items = g.items.filter(it=>match(it,s));
-  const subs = g.subs.map(x=>groupEl(x, s, true)).filter(Boolean);
+function groupEl(g, s, sub, o='all'){
+  const items = g.items.filter(it=>match(it,s) && inOrigin(it,o));
+  const subs = g.subs.map(x=>groupEl(x, s, true, o)).filter(Boolean);
   const n = items.length + subs.reduce((a,[,k])=>a+k,0);
   if (!n) return null;
   const d = el('details',{className:'grp'+(sub?' sub':''), open:true}); d.id = g.id;
@@ -962,8 +1176,11 @@ function render(){
   const tab = tabs.find(t=>t.id===current) || tabs[0];
   const s = q.value.trim().toLowerCase();
   document.body.dataset.tab = tab.id;
+  const orgOn = hasOrigin(tab), o = orgOn ? origin : 'all';
+  // visible items of a tab under the text filter (prompts excluded, as in t.count) and, for the current tab, the origin
+  const countOf = (t, oo) => t.groups.reduce((a,g)=>a+[g,...g.subs].reduce((b,x)=>b+x.items.filter(it=>it.kind!=='prompt' && match(it,s) && inOrigin(it,oo)).length,0),0);
   for (const t of tabs){
-    const n = s ? t.groups.reduce((a,g)=>a+[g,...g.subs].reduce((b,x)=>b+x.items.filter(it=>match(it,s)).length,0),0) : t.count;
+    const n = t===tab ? countOf(t, o) : (s ? countOf(t, 'all') : t.count);
     t.btn.setAttribute('aria-selected', t===tab); t.btn.tabIndex = t===tab ? 0 : -1;
     t.btn.classList.toggle('hit', !!s && n>0);
     t.btn.lastChild.textContent = n;
@@ -984,8 +1201,14 @@ function render(){
   } else {
     lead.textContent = 'Superseded material, archived and never deleted. Load only when asked about history.';
   }
+  const ot = $('#otabs'); ot.hidden = !orgOn;
+  if (orgOn){
+    const prev = document.activeElement && document.activeElement.closest && document.activeElement.closest('#otabs') ? document.activeElement.dataset.o : null;
+    ot.innerHTML = ORIGINS.map(([k,l])=>`<button class="otab" type="button" data-o="${k}" aria-pressed="${k===o}">${esc(l)} <small>${countOf(tab, k)}</small></button>`).join('');
+    if (prev) ot.querySelector(`[data-o="${prev}"]`).focus();
+  } else ot.innerHTML = '';
   const list = $('#list'); list.innerHTML = ''; list.setAttribute('aria-labelledby', tab.btn.id);
-  if (tab.core && !s){
+  if (tab.core && !s && o==='all'){
     const g = el('details',{className:'guide', open: !tab.count});
     g.innerHTML = `<summary>${ic('file')}guide · ${esc(tab.core.id)}/README.md</summary><div class="md">${md(tab.core.readme)}</div>`;
     list.appendChild(g);
@@ -993,17 +1216,19 @@ function render(){
   const groups = el('div'), shown = [];
   let total = 0;
   for (const g of tab.groups){
-    const r = groupEl(g, s, false); if (!r) continue;
+    const r = groupEl(g, s, false, o); if (!r) continue;
     groups.appendChild(r[0]); total += r[1];
-    shown.push([g, r[1], g.subs.map(x=>[x, x.items.filter(it=>match(it,s)).length]).filter(([,k])=>k)]);
+    shown.push([g, r[1], g.subs.map(x=>[x, x.items.filter(it=>match(it,s) && inOrigin(it,o)).length]).filter(([,k])=>k)]);
   }
   if (shown.length > 3){
     const cols = el('div',{className:'cols'});
     cols.append(indexEl(shown), groups); list.appendChild(cols);
   } else list.appendChild(groups);
+  const oname = o==='all' ? '' : ORIGINS.find(x=>x[0]===o)[1].toLowerCase();
   if (!total && (s || tab.count)) list.appendChild(el('div',{className:'empty',
-    textContent: s ? `No match in ${tab.label}.` + (tabs.some(t=>t.btn.classList.contains('hit')) ? ' Highlighted tabs have matches.' : '') : 'Nothing here.'}));
-  $('#qn').textContent = s ? `${total} match${total===1?'':'es'}` : '';
+    textContent: s ? `No match in ${tab.label}${oname ? ' ('+oname+')' : ''}.` + (tabs.some(t=>t.btn.classList.contains('hit')) ? ' Highlighted tabs have matches.' : '')
+      : (oname ? `No ${oname} rules in ${tab.label}.` : 'Nothing here.')}));
+  $('#qn').textContent = s ? `${total} match${total===1?'':'es'}${oname ? ' · '+oname : ''}` : (oname ? `${total} ${oname}` : '');
   $('#expand').innerHTML = ic('expand') + (allOpen ? 'collapse all' : 'expand all');
   $('#expand').setAttribute('aria-pressed', allOpen);
   if (focusPath){
@@ -1012,8 +1237,11 @@ function render(){
       for (let p = t; p; p = p.parentElement && p.parentElement.closest('details')) p.open = true;
       if (t.classList.contains('grp')) t.classList.add('flash');
       t.scrollIntoView({block:'start'});
+      // arrived from a popup link: put focus on the target once the dialog has finished closing
+      if (focusTarget){ const f = t.querySelector('summary') || t; setTimeout(()=>f.focus({preventScroll:true}), 0); }
     }
   }
+  focusTarget = false;
 }
 
 // == routing: #<tab>, #<rule path>, #<CORE/CAT/…/>, #<cat> (old #design, #github/releases), #skills ==
@@ -1021,6 +1249,10 @@ function route(){
   let id = ''; try { id = decodeURIComponent(location.hash.slice(1)); } catch(e){}
   const low = id.toLowerCase(), key = low.replace(/\/$/,'');
   if (low === 'install'){ openInstall(); if (!$('#list').hasChildNodes()) render(); return; }   // deep link: modal over the current view
+  if (low.startsWith('compat/') && COMPAT.has(low.slice(7))){ if (!$('#list').hasChildNodes()) render(); openCompat(low.slice(7)); return; }
+  // any other target (e.g. a rule link inside a popup) closes the modal; focus goes to the target, not the opener
+  if (modal.open){ modalOpener = null; focusTarget = true; closeModal(); }
+  const prev = current;
   activeGroup = null;
   if (!id) current = tabs[0].id;
   else if (tabs.some(t=>t.id===low)) current = low;
@@ -1032,9 +1264,16 @@ function route(){
     if (g){ current = g.tab; focusPath = activeGroup = g.id; }
     else current = tabs[0].id;
   }
+  if (current !== prev) origin = 'all';
   render();
 }
 addEventListener('hashchange', route);
+$('#otabs').addEventListener('click', e=>{ const b = e.target.closest('[data-o]'); if (!b) return; origin = b.dataset.o; render(); });
+// registry chips on rule rows (inside <summary>): open the popup without toggling the row
+document.addEventListener('click', e=>{
+  const a = e.target.closest('.chip[data-compat]'); if (!a) return;
+  e.preventDefault(); e.stopPropagation(); openCompat(a.dataset.compat, a);
+}, true);
 q.addEventListener('input', render);
 $('#expand').onclick = ()=>{ allOpen = !allOpen; render(); };
 wide.addEventListener && wide.addEventListener('change', ()=>{ const c = $('.cidx'); if (c) c.open = wide.matches; });
@@ -1107,16 +1346,17 @@ if (!THEMES.includes(root.dataset.theme)) root.dataset.theme = 'dark';
 syncTheme();
 themeBtn.onclick = cycleTheme;
 
-// == keys: / filter, 1-9 tabs, e expand, t theme, esc closes menu or modal first, then clears ==
+// == keys: / filter, 1-9 and 0 tabs, e expand, t theme, esc closes menu or modal first, then clears ==
 addEventListener('keydown', e=>{
   if (e.ctrlKey || e.metaKey || e.altKey) return;
   if (menuOpen()){ if (e.key==='Escape'){ e.preventDefault(); setMenu(false, true); } return; }
   if (modal.open) return;   // the dialog handles its own Esc (cancel → close)
+  if (document.activeElement && document.activeElement.closest && document.activeElement.closest('#compat')) return;   // carousel keys are its own
   const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName);
   if (e.key==='Escape'){ if (q.value){ q.value=''; render(); } q.blur(); return; }
   if (typing) return;
   if (e.key==='/'){ e.preventDefault(); q.focus(); }
-  else if (/^[1-9]$/.test(e.key) && tabs[+e.key-1]){ location.hash = tabs[+e.key-1].id; }
+  else if (/^[0-9]$/.test(e.key) && tabs[(+e.key+9)%10]){ location.hash = tabs[(+e.key+9)%10].id; }
   else if (e.key==='e'){ allOpen = !allOpen; render(); }
   else if (e.key==='t'){ cycleTheme(); }
 });
@@ -1138,6 +1378,7 @@ const setTbh = ()=>document.documentElement.style.setProperty('--tbh', tbar.offs
 setTbh(); if (window.ResizeObserver) new ResizeObserver(setTbh).observe(tbar);
 addEventListener('scroll', ()=>tbar.classList.toggle('stuck', tbar.getBoundingClientRect().top <= 0 && scrollY > 0), {passive:true});
 
+buildCompat();
 route();
 </script>
 </body>

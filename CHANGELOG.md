@@ -15,6 +15,7 @@ Planned as 2.0.0: rule paths were renamed (major).
 
 ### Added
 
+- Site: "Compatible with" carousel under the title (registry icons inlined as `currentColor` paths, monograms otherwise; rAF glide that eases to a stop on hover, focus or touch, manual scroll with seamless wrap, static under reduced motion) and a popup per entry (version, versioning note, dates, covering rules, official links, disclaimer; deep link `#compat/<id>`); origin sub-tabs `All · Third-party · Szmelc original` with row badges and registry chips; TEMPLATES tab icon; key `0` for the 10th tab; `COMPATIBILITY.md` in `[MENU]`; the install command wraps instead of clipping.
 - Compatibility registry: `META/compat/registry.toml` (TOML, one record per third-party format, spec, platform, language or tool: version, dates, official links, icon, covering rules) generates `COMPATIBILITY.md` and `index.json` `compatible` with a trademark disclaimer; monochrome CC0 Simple Icons in `META/compat/icons/`; `META/tools/check.sh` validates it.
 - `origin` (`third-party` / `original`) on `index.json` entries and site rules, derived from the path; third-party specs carry the `compat` ids of the registry entries that cite them.
 - `TEMPLATES/` core with root map `TEMPLATES.md`; the site gains a TEMPLATES tab.
