@@ -210,6 +210,7 @@ while IFS= read -r p; do
 done < <(find CONVENTIONS AGENTS/RULES AGENTS/PROMPT -mindepth 1 | sort)
 
 # 12. Compatibility registry (META/compat/registry.toml): grammar, required fields, ids, dates, icons, specs, links.
+if ! META/tools/check-actions-pinned.sh; then err "workflow actions must be pinned to full commit SHAs"; fi
 REGISTRY=META/compat/registry.toml
 ICONS=META/compat/icons
 US=$'\037'

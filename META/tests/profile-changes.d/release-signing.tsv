@@ -1,0 +1,2 @@
+# Stage 4 quality gates: require cryptographically signed annotated release tags.
+CONVENTIONS/GITHUB/RELEASES/TAGS.md	Require signed release tags and enforce them with the release-tags ruleset.

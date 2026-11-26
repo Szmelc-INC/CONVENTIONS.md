@@ -17,10 +17,12 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/tests/added-rules.d/webui-blueprint.txt`](META/tests/added-rules.d/webui-blueprint.txt) | Web UI blueprint (#69). |  |
 | [`META/tests/added-rules.d/webui-style-split.txt`](META/tests/added-rules.d/webui-style-split.txt) | Web UI style split (#71). |  |
 | [`META/tests/profile-changes.d/00-README.tsv`](META/tests/profile-changes.d/00-README.tsv) | One <topic>.tsv per change that edits a v2.0.2 stable rule: path<TAB>reason. |  |
+| [`META/tests/profile-changes.d/release-signing.tsv`](META/tests/profile-changes.d/release-signing.tsv) | Stage 4 quality gates: require cryptographically signed annotated release tags. |  |
 | [`META/tests/profile-changes.d/ste-prose-migration.tsv`](META/tests/profile-changes.d/ste-prose-migration.tsv) | STE100++ prose migration (#70): semicolons split into sentences. |  |
 | [`META/tests/profile-changes.d/webui-style-split.tsv`](META/tests/profile-changes.d/webui-style-split.tsv) | Web UI style split (#71): the retained stable ID now resolves through a compatibility stub. |  |
 | [`META/tests/v2.0.2-profile-changes.tsv`](META/tests/v2.0.2-profile-changes.tsv) | Stable rule files whose content intentionally changed during neutralization. |  |
 | [`META/tools/build.sh`](META/tools/build.sh) | Generate indexes, core maps, the all-in-one bundle and tool adapters from source files. |  |
+| [`META/tools/check-actions-pinned.sh`](META/tools/check-actions-pinned.sh) | Fail when a workflow action uses a mutable tag or branch instead of a full commit SHA. |  |
 | [`META/tools/check.sh`](META/tools/check.sh) | Validate the repo: generated files, core/rule headers, skills, index entries, path references, case collisions, links. |  |
 | [`META/tools/compat.awk`](META/tools/compat.awk) | Parse META/compat/registry.toml (the TOML subset documented in its header) into records |  |
 | [`META/tools/github-setup.sh`](META/tools/github-setup.sh) | Apply this repo's GitHub settings as code: merge options, features, security, rulesets, labels. |  |

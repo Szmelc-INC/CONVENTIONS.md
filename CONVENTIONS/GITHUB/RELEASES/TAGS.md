@@ -4,7 +4,7 @@ id: conventions.github.releases.tags
 # Tags
 > Load when: creating, pushing, protecting or fixing a release tag.
 
-- Annotated only: `git tag -a vX.Y.Z -F <notes-file>`; never lightweight.
+- Signed and annotated only: `git tag -s vX.Y.Z -F <notes-file>`; never lightweight. The `release-tags` ruleset must require signatures.
 - Format `vMAJOR.MINOR.PATCH` (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`); pre-releases `vX.Y.Z-rc.N`.
 - Tag `main` only, on a commit whose CI is green.
 - `-ex` builds are never tagged `v*` (`CONVENTIONS/GITHUB/RELEASES/CHANNELS.md`).

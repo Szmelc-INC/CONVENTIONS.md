@@ -15,8 +15,7 @@ on:
         type: boolean
         default: true
 
-permissions:
-  contents: read
+permissions: {}
 
 concurrency:
   group: release-${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
@@ -27,12 +26,14 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
     env:
       GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
       TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
       DRY_RUN: ${{ inputs.dry_run && '--dry-run' || '' }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag != '' && format('refs/tags/{0}', inputs.tag) || github.ref }}
           fetch-depth: 0
@@ -42,3 +43,8 @@ jobs:
           [[ -n $DRY_RUN ]] && args+=(--dry-run)
           [[ -n $TAG ]] && args+=("$TAG")
           bash META/tools/release.sh "${args[@]}"
+      - name: attest release assets
+        if: github.event_name == 'push' || inputs.dry_run == false
+        uses: actions/attest-build-provenance@43d14bc2b83dec42d39ecae14e916627a18bb661 # v3
+        with:
+          subject-path: dist/${{ env.TAG }}/*

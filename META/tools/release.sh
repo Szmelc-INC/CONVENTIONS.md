@@ -41,6 +41,11 @@ fi
 if [[ -n $tag ]] && git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
   [[ $(git cat-file -t "refs/tags/$tag") == tag ]] || die "$tag is lightweight; tags must be annotated"
   annotated=1
+  repo=${GH_REPO:-$(gh repo view --json nameWithOwner -q .nameWithOwner)}
+  tag_object=$(gh api "repos/$repo/git/ref/tags/$tag" --jq '.object | select(.type == "tag") | .sha') || die "$tag: cannot read the remote tag signature"
+  [[ -n $tag_object ]] || die "$tag is not an annotated tag on GitHub"
+  verified=$(gh api "repos/$repo/git/tags/$tag_object" --jq '.verification.verified') || die "$tag: cannot verify the remote signature"
+  [[ $verified == true ]] || die "$tag is not signed with a GitHub-verified key"
   commit=$(git rev-parse "refs/tags/$tag^{commit}")
   git merge-base --is-ancestor "$commit" origin/main || die "$tag ($commit) is not on main"
   if [[ $(git rev-parse HEAD) != "$commit" ]]; then

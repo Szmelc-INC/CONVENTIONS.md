@@ -104,7 +104,7 @@ upsert_ruleset release-tags "$(
   "target": "tag",
   "enforcement": "active",
   "conditions": {"ref_name": {"include": ["refs/tags/v*"], "exclude": []}},
-  "rules": [{"type": "update"}, {"type": "deletion"}]
+  "rules": [{"type": "update"}, {"type": "deletion"}, {"type": "required_signatures"}]
 }
 EOF
 )"
