@@ -8,6 +8,10 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 - STE100++ prose pass over hand-written docs (README-like files, prompts, governance, skill entry): semicolons split into sentences, actors named, the docs-voice before/after example quoted.
 
+### Added
+
+- `META/tools/prose-lint.sh`: STE100++ prose checks for hand-written Markdown (semicolons, claim words in EN and PL, sentences over 30 words). Skips code, tables, quotes and rule one-liners. Runs warn-only in CI (`--summary`), `--strict` gates.
+
 ## [3.0.0] - 2026-11-26
 
 The neutral core and profile-aware installation contract are now stable.

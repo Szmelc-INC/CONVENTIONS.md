@@ -9,6 +9,7 @@ How the conventions repo works: sources in, every format out.
 | `META/tools/build.sh` | Sources → `INDEX.md`, `index.json`, `llms.txt`, `CONVENTIONS.md`, configured core maps, `COMPATIBILITY.md`, `AGENTS/adapters/`. `--check` fails when stale |
 | `META/tools/check.sh` | Generated files fresh, rule/core headers, skills frontmatter, index entries, path references, case collisions, dangling links, compatibility registry |
 | `META/tools/lane-check.sh` | Branch-prefix scope for PRs; rejects `local/*` (`CONVENTIONS/WORKFLOW/BRANCHES.md`) |
+| `META/tools/prose-lint.sh` | STE100++ prose checks (semicolons, claim words, sentences over 30 words); warn-only in CI, `--strict` to gate, `--summary` for counts |
 | `META/tools/hooks/pre-push` | Refuses to push `local/*`; enable with `git config core.hooksPath META/tools/hooks` |
 | `META/tools/test-install.sh` | `install.sh` smoke test in a throwaway `$HOME` |
 | `META/tools/site.sh` | GitHub Pages site into gitignored `public/`: `index.html`, JSON, `llms.txt`, `index.json`, `INDEX.md`, `CONVENTIONS.md`, `COMPATIBILITY.md`, `SKILL.md` at the site root, registry icons at their repo paths; projects from the GitHub API using the selected profile's source list |
