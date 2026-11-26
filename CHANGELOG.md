@@ -4,6 +4,16 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+### Added
+
+- Maintainer review gate for outside PRs: required status `review-gate` (`.github/workflows/review-gate.yml`, `META/tools/review-gate.sh` with `--self-test` in CI) passes maintainer PRs, and other PRs only after a maintainer approves the head commit; `review-signal.yml` wakes it on review changes; `.github/CODEOWNERS` requests the review.
+- `META/tools/github-setup.sh`: `review-gate` required on `main`, fork PR workflows need approval for all outside contributors, ruleset keeps `require_extra_approval_for_unattributed_changes`.
+- Rules: `CONVENTIONS/GITHUB/REPO/SETTINGS.md` (review gate, fork approval), `CONVENTIONS/GITHUB/PULL-REQUESTS.md` (agents never approve or merge non-maintainer PRs).
+
+### Changed
+
+- README and `CONTRIBUTING/README.md`: contributors fork; the maintainer reviews and merges.
+
 ## [2.0.1] - 2026-11-26
 
 README rewrite and roadmap setup; no rule path, schema or install change.

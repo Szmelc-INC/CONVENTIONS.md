@@ -1,0 +1,15 @@
+name: review-signal
+
+# Wakes review-gate.yml (workflow_run, trusted) when a PR review changes.
+# On fork PRs this file comes from the PR itself, so it gets no permissions and does nothing.
+on:
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+
+permissions: {}
+
+jobs:
+  signal:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "review changed; review-gate re-evaluates open PRs"

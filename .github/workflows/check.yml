@@ -16,6 +16,8 @@ jobs:
         run: bash META/tools/check.sh
       - name: shellcheck
         run: shellcheck install.sh META/tools/*.sh META/tools/hooks/*
+      - name: review-gate decision tests
+        run: bash META/tools/review-gate.sh --self-test
       - name: installer smoke test (throwaway HOME)
         run: bash META/tools/test-install.sh
       - name: branch scope
