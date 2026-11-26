@@ -12,6 +12,7 @@ Format 1.0 defines portable Markdown rules, a machine-readable index, profile in
 - [Migration from index v1](MIGRATION-1-TO-2.md)
 - [Format changelog](CHANGELOG.md)
 - [Change decisions](decisions/)
+- [Proposals](proposals/): target designs under review. A proposal is not normative until a decision accepts it.
 
 ![Conventions Format 1.0](https://img.shields.io/badge/Conventions%20Format-1.0-105c5c)
 
