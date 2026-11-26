@@ -170,8 +170,17 @@ for f in "${STABLE[@]}"; do
   cat=${rest%/*} # full category path below the core: WORKFLOW, GITHUB/RELEASES
   [[ $cat == "$rest" ]] && cat=general
   render_profile_file "$f" >"$tmp/rendered-rule.md"
+  # Locale companions: front matter `locales: pl=<path> [de=<path>]` (CONVENTIONS/FORMATS/MARKDOWN/FRONTMATTER.md).
+  loc='{}'
+  for pair in $(fm "$f" locales); do
+    lang=${pair%%=*} lpath=${pair#*=}
+    [[ $lang =~ ^[a-z]{2,3}(-[A-Z]{2})?$ && -f $lpath ]] || { echo "site.sh: $f: bad locale companion '$pair'" >&2; exit 2; }
+    render_profile_file "$lpath" >"$tmp/rendered-loc.md"
+    loc=$(jq -c --arg l "$lang" --rawfile s "$tmp/rendered-loc.md" '. + {($l): $s}' <<<"$loc")
+  done
   jq -nc --arg core "${f%%/*}" --arg cat "$cat" --arg path "$f" --arg title "$(title "$f")" --arg trigger "$(trigger "$f")" \
-    --rawfile src "$tmp/rendered-rule.md" '{core:$core,cat:$cat,path:$path,title:$title,load:$trigger,src:$src}' >>"$tmp/rules.ndjson"
+    --rawfile src "$tmp/rendered-rule.md" --argjson loc "$loc" \
+    '{core:$core,cat:$cat,path:$path,title:$title,load:$trigger,src:$src} + (if $loc == {} then {} else {loc:$loc} end)' >>"$tmp/rules.ndjson"
 done
 
 : >"$tmp/skills.ndjson"
@@ -342,7 +351,7 @@ cp -R SPEC "$OUT/SPEC"
 
 
 # --- index.html (data inlined, so it also works offline / over file://) ------
-# Flat mono, retro-minimal (CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md): accent top rule,
+# Flat mono, retro-minimal (CONVENTIONS/INTERFACES/WEBUI/THEME.md, CONVENTIONS/INTERFACES/WEBUI/LAYOUT.md): accent top rule,
 # large one-line h1, [MENU] top right, one reusable <dialog> modal (install), bracketed folder tabs,
 # nested category groups, themes dark/light/mono/terminal.
 # Colors: CONVENTIONS/DESIGN/COLORS.md only. The heredocs are quoted: build-time values
@@ -699,6 +708,8 @@ details.item>summary:hover .it-load,details.item[open]>summary .it-load{color:va
 details.grp.ex{border-color:var(--danger-t)} details.grp.ex>summary{color:var(--ex-t)} details.grp.ex>summary::before{color:var(--ex-t)}
 details.grp.lg{border-color:var(--lg)} details.grp.lg>summary{color:var(--lg-t)} details.grp.lg>summary::before{color:var(--lg-t)}
 .body{margin:0 12px 12px 34px;padding:4px 16px 12px;background:var(--bg);border:1px solid var(--line-2);border-left:2px solid var(--acc);border-radius:0 var(--r) var(--r) 0;animation:unfold .18s ease-out}
+.lang{display:flex;gap:6px;margin:0 0 10px}
+.lang .cp[aria-pressed="true"]{border-color:var(--accent-t);color:var(--accent-t)}
 .acts{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line-soft)}
 
 /* prompts, files, projects */
@@ -1311,7 +1322,7 @@ function promptsOf(src){
 
 // == model: tabs → groups (→ sub-groups) → items ==
 function ruleItem(r, tab, icon, ex, lg){ const compat = (r.compat||[]).filter(id=>COMPAT.has(id));
-  return {kind:'rule', tab, icon, ex, lg, path:r.path, title:r.title||r.name||r.path, load:r.load||r.desc||'', src:r.src||'', origin:r.origin||null, compat,
+  return {kind:'rule', tab, icon, ex, lg, path:r.path, title:r.title||r.name||r.path, load:r.load||r.desc||'', src:r.src||'', loc:r.loc||null, origin:r.origin||null, compat,
   text:[r.title,r.name,r.load,r.desc,r.path,r.src,...compat.map(id=>COMPAT.get(id).name)].join(' ').toLowerCase()}; }
 const tabs = D.cores.map(c=>({id:c.id.toLowerCase(), label:c.id, icon:CORE_IC[c.id]||'file', core:c}));
 // Projects holds the repositories plus the experimental proposals and the legacy archive (old #experimental, #legacy land here).
@@ -1414,7 +1425,10 @@ function itemRow(it, s){
     if (d.dataset.filled) return; d.dataset.filled = 1;
     const b = el('div',{className:'body'});
     const cw = chipsOf('', esc);
-    b.innerHTML = (it.src ? `<div class="md">${md(bodyOf(it.src))}</div>` : '')
+    const langs = it.loc ? ['en', ...Object.keys(it.loc)] : [];
+    b.innerHTML = (langs.length ? `<div class="lang" role="group" aria-label="Language">${langs.map(l=>
+        `<button class="cp" type="button" data-lang="${esc(l)}" aria-pressed="${l==='en'}">${esc(l.toUpperCase())}</button>`).join('')}</div>` : '')
+      + (it.src ? `<div class="md" lang="en">${md(bodyOf(it.src))}</div>` : '')
       + (cw ? `<p class="it-compat">Compatible with ${cw}</p>` : '')
       + `<div class="acts">`
       + (it.src ? `<button class="cp" type="button" data-copy-src="${esc(it.path)}">${ic('copy')}<span class="lb">copy markdown</span></button>` : '')
@@ -1423,6 +1437,12 @@ function itemRow(it, s){
       + `<a class="cp" href="${esc(ghURL(it.path))}" target="_blank" rel="noopener">${ic('github')}GitHub</a>`
       + `<a class="cp" href="${esc(rawURL(it.path))}" target="_blank" rel="noopener">${ic('raw')}raw</a></div>`;
     d.appendChild(b);
+    // EN is the canonical file; a companion replaces the body only while selected
+    b.querySelectorAll('.lang [data-lang]').forEach(btn => btn.addEventListener('click', ()=>{
+      const l = btn.dataset.lang, box = b.querySelector('.md');
+      box.innerHTML = md(bodyOf(l==='en' ? it.src : it.loc[l])); box.lang = l;
+      b.querySelectorAll('.lang [data-lang]').forEach(x => x.setAttribute('aria-pressed', String(x===btn)));
+    }));
   };
   d.addEventListener('toggle', ()=>{ if (d.open) fill(); });
   if (allOpen || (s && s.length>2 && it.src && it.src.toLowerCase().includes(s) && !it.title.toLowerCase().includes(s))) { d.open = true; fill(); }

@@ -1,0 +1,3 @@
+# Web UI style split (#71): the retained stable ID now resolves through a compatibility stub.
+CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md	Keep the stable path and ID as a compatibility stub linking to the four focused Web UI rule files.
+CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md	Point the look and layout guidance to its new Web UI interface rules.

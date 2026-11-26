@@ -4,7 +4,7 @@ id: conventions.interfaces.webui.architecture
 # Web UI architecture
 > Load when: building a web UI, docs site or Pages site from scratch, or restructuring its build or page code.
 
-Reference implementation: `META/tools/site.sh`. Look and themes: `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md`. Starter: `TEMPLATES/webui.html`.
+Reference implementation: `META/tools/site.sh`. Visual rules: `CONVENTIONS/INTERFACES/WEBUI/THEME.md` and `CONVENTIONS/INTERFACES/WEBUI/LAYOUT.md`. Components and accessibility: `CONVENTIONS/INTERFACES/WEBUI/COMPONENTS.md` and `CONVENTIONS/INTERFACES/WEBUI/ACCESSIBILITY.md`. Starter: `TEMPLATES/webui.html`.
 
 - One self-contained `index.html`: markup, CSS and JS inline. No framework, no bundler, no runtime build step.
 - A build script collects every source into one data object and writes it into the page as `<script type="application/json" id="data">`, with `<` escaped as `<`.

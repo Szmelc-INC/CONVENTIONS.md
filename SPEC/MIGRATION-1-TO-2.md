@@ -9,4 +9,4 @@ Index v2 is the first version with a declared `format_version` and an explicit `
 5. Move compatibility records into `compatible` and keep the disclaimer in `compatible_disclaimer`.
 6. Validate against `SPEC/schemas/index-v2.schema.json` and the conformance fixtures.
 
-During one repository major release, a compatibility shim MAY read a v1 index and normalize it in memory to v2. The shim MUST NOT write a v2 object while labeling it v1. The shipped `SPEC/tools/compat-v1.py` normalizes the known v1 fields; remove it after the one-major migration window.
+During one repository major release, a compatibility shim MAY read a v1 index and normalize it in memory to v2. The shim MUST NOT write a v2 object while labeling it v1. The shipped `SPEC/tools/compat-v1.py` normalizes the known v1 fields. Remove it after the one-major migration window.

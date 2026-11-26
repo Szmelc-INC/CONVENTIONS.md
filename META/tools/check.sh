@@ -43,7 +43,7 @@ while IFS= read -r f; do
     */README.md) continue ;;
   esac
   case $f in
-    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/* | META/assets/* | CONVENTIONS/LEGACY/*) continue ;;
+    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | AGENTS/modes/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/* | META/assets/* | CONVENTIONS/LEGACY/*) continue ;;
   esac
   header "$f"
   grep -qF "\`$f\`" INDEX.md || err "$f: not listed in INDEX.md"
@@ -52,8 +52,33 @@ while IFS= read -r f; do
     [[ $id =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]] || err "$f: missing or invalid stable id"
     [[ -z ${RULE_IDS[$id]:-} ]] || err "$f: duplicate id '$id' (also ${RULE_IDS[$id]})"
     RULE_IDS[$id]=$f
+    for pair in $(fm "$f" locales); do   # locale companions: <lang>=<existing path>, never the file itself
+      [[ $pair =~ ^[a-z]{2,3}(-[A-Z]{2})?=(.+)$ && -f ${BASH_REMATCH[2]} && ${BASH_REMATCH[2]} != "$f" ]] ||
+        err "$f: bad locales entry '$pair' (want <lang>=<existing path>)"
+    done
   fi
 done < <(all_md)
+
+# Experimental mode bundles list stable rule IDs and stay out of the default rule set.
+declare -A MODE_IDS=()
+if [[ -d AGENTS/modes ]]; then
+  while IFS= read -r f; do
+    header "$f"
+    mode_id=$(fm "$f" id)
+    [[ $mode_id =~ ^agents\.mode\.[a-z0-9-]+$ ]] || err "$f: invalid mode id '$mode_id'"
+    [[ -z ${MODE_IDS[$mode_id]:-} ]] || err "$f: duplicate mode id '$mode_id'"
+    MODE_IDS[$mode_id]=$f
+    [[ $(fm "$f" status) == experimental ]] || err "$f: mode status must be experimental"
+    rules=$(fm "$f" rules)
+    [[ -n $rules ]] || err "$f: missing rule IDs"
+    for id in $rules; do
+      path=${RULE_IDS[$id]:-}
+      [[ -n $path ]] || { err "$f: unknown rule id '$id'"; continue; }
+      [[ $path != CONVENTIONS/EXPERIMENTAL/* ]] || err "$f: mode '$mode_id' may include only stable rules ('$id')"
+    done
+    grep -qF "\`$f\`" INDEX.md || err "$f: not listed in INDEX.md mode bundles"
+  done < <(find AGENTS/modes -maxdepth 1 -type f -name '*.md' | sort)
+fi
 
 # Stable rule ids are part of the machine index and must match source front matter.
 jq empty index.json META/schema/index.schema.json >/dev/null 2>&1 || err "index.json or its schema is invalid JSON"

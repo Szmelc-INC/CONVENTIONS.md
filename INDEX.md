@@ -83,12 +83,14 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/INTERFACES/CLI.md` | building or changing a command-line tool. |
 | `CONVENTIONS/INTERFACES/CONFIG.md` | adding a config file, options, env vars, or storage paths to a tool. |
 | `CONVENTIONS/INTERFACES/TUI.md` | building a TUI, or any project that has a CLI. |
-| `CONVENTIONS/INTERFACES/WEBUI/ACCESSIBILITY.md` | checking or fixing contrast, focus, screen-reader support or the small-screen layout of a web UI. |
+| `CONVENTIONS/INTERFACES/WEBUI/ACCESSIBILITY.md` | making a web UI usable with keyboard, assistive technology or accessibility preferences. |
 | `CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md` | building a web UI, docs site or Pages site from scratch, or restructuring its build or page code. |
-| `CONVENTIONS/INTERFACES/WEBUI/COMPONENTS.md` | adding or restyling a header, navbar, tabs, filter, carousel, popup, menu or install block in a web UI. |
+| `CONVENTIONS/INTERFACES/WEBUI/COMPONENTS.md` | building a carousel, filter, menu, modal, popup, install panel or icon set for a web UI. |
 | `CONVENTIONS/INTERFACES/WEBUI/KEYBOARD.md` | adding keyboard shortcuts or keyboard navigation to a web UI. |
+| `CONVENTIONS/INTERFACES/WEBUI/LAYOUT.md` | laying out a web page or arranging its header, navigation and content. |
 | `CONVENTIONS/INTERFACES/WEBUI/OVERLAYS.md` | adding a modal, popup, menu, copy button or share action to a web UI. |
 | `CONVENTIONS/INTERFACES/WEBUI/ROUTING.md` | adding views, deep links or URL handling to a web UI. |
+| `CONVENTIONS/INTERFACES/WEBUI/THEME.md` | choosing colors, themes, typography or visual effects for a web UI. |
 | `CONVENTIONS/PACKAGING/ARCH.md` | packaging, releasing, or adding install instructions. |
 | `CONVENTIONS/PACKAGING/INSTALL.md` | writing an installer, a setup script, install instructions, or uninstall steps. |
 | `CONVENTIONS/PACKAGING/NIX.md` | packaging, releasing, or setting up a dev environment. |
@@ -125,6 +127,13 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/WORKFLOW/FINISH.md` | finishing a feature or fix, before calling work done. |
 | `CONVENTIONS/WORKFLOW/NOTIFY.md` | a job runs > ~10 min, or a failure needs a human. |
 | `CONVENTIONS/WORKFLOW/VERIFICATION.md` | any code change. |
+
+## Experimental mode bundles (explicit opt-in)
+| File | Load when |
+|---|---|
+| `AGENTS/modes/release.md` | the user explicitly requests the release mode. |
+| `AGENTS/modes/research.md` | the user explicitly requests the research mode. |
+| `AGENTS/modes/review.md` | the user explicitly requests the review mode. |
 
 ## Skills
 | File | Load when |

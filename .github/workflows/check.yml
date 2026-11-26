@@ -17,10 +17,12 @@ jobs:
       - name: Format 1.0 conformance fixtures
         run: |
           python3 -m venv "$RUNNER_TEMP/spec-venv"
-          "$RUNNER_TEMP/spec-venv/bin/pip" install --disable-pip-version-check jsonschema==4.25.1
+          "$RUNNER_TEMP/spec-venv/bin/pip" install --disable-pip-version-check jsonschema==4.25.1 PyYAML==6.0.2
           "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/validate.py
           "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/validate.py --index index.json --root .
           "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/validate.py --index examples/minimal/index.json --root examples/minimal
+          "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/compat-v1.py SPEC/tests/v1/index-v1.json > "$RUNNER_TEMP/index-v2.json"
+          "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/validate.py --index "$RUNNER_TEMP/index-v2.json" --root examples/minimal
           "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/compile.py --index examples/minimal/index.json --root examples/minimal --output "$RUNNER_TEMP/conventions-adapters"
           test -s "$RUNNER_TEMP/conventions-adapters/.cursor/rules/example.review.mdc"
           test -s "$RUNNER_TEMP/conventions-adapters/src/AGENTS.md"

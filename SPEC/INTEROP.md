@@ -1,6 +1,6 @@
 # Interoperability matrix
 
-The compiler preserves one file per rule and maps `scope` to host-native path selection when the host supports it. Natural-language `Load when` text remains a description; it is not converted into invented globs. Hosts without a selective native loader receive on-demand references or a documented one-shot fallback.
+The compiler preserves one file per rule and maps `scope` to host-native path selection when the host supports it. Natural-language `Load when` text remains a description. It is not converted into invented globs. Hosts without a selective native loader receive on-demand references or a documented one-shot fallback.
 
 | Tool | Native mechanism | Lazy mapping | No-scope behavior |
 |---|---|---|---|

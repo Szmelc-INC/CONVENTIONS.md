@@ -14,4 +14,4 @@ id: conventions.github.deployments.github-pages
 - Nightly `schedule` only when data comes from outside the repo (`CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`).
 - Repo homepage = the Pages URL unless a real site exists (`CONVENTIONS/GITHUB/REPO/METADATA.md`).
 - Custom domain only when one is owned: set it in Pages settings (`gh api -X PUT repos/<owner>/<repo>/pages -f cname=<domain>`); Actions deploys ignore a `CNAME` file.
-- Look and feel: `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md`.
+- Look and layout: `CONVENTIONS/INTERFACES/WEBUI/THEME.md` and `CONVENTIONS/INTERFACES/WEBUI/LAYOUT.md`.

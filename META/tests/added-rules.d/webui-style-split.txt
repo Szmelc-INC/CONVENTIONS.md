@@ -1,0 +1,5 @@
+# Web UI style split (#71).
+conventions.interfaces.webui.accessibility
+conventions.interfaces.webui.components
+conventions.interfaces.webui.layout
+conventions.interfaces.webui.theme

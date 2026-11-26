@@ -1,5 +1,6 @@
 ---
 id: conventions.repo.ste100pp
+locales: pl=AGENTS/skills/ste100pp/references/PL.md
 ---
 # STE100++ controlled writing
 > Load when: writing or reviewing docs prose, procedures, help text, error messages, tool descriptions or agent prompts.
