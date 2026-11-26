@@ -1,7 +1,7 @@
 # Web UI style
-> Load when: building or restyling a Szmelc™ web page, Pages site or web UI.
+> Load when: building or restyling a project web page, Pages site or web UI.
 
-- Reference look: <https://szmelc-inc.github.io/SAUR/>.
+- Reference look: follow the project's published design reference, if one exists.
 - Colors only from `CONVENTIONS/DESIGN/COLORS.md`, as CSS custom properties on `:root`, overridden per `[data-theme]`.
 - Themes: `dark` (default), `light`; optional `mono` (greys and silver, no accent hue) and `terminal` (near-black, accent-text headings and links).
 - Theme: `data-theme` on `<html>` set before first paint; cycle item in `[MENU]` + `t` key; choice in `localStorage` inside `try`/`catch`; first visit follows `prefers-color-scheme`, else dark.
@@ -13,7 +13,7 @@
 - Navbar order: title, "Compatible with" carousel (hidden while empty), tabs (stretched to the full width), filter.
 - Carousel: registry entries only, icon or monogram + name, small muted label; one slow continuous glide driven by `requestAnimationFrame` (left; 1% of page loads right), looped seamlessly by `aria-hidden` clones with `tabindex=-1`; hover, keyboard focus or touch ease it to a stop, then wheel, trackpad, drag or swipe scroll it by hand and it wraps; leaving eases it back; paused while the tab is hidden; edge-fade masks; `prefers-reduced-motion: reduce` → static scrollable row, no clones.
 - Compat popup (click/`Enter` on an item or a rule chip, deep link `#compat/<id>`): icon or monogram, name, kind, description, compatible version, versioning note (pinned or unversioned upstream), added and updated dates, covering rules linked to `#<path>`, external links in a new tab, the registry disclaimer in small muted text.
-- Origin sub-tabs `All · Third-party · Szmelc™`: segmented, same look as the folder tabs, shown only on tabs with origin-tagged rules; filter that tab's rules (other items hide unless All), combine with the text filter, update tab count and filter status; rows carry a `3rd-party`/`Szmelc™` badge, third-party rows their registry chips (a mouse shortcut in the row; real links in the opened body).
+- Origin sub-tabs `All · Third-party · {{profile.brand}}`: segmented, same look as the folder tabs, shown only on tabs with origin-tagged rules; filter that tab's rules (other items hide unless All), combine with the text filter, update tab count and filter status; rows carry a `3rd-party`/`{{profile.brand}}` badge, third-party rows their registry chips (a mouse shortcut in the row; real links in the opened body).
 - `[MENU]` in the top-right corner: disclosure button (`aria-expanded`/`aria-controls`) opening a list of actions (star, install, theme) and links; arrows/`Home`/`End` move, closes on outside click, `esc`, Tab out and item activation.
 - Modal: one native `<dialog>` (`showModal()`), vignette `::backdrop`; closes on `esc`, backdrop click and a close button; focus returns to the opener; scrolls inside at 320px.
 - Navigation: folder-style tabs and the filter in a sticky toolbar; keys `/` focus filter, `1`–`9` and `0` (10th) switch tabs, arrows/`Home`/`End` inside the tab list, `t` theme, `esc` closes menu or modal first, then clears the filter; single-key shortcuts are off while the menu or modal is open or focus is in the carousel (arrows move between its items); deep links `#<path>` restore the view on load and clear the toolbar (`scroll-margin-top`).

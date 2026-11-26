@@ -5,10 +5,10 @@
 - Top: `# Name`, one bold sentence saying what it is, the one-line install, badges.
 - Badges: Shields.io (<https://shields.io/>) only, service chosen from Awesome Badges (<https://github.com/badges/awesome-badges>); dynamic endpoints (`github/v/release`, `github/license`, CI) over static; `logo=<Simple Icons slug>`; colors from `CONVENTIONS/DESIGN/COLORS.md`; each wrapped in a link with real `alt` text.
 - Then, skipping empty ones: Usage, How it works, Configuration, Packaging, License.
-- Install: package first (SAUR `pacman -S`, `nix run`); never distro-by-distro package-manager blocks; elevation via `pkexec`.
+- Install: package first (`{{profile.package_registry}}`, `nix run`); never distro-by-distro package-manager blocks; use `{{profile.privilege_tool}}` when elevation is required.
 - No `curl … | bash` from a branch tip; point at a tag or a signed script.
 - State limits, risks and trust boundaries plainly: what leaves the machine, who can reach a key.
 - Plain headings for structure; no blockquote-as-heading, no `\` line breaks, no version in the title.
-- Polish readers → separate `README-PL.md`; one language per file (`CONVENTIONS/REPO/WRITING.md`).
+- Readers of another language → separate `README-<locale>.md`; one language per file (`CONVENTIONS/REPO/WRITING.md`).
 - Awesome list → `CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md` overrides this order.
 - Remove agent leftovers ("CONSOLIDATED DELIVERABLE", "Here is…", "As an AI…") before committing.

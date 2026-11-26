@@ -8,4 +8,4 @@
 - Nested categories repeat the pattern; `X/<SUB>/README.md` is optional, only when a category needs more than its table row.
 - Every category directory has a row in its core guide's table.
 - Any project may adopt it for a doc tree; the build script generates maps and indexes (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`).
-- This repo: cores `CONVENTIONS/`, `AGENTS/`, `HUMANS/`, `CONTRIBUTING/`, `SZMELC/`, `META/`; root maps `CONVENTIONS.md` (bundle, opens with the map), `AGENTS.md` (map block), `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`.
+- A repository defines its own cores and root maps; profile identity content belongs in the selected profile.

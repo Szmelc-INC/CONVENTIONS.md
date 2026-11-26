@@ -5,7 +5,7 @@
 Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/SKILL.md), [INDEX.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/INDEX.md), [index.json](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/index.json). All stable rules in one file: [CONVENTIONS.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS.md). Compatible third-party formats, specs and tools: [COMPATIBILITY.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/COMPATIBILITY.md).
 
 ## Always on
-- [Szmelc™ global rules](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/global/AGENTS.md): Installed as global instructions (CLAUDE.md, AGENTS.md, GEMINI.md, QWEN.md, …); always active
+- [Global rules](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/global/AGENTS.md): Installed as global instructions (CLAUDE.md, AGENTS.md, GEMINI.md, QWEN.md, …); always active
 
 ## Cores
 - [CONVENTIONS](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/README.md): Load when asked which conventions exist, how rules are organised, or before adding/promoting/demoting a rule.
@@ -54,7 +54,7 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 - [Coding agents on GitHub](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/CODING-AGENTS.md): Load when assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow.
 - [Deployment environments](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md): Load when deploying anything from Actions, or adding deployment secrets.
 - [GitHub Pages](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md): Load when publishing a site, docs or web UI on GitHub Pages.
-- [Web UI style](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md): Load when building or restyling a Szmelc™ web page, Pages site or web UI.
+- [Web UI style](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md): Load when building or restyling a project web page, Pages site or web UI.
 - [Discussions](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/DISCUSSIONS.md): Load when enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions.
 - [Issues](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/ISSUES.md): Load when creating, triaging or closing issues, or adding issue templates.
 - [Organizations](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/GITHUB/ORGANIZATIONS.md): Load when creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults.

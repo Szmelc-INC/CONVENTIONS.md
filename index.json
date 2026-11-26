@@ -3,7 +3,7 @@
   "name": "szmelc-conventions",
   "repo": "https://github.com/Szmelc-INC/CONVENTIONS.md",
   "entries": [
-    {"path": "AGENTS/global/AGENTS.md", "title": "Szmelc™ global rules", "load_when": "Installed as global instructions (CLAUDE.md, AGENTS.md, GEMINI.md, QWEN.md, …); always active", "status": "always", "kind": "global"},
+    {"path": "AGENTS/global/AGENTS.md", "title": "Global rules", "load_when": "Installed as global instructions (CLAUDE.md, AGENTS.md, GEMINI.md, QWEN.md, …); always active", "status": "always", "kind": "global"},
     {"path": "SKILL.md", "title": "szmelc-conventions", "load_when": "Installed as skill `szmelc-conventions`; entry point and format map", "status": "always", "kind": "skill"},
     {"path": "CONVENTIONS/README.md", "title": "CONVENTIONS", "load_when": "asked which conventions exist, how rules are organised, or before adding/promoting/demoting a rule.", "status": "stable", "kind": "core"},
     {"path": "AGENTS/README.md", "title": "AGENTS", "load_when": "installing the conventions into an agent harness, deciding on subagents, model or effort, or writing a prompt for an agent.", "status": "stable", "kind": "core"},
@@ -49,7 +49,7 @@
     {"path": "CONVENTIONS/GITHUB/CODING-AGENTS.md", "title": "Coding agents on GitHub", "load_when": "assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md", "title": "Deployment environments", "load_when": "deploying anything from Actions, or adding deployment secrets.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md", "title": "GitHub Pages", "load_when": "publishing a site, docs or web UI on GitHub Pages.", "status": "stable", "kind": "rule"},
-    {"path": "CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md", "title": "Web UI style", "load_when": "building or restyling a Szmelc™ web page, Pages site or web UI.", "status": "stable", "kind": "rule"},
+    {"path": "CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md", "title": "Web UI style", "load_when": "building or restyling a project web page, Pages site or web UI.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/GITHUB/DISCUSSIONS.md", "title": "Discussions", "load_when": "enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/GITHUB/ISSUES.md", "title": "Issues", "load_when": "creating, triaging or closing issues, or adding issue templates.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/GITHUB/ORGANIZATIONS.md", "title": "Organizations", "load_when": "creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults.", "status": "stable", "kind": "rule"},
