@@ -22,6 +22,9 @@ Map of `AGENTS/`. Full guide: [`AGENTS/README.md`](AGENTS/README.md).
 | [`AGENTS/adapters/cursor/szmelc-conventions.mdc`](AGENTS/adapters/cursor/szmelc-conventions.mdc) | Generated adapter: Global rules |  |
 | [`AGENTS/adapters/kiro/szmelc-conventions.md`](AGENTS/adapters/kiro/szmelc-conventions.md) | Generated adapter: Global rules |  |
 | [`AGENTS/global/AGENTS.md`](AGENTS/global/AGENTS.md) | Global rules |  |
+| [`AGENTS/modes/release.md`](AGENTS/modes/release.md) | Release mode | the user explicitly requests the release mode. |
+| [`AGENTS/modes/research.md`](AGENTS/modes/research.md) | Research mode | the user explicitly requests the research mode. |
+| [`AGENTS/modes/review.md`](AGENTS/modes/review.md) | Review mode | the user explicitly requests the review mode. |
 | [`AGENTS/skills/deep/SKILL.md`](AGENTS/skills/deep/SKILL.md) | Skill `deep` |  |
 | [`AGENTS/skills/ste100pp/SKILL.md`](AGENTS/skills/ste100pp/SKILL.md) | Skill `ste100pp` |  |
 | [`AGENTS/skills/ste100pp/references/PL.md`](AGENTS/skills/ste100pp/references/PL.md) | STE100++ po polsku |  |
