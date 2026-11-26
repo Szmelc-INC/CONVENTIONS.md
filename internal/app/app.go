@@ -136,7 +136,9 @@ func Run(args []string, out, errOut io.Writer) int {
 			fmt.Fprintf(errOut, "✓ %s complete\n", cmd)
 		}
 		return 0
-	case "lint", "build":
+	case "build":
+		return fail(errOut, "E_NOT_IMPLEMENTED", errors.New("build generation is not yet ported from META/tools/build.sh"), 1)
+	case "lint":
 		root, sarif := ".", ""
 		for i := 0; i < len(rest); i++ {
 			if rest[i] == "--format" && i+1 < len(rest) && rest[i+1] == "sarif" {
@@ -202,13 +204,11 @@ func Run(args []string, out, errOut io.Writer) int {
 		if len(rest) == 0 {
 			return fail(errOut, "E_USAGE", errors.New("match requires a task description"), 2)
 		}
-		task := strings.ToLower(rest[0])
+		task := rest[0]
 		rules, _ := catalog.Find(".")
-		matches := []catalog.Rule{}
-		for _, r := range rules {
-			if intersects(task, strings.ToLower(r.Trigger+" "+r.Title+" "+r.ID)) {
-				matches = append(matches, r)
-			}
+		matches, matchErr := matchRules(rules, task, rest[1:])
+		if matchErr != nil {
+			return fail(errOut, "E_MATCH_INPUT", matchErr, 1)
 		}
 		if jsonOut {
 			_ = json.NewEncoder(out).Encode(matches)
@@ -221,7 +221,7 @@ func Run(args []string, out, errOut io.Writer) int {
 	case "add", "update":
 		return fail(errOut, "E_NOT_IMPLEMENTED", fmt.Errorf("%s requires pack registry support", cmd), 1)
 	case "tui":
-		return runTUI(noColor || os.Getenv("NO_COLOR") != "")
+		return runTUI(shouldDisableTUIColor(noColor, cfg.Color))
 	default:
 		fmt.Fprintf(errOut, "E_USAGE: unknown command %q (run conventions help)\n", cmd)
 		return 2
@@ -239,6 +239,9 @@ func confirmUninstall(w io.Writer) bool {
 	line, err := bufio.NewReader(os.Stdin).ReadString('\n')
 	return err == nil && strings.TrimSpace(line) == "uninstall"
 }
+func shouldDisableTUIColor(noColor bool, configColor string) bool {
+	return noColor || os.Getenv("NO_COLOR") != "" || configColor == "never"
+}
 func has(a []string, s string) bool {
 	for _, v := range a {
 		if v == s {
@@ -255,6 +258,24 @@ func intersects(a, b string) bool {
 		}
 	}
 	return false
+}
+func matchRules(rules []catalog.Rule, task string, files []string) ([]catalog.Rule, error) {
+	context := strings.ToLower(task)
+	for _, path := range files {
+		content, err := os.ReadFile(path)
+		if err != nil {
+			return nil, fmt.Errorf("read match input %s: %w", path, err)
+		}
+		context += " " + strings.ToLower(filepath.ToSlash(path)) + " " + strings.ToLower(string(content))
+	}
+	matches := []catalog.Rule{}
+	for _, rule := range rules {
+		needle := strings.ToLower(rule.Trigger + " " + rule.Title + " " + rule.ID + " " + rule.Path)
+		if intersects(context, needle) {
+			matches = append(matches, rule)
+		}
+	}
+	return matches, nil
 }
 func help(w io.Writer) {
 	fmt.Fprintf(w, "conventions — conventions manager\n\nCommands: %s\nGlobal flags: --json, --no-color, --config PATH\nConfig: ~/.config/conventions/config.toml (TOML); telemetry is disabled.\n", strings.Join(commandNames(), ", "))

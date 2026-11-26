@@ -14,7 +14,9 @@ import (
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
+	"github.com/charmbracelet/glamour/styles"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/x/ansi"
 )
 
 type docItem struct{ catalog.Rule }
@@ -44,7 +46,12 @@ var subdued = lipgloss.NewStyle().Foreground(lipgloss.Color("#c0c0c0"))
 
 func runTUI(noColor bool) int {
 	items, _ := catalog.Find(".")
-	renderer, _ := glamour.NewTermRenderer(glamour.WithAutoStyle())
+	var renderer *glamour.TermRenderer
+	if noColor {
+		renderer, _ = glamour.NewTermRenderer(glamour.WithStyles(styles.ASCIIStyleConfig))
+	} else {
+		renderer, _ = glamour.NewTermRenderer(glamour.WithAutoStyle())
+	}
 	l := list.New([]list.Item{}, list.NewDefaultDelegate(), 0, 0)
 	l.Title = "Conventions"
 	l.SetShowStatusBar(false)
@@ -197,7 +204,12 @@ func (m *tuiModel) executeCommand(command string) tea.Cmd {
 	m.input.Blur()
 	return nil
 }
-func (m tuiModel) View() string {
+func (m tuiModel) View() (view string) {
+	defer func() {
+		if m.noColor {
+			view = ansi.Strip(view)
+		}
+	}()
 	if m.help {
 		return tuiAccent("Help", m.noColor) + "\n\n↑/↓ or j/k move · enter open Markdown · tab/right and left change section · : command palette · ?/F1 close help · q quit\n\nCommands: help, status, install, lint, tab <section>, open <rule-id>, quit\n"
 	}

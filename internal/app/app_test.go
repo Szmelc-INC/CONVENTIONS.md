@@ -8,6 +8,10 @@ import (
 	"testing"
 
 	"github.com/Szmelc-INC/CONVENTIONS.md/internal/catalog"
+	"github.com/charmbracelet/bubbles/list"
+	"github.com/charmbracelet/bubbles/viewport"
+	"github.com/charmbracelet/glamour"
+	"github.com/charmbracelet/glamour/styles"
 )
 
 func TestVersionJSONAndUsageExit(t *testing.T) {
@@ -65,10 +69,30 @@ func TestNoColorOverridesAlwaysConfig(t *testing.T) {
 }
 
 func TestTUIStylesRespectNoColor(t *testing.T) {
+	t.Setenv("NO_COLOR", "")
 	for _, render := range []func(string, bool) string{tuiAccent, func(s string, off bool) string { return tuiSubdued(s, off) }} {
 		if got := render("plain", true); got != "plain" {
 			t.Fatalf("expected unstyled text, got %q", got)
 		}
+	}
+	if !shouldDisableTUIColor(false, "never") || !shouldDisableTUIColor(true, "always") {
+		t.Fatal("explicit no-color sources must take precedence")
+	}
+	t.Setenv("NO_COLOR", "1")
+	if !shouldDisableTUIColor(false, "always") {
+		t.Fatal("NO_COLOR must disable TUI colors")
+	}
+	t.Setenv("NO_COLOR", "")
+	renderer, err := glamour.NewTermRenderer(glamour.WithStyles(styles.ASCIIStyleConfig))
+	if err != nil {
+		t.Fatal(err)
+	}
+	item := docItem{catalog.Rule{ID: "example", Title: "Example", Path: "CONVENTIONS/example.md"}}
+	l := list.New([]list.Item{item}, list.NewDefaultDelegate(), 40, 8)
+	m := tuiModel{list: l, detail: viewport.New(20, 5), renderer: renderer, noColor: true}
+	m.detail.SetContent("\x1b[31mmarkdown\x1b[0m")
+	if view := m.View(); strings.Contains(view, "\x1b[") {
+		t.Fatalf("TUI view contains ANSI sequences: %q", view)
 	}
 }
 
@@ -98,5 +122,30 @@ func TestInstallerDryRunAndUninstallConfirmation(t *testing.T) {
 	errOut.Reset()
 	if code := Run([]string{"uninstall", "--only", "codex"}, &out, &errOut); code != 2 || !strings.Contains(errOut.String(), "E_CONFIRM_REQUIRED") {
 		t.Fatalf("uninstall confirmation: %d %q", code, errOut.String())
+	}
+}
+
+func TestMatchUsesFileContext(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "billing.md")
+	if err := os.WriteFile(path, []byte("payment reconciliation"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	rules := []catalog.Rule{
+		{ID: "payments.rules", Title: "Payments", Trigger: "Load when processing payments", Path: "CONVENTIONS/PAYMENTS.md"},
+		{ID: "terminal.rules", Title: "Terminal UI", Trigger: "Load when building a terminal UI", Path: "CONVENTIONS/TUI.md"},
+	}
+	got, err := matchRules(rules, "update this document", []string{path})
+	if err != nil || len(got) != 1 || got[0].ID != "payments.rules" {
+		t.Fatalf("got %#v, err %v", got, err)
+	}
+	if _, err := matchRules(rules, "task", []string{path + ".missing"}); err == nil {
+		t.Fatal("expected file read error")
+	}
+}
+
+func TestBuildReportsUnimplemented(t *testing.T) {
+	var out, errOut bytes.Buffer
+	if code := Run([]string{"build"}, &out, &errOut); code != 1 || !strings.Contains(errOut.String(), "E_NOT_IMPLEMENTED") {
+		t.Fatalf("build: code=%d err=%q", code, errOut.String())
 	}
 }
