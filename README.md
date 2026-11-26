@@ -79,50 +79,53 @@ To add an entry, edit the registry and run `META/tools/build.sh`.
 
 ## How it works
 ### Cores
-Seven top-level categories. Each is a directory `X/` with a full guide `X/README.md`, mapped by a root file `X.md`.
+The repo has seven cores.
+A core is a directory with a guide (`README.md`) and a map file at the root (`X.md`).
 
-| Map | Directory | What |
-|---|---|---|
-| [`CONVENTIONS.md`](CONVENTIONS.md) | [`CONVENTIONS/`](CONVENTIONS/README.md) | The rules: workflow, GitHub, specs, repo, design, interfaces, packaging, code; experimental proposals and legacy archive |
-| [`AGENTS.md`](AGENTS.md) | [`AGENTS/`](AGENTS/README.md) | Always-on global rules, agent behaviour rules, prompt engineering, skills, tool adapters |
-| [`HUMANS.md`](HUMANS.md) | [`HUMANS/`](HUMANS/README.md) | Install, browse |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | [`CONTRIBUTING/`](CONTRIBUTING/README.md) | Extend, write, name, version and ship conventions |
-| [`SZMELC.md`](SZMELC.md) | [`SZMELC/`](SZMELC/README.md) | Public organisations, sites, principles, projects index sources |
-| [`META.md`](META.md) | [`META/`](META/README.md) | Build/check tools, site generator, schema, compatibility registry, screenshots |
-| [`TEMPLATES.md`](TEMPLATES.md) | [`TEMPLATES/`](TEMPLATES/README.md) | Skeletons for rules, prompts, skills, category READMEs, project `AGENTS.md` |
+| Core | What it has |
+|---|---|
+| [`CONVENTIONS/`](CONVENTIONS/README.md) | The rules, sorted by category |
+| [`AGENTS/`](AGENTS/README.md) | Global rules for agents, prompts, skills, tool adapters |
+| [`HUMANS/`](HUMANS/README.md) | How to install and browse |
+| [`CONTRIBUTING/`](CONTRIBUTING/README.md) | How to add and change rules |
+| [`SZMELC/`](SZMELC/README.md) | Szmelc™ organizations, sites and project sources |
+| [`META/`](META/README.md) | Build tools, site, schema, compatibility registry |
+| [`TEMPLATES/`](TEMPLATES/README.md) | Skeletons for new files |
 
-### Layout
+### Build
+`META/tools/build.sh` makes the generated files from the sources.
+`META/tools/check.sh` checks the result.
+Do not edit generated files by hand.
+
+<details>
+<summary><b>File layout</b> (click to expand)</summary>
+
 ```
-SKILL.md            meta skill: entry point + format map (installed as skill `szmelc-conventions`)
-INDEX.md            map: every file + when to load it (agents read only this first)   [generated]
-index.json          same, machine-readable (META/schema/index.schema.json)             [generated]
-llms.txt            llmstxt.org index                                                   [generated]
-CONVENTIONS.md      map of CONVENTIONS/ + every stable rule in one file                 [generated]
-AGENTS.md           instructions for agents in this repo + map of AGENTS/               [map block generated]
-HUMANS.md CONTRIBUTING.md SZMELC.md META.md TEMPLATES.md   core maps                    [generated]
-COMPATIBILITY.md    compatible third-party formats, specs and tools (META/compat/)     [generated]
-CLAUDE.md GEMINI.md import AGENTS.md for agents working on this repo
-CONVENTIONS/        rules by UPPERCASE category; EXPERIMENTAL/ proposals, LEGACY/ archive
-AGENTS/             global/AGENTS.md, RULES/, PROMPT/, skills/, adapters/ [generated]
-HUMANS/             human guide
-CONTRIBUTING/       how to extend the conventions (root CONTRIBUTING.md = its map; GitHub shows it on issues/PRs)
-SZMELC/             organisation guide, sources.conf (projects index)
-META/               tools/, schema/, compat/ (compatibility registry + icons), assets/screenshots/
-TEMPLATES/          skeletons (rule, prompt, skill, category README, project AGENTS.md)
-install.sh          harness installer
-CHANGELOG.md        release history (Keep a Changelog)
-LICENSE             MIT
-.github/            workflows, issue forms, PR template, release notes config, labels.tsv, SECURITY.md
-claude/             compatibility symlinks for pre-1.0 install paths
-public/             generated site (GitHub Pages); built in CI, never committed         [generated]
+SKILL.md          entry point, installed as the skill `szmelc-conventions`
+INDEX.md          every file and when to load it                  [generated]
+index.json        the same index as JSON                          [generated]
+llms.txt          index in the llmstxt.org format                 [generated]
+CONVENTIONS.md    all stable rules in one file                    [generated]
+COMPATIBILITY.md  compatible formats, specs and tools             [generated]
+AGENTS.md         rules for agents in this repo + map of AGENTS/  [map generated]
+HUMANS.md CONTRIBUTING.md SZMELC.md META.md TEMPLATES.md  core maps   [generated]
+CLAUDE.md GEMINI.md   import AGENTS.md
+CONVENTIONS/      rules; EXPERIMENTAL/ proposals, LEGACY/ archive
+AGENTS/ HUMANS/ CONTRIBUTING/ SZMELC/ META/ TEMPLATES/   the other cores
+install.sh        installer for agent tools
+CHANGELOG.md      release history
+LICENSE           MIT
+.github/          workflows, issue forms, PR template, labels
+claude/           old install paths (symlinks)
+public/           the built site, made in CI, never committed     [generated]
 ```
+</details>
 
 ### Automation
-- CI (`.github/workflows/check.yml`): `META/tools/check.sh`, ShellCheck, `META/tools/test-install.sh`, and the branch-prefix scope check `META/tools/lane-check.sh`.
-- Pages (`.github/workflows/pages.yml`): builds and deploys the site on pushes to `main` that touch its sources and nightly at 03:00 UTC to refresh the Projects index.
-- Keepalive (job `keepalive` in `pages.yml`): after ~45 quiet days re-enables `pages.yml` via the API so the nightly refresh stays scheduled; never pushes. Nothing bypasses the `main` ruleset (`META/tools/github-setup.sh`). Disabled anyway: `gh workflow enable pages.yml`.
-- Dependabot: weekly grouped GitHub Actions updates as normal PRs (`.github/dependabot.yml`).
-- Releases: pushing a `vX.Y.Z` tag runs `.github/workflows/release.yml` → `META/tools/release.sh` (`CHANGELOG.md`, `CONTRIBUTING/VERSIONING.md`).
+- CI checks each PR: `META/tools/check.sh`, ShellCheck and the install test.
+- GitHub Pages builds the site when its sources change on `main`, and each night at 03:00 UTC.
+- A `vX.Y.Z` tag starts the release. The release gets the bundle files and `SHA256SUMS`.
+- Dependabot opens one PR each week for GitHub Actions updates.
 
 ## Contributing
 Guide: [`CONTRIBUTING/README.md`](CONTRIBUTING/README.md).
