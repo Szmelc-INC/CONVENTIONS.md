@@ -8,6 +8,10 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 - The repository now has six neutral cores; Szmelc identity data and project discovery moved under `PROFILES/szmelc/`. Rule IDs are stable across file renames, profile rendering is explicit, and global installation preserves existing instruction files by managing only a marked block. See [`MIGRATION-v2-to-v3.md`](MIGRATION-v2-to-v3.md) before upgrading.
 
+### Added
+
+- `AGENTS/RULES/MEMORY.md`: agent memory rules derived from the public #memory developer docs: one fact per memory, cue keywords, stable refs, stale-write skip, least-privilege grants, confirmed deletes, cited recall.
+
 ## [2.0.2] - 2026-11-26
 
 Governance and roadmap; no rule path, schema or install change.
