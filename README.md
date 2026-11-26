@@ -126,16 +126,17 @@ public/           the built site, made in CI, never committed     [generated]
 - GitHub Pages builds the site when its sources change on `main`, and each night at 03:00 UTC.
 - A `vX.Y.Z` tag starts the release. The release gets the bundle files and `SHA256SUMS`.
 - Dependabot opens one PR each week for GitHub Actions updates.
+- `review-gate` keeps outside PRs from merging until the maintainer approves their latest commit.
 
 ## Contributing
 Read [`CONTRIBUTING/README.md`](CONTRIBUTING/README.md) first.
 
 ### Steps
-1. Make a branch from `main` with one of these prefixes: `feat/*`, `fix/*`, `docs/*`, `chore/*`, `experimental/*` or `legacy/*`.
+1. Fork the repo (or, as a maintainer, clone it). Make a branch from `main` with one of these prefixes: `feat/*`, `fix/*`, `docs/*`, `chore/*`, `experimental/*` or `legacy/*`.
 2. Edit only source files.
 3. Run `META/tools/build.sh && META/tools/check.sh`. Both must pass.
 4. Open a PR into `main`.
-5. When CI is green, merge with `gh pr merge --rebase --delete-branch`.
+5. The maintainer reviews it. A PR from outside merges only after the maintainer approves its latest commit (the `review-gate` check). Maintainers merge with `gh pr merge --rebase --delete-branch`.
 6. Sync your copy with `git checkout main && git pull --ff-only`.
 
 Rebase-merge puts each commit of the branch on `main`.

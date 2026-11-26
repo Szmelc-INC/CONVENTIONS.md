@@ -1007,6 +1007,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Review: concrete fixes as suggested changes (a `suggestion` code block); the author batch-applies them as one commit.
 - Wait for green CI → `gh pr merge --rebase --delete-branch` → `git checkout main && git pull --ff-only` → verify main CI + live result → one short report.
 - Never `--admin`, never merge locally into `main`; every change reaches `main` through a PR.
+- PRs from non-maintainers: only a maintainer reviews and merges them; agents never approve or merge them, even when CI is green.
 - Branch behind with conflicts → `gh pr update-branch --rebase`; still conflicting → ask before rebasing locally and force-pushing the branch.
 - Never merge red, force-push, or bypass branch protection; repo settings: `CONVENTIONS/GITHUB/REPO/SETTINGS.md`.
 - What CI runs and requires: `CONVENTIONS/GITHUB/ACTIONS/CI.md`; workflow files: `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`.
@@ -1123,6 +1124,8 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Ruleset on the default branch via `gh api repos/<owner>/<repo>/rulesets` (`gh ruleset` only lists, views, checks):
   - `pull_request` with 0 required approvals and `allowed_merge_methods: ["rebase"]`: PR required, solo maintainers self-merge.
   - `required_status_checks`: only checks that run on every PR; a path-filtered or not-yet-existing check blocks merges forever.
+  - Public repo with outside contributors: also require `review-gate`, a commit status set from trusted triggers (`pull_request_target`, `workflow_run`, schedule) that passes maintainer PRs and other PRs only after a maintainer approves the head commit; `.github/CODEOWNERS` requests the review. Reference: `META/tools/review-gate.sh`.
+- Fork PR workflows: approval for all outside contributors (`actions/permissions/fork-pr-contributor-approval`, `all_external_contributors`).
   - `non_fast_forward`, `deletion`, `required_linear_history`.
 - Rulesets are free on public repos; private repos on GitHub Free get none, so the PR flow is self-enforced there.
 - Features: issues on; discussions only for a community (`CONVENTIONS/GITHUB/DISCUSSIONS.md`); projects per `CONVENTIONS/GITHUB/PROJECTS.md`; wiki off (`CONVENTIONS/GITHUB/WIKI.md`).

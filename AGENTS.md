@@ -4,6 +4,7 @@
 - Never hand-edit generated files: `INDEX.md`, `index.json`, `llms.txt`, `CONVENTIONS.md`, `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`, `TEMPLATES.md`, `COMPATIBILITY.md`, `AGENTS/adapters/`, the map block below. Run `META/tools/build.sh`.
 - After any change: `META/tools/build.sh && META/tools/check.sh`; both must pass. Installer change → also `META/tools/test-install.sh`.
 - Branches: `CONVENTIONS/WORKFLOW/BRANCHES.md`. Only `main` lives; work on `feat/*`/`fix/*`/`docs/*`/`chore/*`/`experimental/*`/`legacy/*` branches, PR into `main`, rebase-merge (`gh pr merge --rebase --delete-branch`), `git pull --ff-only` main locally.
+- Outside PRs (author not @sernik77): never approve or merge; required status `review-gate` waits for @sernik77's approval of the head commit.
 - Public repo: commit only what is already public (public repos, orgs, sites). Never personal IDs, emails, private repo names or local paths.
 - Keep files terse: imperative one-liners, no prose. Every word here costs tokens in every session that loads it.
 

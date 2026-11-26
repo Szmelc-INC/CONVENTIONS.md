@@ -43,6 +43,9 @@ run gh api -X PUT "repos/$repo/automated-security-fixes" --silent
 run gh api -X PUT "repos/$repo/private-vulnerability-reporting" --silent
 run gh repo edit "$repo" --enable-secret-scanning
 run gh repo edit "$repo" --enable-secret-scanning-push-protection
+# Fork PR workflows wait for a maintainer's "Approve and run" for every outside contributor.
+run gh api -X PUT "repos/$repo/actions/permissions/fork-pr-contributor-approval" \
+  -f approval_policy=all_external_contributors --silent
 langs=$(gh api "repos/$repo/code-scanning/default-setup" --jq '.languages | join(",")' 2>/dev/null || true)
 if [[ -n $langs ]]; then
   echo "codeql languages: $langs"
@@ -83,10 +86,13 @@ upsert_ruleset main "$(
       "require_code_owner_review": false,
       "require_last_push_approval": false,
       "required_review_thread_resolution": false,
+      "require_extra_approval_for_unattributed_changes": true,
       "allowed_merge_methods": ["rebase"]}},
     {"type": "required_status_checks", "parameters": {
       "strict_required_status_checks_policy": false,
-      "required_status_checks": [{"context": "check", "integration_id": $ACTIONS_APP}]}}
+      "required_status_checks": [
+        {"context": "check", "integration_id": $ACTIONS_APP},
+        {"context": "review-gate", "integration_id": $ACTIONS_APP}]}}
   ]
 }
 EOF

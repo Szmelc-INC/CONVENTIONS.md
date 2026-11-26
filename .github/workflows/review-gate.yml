@@ -1,0 +1,38 @@
+name: review-gate
+
+# Sets the required `review-gate` status (META/tools/github-setup.sh) on every open PR:
+# maintainer PRs pass; other PRs pass only once a maintainer approves their latest commit.
+# Trusted triggers only: each runs this file and the script from main, never PR code.
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft]
+  workflow_run: # a review changed (review-signal.yml carries no permissions)
+    workflows: [review-signal]
+    types: [completed]
+  schedule:
+    - cron: '23 * * * *' # fallback: hourly re-evaluation
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: review-gate
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      statuses: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      MAINTAINERS: sernik77
+    steps:
+      - uses: actions/checkout@v7 # base branch on every trigger above
+        with:
+          persist-credentials: false
+      - name: Set review-gate status
+        run: bash META/tools/review-gate.sh
