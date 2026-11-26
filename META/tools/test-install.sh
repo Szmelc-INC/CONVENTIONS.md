@@ -59,4 +59,17 @@ for f in AGENTS.md CLAUDE.md GEMINI.md .cursor/rules/szmelc-conventions.mdc .git
   [[ -f $proj/$f ]] || fail "project file missing: $f"
 done
 
+# Exercise every supported harness with an isolated HOME, including harnesses
+# that are not present in the host environment.
+for harness in claude codex gemini qwen opencode kiro windsurf grok jcode agents; do
+  export HOME="$fake/$harness"
+  mkdir -p "$HOME"
+  ./install.sh --profile neutral --only "$harness" >/dev/null
+  ./install.sh status --only "$harness" --json |
+    jq -e --arg harness "$harness" '.targets | length > 0 and all(.harness == $harness and (.state == "linked" or .state == "managed"))' >/dev/null || fail "$harness status after install"
+  ./install.sh uninstall --only "$harness" >/dev/null
+  ./install.sh status --only "$harness" --json |
+    jq -e '.targets | all(.state != "linked" and .state != "managed")' >/dev/null || fail "$harness status after uninstall"
+done
+
 echo "install smoke test OK"
