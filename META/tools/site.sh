@@ -341,7 +341,7 @@ cp META/compat/icons/*.svg "$OUT/META/compat/icons/"
 
 
 # --- index.html (data inlined, so it also works offline / over file://) ------
-# Flat mono, retro-minimal (CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md): accent top rule,
+# Flat mono, retro-minimal (CONVENTIONS/INTERFACES/WEBUI/THEME.md, CONVENTIONS/INTERFACES/WEBUI/LAYOUT.md): accent top rule,
 # large one-line h1, [MENU] top right, one reusable <dialog> modal (install), bracketed folder tabs,
 # nested category groups, themes dark/light/mono/terminal.
 # Colors: CONVENTIONS/DESIGN/COLORS.md only. The heredocs are quoted: build-time values
