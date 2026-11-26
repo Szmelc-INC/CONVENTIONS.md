@@ -4,6 +4,10 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+### Added
+
+- Locale companions for rules: front matter `locales: <lang>=<path>` (`CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`), validated by `check.sh`. The site shows an EN/PL toggle in the opened rule (first: STE100++). The English file stays canonical.
+
 ### Changed
 
 - Split Web UI style rules into theme, layout, components and accessibility guides beside the Web UI interface rules; retained the old path as a linked stub.

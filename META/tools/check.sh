@@ -52,6 +52,10 @@ while IFS= read -r f; do
     [[ $id =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]] || err "$f: missing or invalid stable id"
     [[ -z ${RULE_IDS[$id]:-} ]] || err "$f: duplicate id '$id' (also ${RULE_IDS[$id]})"
     RULE_IDS[$id]=$f
+    for pair in $(fm "$f" locales); do   # locale companions: <lang>=<existing path>, never the file itself
+      [[ $pair =~ ^[a-z]{2,3}(-[A-Z]{2})?=(.+)$ && -f ${BASH_REMATCH[2]} && ${BASH_REMATCH[2]} != "$f" ]] ||
+        err "$f: bad locales entry '$pair' (want <lang>=<existing path>)"
+    done
   fi
 done < <(all_md)
 
