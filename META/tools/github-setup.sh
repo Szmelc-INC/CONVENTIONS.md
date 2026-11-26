@@ -33,8 +33,7 @@ api_json() {
 
 echo "== settings: $repo"
 run gh repo edit "$repo" --default-branch main \
-  --enable-squash-merge --squash-merge-commit-message pr-title-commits \
-  --enable-merge-commit=false --enable-rebase-merge=false \
+  --enable-rebase-merge --enable-squash-merge=false --enable-merge-commit=false \
   --delete-branch-on-merge --enable-auto-merge --allow-update-branch \
   --enable-issues --enable-discussions --enable-projects --enable-wiki=false
 
@@ -84,7 +83,7 @@ upsert_ruleset main "$(
       "require_code_owner_review": false,
       "require_last_push_approval": false,
       "required_review_thread_resolution": false,
-      "allowed_merge_methods": ["squash"]}},
+      "allowed_merge_methods": ["rebase"]}},
     {"type": "required_status_checks", "parameters": {
       "strict_required_status_checks_policy": false,
       "required_status_checks": [{"context": "check", "integration_id": $ACTIONS_APP}]}}

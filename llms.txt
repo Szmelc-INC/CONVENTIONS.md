@@ -98,7 +98,7 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 - [Platform support](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SYSTEMS/SUPPORT.md): Load when deciding which operating systems a tool supports, writing platform notes in a README, or setting up a CI test matrix.
 - [Windows via WSL2](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md): Load when supporting Windows users or testing a tool under WSL2.
 - [Branches](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/BRANCHES.md): Load when creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.
-- [Commits](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/COMMITS.md): Load when writing a commit message, PR title, or squash-merge title.
+- [Commits](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/COMMITS.md): Load when writing a commit message or PR title.
 - [Finish every change](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/FINISH.md): Load when finishing a feature or fix, before calling work done.
 - [Notifications](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/NOTIFY.md): Load when a job runs > ~10 min, or a failure needs a human.
 - [Verification](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/WORKFLOW/VERIFICATION.md): Load when any code change.

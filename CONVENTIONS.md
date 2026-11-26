@@ -72,7 +72,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/SYSTEMS/SUPPORT.md`](CONVENTIONS/SYSTEMS/SUPPORT.md) | Platform support | deciding which operating systems a tool supports, writing platform notes in a README, or setting up a CI test matrix. |
 | [`CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md`](CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md) | Windows via WSL2 | supporting Windows users or testing a tool under WSL2. |
 | [`CONVENTIONS/WORKFLOW/BRANCHES.md`](CONVENTIONS/WORKFLOW/BRANCHES.md) | Branches | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
-| [`CONVENTIONS/WORKFLOW/COMMITS.md`](CONVENTIONS/WORKFLOW/COMMITS.md) | Commits | writing a commit message, PR title, or squash-merge title. |
+| [`CONVENTIONS/WORKFLOW/COMMITS.md`](CONVENTIONS/WORKFLOW/COMMITS.md) | Commits | writing a commit message or PR title. |
 | [`CONVENTIONS/WORKFLOW/FINISH.md`](CONVENTIONS/WORKFLOW/FINISH.md) | Finish every change | finishing a feature or fix, before calling work done. |
 | [`CONVENTIONS/WORKFLOW/NOTIFY.md`](CONVENTIONS/WORKFLOW/NOTIFY.md) | Notifications | a job runs > ~10 min, or a failure needs a human. |
 | [`CONVENTIONS/WORKFLOW/VERIFICATION.md`](CONVENTIONS/WORKFLOW/VERIFICATION.md) | Verification | any code change. |
@@ -466,7 +466,7 @@ Sources: Claude Code <https://code.claude.com/docs/en/best-practices> (effort wo
 - Branch mechanics, scope and merge: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
 - Unverified or private drafts stay on `local/*` until reviewed.
 - Renaming or moving a stable rule breaks references and pins: grep every backticked path, rebuild, and treat it as major (`CONTRIBUTING/VERSIONING.md`).
-- Every lifecycle step is its own PR; the squash commit subject names the rule path.
+- Every lifecycle step is its own PR; its commit subjects name the rule path.
 
 ### How users' agents notice changes
 - Installs track `main`: `git -C ~/.config/szmelc/conventions pull`; agents re-read `INDEX.md` next session.
@@ -1003,8 +1003,9 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Body follows `.github/PULL_REQUEST_TEMPLATE.md` (what, why, checks run); org default: `CONVENTIONS/GITHUB/ORGANIZATIONS.md`.
 - Link issues with `Closes #<n>` (`CONVENTIONS/GITHUB/ISSUES.md`); label on creation (`CONVENTIONS/GITHUB/REPO/LABELS.md`).
 - Review: concrete fixes as suggested changes (a `suggestion` code block); the author batch-applies them as one commit.
-- Wait for green CI → merge yourself → verify main CI + live result → one short report.
-- Checks still running → `gh pr merge --auto --squash --delete-branch`; verify after it lands all the same.
+- Wait for green CI → `gh pr merge --rebase --delete-branch` → `git checkout main && git pull --ff-only` → verify main CI + live result → one short report.
+- Never `--admin`, never merge locally into `main`; every change reaches `main` through a PR.
+- Branch behind with conflicts → `gh pr update-branch --rebase`; still conflicting → ask before rebasing locally and force-pushing the branch.
 - Never merge red, force-push, or bypass branch protection; repo settings: `CONVENTIONS/GITHUB/REPO/SETTINGS.md`.
 - What CI runs and requires: `CONVENTIONS/GITHUB/ACTIONS/CI.md`; workflow files: `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`.
 - Commit and PR titles: `CONVENTIONS/WORKFLOW/COMMITS.md`.
@@ -1115,11 +1116,10 @@ Shade ramps (UIs with layers; all derived from the values above):
 
 - Apply settings as code: `gh repo edit` flags and `gh api` calls in a script, not web-UI clicks. Metadata: `CONVENTIONS/GITHUB/REPO/METADATA.md`.
 - Default branch `main` (`--default-branch main`); branch model: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
-- Merge: squash only (`--enable-squash-merge --enable-merge-commit=false --enable-rebase-merge=false`).
-- Squash message `--squash-merge-commit-message pr-title-commits`: PR title becomes the subject, commit trailers (`Co-Authored-By:`) survive.
+- Merge: rebase only (`--enable-rebase-merge --enable-squash-merge=false --enable-merge-commit=false`): branch commits land on `main` as written, history stays linear, trailers (`Co-Authored-By:`) survive.
 - `--delete-branch-on-merge`, `--enable-auto-merge`, `--allow-update-branch`.
 - Ruleset on the default branch via `gh api repos/<owner>/<repo>/rulesets` (`gh ruleset` only lists, views, checks):
-  - `pull_request` with 0 required approvals: PR required, solo maintainers self-merge.
+  - `pull_request` with 0 required approvals and `allowed_merge_methods: ["rebase"]`: PR required, solo maintainers self-merge.
   - `required_status_checks`: only checks that run on every PR; a path-filtered or not-yet-existing check blocks merges forever.
   - `non_fast_forward`, `deletion`, `required_linear_history`.
 - Rulesets are free on public repos; private repos on GitHub Free get none, so the PR flow is self-enforced there.
@@ -1548,7 +1548,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 | `legacy/*` | Archiving superseded material | `CONVENTIONS/LEGACY/` + generated files |
 | `local/*` | Private or unverified material awaiting review | Never pushed, never merged |
 
-- Merge: `gh pr merge --squash --delete-branch`; keep one topic per PR so the squash reads as one change.
+- Merge: `gh pr merge --rebase --delete-branch`, then `git checkout main && git pull --ff-only`; one topic per PR, every commit on the branch clean and conventional (all of them land on `main`).
 - Stale branch with no open PR and nothing ahead of `main`: delete it.
 - Promote: move `CONVENTIONS/EXPERIMENTAL/<x>.md` to `CONVENTIONS/<category>/<x>.md` in a `feat/*` PR.
 - Demote: move to `CONVENTIONS/LEGACY/` in a `legacy/*` PR; add `> Superseded by: <path>` as line 3. Legacy files are never deleted.
@@ -1559,13 +1559,13 @@ Shade ramps (UIs with layers; all derived from the values above):
 ---
 <!-- source: CONVENTIONS/WORKFLOW/COMMITS.md -->
 ## Commits
-> Load when: writing a commit message, PR title, or squash-merge title.
+> Load when: writing a commit message or PR title.
 
 - English, imperative, one subject line ≤ 72 chars; body only when the why is not obvious.
 - Type prefix with optional scope: `feat(saur): …`, `fix(core): …`, `docs: …`, `ci: …`, `chore: …`, `refactor: …`, `test: …`.
 - Version bump → append the version: `feat: signed package lists (0.3.1)`.
 - Never web-UI defaults (`Update README.md`, `Create file`) on `main`.
-- One topic per commit and per PR; the squash title follows the same format (`CONVENTIONS/WORKFLOW/BRANCHES.md`).
+- One topic per commit and per PR; commits are rebase-merged as written, so each one follows this format (`CONVENTIONS/WORKFLOW/BRANCHES.md`).
 
 ---
 <!-- source: CONVENTIONS/WORKFLOW/FINISH.md -->

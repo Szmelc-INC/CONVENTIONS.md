@@ -13,7 +13,7 @@
 - Branch mechanics, scope and merge: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
 - Unverified or private drafts stay on `local/*` until reviewed.
 - Renaming or moving a stable rule breaks references and pins: grep every backticked path, rebuild, and treat it as major (`CONTRIBUTING/VERSIONING.md`).
-- Every lifecycle step is its own PR; the squash commit subject names the rule path.
+- Every lifecycle step is its own PR; its commit subjects name the rule path.
 
 ## How users' agents notice changes
 - Installs track `main`: `git -C ~/.config/szmelc/conventions pull`; agents re-read `INDEX.md` next session.

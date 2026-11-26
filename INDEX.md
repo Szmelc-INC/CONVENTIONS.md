@@ -108,7 +108,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/SYSTEMS/SUPPORT.md` | deciding which operating systems a tool supports, writing platform notes in a README, or setting up a CI test matrix. |
 | `CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md` | supporting Windows users or testing a tool under WSL2. |
 | `CONVENTIONS/WORKFLOW/BRANCHES.md` | creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention. |
-| `CONVENTIONS/WORKFLOW/COMMITS.md` | writing a commit message, PR title, or squash-merge title. |
+| `CONVENTIONS/WORKFLOW/COMMITS.md` | writing a commit message or PR title. |
 | `CONVENTIONS/WORKFLOW/FINISH.md` | finishing a feature or fix, before calling work done. |
 | `CONVENTIONS/WORKFLOW/NOTIFY.md` | a job runs > ~10 min, or a failure needs a human. |
 | `CONVENTIONS/WORKFLOW/VERIFICATION.md` | any code change. |
