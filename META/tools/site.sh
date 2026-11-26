@@ -169,6 +169,12 @@ if command -v gh >/dev/null && rel=$(gh release view -R "${REPO#https://github.c
   release=$(jq -c '{tag:.tagName, url:.url}' <<<"$rel")
 fi
 
+# --- the repo's own star count (optional; the page refreshes it live, best-effort) --
+stars=null
+if command -v gh >/dev/null && sc=$(gh repo view "${REPO#https://github.com/}" --json stargazerCount -q .stargazerCount 2>/dev/null) && [[ $sc =~ ^[0-9]+$ ]]; then
+  stars=$sc
+fi
+
 # --- compatibility icons: path data inlined, so the page draws them with currentColor --
 # Each registry icon is a single 24x24 <path>; only its `d` reaches the page, escaped like all data.
 : >"$tmp/icons.ndjson"
@@ -183,7 +189,7 @@ done < <(jq -r '.compatible[].icon // empty' index.json | sort -u)
 mkdir -p "$OUT"
 jq -n \
   --arg repo "$REPO" --arg raw "$RAW" --arg site "$SITE" --arg roadmap "$ROADMAP" \
-  --arg built "$BUILT" --arg note "$projects_note" --argjson release "$release" --argjson owners "$owners_json" \
+  --arg built "$BUILT" --arg note "$projects_note" --argjson release "$release" --argjson owners "$owners_json" --argjson stars "$stars" \
   --slurpfile cores "$tmp/cores.ndjson" \
   --slurpfile rules "$tmp/rules.ndjson" \
   --slurpfile skills "$tmp/skills.ndjson" \
@@ -197,7 +203,7 @@ jq -n \
   ($idx[0]) as $ix
   | ($ix.entries | map({key:.path, value:{origin:(.origin // null), compat:(.compat // [])}}) | from_entries) as $by
   | {
-    name:"szmelc-conventions", repo:$repo, raw:$raw, site:$site, roadmap:$roadmap, built:$built, release:$release,
+    name:"szmelc-conventions", repo:$repo, raw:$raw, site:$site, roadmap:$roadmap, built:$built, release:$release, stars:$stars,
     cores:$cores,
     rules:($rules | map(. + ($by[.path] // {origin:null, compat:[]}))),
     skills:$skills, experimental:$experimental, legacy:$legacy,
@@ -416,6 +422,15 @@ h1 .cur{display:inline-block;width:.55em;height:1.05em;margin-left:.12em;vertica
 .menu-p :focus-visible{outline-offset:-2px}
 .menu-p .lb{flex:1}
 .menu-p .done .ic{color:var(--link)}
+.menu-p .br{color:var(--mute)}
+.menu-p .mv{font-variant-numeric:tabular-nums}
+.menu-p .mt{margin-left:6px;color:var(--mute);font-size:11.5px}
+/* share popup: copy row + share targets */
+.sh-c{display:flex;gap:8px;align-items:center}
+.sh-c input{flex:1;min-width:0;min-height:26px;padding:2px 8px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);color:var(--fg);font:inherit;font-size:12.5px}
+.sh-l{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;margin:14px 0 0;padding:0;list-style:none}
+.sh-l a{display:flex;align-items:center;min-height:30px;padding:4px 10px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);color:var(--sec);font-size:13px;text-decoration:none}
+.sh-l a:hover,.sh-l a:focus-visible{background:var(--s3);border-color:var(--line-3);color:var(--head);text-decoration:none}
 /* keyboard shortcuts, shown in the modal */
 .keys-l{display:grid;grid-template-columns:max-content 1fr;gap:8px 16px;margin:0;font-size:13px}
 .keys-l dt{color:var(--head);white-space:nowrap}
@@ -732,6 +747,7 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
   <symbol id="i-term" viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="11"/><path d="M4 6l2.5 2L4 10M8 10.5h4"/></symbol>
   <symbol id="i-issue" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 4.5v4.5M8 10.75v1"/></symbol>
   <symbol id="i-keys" viewBox="0 0 16 16"><rect x="1.5" y="4" width="13" height="8.5"/><path d="M4 6.5h1M7.5 6.5h1M11 6.5h1M4 9h1M11 9h1M6.5 10.5h3"/></symbol>
+  <symbol id="i-share" viewBox="0 0 16 16"><circle cx="12" cy="3.5" r="1.75"/><circle cx="4" cy="8" r="1.75"/><circle cx="12" cy="12.5" r="1.75"/><path d="M5.5 7.15l5-2.8M5.5 8.85l5 2.8"/></symbol>
   <symbol id="i-x" viewBox="0 0 16 16"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></symbol>
 </svg>
 <a class="skip" href="#list" id="skip">Skip to the rules</a>
@@ -941,7 +957,7 @@ function compatListHTML(){
 function openCompatList(opener){
   if (!COMPAT.size) return false;
   transientOpen('#compat');
-  openModal({title:`Compatible with · ${COMPAT.size}`, html:compatListHTML(), opener: opener || $('#cw-l'), onClose: transientClose});
+  openModal({title:`Compatible with [${COMPAT.size}] conventions`, html:compatListHTML(), opener: opener || $('#cw-l'), onClose: transientClose});
   return true;
 }
 // rows in the list popup swap the modal to that entry (focus still returns to the list's opener)
@@ -983,7 +999,7 @@ function buildCompat(){
   const item = (c, clone) => `<li><a class="cw-i" href="#compat/${esc(c.id)}" data-compat="${esc(c.id)}"${clone ? ' tabindex="-1"' : ''}>${badge(c)}<span>${esc(c.name)}</span></a></li>`;
   const track = clone => `<ul class="cw-t"${clone ? ' aria-hidden="true"' : ''}>` + [...COMPAT.values()].map(c=>item(c, clone)).join('') + '</ul>';
   compatBox.innerHTML = `<div class="cw${RM.matches ? ' static' : ''}" id="cw" role="region" aria-labelledby="cw-l" tabindex="-1">${track(false)}</div>`
-    + `<button class="cw-l" id="cw-l" type="button" aria-haspopup="dialog">Compatible with <span class="br">&lt;</span><b>${COMPAT.size}</b><span class="br">&gt;</span></button>`;
+    + `<button class="cw-l" id="cw-l" type="button" aria-haspopup="dialog">Compatible with <span class="br">[</span><b>${COMPAT.size}</b><span class="br">]</span> conventions</button>`;
   const box = $('#cw');
   if (RM.matches){ stopCompat(); CW.half = 0; return; }
   // layout: [clone][real][clones…]; scrollLeft lives in [W, 2W) (W = one track + gap), so both directions wrap unseen
@@ -1396,7 +1412,7 @@ document.addEventListener('click', e=>{
   e.preventDefault(); e.stopPropagation(); openCompat(a.dataset.compat, a);
 }, true);
 q.addEventListener('input', render);
-function toggleAll(){ allOpen = !allOpen; render(); syncMenuExpand(); }
+function toggleAll(){ allOpen = !allOpen; render(); }
 $('#expand').onclick = toggleAll;
 wide.addEventListener && wide.addEventListener('change', ()=>{ const c = $('.cidx'); if (c) c.open = wide.matches; });
 
@@ -1428,35 +1444,38 @@ document.addEventListener('click', e=>{
 });
 
 // == [MENU]: top-right disclosure (button + aria-expanded/aria-controls + list); arrows/Home/End move, Esc/outside click/Tab out close ==
-// Groups: actions / navigation / files. Activating an item keeps the menu open; the modal it may open counts as inside.
+// Groups: get started / project / page. Activating an item keeps the menu open; the modal it may open counts as inside.
+// Values show in brackets, e.g. Star on GitHub [3], Theme [dark].
 // Compatibility lives in the carousel only, so the menu skips LINKS' compat entry (the footer keeps it).
 const menu = $('#menu'), menuBtn = $('#menu-btn'), menuP = $('#menu-p');
 const mItem = (h, body) => /^https?:/.test(h) ? `<li><a href="${esc(h)}" target="_blank" rel="noopener">${body}</a></li>` : `<li><a href="${esc(h)}">${body}</a></li>`;
 const mBtn = (id, i, label, title) => `<li><button type="button" id="${id}"${title ? ` title="${esc(title)}"` : ''}>${ic(i)}<span class="lb">${esc(label)}</span></button></li>`;
 const mSep = '<li class="sep" role="separator"></li>';
+const mVal = v => v == null || v === '' ? '' : ` <span class="br">[</span><span class="mv">${esc(v)}</span><span class="br">]</span>`;
 const LK = Object.fromEntries(LINKS.map(l=>[l[0], l])), mLink = k => LK[k] ? mItem(LK[k][2], ic(LK[k][0]) + esc(LK[k][1])) : '';
 menuP.innerHTML = mBtn('m-install', 'term', 'Install / use')
-  + mBtn('m-copy-page', 'link', 'Copy page link')
-  + mBtn('m-copy-llms', 'copy', 'Copy llms.txt URL')
-  + mBtn('m-expand', 'expand', 'Expand all', 'Expand / collapse all (key e)')
-  + `<li><button type="button" id="theme" title="Theme (key t)"></button></li>`
-  + mBtn('m-keys', 'keys', 'Keyboard shortcuts', 'Keyboard shortcuts (key ?)')
-  + mSep
-  + mBtn('m-about', 'szmelc', 'About Szmelc™')
+  + mItem(D.repo, ic('star') + `<span class="lb">Star on GitHub<span id="m-stars">${mVal(D.stars)}</span></span>`)
   + (tabs.some(t=>t.id==='contributing') ? mItem('#contributing', ic('contributing') + 'Contribute') : '')
-  + mItem(D.repo, ic('star') + 'Star on GitHub')
-  + mLink('github') + mLink('tag') + mLink('chat')
   + mItem(D.repo + '/issues/new/choose', ic('issue') + 'Report an issue')
-  + mLink('map')
   + mSep
-  + ['prompt','json','index','bundle','skill'].map(mLink).join('');
+  + mLink('github')
+  + mItem(REL.url, ic('tag') + '<span class="lb">Releases</span>' + (REL.tag ? `<span class="mt">${esc(REL.tag)}</span>` : ''))
+  + mLink('chat')
+  + mBtn('m-about', 'szmelc', 'About Szmelc™')
+  + mSep
+  + mBtn('m-share', 'share', 'Share')
+  + `<li><button type="button" id="theme" title="Theme (key t)"></button></li>`
+  + mBtn('m-keys', 'keys', 'Keys & Shortcuts', 'Keys & Shortcuts (key ?)');
+// star count: build-time value, refreshed live once; any failure keeps what is shown
+(()=>{ const m = /^https:\/\/github\.com\/([^/]+\/[^/]+?)\/?$/.exec(D.repo || ''); if (!m || !window.fetch) return;
+  fetch('https://api.github.com/repos/' + m[1]).then(r=>r.ok ? r.json() : null).then(j=>{
+    if (j && Number.isFinite(j.stargazers_count)) $('#m-stars').innerHTML = mVal(j.stargazers_count); }).catch(()=>{}); })();
 const menuOpen = () => !menuP.hidden;
 const menuItems = () => [...menuP.querySelectorAll('a,button')];
 const inModal = n => !!(n && modal.contains(n));
-function syncMenuExpand(){ const b = $('#m-expand'), lb = b && b.querySelector('.lb'); if (lb && !b.classList.contains('done')) lb.textContent = allOpen ? 'Collapse all' : 'Expand all'; }
 function setMenu(open, focusBtn){
   menuP.hidden = !open; menuBtn.setAttribute('aria-expanded', String(open));
-  if (open){ syncMenuExpand(); menuItems()[0].focus(); } else if (focusBtn) menuBtn.focus();
+  if (open) menuItems()[0].focus(); else if (focusBtn) menuBtn.focus();
 }
 menuBtn.onclick = ()=>setMenu(!menuOpen());
 menuP.addEventListener('keydown', e=>{
@@ -1473,23 +1492,43 @@ menu.addEventListener('focusout', e=>{ const r = e.relatedTarget;
 $('#m-install').onclick = e=>openInstall(e.currentTarget);
 $('#m-keys').onclick = e=>openKeys(e.currentTarget);
 $('#m-about').onclick = e=>openAbout(e.currentTarget);
-$('#m-expand').onclick = toggleAll;
-const copyItem = (id, v) => { $(id).onclick = e=>{ const b = e.currentTarget; copyText(v()).then(()=>copied(b), ()=>{}); }; };
-copyItem('#m-copy-page', ()=>location.href);
-copyItem('#m-copy-llms', ()=>new URL('llms.txt', location.href).href);
+$('#m-share').onclick = e=>share(e.currentTarget);
+
+// == share: the native sheet when there is one, else a popup with Copy link and share targets (current URL, hash included) ==
+const SHARE_TO = [
+  ['X / Twitter', (u,t)=>`https://twitter.com/intent/tweet?url=${u}&text=${t}`],
+  ['Reddit', (u,t)=>`https://www.reddit.com/submit?url=${u}&title=${t}`],
+  ['Hacker News', (u,t)=>`https://news.ycombinator.com/submitlink?u=${u}&t=${t}`],
+  ['LinkedIn', u=>`https://www.linkedin.com/sharing/share-offsite/?url=${u}`],
+  ['Bluesky', (u,t)=>`https://bsky.app/intent/compose?text=${t}%20${u}`],
+  ['Mastodon', (u,t)=>`https://mastodonshare.com/?url=${u}&text=${t}`],
+  ['Telegram', (u,t)=>`https://t.me/share/url?url=${u}&text=${t}`],
+  ['Email', (u,t)=>`mailto:?subject=${t}&body=${u}`],
+];
+function shareHTML(url, title){
+  const u = encodeURIComponent(url), t = encodeURIComponent(title);
+  return `<section class="sh"><div class="sh-c"><input type="text" readonly value="${esc(url)}" aria-label="Page link">${copyBtn(url, 'Copy link')}</div><ul class="sh-l">`
+    + SHARE_TO.map(([n,f])=>{ const h = f(u,t);
+      return `<li>${h.startsWith('mailto:') ? `<a href="${esc(h)}">${esc(n)}</a>` : ext(h, esc(n))}</li>`; }).join('') + '</ul></section>';
+}
+const openShare = opener => openModal({title:'Share', html:shareHTML(location.href, document.title), opener});
+function share(opener){
+  if (!navigator.share) return openShare(opener);
+  navigator.share({title:document.title, url:location.href}).catch(e=>{ if (!e || e.name !== 'AbortError') openShare(opener); });
+}
 
 // == keyboard shortcuts: modal list, from the menu or key ? ==
 const KEYS = [['/', 'filter rules'], ['1–' + (tabs.length >= 10 ? '9, 0' : tabs.length), 'switch tab'], ['← →, Home, End', 'move between tabs'], ['e', 'expand / collapse all'],
   ['t', 'cycle theme'], ['?', 'this list'], ['↑ ↓, Home, End', 'move in [MENU]'], ['esc', 'close menu or modal, then clear the filter']];
 function openKeys(opener){
-  openModal({title:'Keyboard shortcuts', opener,
+  openModal({title:'Keys & Shortcuts', opener,
     html:'<dl class="keys-l">' + KEYS.map(([k,d])=>`<dt>${k.split(', ').map(x=>`<kbd>${esc(x)}</kbd>`).join(' ')}</dt><dd>${esc(d)}</dd>`).join('') + '</dl>'});
 }
 
 // == theme: dark (default) → light → mono → terminal; saved in localStorage ==
 const THEMES = ['dark','light','mono','terminal'], root = document.documentElement, themeBtn = $('#theme');
 function syncTheme(){
-  themeBtn.innerHTML = ic('theme') + 'Theme: ' + esc(root.dataset.theme);
+  themeBtn.innerHTML = ic('theme') + '<span class="lb">Theme' + mVal(root.dataset.theme) + '</span>';
   const m = $('meta[name="theme-color"]'); if (m) m.content = root.dataset.theme==='light' ? '#f3f3f3' : '#0b0b0b';
 }
 function cycleTheme(){
