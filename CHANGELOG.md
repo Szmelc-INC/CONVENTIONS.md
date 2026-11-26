@@ -12,6 +12,7 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 - `CONVENTIONS/REPO/DOCS.md`: docs structure (hook + payoff, "Start here" table, annotated tree, install options, concept + minimal example, limits as numbers).
 - `AGENTS/PROMPT/DOCS-VOICE.md`: docs voice profile from an analysis of the everything-claude-code README (six pillars, keep/reject table, Voice Card, agent prompt block).
+- `TEMPLATES/project-README.md`: project README skeleton that follows `CONVENTIONS/REPO/DOCS.md`.
 
 ### Changed
 

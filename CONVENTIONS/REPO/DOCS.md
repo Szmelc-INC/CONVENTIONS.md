@@ -4,7 +4,7 @@ id: conventions.repo.docs
 # Docs structure
 > Load when: writing or restructuring a README, guide or docs page, or filling the body of one of its sections.
 
-Section order: `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`. Voice: `CONVENTIONS/REPO/WRITING.md`. Voice profile and examples: `AGENTS/PROMPT/DOCS-VOICE.md`.
+Section order: `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`. Voice: `CONVENTIONS/REPO/WRITING.md`. Voice profile and examples: `AGENTS/PROMPT/DOCS-VOICE.md`. Skeleton: `TEMPLATES/project-README.md`.
 
 - Open: `# Name`, one bold sentence that says what it is and for whom, one plain sentence that says what the reader gets. Facts only: count, scope, platform.
 - More than one guide → a "Start here" table first: guide, what it covers, when to read it. Mark the one to read first.
