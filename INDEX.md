@@ -91,6 +91,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md` | generating, reading or changing INDEX.md, index.json or an all-in-one rule bundle. |
 | `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md` | writing, naming or reviewing a convention rule file. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md` | creating or editing AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md, or Cursor/Copilot/Kiro/Windsurf rules in any project. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md` | creating, editing or submitting an awesome list (`awesome-<topic>` repo). |
 | `CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md` | creating or updating CHANGELOG.md, or preparing a release in a project that keeps one. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/CODE-OF-CONDUCT-MD.md` | adding a code of conduct to a repo or organization, or opening a project to outside contributors. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/CODEOWNERS.md` | adding or editing CODEOWNERS, or requiring owner review on pull requests. |
@@ -98,7 +99,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/SPECS/THIRD-PARTY/LICENSE.md` | adding or changing a project's license file, or writing license fields in manifests. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md` | publishing docs or a site meant for LLMs, or generating an llms.txt. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md` | adding, sharing or committing MCP server configuration (.mcp.json) in a project. |
-| `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md` | writing or editing a project README. |
+| `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md` | writing or editing a project README or its badges. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md` | creating or editing SECURITY.md, or setting up vulnerability reporting. |
 | `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md` | writing, editing, or installing an agent skill. |
 | `CONVENTIONS/SYSTEMS/ARCH.md` | targeting, installing on, or integrating a tool with Arch Linux. |

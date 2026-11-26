@@ -26,5 +26,6 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Dark by default; light only as a toggle. Never purple, never a framework's default accent.
 - Neutrals carry no blue or green tint.
 - Text meets WCAG AA (4.5:1) on the surface it sits on; check raised and hover surfaces too, not only the page.
-- Badges, banners and shields use the same palette: `105c5c` fill, `c0c0c0` for secondary values, `750f0f` for experimental.
+- Badges, banners and shields use the same palette: `105c5c` fill, `c0c0c0` for secondary values, `750f0f` for experimental; Shields.io params without `#` (`color=105c5c&labelColor=1b1b1b&logoColor=white`).
+- Brand icons and logos: Simple Icons (<https://simpleicons.org/>) at a pinned version, monochrome `currentColor`, never brand colors; per-icon license absent or CC0, else leave it out.
 - Project has config → make colors configurable.

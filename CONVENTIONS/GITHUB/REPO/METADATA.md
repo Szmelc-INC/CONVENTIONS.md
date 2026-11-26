@@ -1,8 +1,8 @@
 # Repo metadata
 > Load when: creating a repo, first push, release, or editing README/manifest/license.
 
-- `gh repo view` first; fill gaps via `gh repo edit`: description, homepage, topics, badges.
+- `gh repo view` first; fill gaps via `gh repo edit`: description, homepage, topics, badges (`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`).
 - Homepage priority: real site → GitHub Pages → repo URL. Never invent.
 - Keep manifest fields (package.json, go.mod, PKGBUILD, flake.nix…) in sync with repo metadata.
-- License: MIT.
+- License: MIT; awesome lists CC0 (`CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md`).
 - Fork of someone else's project: say "independent, not affiliated" in the README and the description; add a trademark note when the upstream name is a mark.
