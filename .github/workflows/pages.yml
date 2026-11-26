@@ -9,6 +9,9 @@ on:
       - index.json
       - META/tools/site.sh
       - 'META/compat/**'
+      - 'META/schema/**'
+      - 'SPEC/**'
+      - 'examples/minimal/**'
       - PROFILES/szmelc/sources.conf
       - .github/workflows/pages.yml
   schedule:

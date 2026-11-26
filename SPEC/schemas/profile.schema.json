@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://szmelc-inc.github.io/CONVENTIONS.md/SPEC/schemas/profile.schema.json",
+  "title": "Conventions profile interchange object",
+  "type": "object",
+  "required": ["id", "name", "project_name", "skill_name", "repository_url", "site_url", "colors"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}, "name": {"type": "string", "minLength": 1},
+    "project_name": {"type": "string", "minLength": 1}, "skill_name": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+    "repository_url": {"type": "string", "format": "uri"}, "site_url": {"type": "string", "format": "uri"},
+    "colors": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}},
+    "extensions": {"type": "object"}
+  },
+  "additionalProperties": false
+}

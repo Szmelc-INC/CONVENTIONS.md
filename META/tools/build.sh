@@ -356,7 +356,8 @@ done
   for f in "${EXPERIMENTAL[@]}"; do e "$f" "$(title "$f")" "$(trigger "$f")" experimental rule; done
   for f in "${LEGACY[@]}"; do e "$f" "$(title "$f")" "Only when asked about superseded conventions" legacy archive; done
   echo '{'
-  echo '  "$schema": "META/schema/index.schema.json",'
+  echo '  "$schema": "https://szmelc-inc.github.io/CONVENTIONS.md/SPEC/schemas/index-v2.schema.json",'
+  echo '  "format_version": "1.0",'
   echo '  "name": "{{profile.skill_name}}",'
   echo '  "repo": "{{profile.repository_url}}",'
   echo '  "entries": ['
