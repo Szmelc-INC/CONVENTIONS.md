@@ -34,23 +34,38 @@ git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventi
 </table>
 </details>
 
+## What it is
+CONVENTIONS.md is one source of rules for code, repos, docs and AI agents.
+A build script turns these rules into the formats that agent tools read: an Agent Skill, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, and Cursor, Copilot and Kiro rules.
+It also makes `llms.txt`, a JSON index and a bundle in one file.
+
+Agents read [`INDEX.md`](INDEX.md) one time.
+Then they load only the rule files that match the task.
+This keeps the token cost low.
+
 ## Usage
 ### Install
 ```sh
 git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventions
 ~/.config/szmelc/conventions/install.sh
 ```
-Harness table, flags and per-project setup: [`HUMANS/README.md`](HUMANS/README.md). Agents read [`INDEX.md`](INDEX.md) once, then load only the rule files that match the task.
+The installer finds the agent tools on your machine.
+It links the global rules into each tool.
+For the list of tools, the flags and the setup for one project, read [`HUMANS/README.md`](HUMANS/README.md).
 
-### Live site
-[szmelc-inc.github.io/CONVENTIONS.md](https://szmelc-inc.github.io/CONVENTIONS.md/), built by [`META/tools/site.sh`](META/tools/site.sh) and deployed to GitHub Pages nightly and on pushes to `main` that change its sources.
-- Tabs: one per core with its guide and nested category groups; every rule readable inline, copyable as Markdown or a raw URL.
-- Projects tab: public Szmelc™ repositories from the GitHub API (owners in [`SZMELC/sources.conf`](SZMELC/sources.conf)) and the third-party projects from the compatibility registry, with `All · Third-party · Szmelc™` sub-tabs; experimental proposals and the legacy archive.
-- "Compatible with" carousel under the title; click an entry for its popup, or `Compatible with [N] conventions` for the full list.
-- `[MENU]`: install, star count, contribute, issues, GitHub, releases, discussions, About Szmelc™, share, theme, keys.
-- Themes: dark (default), light, mono, terminal; saved per browser, `?theme=<name>` overrides.
-- Keys: `/` filter, `1`–`9` and `0` tabs, `e` expand all, `t` theme, `?` keys list, `esc` close or clear.
-- Deep links: `#<core>`, `#<core>/<category>/`, `#<path>`, `#projects`, and popups `#install`, `#about`, `#compat`, `#compat/<id>`.
+### Update
+```sh
+git -C ~/.config/szmelc/conventions pull
+```
+To pin a release, run `git -C ~/.config/szmelc/conventions checkout v2.0.0`.
+After a major release, run `install.sh` again.
+
+### Browse
+Open the [live site](https://szmelc-inc.github.io/CONVENTIONS.md/).
+- Each core has a tab. Each rule opens in place. You can copy a rule as Markdown or as a raw URL.
+- The Projects tab shows all public Szmelc™ projects and the third-party projects that the rules use.
+- `[MENU]` has install, star, share, theme and more.
+- Press `?` on the site to see all keys.
 
 ## Compatible with
 31 third-party formats, specs, platforms, languages and tools (AGENTS.md, Agent Skills, CLAUDE.md, llms.txt, MCP, Keep a Changelog, SemVer, Shields.io and more): [`COMPATIBILITY.md`](COMPATIBILITY.md), generated from [`META/compat/registry.toml`](META/compat/registry.toml). Names and logos are trademarks of their respective owners; Szmelc™ is not affiliated with them.
