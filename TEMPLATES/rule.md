@@ -1,3 +1,6 @@
+---
+id: <stable-id>
+---
 # <Title>
 > Load when: <concrete task trigger, e.g. "building a CLI", "any code change">.
 

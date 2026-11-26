@@ -1,3 +1,6 @@
+---
+id: conventions.experimental.repo-baseline
+---
 # v2 repo baseline
 > Load when: user opts into experimental conventions, or ports a v1 project to the v2 baseline.
 

@@ -1,0 +1,33 @@
+# Copy this file to PROFILES/<id>/profile.toml and replace every example value.
+[profile]
+id = "example"
+name = "Example"
+project_name = "Example"
+skill_name = "example-conventions"
+language = "user"
+brand = "Example"
+organization = "Example organization"
+repository_path = "~/.config/example/conventions"
+repository_url = "https://example.invalid/conventions"
+raw_url = "https://example.invalid/conventions/raw/main"
+site_url = "https://example.invalid/conventions/"
+install_path = "~/.config/example/conventions"
+projects_source = ""
+organization_url = "https://example.invalid/organization"
+roadmap_url = ""
+privilege_tool = "the platform-supported privilege mechanism"
+notification_tool = "the project's notification tool"
+package_registry = "the project's package registry"
+
+[profile.colors]
+accent = "the project's configured accent"
+accent_text = "the project's configured accent text color"
+danger = "the project's configured danger color"
+danger_text = "the project's configured danger text color"
+secondary = "the project's configured secondary color"
+highlight = "the project's configured highlight color"
+
+[overrides]
+disable = []
+
+[overrides.set]

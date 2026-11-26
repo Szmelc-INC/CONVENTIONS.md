@@ -50,8 +50,19 @@ git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventi
 ~/.config/szmelc/conventions/install.sh
 ```
 The installer finds the agent tools on your machine.
-It links the global rules into each tool.
+It preserves existing global instruction files and updates its marked conventions block.
 For the list of tools, the flags and the setup for one project, read [`HUMANS/README.md`](HUMANS/README.md).
+
+### Use your own profile
+The neutral profile is the starting point for a team or organization. Copy [`TEMPLATES/profile.toml`](TEMPLATES/profile.toml) to `PROFILES/<id>/profile.toml`, replace the example values, then render it:
+
+```sh
+mkdir -p PROFILES/acme
+cp TEMPLATES/profile.toml PROFILES/acme/profile.toml
+META/tools/build.sh --profile acme --output dist/acme
+```
+
+Set the organization name, repository and site URLs, install path, skill name, language, tools, package registry and palette in the profile. The same rules then render with those values.
 
 ### Update
 ```sh
@@ -79,7 +90,7 @@ To add an entry, edit the registry and run `META/tools/build.sh`.
 
 ## How it works
 ### Cores
-The repo has seven cores.
+The repo has six neutral cores.
 A core is a directory with a guide (`README.md`) and a map file at the root (`X.md`).
 
 | Core | What it has |
@@ -88,9 +99,10 @@ A core is a directory with a guide (`README.md`) and a map file at the root (`X.
 | [`AGENTS/`](AGENTS/README.md) | Global rules for agents, prompts, skills, tool adapters |
 | [`HUMANS/`](HUMANS/README.md) | How to install and browse |
 | [`CONTRIBUTING/`](CONTRIBUTING/README.md) | How to add and change rules |
-| [`SZMELC/`](SZMELC/README.md) | Szmelc™ organizations, sites and project sources |
 | [`META/`](META/README.md) | Build tools, site, schema, compatibility registry |
 | [`TEMPLATES/`](TEMPLATES/README.md) | Skeletons for new files |
+
+Project identity and organization-specific documentation live in `PROFILES/`. Szmelc™ is the first profile.
 
 ### Build
 `META/tools/build.sh` makes the generated files from the sources.
@@ -108,10 +120,10 @@ llms.txt          index in the llmstxt.org format                 [generated]
 CONVENTIONS.md    all stable rules in one file                    [generated]
 COMPATIBILITY.md  compatible formats, specs and tools             [generated]
 AGENTS.md         rules for agents in this repo + map of AGENTS/  [map generated]
-HUMANS.md CONTRIBUTING.md SZMELC.md META.md TEMPLATES.md  core maps   [generated]
+HUMANS.md CONTRIBUTING.md META.md TEMPLATES.md  core maps   [generated]
 CLAUDE.md GEMINI.md   import AGENTS.md
 CONVENTIONS/      rules; EXPERIMENTAL/ proposals, LEGACY/ archive
-AGENTS/ HUMANS/ CONTRIBUTING/ SZMELC/ META/ TEMPLATES/   the other cores
+AGENTS/ HUMANS/ CONTRIBUTING/ META/ TEMPLATES/   the other cores
 install.sh        installer for agent tools
 CHANGELOG.md      release history
 LICENSE           MIT

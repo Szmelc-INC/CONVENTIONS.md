@@ -1,3 +1,6 @@
+---
+id: conventions.repo.layout
+---
 # Repository layout
 > Load when: creating a repo, adding top-level files or directories, or auditing a repo against the conventions.
 

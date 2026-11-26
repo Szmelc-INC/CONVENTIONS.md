@@ -1,3 +1,6 @@
+---
+id: agents.prompt.meta-prompts
+---
 # Meta-prompts
 > Load when: asking an agent to write, review, tighten or test a prompt.
 

@@ -1,3 +1,6 @@
+---
+id: conventions.systems.support
+---
 # Platform support
 > Load when: deciding which operating systems a tool supports, writing platform notes in a README, or setting up a CI test matrix.
 

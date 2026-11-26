@@ -1,3 +1,6 @@
+---
+id: conventions.formats.yaml
+---
 # YAML
 > Load when: writing a GitHub workflow, issue form, compose file, frontmatter, or any YAML a tool requires.
 

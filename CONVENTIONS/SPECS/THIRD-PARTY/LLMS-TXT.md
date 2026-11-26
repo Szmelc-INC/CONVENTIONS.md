@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.llms-txt
+---
 # llms.txt
 > Load when: publishing docs or a site meant for LLMs, or generating an llms.txt.
 

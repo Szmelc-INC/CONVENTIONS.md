@@ -6,7 +6,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 export LC_ALL=C
 
-CORES=(CONVENTIONS AGENTS HUMANS CONTRIBUTING SZMELC META TEMPLATES)
+CORES=(CONVENTIONS AGENTS HUMANS CONTRIBUTING META TEMPLATES)
 # Top-level directories of the pre-core layout; references to them are stale.
 RETIRED='workflow|design|interfaces|packaging|meta|agents|global|skills|tools|schema|_template|index|experimental|legacy|adapters'
 
@@ -18,9 +18,14 @@ META/tools/build.sh --check >/dev/null || err "generated files are stale: run ME
 
 all_md() { find "${CORES[@]}" -type f -name '*.md' | sort; }
 fm() { awk -v k="$2" 'NR==1&&/^---$/{f=1;next} f&&/^---$/{exit} f&&index($0,k": ")==1{print substr($0,length(k)+3)}' "$1"; }
-header() { # header <file>: "# Title" on line 1, "> Load when: " on line 2
-  sed -n '1p' "$1" | grep -q '^# ' || err "$1: line 1 must be '# Title'"
-  sed -n '2p' "$1" | grep -q '^> Load when: ' || err "$1: line 2 must be '> Load when: <trigger>'"
+header() { # header <file>: title and trigger on adjacent lines after optional front matter
+  awk '
+    NR==1 && /^---[[:space:]]*$/ {front=1; started=1; next}
+    front && /^---[[:space:]]*$/ {front=0; closed=1; next}
+    !front && !heading && /^# / {heading=NR; next}
+    heading && NR==heading+1 && /^> Load when: / {trigger=1}
+    END {exit !(heading && trigger && !front && (!started || closed))}
+  ' "$1" || err "$1: expected adjacent '# Title' and '> Load when:' lines after optional front matter"
 }
 
 # 2. Cores: directory, README.md with header, root map.
@@ -31,6 +36,7 @@ for c in "${CORES[@]}"; do
 done
 
 # 3. Rule files: header, listed in INDEX.md.
+declare -A RULE_IDS=()
 while IFS= read -r f; do
   case $f in
     */*/*) ;;
@@ -41,7 +47,22 @@ while IFS= read -r f; do
   esac
   header "$f"
   grep -qF "\`$f\`" INDEX.md || err "$f: not listed in INDEX.md"
+  if [[ $f != CONVENTIONS/LEGACY/* ]]; then
+    id=$(fm "$f" id)
+    [[ $id =~ ^[a-z0-9]+([.-][a-z0-9]+)*$ ]] || err "$f: missing or invalid stable id"
+    [[ -z ${RULE_IDS[$id]:-} ]] || err "$f: duplicate id '$id' (also ${RULE_IDS[$id]})"
+    RULE_IDS[$id]=$f
+  fi
 done < <(all_md)
+
+# Stable rule ids are part of the machine index and must match source front matter.
+jq empty index.json META/schema/index.schema.json >/dev/null 2>&1 || err "index.json or its schema is invalid JSON"
+jq -e 'all(.entries[]; .kind != "rule" or (.id | type == "string"))' index.json >/dev/null || err "index.json rule entry missing id"
+for id in "${!RULE_IDS[@]}"; do
+  f=${RULE_IDS[$id]}
+  indexed=$(jq -r --arg path "$f" '[.entries[] | select(.path == $path) | .id][0] // ""' index.json)
+  [[ $indexed == "$id" ]] || err "$f: index.json id '$indexed' does not match source id '$id'"
+done
 
 # 4. Legacy files: must have a "# " title somewhere in the first 5 lines.
 while IFS= read -r f; do
@@ -53,16 +74,67 @@ check_skill() {
   local f=$1 want=$2 name desc
   name=$(fm "$f" name)
   desc=$(fm "$f" description)
-  [[ $name =~ ^[a-z0-9]([a-z0-9-]{0,62}[a-z0-9])?$ ]] || err "$f: invalid name '$name'"
-  [[ $name == "$want" ]] || err "$f: name '$name' must equal '$want'"
+  [[ $name == '{{profile.skill_name}}' || $name =~ ^[a-z0-9]([a-z0-9-]{0,62}[a-z0-9])?$ ]] || err "$f: invalid name '$name'"
+  [[ $name == "$want" || $name == '{{profile.skill_name}}' ]] || err "$f: name '$name' must equal '$want' or use the profile slot"
   [[ -n $desc ]] || err "$f: missing description"
   ((${#desc} <= 1024)) || err "$f: description longer than 1024 chars"
 }
-check_skill SKILL.md szmelc-conventions
+check_skill SKILL.md '{{profile.skill_name}}'
 for f in AGENTS/skills/*/SKILL.md; do
   d=${f%/SKILL.md}
   check_skill "$f" "${d##*/}"
 done
+
+# 5b. Every profile renders, and neutral output contains no Szmelc-only values.
+profile_tmp=$(mktemp -d)
+trap 'rm -rf "$profile_tmp"' EXIT
+shopt -s nullglob
+profiles=(PROFILES/*/profile.toml)
+shopt -u nullglob
+((${#profiles[@]})) || err "no profiles found in PROFILES/"
+for profile_file in "${profiles[@]}"; do
+  profile=${profile_file#PROFILES/}
+  profile=${profile%/profile.toml}
+  out="$profile_tmp/$profile"
+  mkdir -p "$out"
+  META/tools/build.sh --profile "$profile" --output "$out" >/dev/null || err "profile '$profile' failed to build"
+  [[ -s $out/SKILL.md ]] || err "profile '$profile' did not render SKILL.md"
+  [[ -s $out/AGENTS/global/AGENTS.md ]] || err "profile '$profile' did not render global rules"
+  [[ -s $out/CONVENTIONS.md ]] || err "profile '$profile' did not render the bundle"
+  skill_name=$(awk -F'"' '$1 ~ /^[[:space:]]*skill_name[[:space:]]*=[[:space:]]*$/ {print $2; exit}' "$profile_file")
+  [[ -n $skill_name ]] || err "$profile_file: missing profile.skill_name"
+  grep -q "^name: $skill_name$" "$out/SKILL.md" || err "profile '$profile' rendered the wrong skill name"
+  if rg -nF '{{profile.' "$out" >/dev/null; then
+    err "profile '$profile' output contains an unresolved profile variable"
+  fi
+  if [[ $profile == neutral ]]; then
+    if rg -n -i 'Szmelc™|Polish|pkexec|dc-notify|\bSAUR\b|#105c5c|#1f8a8a|#750f0f|#b83a3a|#c0c0c0|#7fffd4' \
+      "$out/SKILL.md" "$out/AGENTS/global/AGENTS.md" "$out/CONVENTIONS.md" \
+      "$out/AGENTS/adapters" >/dev/null; then
+      err "neutral profile contains Szmelc-only values"
+    fi
+  fi
+done
+
+cat >"$profile_tmp/team.toml" <<'EOF'
+[overrides]
+disable = ["conventions.code.shell", "conventions.code.go"]
+[overrides.set]
+profile.privilege_tool = "doas"
+EOF
+cat >"$profile_tmp/project.toml" <<'EOF'
+[overrides.set]
+profile.privilege_tool = "sudo"
+EOF
+cat >"$profile_tmp/user.toml" <<'EOF'
+[overrides.set]
+profile.privilege_tool = "run0"
+EOF
+overlay_out="$profile_tmp/layers"
+META/tools/build.sh --profile szmelc --team "$profile_tmp/team.toml" --project "$profile_tmp/project.toml" --user "$profile_tmp/user.toml" --output "$overlay_out" >/dev/null || err "layered profile build failed"
+jq -e '[.entries[] | select(.id == "conventions.code.shell" or .id == "conventions.code.go")] | length == 0' "$overlay_out/index.json" >/dev/null || err "disabled rules remain in the layered index"
+grep -qF 'use `run0` where required' "$overlay_out/AGENTS/global/AGENTS.md" || err "user overlay did not override profile and team values"
+grep -Eq 'use `(doas|sudo)` where required' "$overlay_out/AGENTS/global/AGENTS.md" && err "a lower-precedence value overrode the user layer"
 
 # 6. INDEX.md entries exist.
 while IFS= read -r p; do
@@ -72,7 +144,7 @@ done < <(grep -oE '^\| `[^`]+`' INDEX.md | sed -E 's/^\| `([^`]+)`/\1/')
 # 7. Backtick path references inside sources resolve; none use the retired layout;
 #    stable sources never point into CONVENTIONS/EXPERIMENTAL/ or CONVENTIONS/LEGACY/.
 tops=$(find . -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf '%f\n' | paste -sd'|')
-sources=(SKILL.md AGENTS.md README.md CHANGELOG.md HUMANS.md CONTRIBUTING.md SZMELC.md META.md TEMPLATES.md COMPATIBILITY.md)
+sources=(SKILL.md AGENTS.md README.md CHANGELOG.md HUMANS.md CONTRIBUTING.md META.md TEMPLATES.md COMPATIBILITY.md)
 while IFS= read -r f; do
   case $f in TEMPLATES/README.md) ;; AGENTS/adapters/* | CONVENTIONS/LEGACY/* | TEMPLATES/*) continue ;; esac
   sources+=("$f")

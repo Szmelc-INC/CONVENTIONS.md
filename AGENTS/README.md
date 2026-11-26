@@ -14,7 +14,7 @@ Everything an AI agent consumes: the always-on global rules, agent behaviour rul
 
 ## How agents load conventions
 1. Global rules are always on (installed as global instructions).
-2. Skill `szmelc-conventions` (root `SKILL.md`) is the entry point; it points at `INDEX.md`.
+2. Skill `{{profile.skill_name}}` (root `SKILL.md`) is the entry point; it points at `INDEX.md`.
 3. `INDEX.md` once per session, then only files whose `Load when` matches. Never bulk-read.
 4. Precedence: user's direct instruction > project `AGENTS.md`/`CLAUDE.md` > stable rules > experimental.
 

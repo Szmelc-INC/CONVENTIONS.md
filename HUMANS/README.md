@@ -4,18 +4,18 @@
 The human side: how to get the conventions into your tools and read them.
 
 ## Browse
-- Site: <https://szmelc-inc.github.io/CONVENTIONS.md/>. One tab per core with its guide and nested category groups; every rule readable inline, copyable as Markdown or raw URL; copyable prompts; the Szmelc™ projects index; themes dark, light, mono, terminal. A "Compatible with" carousel under the title lists the third-party formats and tools (`COMPATIBILITY.md`); hover or focus stops it, click opens details. On the CONVENTIONS tab, `All · Third-party · Szmelc™` filters rules by origin. Keys: `/` filter (searches rule text, flags tabs with hits), `1`-`9` and `0` tabs (arrows inside the tab bar), `e` expand all, `t` theme, `esc` clear; filter hits are highlighted. Deep-links: `#<core>`, `#<core>/<category>/`, `#<path>`, `#compat/<id>` or `#install` (e.g. `#CONVENTIONS/GITHUB/RELEASES/`, `#CONVENTIONS/DESIGN/COLORS.md`).
-- Repo root: one map per core (`CONVENTIONS.md`, `AGENTS.md`, `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`, `TEMPLATES.md`), each pointing at `X/README.md`. Compatible third-party formats and tools: `COMPATIBILITY.md`.
+- Site: <{{profile.site_url}}>. One tab per core with its guide and nested category groups; every rule readable inline, copyable as Markdown or raw URL; copyable prompts; the {{profile.project_name}} projects index; themes dark, light, mono, terminal. A "Compatible with" carousel under the title lists the third-party formats and tools (`COMPATIBILITY.md`); hover or focus stops it, click opens details. On the CONVENTIONS tab, `All · Third-party · {{profile.brand}}` filters rules by origin. Keys: `/` filter (searches rule text, flags tabs with hits), `1`-`9` and `0` tabs (arrows inside the tab bar), `e` expand all, `t` theme, `esc` clear; filter hits are highlighted. Deep-links: `#<core>`, `#<core>/<category>/`, `#<path>`, `#compat/<id>` or `#install` (e.g. `#CONVENTIONS/GITHUB/RELEASES/`, `#CONVENTIONS/DESIGN/COLORS.md`).
+- Repo root: one map per core (`CONVENTIONS.md`, `AGENTS.md`, `HUMANS.md`, `CONTRIBUTING.md`, `META.md`, `TEMPLATES.md`), each pointing at `X/README.md`. Compatible third-party formats and tools: `COMPATIBILITY.md`.
 
 ## Install
 ```sh
-git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventions
-~/.config/szmelc/conventions/install.sh status   # what would be linked
-~/.config/szmelc/conventions/install.sh          # link into every detected harness
+git clone <repository-url> <install-path>
+<install-path>/install.sh status   # what would be linked
+<install-path>/install.sh          # link into every detected harness
 ```
-- Existing files are moved to `*.bak.<timestamp>`, never overwritten; `install.sh uninstall` restores them.
+- Existing global instruction files are preserved; the installer updates only its marked block. `install.sh uninstall` removes that block. `--replace` opts into backed-up file replacement.
 - Pick harnesses: `--only claude,codex`. Preview: `--dry-run`. Into a project: `install.sh project <dir>`.
-- Update: `git -C ~/.config/szmelc/conventions pull`, then re-run `install.sh` when the layout changed.
+- Update: run `git -C <install-path> pull`, then re-run `install.sh` when the layout changed.
 
 | Harness | Global rules | Skills root |
 |---|---|---|
@@ -24,7 +24,7 @@ git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventi
 | Gemini CLI / Antigravity | `~/.gemini/GEMINI.md` | `~/.gemini/config/skills` (unverified) |
 | Qwen Code | `~/.qwen/QWEN.md` (unverified) | `~/.qwen/skills` |
 | OpenCode | `~/.config/opencode/AGENTS.md` (unverified) | — |
-| Kiro | `~/.kiro/steering/szmelc-conventions.md` | `~/.kiro/skills` |
+| Kiro | `~/.kiro/steering/<skill-name>.md` | `~/.kiro/skills` |
 | Windsurf | `~/.codeium/windsurf/memories/global_rules.md` (unverified) | — |
 | Grok, jcode, `~/.agents` | — | `~/.grok/skills`, `~/.jcode/skills`, `~/.agents/skills` |
 | Cursor, Copilot | per project: `install.sh project <dir>` | — |

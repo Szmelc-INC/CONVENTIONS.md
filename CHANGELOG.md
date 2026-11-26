@@ -4,6 +4,10 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+### Breaking
+
+- The repository now has six neutral cores; Szmelc identity data and project discovery moved under `PROFILES/szmelc/`. Rule IDs are stable across file renames, profile rendering is explicit, and global installation preserves existing instruction files by managing only a marked block. See [`MIGRATION-v2-to-v3.md`](MIGRATION-v2-to-v3.md) before upgrading.
+
 ## [2.0.2] - 2026-11-26
 
 Governance and roadmap; no rule path, schema or install change.

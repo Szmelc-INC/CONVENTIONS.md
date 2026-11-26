@@ -1,3 +1,6 @@
+---
+id: agents.rules.efficiency
+---
 # Token efficiency
 > Load when: choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long.
 

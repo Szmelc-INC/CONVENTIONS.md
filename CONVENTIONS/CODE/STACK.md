@@ -1,3 +1,6 @@
+---
+id: conventions.code.stack
+---
 # Stack defaults
 > Load when: starting a project or tool, or choosing a language or dependencies.
 

@@ -9,5 +9,6 @@ Map of `TEMPLATES/`. Full guide: [`TEMPLATES/README.md`](TEMPLATES/README.md).
 | [`TEMPLATES/AGENTS.md`](TEMPLATES/AGENTS.md) | <Project name> |  |
 | [`TEMPLATES/SKILL.md`](TEMPLATES/SKILL.md) | Skill `<skill-name>` |  |
 | [`TEMPLATES/category-README.md`](TEMPLATES/category-README.md) | <CATEGORY> | <concrete trigger covering every file in this category>. |
+| [`TEMPLATES/profile.toml`](TEMPLATES/profile.toml) | Copy this file to PROFILES/<id>/profile.toml and replace every example value. |  |
 | [`TEMPLATES/prompt.md`](TEMPLATES/prompt.md) | <Prompt name> |  |
 | [`TEMPLATES/rule.md`](TEMPLATES/rule.md) | <Title> | <concrete task trigger, e.g. "building a CLI", "any code change">. |

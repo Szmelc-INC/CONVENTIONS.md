@@ -1,3 +1,6 @@
+---
+id: conventions.interfaces.tui
+---
 # TUI
 > Load when: building a TUI, or any project that has a CLI.
 

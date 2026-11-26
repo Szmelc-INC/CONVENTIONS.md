@@ -1,3 +1,6 @@
+---
+id: conventions.github.deployments.github-pages
+---
 # GitHub Pages
 > Load when: publishing a site, docs or web UI on GitHub Pages.
 

@@ -1,3 +1,6 @@
+---
+id: conventions.github.deployments.environments
+---
 # Deployment environments
 > Load when: deploying anything from Actions, or adding deployment secrets.
 

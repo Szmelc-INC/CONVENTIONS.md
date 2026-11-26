@@ -1,3 +1,6 @@
+---
+id: conventions.experimental.cli-contract
+---
 # v2 CLI & config contract
 > Load when: user opts into experimental conventions, or makes a tool wrappable by another tool or agent.
 

@@ -1,3 +1,6 @@
+---
+id: conventions.specs.original.design-md
+---
 # Design docs & agent briefs
 > Load when: starting a project, writing a brief for a coding agent, or changing a project's architecture.
 

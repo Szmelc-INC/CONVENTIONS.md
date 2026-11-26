@@ -1,9 +1,12 @@
+---
+id: contributing.versioning
+---
 # Versioning the conventions
 > Load when: deciding the version bump for a change to this conventions repo, releasing it, or pinning an install.
 
 - SemVer on the whole repo per `CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`; tags per `CONVENTIONS/GITHUB/RELEASES/TAGS.md`.
 - The public contract is: rule paths, core and category names, index schema (`META/schema/index.schema.json`), install path and `install.sh` commands.
-- Ecosystem eras (`SZMELC/README.md`) and layout generations named in commit history (v2, v3 taxonomy) are not SemVer.
+- Profile history and layout generations named in commit history are not SemVer.
 
 | Bump | When |
 |---|---|
@@ -19,6 +22,6 @@
 
 ## Pinning
 - Default install tracks `main`.
-- Pin: `git -C ~/.config/szmelc/conventions checkout vX.Y.Z` (detached HEAD; `pull` stops working).
-- Unpin: `git -C ~/.config/szmelc/conventions checkout main && git -C ~/.config/szmelc/conventions pull`.
+- Pin: run `git -C <install-path> checkout vX.Y.Z` (detached HEAD; `pull` stops working).
+- Unpin: run `git -C <install-path> checkout main && git -C <install-path> pull`.
 - Re-run `install.sh` after a major bump.

@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.skill-md
+---
 # Skills (SKILL.md)
 > Load when: writing, editing, or installing an agent skill.
 

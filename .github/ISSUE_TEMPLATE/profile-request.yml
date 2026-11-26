@@ -1,0 +1,39 @@
+name: Profile or override request
+description: Request a new organization profile or a profile-specific rule override.
+title: "Profile: "
+labels: [feat, area/agents]
+body:
+  - type: dropdown
+    id: request
+    attributes:
+      label: Request type
+      options:
+        - New profile
+        - Change an existing profile
+        - Disable a rule for my profile
+        - Set a profile value
+    validations:
+      required: true
+  - type: input
+    id: profile
+    attributes:
+      label: Profile id
+      description: Lowercase kebab-case id, or "new".
+      placeholder: acme
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Requested change
+      description: Name the rule id or profile variable and give the desired value.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why this belongs in a profile
+      description: Explain the organization or team need. Personal or project-only behavior may belong in a local overlay.
+    validations:
+      required: true

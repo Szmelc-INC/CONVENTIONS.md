@@ -1,3 +1,6 @@
+---
+id: conventions.github.discussions
+---
 # Discussions
 > Load when: enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions.
 

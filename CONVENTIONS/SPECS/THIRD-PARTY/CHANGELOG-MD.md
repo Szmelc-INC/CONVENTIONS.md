@@ -1,3 +1,6 @@
+---
+id: conventions.specs.third-party.changelog-md
+---
 # Changelog
 > Load when: creating or updating CHANGELOG.md, or preparing a release in a project that keeps one.
 

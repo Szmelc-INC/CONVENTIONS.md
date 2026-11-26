@@ -1,3 +1,6 @@
+---
+id: agents.prompt.writing
+---
 # Writing a prompt
 > Load when: wording or tightening the lines of a prompt, or choosing its examples, placeholders and untrusted-input handling.
 

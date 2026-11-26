@@ -1,3 +1,6 @@
+---
+id: conventions.github.repo.settings
+---
 # Repo settings
 > Load when: creating a repo, changing its GitHub settings, merge options, rulesets or feature toggles.
 

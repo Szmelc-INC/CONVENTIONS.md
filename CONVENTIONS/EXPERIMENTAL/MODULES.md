@@ -1,3 +1,6 @@
+---
+id: conventions.experimental.modules
+---
 # Modules (KUR)
 > Load when: user opts into experimental conventions, or builds a Kombinat/KUR plugin module.
 

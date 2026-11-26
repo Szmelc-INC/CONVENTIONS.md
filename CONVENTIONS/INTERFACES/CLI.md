@@ -1,3 +1,6 @@
+---
+id: conventions.interfaces.cli
+---
 # CLI
 > Load when: building or changing a command-line tool.
 

@@ -1,3 +1,6 @@
+---
+id: conventions.systems.macos
+---
 # macOS
 > Load when: supporting macOS, or writing scripts or paths that must also run on macOS.
 

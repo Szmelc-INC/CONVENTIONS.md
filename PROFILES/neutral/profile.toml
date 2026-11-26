@@ -1,10 +1,19 @@
 [profile]
 id = "neutral"
 name = "Neutral"
+project_name = "the project"
+skill_name = "conventions"
 language = "user"
 brand = "the project"
 organization = "the project organization"
-repository_path = "the conventions repository"
+repository_path = "~/.config/conventions"
+repository_url = "https://github.com/Szmelc-INC/CONVENTIONS.md"
+raw_url = "https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main"
+site_url = "https://szmelc-inc.github.io/CONVENTIONS.md/"
+install_path = "~/.config/conventions"
+projects_source = ""
+organization_url = ""
+roadmap_url = ""
 privilege_tool = "the platform-supported privilege mechanism"
 notification_tool = "the project's notification tool"
 package_registry = "the project's package registry"
@@ -19,4 +28,5 @@ highlight = "the project's configured highlight color"
 
 [overrides]
 disable = []
-set = {}
+
+[overrides.set]

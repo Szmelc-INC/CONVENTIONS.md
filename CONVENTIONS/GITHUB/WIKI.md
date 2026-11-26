@@ -1,3 +1,6 @@
+---
+id: conventions.github.wiki
+---
 # Wiki
 > Load when: enabling a GitHub wiki or deciding where project docs live.
 

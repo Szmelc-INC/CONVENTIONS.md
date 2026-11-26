@@ -1,3 +1,6 @@
+---
+id: conventions.design.colors
+---
 # Colors
 > Load when: any UI, TUI, CLI color, web page, theme, badge or graphic.
 

@@ -6,7 +6,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | File | Load when |
 |---|---|
 | `AGENTS/global/AGENTS.md` | Installed as global instructions (CLAUDE.md, AGENTS.md, GEMINI.md, QWEN.md, …); always active |
-| `SKILL.md` | Installed as skill `szmelc-conventions`; entry point and format map |
+| `SKILL.md` | Installed as skill `conventions`; entry point and format map |
 
 ## Cores
 | File | Load when |
@@ -15,7 +15,6 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `AGENTS/README.md` | installing the conventions into an agent harness, deciding on subagents, model or effort, or writing a prompt for an agent. |
 | `HUMANS/README.md` | a person asks how to install, browse or use the conventions. |
 | `CONTRIBUTING/README.md` | adding, changing, promoting, versioning or indexing a convention, or contributing to this repo. |
-| `SZMELC/README.md` | asked about Szmelc™ itself, its public organisations and projects, the ecosystem, or the projects index. |
 | `META/README.md` | changing how this repo is built, checked, indexed or published (tools, schema, compatibility registry, site, CI). |
 | `TEMPLATES/README.md` | starting a new rule, prompt, skill, category or project agent file from a skeleton. |
 
@@ -37,7 +36,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `AGENTS/RULES/EFFICIENCY.md` | choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long. |
 | `AGENTS/RULES/SUBAGENTS.md` | considering a subagent, parallel work, skills/MCP use, or long-running commands. |
 | `CONTRIBUTING/101.md` | first using the conventions, setting them up for an agent, or applying them to an existing project. |
-| `CONTRIBUTING/DIY.md` | building your own conventions repo (team, org, personal) on this skeleton, or layering one on top of Szmelc. |
+| `CONTRIBUTING/DIY.md` | building your own conventions repo (team, organization or personal) on this skeleton. |
 | `CONTRIBUTING/INDEXING.md` | adding or changing a rule file and wondering what to rebuild, or adding a new generated output format. |
 | `CONTRIBUTING/LIFECYCLE.md` | proposing, promoting, demoting or deprecating a convention, or tracking how a rule changed. |
 | `CONTRIBUTING/PROMPTS.md` | asking an agent to use, apply, extend or maintain the conventions, or looking for a ready prompt to paste. |
@@ -84,6 +83,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/PACKAGING/ARCH.md` | packaging, releasing, or adding install instructions. |
 | `CONVENTIONS/PACKAGING/INSTALL.md` | writing an installer, a setup script, install instructions, or uninstall steps. |
 | `CONVENTIONS/PACKAGING/NIX.md` | packaging, releasing, or setting up a dev environment. |
+| `CONVENTIONS/PROFILES/OVERLAYS.md` | selecting a profile or applying team, project or user-specific rule overrides. |
 | `CONVENTIONS/REPO/LAYOUT.md` | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
 | `CONVENTIONS/REPO/WRITING.md` | writing docs, help text, error messages, commit messages, or community and lore text. |
 | `CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md` | organising a doc tree into cores, adding a core or category, or editing a core README. |
@@ -122,12 +122,9 @@ Read this once per session. Load only files whose trigger matches the task. Path
 ## Experimental (opt-in only)
 | File | Load when |
 |---|---|
-| `CONVENTIONS/EXPERIMENTAL/CLI-CONTRACT.md` | user opts into experimental conventions, or makes a tool wrappable by another tool or agent. |
 | `CONVENTIONS/EXPERIMENTAL/LOCALIZATION.md` | user opts into experimental conventions, or adds user-facing strings, locales or translations. |
-| `CONVENTIONS/EXPERIMENTAL/META-GRAMMAR.md` | user opts into experimental conventions, or designs tooling that parses, lints or generates from these conventions. |
 | `CONVENTIONS/EXPERIMENTAL/MODULES.md` | user opts into experimental conventions, or builds a Kombinat/KUR plugin module. |
 | `CONVENTIONS/EXPERIMENTAL/REPO-BASELINE.md` | user opts into experimental conventions, or ports a v1 project to the v2 baseline. |
-| `CONVENTIONS/EXPERIMENTAL/SPEC-FILES.md` | user opts into experimental conventions, or designs Szmelc™ spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md). |
 
 ## Legacy (archive; load only when asked)
 | File | Title |

@@ -1,3 +1,6 @@
+---
+id: conventions.formats.markdown.github-extras
+---
 # GitHub Markdown extras
 > Load when: using alerts, collapsible sections, task lists, diagrams, footnotes, badges or images in Markdown rendered on GitHub.
 

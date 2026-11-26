@@ -1,3 +1,6 @@
+---
+id: conventions.systems.windows-wsl2
+---
 # Windows via WSL2
 > Load when: supporting Windows users or testing a tool under WSL2.
 
