@@ -68,7 +68,14 @@ Open the [live site](https://szmelc-inc.github.io/CONVENTIONS.md/).
 - Press `?` on the site to see all keys.
 
 ## Compatible with
-31 third-party formats, specs, platforms, languages and tools (AGENTS.md, Agent Skills, CLAUDE.md, llms.txt, MCP, Keep a Changelog, SemVer, Shields.io and more): [`COMPATIBILITY.md`](COMPATIBILITY.md), generated from [`META/compat/registry.toml`](META/compat/registry.toml). Names and logos are trademarks of their respective owners; Szmelc™ is not affiliated with them.
+The rules work with 31 third-party formats, specs and tools.
+Some examples are AGENTS.md, Agent Skills, `llms.txt`, MCP, Conventional Commits, SemVer, Nix flakes and Shields.io.
+
+The full list is in [`COMPATIBILITY.md`](COMPATIBILITY.md).
+The build makes that file from [`META/compat/registry.toml`](META/compat/registry.toml).
+To add an entry, edit the registry and run `META/tools/build.sh`.
+
+<sub>Names and logos belong to their owners. Szmelc™ is not affiliated with them.</sub>
 
 ## How it works
 ### Cores
