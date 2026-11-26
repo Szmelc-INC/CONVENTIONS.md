@@ -28,7 +28,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/GITHUB/CODING-AGENTS.md`](CONVENTIONS/GITHUB/CODING-AGENTS.md) | Coding agents on GitHub | assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow. |
 | [`CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md`](CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md) | Deployment environments | deploying anything from Actions, or adding deployment secrets. |
 | [`CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md`](CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md) | GitHub Pages | publishing a site, docs or web UI on GitHub Pages. |
-| [`CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md`](CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md) | Web UI style | building or restyling a Szmelc™ web page, Pages site or web UI. |
+| [`CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md`](CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md) | Web UI style | building or restyling a project web page, Pages site or web UI. |
 | [`CONVENTIONS/GITHUB/DISCUSSIONS.md`](CONVENTIONS/GITHUB/DISCUSSIONS.md) | Discussions | enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions. |
 | [`CONVENTIONS/GITHUB/ISSUES.md`](CONVENTIONS/GITHUB/ISSUES.md) | Issues | creating, triaging or closing issues, or adding issue templates. |
 | [`CONVENTIONS/GITHUB/ORGANIZATIONS.md`](CONVENTIONS/GITHUB/ORGANIZATIONS.md) | Organizations | creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults. |
@@ -82,12 +82,12 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 
 ---
 <!-- source: AGENTS/global/AGENTS.md -->
-## Szmelc™ global rules
-> Install: `./install.sh` links this file as the global instructions of every detected harness (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.qwen/QWEN.md`, `~/.config/opencode/AGENTS.md`, …). Conventions repo: `~/.config/szmelc/conventions` (missing → `git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventions && ~/.config/szmelc/conventions/install.sh`). Paths below are relative to that repo.
+## Global rules
+> Install: `./install.sh` links this file as the global instructions of every detected harness. Repository path: `{{profile.repository_path}}`. Paths below are relative to that repo.
 
 ### Always
-- Chat: Polish. Code, comments, docs, commits: English.
-- Never `sudo`; use `pkexec`.
+- Chat: reply in the user's language. Code, comments, docs, commits: English.
+- Never use an unsafe privilege shortcut; use `{{profile.privilege_tool}}` where required.
 - Autonomous end to end (push, CI, fix, retry). Ask only before destructive/irreversible: deletion, force-push, history rewrite, visibility/permission change, prod data.
 - Bad request → say why in one line, then do the best version.
 - Never change another repo without asking; when a dependency fails, name the repo and the cause.
@@ -619,12 +619,12 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 | Thing | Convention | Example |
 |---|---|---|
 | Repo | `Title-Case-With-Hyphens` | `Modern-Shell`, `Linux-From-Something` |
-| Binary / command | lowercase, short, one word | `msh`, `saur`, `lfn` |
+| Binary / command | lowercase, short, one word | `msh`, `tool`, `lfn` |
 | Command alias | same binary, dispatched on `argv[0]` | `px` → `silkrouter` |
-| Env var | `UPPER_SNAKE` with the tool prefix | `SAUR_COLOR` |
+| Env var | `UPPER_SNAKE` with the tool prefix | `TOOL_COLOR` |
 | Config key | `snake_case`, English, never translated | `build_timeout` |
-| Shell function / exported var | `snake_case` / `UPPER_SNAKE` | `build_pkg`, `SAUR_OUT` |
-| Experimental package | `<name>-ex` | `saur-ex` |
+| Shell function / exported var | `snake_case` / `UPPER_SNAKE` | `build_pkg`, `TOOL_OUT` |
+| Experimental package | `<name>-ex` | `tool-ex` |
 | Major-version contract | `ARCHITECTURE-v<N>.md` | `ARCHITECTURE-v4.md` |
 | Branch | `CONVENTIONS/WORKFLOW/BRANCHES.md` | `feat/signing` |
 
@@ -649,7 +649,7 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 - A script that needs GNU tools says so at the top.
 - Quote every expansion; `$HOME` and XDG vars, never `/home/<user>`; temp files via `mktemp`, removed on exit (`trap`).
 - `bash -n` / `sh -n` and `shellcheck` clean before delivery.
-- Root: never `sudo`; `pkexec` for the one step that needs it.
+- Root: never use an unsafe privilege shortcut; use `{{profile.privilege_tool}}` for the one step that needs it.
 
 ---
 <!-- source: CONVENTIONS/CODE/STACK.md -->
@@ -671,32 +671,31 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 
 | Role | Value | Use |
 |---|---|---|
-| Accent | `#105c5c` | On dark: fill + white text |
-| Accent text/links | `#1f8a8a` | Text, links |
-| Danger/experimental | `#750f0f` / `#b83a3a` text | Errors, warnings, experimental |
-| Silver | `#c0c0c0` | Secondary |
-| Aquamarine | `#7fffd4` | Max 1–2 highlights per screen, black text |
-| Neutrals | `#0b0b0b` `#131313` `#1b1b1b`, lines `#262626` | Everything else |
-| Light neutrals | `#f3f3f3` `#ffffff` `#e9e9e9`, lines `#d6d6d6`, text `#141414` | Light toggle only |
+| Accent | `{{profile.colors.accent}}` | On dark: fill + white text |
+| Accent text/links | `{{profile.colors.accent_text}}` | Text, links |
+| Danger/experimental | `{{profile.colors.danger}}` / `{{profile.colors.danger_text}}` | Errors, warnings, experimental |
+| Secondary | `{{profile.colors.secondary}}` | Secondary |
+| Highlight | `{{profile.colors.highlight}}` | Limited emphasis, black text |
+| Neutrals | Per profile | Everything else |
 
 Shade ramps (UIs with layers; all derived from the values above):
 
 | Ramp | Steps | Use |
 |---|---|---|
-| Surfaces | `#0b0b0b` page, `#0f0f0f` panel, `#131313` band, `#171717` hover, `#1b1b1b` raised, `#212121` pressed | One step per nesting level or state |
-| Lines | `#1c1c1c` row divider, `#262626` frame, `#303030` control, `#3a3a3a` hover; `#666666` input edge | Input edges need 3:1 |
-| Text | `#f2f2f2` heading, `#e3e3e3` body, `#c0c0c0` secondary, `#9a9a9a` muted, `#6e6e6e` decoration only | Muted and up pass AA on every surface |
-| Accent | `#0a3d3d` `#105c5c` `#167272` `#1f8a8a` `#34a3a3` | `#34a3a3` for link text on surfaces above `#0f0f0f`; `#1f8a8a` for lines and icons |
-| Danger | `#4a0a0a` `#750f0f` `#b83a3a` `#dc6464` | `#dc6464` for danger text; `#b83a3a` for lines and icons |
-| Tints | accent or danger mixed 10–40% into the background | Selection, active index item, filter hits |
-| Light ramp | surfaces `#f3f3f3` `#f8f8f8` `#ffffff` `#ececec` `#e4e4e4`; lines `#e4e4e4` `#d6d6d6` `#cacaca` `#b4b4b4`; text `#0b0b0b` `#141414` `#4a4a4a` `#5c5c5c` | Light toggle; accent text `#105c5c` |
+| Surfaces | Profile surface ramp | One step per nesting level or state |
+| Lines | Profile line ramp | Input edges need 3:1 |
+| Text | Profile text ramp | Muted and up pass AA on every surface |
+| Accent | Profile accent ramp | Use the profile's accessible accent for links, lines and icons |
+| Danger | Profile danger ramp | Use the profile's accessible danger for warnings and errors |
+| Tints | Profile accent or danger mixed into the background | Selection, active index item, filter hits |
+| Light ramp | Profile light ramp | Light toggle; use the profile's accessible accent for links |
 
-- Dark by default; light only as a toggle. Never purple, never a framework's default accent.
+- Use the profile palette; dark or light defaults are per profile. Never use a framework's default accent.
 - Neutrals carry no blue or green tint.
 - Text meets WCAG AA (4.5:1) on the surface it sits on; check raised and hover surfaces too, not only the page.
-- Badges, banners and shields use the same palette: `105c5c` fill, `c0c0c0` for secondary values, `750f0f` for experimental; Shields.io params without `#` (`color=105c5c&labelColor=1b1b1b&logoColor=white`).
+- Badges, banners and shields use the profile palette; Shields.io params omit `#`.
 - Brand icons and logos: Simple Icons (<https://simpleicons.org/>) at a pinned version, monochrome `currentColor`, never brand colors; per-icon license absent or CC0, else leave it out.
-- Project has config → make colors configurable.
+- If the project has config, make colors configurable.
 
 ---
 <!-- source: CONVENTIONS/FORMATS/EDITORCONFIG.md -->
@@ -909,9 +908,9 @@ Shade ramps (UIs with layers; all derived from the values above):
 ---
 <!-- source: CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md -->
 ## Web UI style
-> Load when: building or restyling a Szmelc™ web page, Pages site or web UI.
+> Load when: building or restyling a project web page, Pages site or web UI.
 
-- Reference look: <https://szmelc-inc.github.io/SAUR/>.
+- Reference look: follow the project's published design reference, if one exists.
 - Colors only from `CONVENTIONS/DESIGN/COLORS.md`, as CSS custom properties on `:root`, overridden per `[data-theme]`.
 - Themes: `dark` (default), `light`; optional `mono` (greys and silver, no accent hue) and `terminal` (near-black, accent-text headings and links).
 - Theme: `data-theme` on `<html>` set before first paint; cycle item in `[MENU]` + `t` key; choice in `localStorage` inside `try`/`catch`; first visit follows `prefers-color-scheme`, else dark.
@@ -923,7 +922,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Navbar order: title, "Compatible with" carousel (hidden while empty), tabs (stretched to the full width), filter.
 - Carousel: registry entries only, icon or monogram + name, small muted label; one slow continuous glide driven by `requestAnimationFrame` (left; 1% of page loads right), looped seamlessly by `aria-hidden` clones with `tabindex=-1`; hover, keyboard focus or touch ease it to a stop, then wheel, trackpad, drag or swipe scroll it by hand and it wraps; leaving eases it back; paused while the tab is hidden; edge-fade masks; `prefers-reduced-motion: reduce` → static scrollable row, no clones.
 - Compat popup (click/`Enter` on an item or a rule chip, deep link `#compat/<id>`): icon or monogram, name, kind, description, compatible version, versioning note (pinned or unversioned upstream), added and updated dates, covering rules linked to `#<path>`, external links in a new tab, the registry disclaimer in small muted text.
-- Origin sub-tabs `All · Third-party · Szmelc™`: segmented, same look as the folder tabs, shown only on tabs with origin-tagged rules; filter that tab's rules (other items hide unless All), combine with the text filter, update tab count and filter status; rows carry a `3rd-party`/`Szmelc™` badge, third-party rows their registry chips (a mouse shortcut in the row; real links in the opened body).
+- Origin sub-tabs `All · Third-party · {{profile.brand}}`: segmented, same look as the folder tabs, shown only on tabs with origin-tagged rules; filter that tab's rules (other items hide unless All), combine with the text filter, update tab count and filter status; rows carry a `3rd-party`/`{{profile.brand}}` badge, third-party rows their registry chips (a mouse shortcut in the row; real links in the opened body).
 - `[MENU]` in the top-right corner: disclosure button (`aria-expanded`/`aria-controls`) opening a list of actions (star, install, theme) and links; arrows/`Home`/`End` move, closes on outside click, `esc`, Tab out and item activation.
 - Modal: one native `<dialog>` (`showModal()`), vignette `::backdrop`; closes on `esc`, backdrop click and a close button; focus returns to the opener; scrolls inside at 320px.
 - Navigation: folder-style tabs and the filter in a sticky toolbar; keys `/` focus filter, `1`–`9` and `0` (10th) switch tabs, arrows/`Home`/`End` inside the tab list, `t` theme, `esc` closes menu or modal first, then clears the filter; single-key shortcuts are off while the menu or modal is open or focus is in the carousel (arrows move between its items); deep links `#<path>` restore the view on load and clear the toolbar (`scroll-margin-top`).
@@ -1027,7 +1026,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Publish: `gh release create "$TAG" --verify-tag --notes-from-tag <assets>`; no curated notes → `--generate-notes`; `-rc.N` → add `--prerelease`.
 - `.github/release.yml` groups generated notes by label (`CONVENTIONS/GITHUB/REPO/LABELS.md`): `changelog.categories` for `feat`, `bug`, `docs`, `chore`, last one `"*"`.
 - Release logic is a repo script that runs locally with `--dry-run`: builds, checksums, prints the `gh` commands without publishing.
-- Downstream bumps after publish: `PKGBUILD`/SAUR and `flake.nix` via PR, or `repository_dispatch` to the packaging repo.
+- Downstream bumps after publish: package metadata and `flake.nix` via PR, or `repository_dispatch` to the packaging repo.
 - Verify: `gh release view "$TAG"` lists every asset, checksums match, downstream PRs green.
 - Release-please style automation only when the project uses Conventional Commits strictly (`CONVENTIONS/WORKFLOW/COMMITS.md`).
 
@@ -1073,7 +1072,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 - The version lives in package metadata and tags; never in the README title or repo name.
 - One bump moves every copy at once: source constant, PKGBUILD `pkgver`, `flake.nix` `version`, changelog if the project keeps one.
 - Breaking change to a command, flag, config key or file format → major bump, plus a new `docs/ARCHITECTURE-v<N>.md` when the project keeps one.
-- Ecosystem eras (`SZMELC/README.md`) are independent of project versions.
+- Profile eras are independent of project versions.
 - Before tagging: versions agree; `--help`, completions and README match the code; tests pass on throwaway state; the package builds in CI; the architecture contract is current.
 
 ---
@@ -1082,20 +1081,20 @@ Shade ramps (UIs with layers; all derived from the values above):
 > Load when: creating, editing or applying issue/PR labels, or setting up a new repo.
 
 - Keep the set small; plain names, no `type:` prefixes, so `--force` recolors the matching GitHub defaults (`bug`, `good first issue`, `help wanted`).
-- Other defaults stay (never delete): recolor `c0c0c0`, description `Deprecated: use <label>` (`documentation` → `docs`, `enhancement` → `feat`).
+- Other defaults stay (never delete): use the profile's secondary color, description `Deprecated: use <label>` (`documentation` → `docs`, `enhancement` → `feat`).
 
 | Label | Color | Use |
 |---|---|---|
-| `bug` `feat` `docs` `chore` | `105c5c` | Type, one per issue/PR |
+| `bug` `feat` `docs` `chore` | `{{profile.colors.accent}}` | Type, one per issue/PR |
 | `area/<x>` | `1b1b1b` | Per-project subsystem, defined in the project |
-| `breaking` | `750f0f` | Major bump; its own section in release notes |
-| `experimental` | `750f0f` | Proposal on an experimental branch |
-| `legacy` | `c0c0c0` | Superseded material |
-| `blocked` | `b83a3a` | Waiting on something external |
-| `good first issue` | `7fffd4` | Easy entry; the one highlight color |
-| `help wanted` | `1f8a8a` | Maintainer wants outside help |
+| `breaking` | `{{profile.colors.danger}}` | Major bump; its own section in release notes |
+| `experimental` | `{{profile.colors.danger}}` | Proposal on an experimental branch |
+| `legacy` | `{{profile.colors.secondary}}` | Superseded material |
+| `blocked` | `{{profile.colors.danger_text}}` | Waiting on something external |
+| `good first issue` | `{{profile.colors.highlight}}` | Easy entry; the one highlight color |
+| `help wanted` | `{{profile.colors.accent_text}}` | Maintainer wants outside help |
 
-- Colors come from `CONVENTIONS/DESIGN/COLORS.md`, hex without `#`; recolor GitHub's purple defaults.
+- Colors come from `CONVENTIONS/DESIGN/COLORS.md`, hex without `#`; replace unsuitable platform defaults.
 - Labels as code: a script or `labels.tsv` in the repo, applied with `gh label create <name> -c <hex> -d <desc> --force`.
 - Same set across an org: `gh label clone <source-repo> --force`.
 - Never delete or rename a label others use; mark it deprecated in its description first.
@@ -1155,7 +1154,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Exit codes: `0` ok, `1` error, `2` usage error.
 - `completion <shell>` + installed zsh/bash/fish completion files, generated from the command registry.
 - Destructive commands confirm (or take `--yes`) and support `--dry-run`.
-- Root: `pkexec` for the one step that needs it; never `sudo`.
+- Root: `{{profile.privilege_tool}}` for the one step that needs it; never use an unsafe privilege shortcut.
 - Has a CLI → also needs a TUI: `CONVENTIONS/INTERFACES/TUI.md`.
 
 ---
@@ -1192,8 +1191,8 @@ Shade ramps (UIs with layers; all derived from the values above):
 > Load when: packaging, releasing, or adding install instructions.
 
 - Ship a `PKGBUILD` (repo root or a packaging subdirectory) that installs: binary, shell completions, license, docs.
-- SAUR builds every PKGBUILD in the org: the default branch publishes to `[saur]`; any other branch to `[saur-ex]` as `<name>-ex`, installable next to stable.
-- Override per PKGBUILD: `_saur_channel=stable|experimental|skip`.
+- `{{profile.package_registry}}` builds every PKGBUILD in the project; stable and experimental channels follow the registry's policy.
+- Override the package channel with the registry's documented setting.
 - VCS packages: `pkgver()` yielding `r<count>.<hash>`.
 - Packages, databases and install scripts are signed; clients use `SigLevel = Required`.
 - Version moves with the release (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`).
@@ -1204,14 +1203,14 @@ Shade ramps (UIs with layers; all derived from the values above):
 ## Install & uninstall
 > Load when: writing an installer, a setup script, install instructions, or uninstall steps.
 
-- Package first (SAUR, Nix); a script installer only for what a package cannot do (user config, harness links).
+- Package first (`{{profile.package_registry}}`, Nix); a script installer only for what a package cannot do (user config, harness links).
 - Reversible: ship and document uninstall; it restores what install changed.
 - Own one prefix (`~/.local/share/<tool>`, or one folder in portable mode); outside it, touch at most one documented hook line.
 - Never overwrite user files: move them to `*.bak.<timestamp>` and restore them on uninstall.
 - Idempotent: re-running converges and never duplicates.
 - `status` and `--dry-run` show what would change before anything does.
 - Verifiable sources: a tag or a signed script, never a branch tip piped into a shell.
-- Root: `pkexec` for the one step that needs it, never for the whole script.
+- Root: `{{profile.privilege_tool}}` for the one step that needs it, never for the whole script.
 - Scripts follow `CONVENTIONS/CODE/SHELL.md`.
 
 ---
@@ -1254,7 +1253,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 > Load when: writing docs, help text, error messages, commit messages, or community and lore text.
 
 - English for everything structural: code, identifiers, comments, docs, config keys, commits, logs.
-- Polish for the cultural side: `README-PL.md`, community posts, lore. One language per file.
+- Use the profile's cultural language for `README-<locale>.md`, community posts and lore. One language per file.
 - Never translate machine-parsed identifiers (commands, config keys, schema fields, event names).
 - Docs voice: plain, honest, specific. Name limits and risks. No filler adjectives ("modern", "clean", "powerful", "seamless").
 - Humor (™, memes, lore) lives in profiles, banners and lore docs; never in specs, error messages or identifiers.
@@ -1273,7 +1272,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Nested categories repeat the pattern; `X/<SUB>/README.md` is optional, only when a category needs more than its table row.
 - Every category directory has a row in its core guide's table.
 - Any project may adopt it for a doc tree; the build script generates maps and indexes (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`).
-- This repo: cores `CONVENTIONS/`, `AGENTS/`, `HUMANS/`, `CONTRIBUTING/`, `SZMELC/`, `META/`; root maps `CONVENTIONS.md` (bundle, opens with the map), `AGENTS.md` (map block), `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`.
+- A repository defines its own cores and root maps; profile identity content belongs in the selected profile.
 
 ---
 <!-- source: CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md -->
@@ -1330,7 +1329,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Standard: <https://agents.md/>. Canonical `AGENTS.md` at the project root; add one per subdir only when a subtree has its own rules.
 - `CLAUDE.md`, `GEMINI.md`, `QWEN.md`: a single line `@AGENTS.md` (import). Never duplicate content.
 - Codex, Cursor, Copilot, OpenCode, Zed, Jules and Amp read `AGENTS.md` natively; add tool-specific files only when a tool needs frontmatter.
-- Tool-specific files (`.cursor/rules/*.mdc`, `.github/instructions/*.instructions.md`, `.kiro/steering/*.md`): generate from a source, never hand-edit copies. `./install.sh project <dir>` drops the Szmelc™ ones.
+- Tool-specific files (`.cursor/rules/*.mdc`, `.github/instructions/*.instructions.md`, `.kiro/steering/*.md`): generate from a source, never hand-edit copies. The installer writes the selected profile's rules.
 - Never keep two diverging copies (e.g. `CLAUDE.md` with the tool name swapped); one source, imports elsewhere.
 - Content: only what an agent cannot infer — build/test/lint commands, layout map, project-specific rules, gotchas.
 - Never restate global conventions; reference them by path in this repo (`CONVENTIONS/INTERFACES/CLI.md`).
@@ -1449,11 +1448,11 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Top: `# Name`, one bold sentence saying what it is, the one-line install, badges.
 - Badges: Shields.io (<https://shields.io/>) only, service chosen from Awesome Badges (<https://github.com/badges/awesome-badges>); dynamic endpoints (`github/v/release`, `github/license`, CI) over static; `logo=<Simple Icons slug>`; colors from `CONVENTIONS/DESIGN/COLORS.md`; each wrapped in a link with real `alt` text.
 - Then, skipping empty ones: Usage, How it works, Configuration, Packaging, License.
-- Install: package first (SAUR `pacman -S`, `nix run`); never distro-by-distro package-manager blocks; elevation via `pkexec`.
+- Install: package first (`{{profile.package_registry}}`, `nix run`); never distro-by-distro package-manager blocks; use `{{profile.privilege_tool}}` when elevation is required.
 - No `curl … | bash` from a branch tip; point at a tag or a signed script.
 - State limits, risks and trust boundaries plainly: what leaves the machine, who can reach a key.
 - Plain headings for structure; no blockquote-as-heading, no `\` line breaks, no version in the title.
-- Polish readers → separate `README-PL.md`; one language per file (`CONVENTIONS/REPO/WRITING.md`).
+- Readers of another language → separate `README-<locale>.md`; one language per file (`CONVENTIONS/REPO/WRITING.md`).
 - Awesome list → `CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md` overrides this order.
 - Remove agent leftovers ("CONSOLIDATED DELIVERABLE", "Here is…", "As an AI…") before committing.
 
@@ -1488,11 +1487,11 @@ Shade ramps (UIs with layers; all derived from the values above):
 > Load when: targeting, installing on, or integrating a tool with Arch Linux.
 
 - Primary target: everything works here first.
-- Install path: `pacman -S` from SAUR, built from the project's `PKGBUILD` (`CONVENTIONS/PACKAGING/ARCH.md`).
+- Install path: the profile's package command, built from the project's `PKGBUILD` (`CONVENTIONS/PACKAGING/ARCH.md`).
 - Rolling release: depend on current package versions; never pin or vendor old libraries.
 - Daemons: systemd user units, shipped in `/usr/lib/systemd/user/` by the package, never system units for per-user work.
 - Paths: XDG dirs (`CONVENTIONS/INTERFACES/CONFIG.md`); never write outside the package's files and the user's XDG dirs.
-- Root: `pkexec` for the one step that needs it (`CONVENTIONS/CODE/SHELL.md`).
+- Root: `{{profile.privilege_tool}}` for the one step that needs it (`CONVENTIONS/CODE/SHELL.md`).
 
 ---
 <!-- source: CONVENTIONS/SYSTEMS/LINUX.md -->
@@ -1503,7 +1502,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 - No distro-by-distro package blocks in docs (`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`).
 - Go binaries: `CGO_ENABLED=0` static builds for `linux/amd64` and `linux/arm64`, so no glibc version ties.
 - Scripts: portable shell rules in `CONVENTIONS/CODE/SHELL.md`; no reliance on distro-specific paths or package managers.
-- Root: `pkexec` where polkit exists; otherwise name the command the user must run as root.
+- Root: `{{profile.privilege_tool}}` where supported; otherwise name the command the user must run as root.
 
 ---
 <!-- source: CONVENTIONS/SYSTEMS/MACOS.md -->
@@ -1587,7 +1586,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 > Load when: writing a commit message or PR title.
 
 - English, imperative, one subject line ≤ 72 chars; body only when the why is not obvious.
-- Type prefix with optional scope: `feat(saur): …`, `fix(core): …`, `docs: …`, `ci: …`, `chore: …`, `refactor: …`, `test: …`.
+- Type prefix with optional scope: `feat(core): …`, `fix(core): …`, `docs: …`, `ci: …`, `chore: …`, `refactor: …`, `test: …`.
 - Version bump → append the version: `feat: signed package lists (0.3.1)`.
 - Never web-UI defaults (`Update README.md`, `Create file`) on `main`.
 - One topic per commit and per PR; commits are rebase-merged as written, so each one follows this format (`CONVENTIONS/WORKFLOW/BRANCHES.md`).
@@ -1608,7 +1607,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 ## Notifications
 > Load when: a job runs > ~10 min, or a failure needs a human.
 
-- Tool: `dc-notify` (`-h` for help). Embed with outcome title; `-s ok|fail|warn|run`; fields `-F "k|v"`; links `-b "label|url"`.
+- Tool: `{{profile.notification_tool}}` (`-h` for help). Embed with outcome title; `-s ok|fail|warn|run`; fields `-F "k|v"`; links `-b "label|url"`.
 - Send on long-job start + end, and on failures needing a human.
 - `-p` pings the owner: critical only.
 - Webhooks and user IDs live in the tool's local config (`$DC_WEBHOOK` or the user config dir); never in a repo.

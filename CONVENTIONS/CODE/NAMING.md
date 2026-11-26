@@ -4,12 +4,12 @@
 | Thing | Convention | Example |
 |---|---|---|
 | Repo | `Title-Case-With-Hyphens` | `Modern-Shell`, `Linux-From-Something` |
-| Binary / command | lowercase, short, one word | `msh`, `saur`, `lfn` |
+| Binary / command | lowercase, short, one word | `msh`, `tool`, `lfn` |
 | Command alias | same binary, dispatched on `argv[0]` | `px` → `silkrouter` |
-| Env var | `UPPER_SNAKE` with the tool prefix | `SAUR_COLOR` |
+| Env var | `UPPER_SNAKE` with the tool prefix | `TOOL_COLOR` |
 | Config key | `snake_case`, English, never translated | `build_timeout` |
-| Shell function / exported var | `snake_case` / `UPPER_SNAKE` | `build_pkg`, `SAUR_OUT` |
-| Experimental package | `<name>-ex` | `saur-ex` |
+| Shell function / exported var | `snake_case` / `UPPER_SNAKE` | `build_pkg`, `TOOL_OUT` |
+| Experimental package | `<name>-ex` | `tool-ex` |
 | Major-version contract | `ARCHITECTURE-v<N>.md` | `ARCHITECTURE-v4.md` |
 | Branch | `CONVENTIONS/WORKFLOW/BRANCHES.md` | `feat/signing` |
 

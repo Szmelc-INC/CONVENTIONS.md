@@ -64,7 +64,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `CONVENTIONS/GITHUB/CODING-AGENTS.md` | assigning issues to a coding agent, @-mentioning an agent on GitHub, or running an agent from a workflow. |
 | `CONVENTIONS/GITHUB/DEPLOYMENTS/ENVIRONMENTS.md` | deploying anything from Actions, or adding deployment secrets. |
 | `CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md` | publishing a site, docs or web UI on GitHub Pages. |
-| `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md` | building or restyling a Szmelc™ web page, Pages site or web UI. |
+| `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md` | building or restyling a project web page, Pages site or web UI. |
 | `CONVENTIONS/GITHUB/DISCUSSIONS.md` | enabling GitHub Discussions, choosing categories, or moving threads between issues and discussions. |
 | `CONVENTIONS/GITHUB/ISSUES.md` | creating, triaging or closing issues, or adding issue templates. |
 | `CONVENTIONS/GITHUB/ORGANIZATIONS.md` | creating or maintaining a GitHub organization, its profile, teams, or org-wide defaults. |

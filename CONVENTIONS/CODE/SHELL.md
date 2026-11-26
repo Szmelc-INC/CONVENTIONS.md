@@ -14,4 +14,4 @@
 - A script that needs GNU tools says so at the top.
 - Quote every expansion; `$HOME` and XDG vars, never `/home/<user>`; temp files via `mktemp`, removed on exit (`trap`).
 - `bash -n` / `sh -n` and `shellcheck` clean before delivery.
-- Root: never `sudo`; `pkexec` for the one step that needs it.
+- Root: never use an unsafe privilege shortcut; use `{{profile.privilege_tool}}` for the one step that needs it.

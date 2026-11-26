@@ -1,0 +1,22 @@
+[profile]
+id = "szmelc"
+name = "Szmelc"
+language = "Polish"
+repository_path = "~/.config/szmelc/conventions"
+privilege_tool = "pkexec"
+notification_tool = "dc-notify"
+package_registry = "SAUR"
+organization = "Szmelc-INC"
+brand = "Szmelc™"
+
+[profile.colors]
+accent = "#105c5c"
+accent_text = "#1f8a8a"
+danger = "#750f0f"
+danger_text = "#b83a3a"
+secondary = "#c0c0c0"
+highlight = "#7fffd4"
+
+[overrides]
+disable = []
+set = {}

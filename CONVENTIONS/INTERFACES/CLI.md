@@ -9,5 +9,5 @@
 - Exit codes: `0` ok, `1` error, `2` usage error.
 - `completion <shell>` + installed zsh/bash/fish completion files, generated from the command registry.
 - Destructive commands confirm (or take `--yes`) and support `--dry-run`.
-- Root: `pkexec` for the one step that needs it; never `sudo`.
+- Root: `{{profile.privilege_tool}}` for the one step that needs it; never use an unsafe privilege shortcut.
 - Has a CLI → also needs a TUI: `CONVENTIONS/INTERFACES/TUI.md`.

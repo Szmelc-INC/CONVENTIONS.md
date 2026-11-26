@@ -1,0 +1,22 @@
+[profile]
+id = "neutral"
+name = "Neutral"
+language = "user"
+brand = "the project"
+organization = "the project organization"
+repository_path = "the conventions repository"
+privilege_tool = "the platform-supported privilege mechanism"
+notification_tool = "the project's notification tool"
+package_registry = "the project's package registry"
+
+[profile.colors]
+accent = "the project's configured accent"
+accent_text = "the project's configured accent text color"
+danger = "the project's configured danger color"
+danger_text = "the project's configured danger text color"
+secondary = "the project's configured secondary color"
+highlight = "the project's configured highlight color"
+
+[overrides]
+disable = []
+set = {}
