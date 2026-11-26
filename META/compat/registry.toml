@@ -12,7 +12,7 @@
 #   added        required; date the entry was added
 #   updated      required; date the entry last changed (bump on every edit)
 #   icon         optional; path under META/compat/icons/ (monochrome, fill currentColor); omit when none exists
-#   spec         optional; rule files that cover it (CONVENTIONS/...)
+#   spec         optional; rule files that cover it (CONVENTIONS/... or AGENTS/RULES/...)
 # [compat.links] keys, official https URLs only, each returning HTTP 200 when added: homepage, repo, docs, community.
 
 disclaimer = "Names and logos are trademarks of their respective owners. Szmelc™ is not affiliated with, sponsored or endorsed by them. A listing means only that these conventions are compatible with the named format, specification, platform, language or tool."
@@ -124,6 +124,20 @@ homepage = "https://modelcontextprotocol.io/"
 docs = "https://code.claude.com/docs/en/mcp"
 repo = "https://github.com/modelcontextprotocol/modelcontextprotocol"
 community = "https://discord.gg/modelcontextprotocol"
+
+[[compat]]
+id = "memory-mcp"
+name = "#memory"
+kind = "tool"
+description = "Hosted agent memory with an MCP endpoint at https://www.usememory.com/api/mcp."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+spec = ["AGENTS/RULES/MEMORY.md"]
+
+[compat.links]
+homepage = "https://www.usememory.com/"
+docs = "https://www.usememory.com/developers"
 
 [[compat]]
 id = "cursor-rules"
