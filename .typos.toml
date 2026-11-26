@@ -10,6 +10,7 @@ extend-exclude = [
   "CONVENTIONS.md",
   "COMPATIBILITY.md",
   "AGENTS.md",
+  "AGENTS/skills/ste100pp/references/PL.md",
   "HUMANS.md",
   "CONTRIBUTING.md",
   "META.md",

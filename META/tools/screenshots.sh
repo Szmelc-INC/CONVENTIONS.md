@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Rebuild the README screenshots of the site into META/assets/screenshots/.
 # Builds the site with META/tools/site.sh into a temp dir, serves it on localhost, drives headless
-# Chromium over CDP (Node >= 22, global WebSocket; no puppeteer) and optimizes the PNGs
+# Chromium over CDP (Node 22 or later, global WebSocket; no puppeteer) and optimizes the PNGs
 # (oxipng / pngquant when installed, else lossless ImageMagick recompression).
 # Usage: META/tools/screenshots.sh [--help]
 #        CHROMIUM=/path/to/chromium SHOTS_OUT=dir META/tools/screenshots.sh
