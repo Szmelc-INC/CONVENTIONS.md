@@ -31,7 +31,7 @@ The Szmelc™ DNA: every era keeps these.
 - Humans and agents follow the same rules; agents load them lazily (`AGENTS/README.md`).
 
 ## Eras
-Ecosystem generations; independent of project versions (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`).
+Ecosystem generations, independent of project versions (`CONVENTIONS/GITHUB/RELEASES/VERSIONING.md`).
 
 | Era | Name | When | Defining idea |
 |---|---|---|---|

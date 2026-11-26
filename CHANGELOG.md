@@ -4,6 +4,10 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+### Changed
+
+- STE100++ prose pass over hand-written docs (README-like files, prompts, governance, skill entry): semicolons split into sentences, actors named, the docs-voice before/after example quoted.
+
 ## [3.0.0] - 2026-11-26
 
 The neutral core and profile-aware installation contract are now stable.
