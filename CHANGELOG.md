@@ -4,8 +4,13 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+## [2.0.2] - 2026-11-26
+
+Governance and roadmap; no rule path, schema or install change.
+
 ### Added
 
+- README: Roadmap section that links the pinned roadmap issue #49 (10 stage sub-issues with milestones), the Development discussion #60 and the Integrations discussion #61.
 - Maintainer review gate for outside PRs: required status `review-gate` (`.github/workflows/review-gate.yml`, `META/tools/review-gate.sh` with `--self-test` in CI) passes maintainer PRs, and other PRs only after a maintainer approves the head commit; `review-signal.yml` wakes it on review changes; `.github/CODEOWNERS` requests the review.
 - `META/tools/github-setup.sh`: `review-gate` required on `main`, fork PR workflows need approval for all outside contributors, ruleset keeps `require_extra_approval_for_unattributed_changes`.
 - Rules: `CONVENTIONS/GITHUB/REPO/SETTINGS.md` (review gate, fork approval), `CONVENTIONS/GITHUB/PULL-REQUESTS.md` (agents never approve or merge non-maintainer PRs).
@@ -65,6 +70,7 @@ First tagged release. Rule paths were renamed (major); see Changed first.
 - This repo follows its own GitHub conventions: issue forms, PR template, labels as code (`META/tools/labels.sh`), settings and rulesets as code (`META/tools/github-setup.sh`), Dependabot for Actions, security policy, release workflow with bundle assets and `SHA256SUMS` (`META/tools/release.sh`).
 - `CONVENTIONS/GITHUB/ACTIONS/CI.md`: scheduled workflows stay alive through an API re-enable keepalive, not a heartbeat commit; bots never bypass rulesets.
 
-[Unreleased]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.2...HEAD
+[2.0.2]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/Szmelc-INC/CONVENTIONS.md/commits/v2.0.0
