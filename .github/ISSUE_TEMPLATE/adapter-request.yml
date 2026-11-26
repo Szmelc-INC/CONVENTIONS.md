@@ -1,0 +1,33 @@
+name: Adapter or harness request
+description: Request support for an agent harness or a native rule adapter
+title: "adapter: "
+labels: ["feat", "needs-triage"]
+body:
+  - type: input
+    id: harness
+    attributes:
+      label: Harness or tool
+      placeholder: Product name and official documentation URL
+    validations:
+      required: true
+  - type: textarea
+    id: mechanism
+    attributes:
+      label: Rule-loading mechanism
+      description: Explain how the tool loads global, file-matched, or on-request instructions.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected output
+      description: Link a public example or describe the filenames and metadata the adapter should produce.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Request checks
+      options:
+        - label: I checked the compatibility registry and existing adapters for duplicates.
+          required: true
