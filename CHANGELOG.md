@@ -4,6 +4,10 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+### Added
+
+- Locale companions for rules: front matter `locales: <lang>=<path>` (`CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`), validated by `check.sh`. The site shows an EN/PL toggle in the opened rule (first: STE100++). The English file stays canonical.
+
 ### Changed
 
 - STE100++ prose pass over hand-written docs (README-like files, prompts, governance, skill entry): semicolons split into sentences, actors named, the docs-voice before/after example quoted.
