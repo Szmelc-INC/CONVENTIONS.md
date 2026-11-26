@@ -131,7 +131,7 @@ public/           the built site, made in CI, never committed     [generated]
 Read [`CONTRIBUTING/README.md`](CONTRIBUTING/README.md) first.
 
 ### Steps
-1. Make a branch from `main` with one of these prefixes: `feat/`, `fix/`, `docs/`, `chore/`, `experimental/` or `legacy/`.
+1. Make a branch from `main` with one of these prefixes: `feat/*`, `fix/*`, `docs/*`, `chore/*`, `experimental/*` or `legacy/*`.
 2. Edit only source files.
 3. Run `META/tools/build.sh && META/tools/check.sh`. Both must pass.
 4. Open a PR into `main`.
