@@ -14,4 +14,4 @@ This repo ships documentation plus shell tooling (`install.sh`, `META/tools/`). 
 - Report privately: Security tab → **Report a vulnerability** (<https://github.com/Szmelc-INC/CONVENTIONS.md/security/advisories/new>).
 - Never in public issues, discussions or chat.
 - Acknowledgement within 7 days, status updates at least every 14 days, target fix within 30 days.
-- The fix is developed in the advisory's private fork and published with the patch release; reporters are credited in the advisory unless they decline.
+- The maintainer develops the fix in the advisory's private fork and publishes it with the patch release. The advisory credits reporters unless they decline.

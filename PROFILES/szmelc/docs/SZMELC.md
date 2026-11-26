@@ -3,4 +3,4 @@
 
 Profile guide: [`README.md`](README.md). Project sources: [`../sources.conf`](../sources.conf).
 
-Profile-specific experiments live in `experimental/`; they are not part of the neutral core.
+Profile-specific experiments live in `experimental/`. They are not part of the neutral core.

@@ -1,7 +1,7 @@
 # CONVENTIONS
 > Load when: asked which conventions exist, how rules are organised, or before adding/promoting/demoting a rule.
 
-The rules themselves: how {{profile.project_name}} projects are built, shipped and maintained. One topic per file, one rule per line. Agents never read this tree whole; they read `INDEX.md` once and load only rules whose trigger matches.
+The rules themselves: how {{profile.project_name}} projects are built, shipped and maintained. One topic per file, one rule per line. Agents never read this tree whole. They read `INDEX.md` once and load only rules whose trigger matches.
 
 ## Categories
 | Directory | Covers |

@@ -1,7 +1,7 @@
 # CONTRIBUTING
 > Load when: adding, changing, promoting, versioning or indexing a convention, or contributing to this repo.
 
-How to use, extend and maintain the conventions: where a rule goes, how it is written, named, built, versioned and shipped. Root `CONTRIBUTING.md` is the generated map of this core; GitHub links it on every new issue and PR.
+How to use, extend and maintain the conventions: where a rule goes, how it is written, named, built, versioned and shipped. Root `CONTRIBUTING.md` is the generated map of this core. GitHub links it on every new issue and PR.
 
 | File | Covers |
 |---|---|
@@ -26,7 +26,7 @@ How to use, extend and maintain the conventions: where a rule goes, how it is wr
 2. Commit the change and open a pull request. You do not need to run the build for wording-only changes; CI builds generated files and reports problems.
 3. A maintainer aims to acknowledge the PR within 48 hours. The maintainer merges after review and green CI.
 
-Contributions are licensed under the repository's MIT License. By submitting a contribution, you agree that it may be distributed under MIT; there is no CLA.
+Contributions are licensed under the repository's MIT License. By submitting a contribution, you agree that it may be distributed under MIT. There is no CLA.
 
 ## Triage
 

@@ -4,7 +4,7 @@ id: conventions.experimental.spec-files
 # Spec file taxonomy
 > Load when: user opts into experimental conventions, or designs Szmelc™ spec files (SZMELC.md, KOMBINAT.md, TEAM.md, MODULE.md, ASSERTIONS.md, POLICY.md, MEMORY.md).
 
-Proposal from draft v2 (Kombinat). None of these files exist yet; adopt one only together with a parser or check that reads it.
+Proposal from draft v2 (Kombinat). None of these files exist yet. Adopt one only together with a parser or check that reads it.
 
 | File | Role | Mandatory sections |
 |---|---|---|
