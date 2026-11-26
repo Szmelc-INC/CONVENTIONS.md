@@ -21,4 +21,6 @@ Map of `AGENTS/`. Full guide: [`AGENTS/README.md`](AGENTS/README.md).
 | [`AGENTS/adapters/kiro/szmelc-conventions.md`](AGENTS/adapters/kiro/szmelc-conventions.md) | Generated adapter: Global rules |  |
 | [`AGENTS/global/AGENTS.md`](AGENTS/global/AGENTS.md) | Global rules |  |
 | [`AGENTS/skills/deep/SKILL.md`](AGENTS/skills/deep/SKILL.md) | Skill `deep` |  |
+| [`AGENTS/skills/ste100pp/SKILL.md`](AGENTS/skills/ste100pp/SKILL.md) | Skill `ste100pp` |  |
+| [`AGENTS/skills/ste100pp/references/PL.md`](AGENTS/skills/ste100pp/references/PL.md) | STE100++ po polsku |  |
 <!-- map:end -->

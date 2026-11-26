@@ -50,6 +50,7 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/PACKAGING/NIX.md`](CONVENTIONS/PACKAGING/NIX.md) | Nix packaging | packaging, releasing, or setting up a dev environment. |
 | [`CONVENTIONS/PROFILES/OVERLAYS.md`](CONVENTIONS/PROFILES/OVERLAYS.md) | Profile overlays | selecting a profile or applying team, project or user-specific rule overrides. |
 | [`CONVENTIONS/REPO/LAYOUT.md`](CONVENTIONS/REPO/LAYOUT.md) | Repository layout | creating a repo, adding top-level files or directories, or auditing a repo against the conventions. |
+| [`CONVENTIONS/REPO/STE100PP.md`](CONVENTIONS/REPO/STE100PP.md) | STE100++ controlled writing | writing or reviewing docs prose, procedures, help text, error messages, tool descriptions or agent prompts. |
 | [`CONVENTIONS/REPO/WRITING.md`](CONVENTIONS/REPO/WRITING.md) | Writing & voice | writing docs, help text, error messages, commit messages, or community and lore text. |
 | [`CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md`](CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md) | Core maps | organising a doc tree into cores, adding a core or category, or editing a core README. |
 | [`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`](CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md) | Design docs & agent briefs | starting a project, writing a brief for a coding agent, or changing a project's architecture. |
@@ -1456,6 +1457,30 @@ id: conventions.repo.layout
 - Superseded code moves to a legacy directory or into git history; never leave dead copies next to live ones.
 
 ---
+<!-- source: CONVENTIONS/REPO/STE100PP.md -->
+---
+id: conventions.repo.ste100pp
+---
+## STE100++ controlled writing
+> Load when: writing or reviewing docs prose, procedures, help text, error messages, tool descriptions or agent prompts.
+
+STE-inspired (ASD-STE100), not certified; the ASD dictionary is not reproduced. Full mode, scope table and self-check: `AGENTS/skills/ste100pp/SKILL.md`. Locale companions, written natively per language (first: `pl`): `AGENTS/skills/ste100pp/references/PL.md`. Scope: prose. Rule one-liners, code, tables of identifiers and quoted text are exempt.
+
+- Answer or result in the first sentence. No preamble, no restated question.
+- One idea per sentence. One action per procedure step, then its expected result.
+- Active voice with a named actor. Passive only when the actor is unknown or irrelevant.
+- Condition before command: "If the build fails, read the log." Warning: command first, then the risk.
+- No semicolons in prose. Write two sentences.
+- One word, one meaning: one term per concept in a file. New concept terms are defined once at first use.
+- Verbs, not nominalizations: "check", not "perform a check".
+- Sentence length: ≤ 20 words in procedures, ≤ 25 in explanations, 30 hard cap.
+- Keep real uncertainty (may, might) with one hedge. Delete stacked hedges and claim words (`CONVENTIONS/REPO/WRITING.md`).
+- Keep articles, subjects and "that". Short is not telegraphic.
+- Numbers as digits with units (`30 s`, `2 GiB`), dates ISO 8601, one name per command or file, in backticks.
+- Error messages: what happened, the cause if known, the next action. No apology, no blame.
+- Never change code, commands, identifiers, quoted errors, numbers or the strength of a hedge to fit a rule.
+
+---
 <!-- source: CONVENTIONS/REPO/WRITING.md -->
 ---
 id: conventions.repo.writing
@@ -1470,6 +1495,7 @@ id: conventions.repo.writing
 - Humor (™, memes, lore) lives in profiles, banners and lore docs; never in specs, error messages or identifiers.
 - `™` and other marks never appear in identifiers, package names or config.
 - Dense: cut every word that does not change the meaning. Rules are imperative one-liners.
+- Prose structure (sentences, procedures, errors, hedges): `CONVENTIONS/REPO/STE100PP.md`.
 
 ---
 <!-- source: CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md -->

@@ -76,6 +76,7 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 - [Nix packaging](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/PACKAGING/NIX.md): Load when packaging, releasing, or setting up a dev environment.
 - [Profile overlays](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/PROFILES/OVERLAYS.md): Load when selecting a profile or applying team, project or user-specific rule overrides.
 - [Repository layout](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/REPO/LAYOUT.md): Load when creating a repo, adding top-level files or directories, or auditing a repo against the conventions.
+- [STE100++ controlled writing](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/REPO/STE100PP.md): Load when writing or reviewing docs prose, procedures, help text, error messages, tool descriptions or agent prompts.
 - [Writing & voice](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/REPO/WRITING.md): Load when writing docs, help text, error messages, commit messages, or community and lore text.
 - [Core maps](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md): Load when organising a doc tree into cores, adding a core or category, or editing a core README.
 - [Design docs & agent briefs](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md): Load when starting a project, writing a brief for a coding agent, or changing a project's architecture.
@@ -107,6 +108,7 @@ Entry points: [SKILL.md](https://raw.githubusercontent.com/Szmelc-INC/CONVENTION
 
 ## Skills
 - [deep](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/skills/deep/SKILL.md): Escalate to deep reasoning for hard problems — architecture and design decisions, cross-cutting refactors, bugs with unclear root cause, security-sensitive code, concurrency, or anything where a wrong first approach is expensive. Use it before writing code for such tasks. Do not use it for routine edits.
+- [ste100pp](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/AGENTS/skills/ste100pp/SKILL.md): STE100++ writing mode. Applies controlled technical writing (inspired by ASD-STE100 Simplified Technical English, not certified) to docs prose, procedures, help text, error messages, tool descriptions and agent prompts, in English or Polish. Use when the user asks for STE, STE100++, "plain technical English", "write it like a maintenance manual", "no fluff, no hedging", or wants text that a tired non-native reader cannot misread. Stays on until the user says "stop ste".
 
 ## Experimental
 - [Localization (en + pl)](https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/CONVENTIONS/EXPERIMENTAL/LOCALIZATION.md): Opt-in only. Load when user opts into experimental conventions, or adds user-facing strings, locales or translations.
