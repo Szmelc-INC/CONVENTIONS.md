@@ -12,7 +12,7 @@ One person may hold more than one role. Maintainer status is granted by the curr
 
 ## Decisions
 
-Small, reversible changes can be proposed directly in a pull request. Changes to the format, compatibility contract, governance, or release policy should start as an RFC in GitHub Discussions or an issue, then move through `CONVENTIONS/EXPERIMENTAL/` when implementation feedback is needed. Record the decision and its reason in [`CONTRIBUTING/DECISIONS.md`](CONTRIBUTING/DECISIONS.md). A maintainer makes the final decision after considering review and community feedback; silence is not approval.
+Small, reversible changes can be proposed directly in a pull request. Changes to the format, compatibility contract, governance, or release policy should start as an RFC in GitHub Discussions or an issue, then move through `CONVENTIONS/EXPERIMENTAL/` when implementation feedback is needed. Record the decision and its reason in [`CONTRIBUTING/DECISIONS.md`](CONTRIBUTING/DECISIONS.md). A maintainer makes the final decision after considering review and community feedback. Silence is not approval.
 
 ## Reviews and merging
 
@@ -20,7 +20,7 @@ Small, reversible changes can be proposed directly in a pull request. Changes to
 - The required `review-gate` status passes maintainer-authored PRs and requires a maintainer approval on the latest commit of every outside PR. A new commit invalidates the earlier approval.
 - CI must be green. The maintainer may request changes, approve, or close a proposal with a reason.
 - Contributors and automation do not approve or merge outside PRs. See [`CONVENTIONS/GITHUB/PULL-REQUESTS.md`](CONVENTIONS/GITHUB/PULL-REQUESTS.md).
-- The maintainer aims to acknowledge issues and pull requests within 48 hours. This is a target, not a guarantee; security reports follow [the security policy](.github/SECURITY.md).
+- The maintainer aims to acknowledge issues and pull requests within 48 hours. This is a target, not a guarantee. Security reports follow [the security policy](.github/SECURITY.md).
 
 ## Becoming a maintainer
 

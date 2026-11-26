@@ -4,7 +4,7 @@ id: agents.prompt.meta-prompts
 # Meta-prompts
 > Load when: asking an agent to write, review, tighten or test a prompt.
 
-Paste one into any chat; each is self-contained. Replace `{...}`. Rules behind them: `AGENTS/PROMPT/WRITING.md`, `AGENTS/PROMPT/TESTING.md`.
+Paste one into any chat. Each prompt is self-contained. Replace `{...}`. Rules behind them: `AGENTS/PROMPT/WRITING.md`, `AGENTS/PROMPT/TESTING.md`.
 
 ## Write
 | Task | Prompt |

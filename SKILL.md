@@ -10,11 +10,11 @@ metadata:
 ---
 
 # {{profile.project_name}} conventions
-Entry point. This directory is the conventions repo; every path below is relative to it.
+Entry point. This directory is the conventions repo. Every path below is relative to it.
 
 ## Use
 1. Apply `AGENTS/global/AGENTS.md` (always-on rules) if your harness did not already load it as global instructions.
-2. Read `INDEX.md` once per session. Load only files whose "Load when" matches the task. Never bulk-read; never re-read.
+2. Read `INDEX.md` once per session. Load only files whose "Load when" matches the task. Never bulk-read and never re-read.
 3. `CONVENTIONS/EXPERIMENTAL/` only when the user opts in. `CONVENTIONS/LEGACY/` only when asked about history.
 4. Conflict → user's direct instruction > project `AGENTS.md`/`CLAUDE.md` > stable rules here > experimental.
 
@@ -34,7 +34,7 @@ Entry point. This directory is the conventions repo; every path below is relativ
 | Compatible third-party formats, specs, tools (versions, links) | `COMPATIBILITY.md` (source `META/compat/registry.toml`) |
 
 ## Install / update
-- `./install.sh` installs the selected profile's global rules in marked blocks and links skills; `./install.sh status` shows both states.
+- `./install.sh` installs the selected profile's global rules in marked blocks and links skills. `./install.sh status` shows both states.
 - `./install.sh project <dir>` drops Cursor/Copilot/Kiro adapters and an `AGENTS.md` skeleton into a project.
 - Update: `git -C {{profile.install_path}} pull`.
 

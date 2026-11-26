@@ -4,7 +4,7 @@ id: agents.prompt.task-prompts
 # Task prompts
 > Load when: looking for a ready prompt for everyday work: planning, debugging, reviewing, summarizing, distilling, deciding, learning.
 
-Paste one into any chat; each is self-contained. Replace `{...}`. Prompts for working on these conventions: `CONTRIBUTING/PROMPTS.md`.
+Paste one into any chat. Each prompt is self-contained. Replace `{...}`. Prompts for working on these conventions: `CONTRIBUTING/PROMPTS.md`.
 
 ## Build
 | Task | Prompt |

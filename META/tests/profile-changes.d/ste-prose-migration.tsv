@@ -1,0 +1,4 @@
+# STE100++ prose migration (#70): semicolons split into sentences.
+AGENTS/PROMPT/CLASSES.md	STE100++ prose: list instead of semicolons.
+AGENTS/PROMPT/META-PROMPTS.md	STE100++ prose: two sentences.
+AGENTS/PROMPT/TASK-PROMPTS.md	STE100++ prose: two sentences.

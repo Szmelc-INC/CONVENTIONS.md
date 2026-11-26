@@ -191,7 +191,7 @@ id: agents.prompt.classes
 > Load when: deciding which sections a prompt needs, or combining two kinds of work in one prompt.
 
 ### Every prompt
-Role and objective; ordered instructions; the literal output format; edge cases and fallbacks (empty, malformed, out-of-scope, contradictory input).
+Role and objective, ordered instructions, the literal output format, and edge cases with fallbacks (empty, malformed, out-of-scope, contradictory input).
 
 ### By class
 | Class | Add |
@@ -290,8 +290,11 @@ The rest of the repo, read for format, not for voice:
 | Hooks (`hooks/hooks.json`) | inline `node -e` one-liners with `[Hook]` prefixed messages | Put hook logic in script files. Verify matcher syntax (section 4). |
 
 ### 8. Example
-Before: "**The complete, battle-tested toolkit!** Production-ready configs for maximum productivity."
-After: "**Claude Code agents, skills, hooks and rules in one plugin.** Install it once and get 9 agents, 11 skills and 15 commands."
+Before:
+> **The complete, battle-tested toolkit!** Production-ready configs for maximum productivity.
+
+After:
+> **Claude Code agents, skills, hooks and rules in one plugin.** Install it once and get 9 agents, 11 skills and 15 commands.
 
 ---
 <!-- source: AGENTS/PROMPT/META-PROMPTS.md -->
@@ -301,7 +304,7 @@ id: agents.prompt.meta-prompts
 ## Meta-prompts
 > Load when: asking an agent to write, review, tighten or test a prompt.
 
-Paste one into any chat; each is self-contained. Replace `{...}`. Rules behind them: `AGENTS/PROMPT/WRITING.md`, `AGENTS/PROMPT/TESTING.md`.
+Paste one into any chat. Each prompt is self-contained. Replace `{...}`. Rules behind them: `AGENTS/PROMPT/WRITING.md`, `AGENTS/PROMPT/TESTING.md`.
 
 ### Write
 | Task | Prompt |
@@ -331,7 +334,7 @@ id: agents.prompt.task-prompts
 ## Task prompts
 > Load when: looking for a ready prompt for everyday work: planning, debugging, reviewing, summarizing, distilling, deciding, learning.
 
-Paste one into any chat; each is self-contained. Replace `{...}`. Prompts for working on these conventions: `CONTRIBUTING/PROMPTS.md`.
+Paste one into any chat. Each prompt is self-contained. Replace `{...}`. Prompts for working on these conventions: `CONTRIBUTING/PROMPTS.md`.
 
 ### Build
 | Task | Prompt |
@@ -644,7 +647,7 @@ id: contributing.prompts
 ## Prompts
 > Load when: asking an agent to use, apply, extend or maintain the conventions, or looking for a ready prompt to paste.
 
-Paste one prompt into any agent with file access; each is self-contained. Bare rule paths resolve against the conventions root (install path is profile-defined), as `SKILL.md` states. Replace `{...}`. Writing your own: `AGENTS/PROMPT/`.
+Paste one prompt into any agent with file access. Each prompt is self-contained. Bare rule paths resolve against the conventions root (install path is profile-defined), as `SKILL.md` states. Replace `{...}`. Writing your own: `AGENTS/PROMPT/`.
 
 ### Use
 | Task | Prompt |
@@ -867,7 +870,7 @@ id: conventions.design.colors
 | Highlight | `the project's configured highlight color` | Limited emphasis, black text |
 | Neutrals | Per profile | Everything else |
 
-Shade ramps (UIs with layers; all derived from the values above):
+Shade ramps for UIs with layers. All ramps derive from the values above:
 
 | Ramp | Steps | Use |
 |---|---|---|

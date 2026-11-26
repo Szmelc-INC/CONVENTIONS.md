@@ -5,7 +5,7 @@ id: agents.prompt.classes
 > Load when: deciding which sections a prompt needs, or combining two kinds of work in one prompt.
 
 ## Every prompt
-Role and objective; ordered instructions; the literal output format; edge cases and fallbacks (empty, malformed, out-of-scope, contradictory input).
+Role and objective, ordered instructions, the literal output format, and edge cases with fallbacks (empty, malformed, out-of-scope, contradictory input).
 
 ## By class
 | Class | Add |

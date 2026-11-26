@@ -72,5 +72,8 @@ The rest of the repo, read for format, not for voice:
 | Hooks (`hooks/hooks.json`) | inline `node -e` one-liners with `[Hook]` prefixed messages | Put hook logic in script files. Verify matcher syntax (section 4). |
 
 ## 8. Example
-Before: "**The complete, battle-tested toolkit!** Production-ready configs for maximum productivity."
-After: "**Claude Code agents, skills, hooks and rules in one plugin.** Install it once and get 9 agents, 11 skills and 15 commands."
+Before:
+> **The complete, battle-tested toolkit!** Production-ready configs for maximum productivity.
+
+After:
+> **Claude Code agents, skills, hooks and rules in one plugin.** Install it once and get 9 agents, 11 skills and 15 commands.

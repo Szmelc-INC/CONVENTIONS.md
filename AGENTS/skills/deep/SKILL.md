@@ -7,10 +7,10 @@ effort: high
 # Deep mode
 > Install: `./install.sh` links this dir as skill `deep` into every harness skill root. Spend reasoning, not tool calls.
 
-1. Real problem in one sentence; name any hidden underlying problem.
+1. State the real problem in one sentence. Name any hidden underlying problem.
 2. Read only context that decides between approaches.
 3. 2–3 genuinely different approaches: risk, cost, what each makes easy later.
-4. Pick one; reason in 1–2 lines; note strongest rejected alternative.
+4. Pick one and give the reason in 1–2 lines. Note the strongest rejected alternative.
 5. List edge cases and failure modes, then implement.
 6. Verify them with the cheapest real check.
 7. Report: decision, changes, verified, remaining risk. Short.

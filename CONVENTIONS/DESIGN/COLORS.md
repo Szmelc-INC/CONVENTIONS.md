@@ -13,7 +13,7 @@ id: conventions.design.colors
 | Highlight | `{{profile.colors.highlight}}` | Limited emphasis, black text |
 | Neutrals | Per profile | Everything else |
 
-Shade ramps (UIs with layers; all derived from the values above):
+Shade ramps for UIs with layers. All ramps derive from the values above:
 
 | Ramp | Steps | Use |
 |---|---|---|
