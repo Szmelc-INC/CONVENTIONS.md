@@ -88,7 +88,11 @@ BRAND=$(profile_value profile.brand)
 ORG_NAME=$(profile_value profile.organization)
 ORG_URL=$(profile_value profile.organization_url)
 INSTALL_PATH=$(profile_value profile.install_path)
-BUILT=$(date -u +%FT%TZ)
+if [[ ${SOURCE_DATE_EPOCH:-} =~ ^[0-9]+$ ]]; then
+  BUILT=$(date -u -d "@$SOURCE_DATE_EPOCH" +%FT%TZ 2>/dev/null || date -u -r "$SOURCE_DATE_EPOCH" +%FT%TZ)
+else
+  BUILT=$(date -u +%FT%TZ)
+fi
 
 # Profile switcher links are relative so the generated tree works at any Pages base path.
 profile_nav='[]'

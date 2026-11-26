@@ -40,7 +40,9 @@ jobs:
           fetch-depth: 0
 
       - name: Build site
-        run: META/tools/site.sh
+        run: |
+          export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
+          META/tools/site.sh
 
       - name: Upload site
         if: env.PUBLISH == 'true'
@@ -82,3 +84,19 @@ jobs:
     steps:
       - id: deploy
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
+
+  nightly-failure-notice:
+    needs: [build, deploy]
+    if: always() && github.event_name == 'schedule' && (needs.build.result == 'failure' || needs.deploy.result == 'failure')
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Add a run summary with a direct link
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          {
+            echo '## Nightly Pages build failed'
+            echo
+            echo "The scheduled site build or deployment failed. Review the run: [$GITHUB_RUN_ID]($RUN_URL)."
+          } >> "$GITHUB_STEP_SUMMARY"
