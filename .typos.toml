@@ -1,0 +1,24 @@
+[default]
+extend-ignore-re = [
+  "(?i)https?://[^\\s]+",
+]
+
+[files]
+extend-exclude = [
+  "AGENTS/adapters/**",
+  "INDEX.md",
+  "CONVENTIONS.md",
+  "COMPATIBILITY.md",
+  "AGENTS.md",
+  "AGENTS/skills/ste100pp/references/PL.md",
+  "HUMANS.md",
+  "CONTRIBUTING.md",
+  "META.md",
+  "TEMPLATES.md",
+]
+
+[default.extend-words]
+lychee = "lychee"
+Szmelc = "Szmelc"
+Grok = "Grok"
+PNG = "PNG"

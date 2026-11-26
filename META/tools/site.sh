@@ -88,7 +88,11 @@ BRAND=$(profile_value profile.brand)
 ORG_NAME=$(profile_value profile.organization)
 ORG_URL=$(profile_value profile.organization_url)
 INSTALL_PATH=$(profile_value profile.install_path)
-BUILT=$(date -u +%FT%TZ)
+if [[ ${SOURCE_DATE_EPOCH:-} =~ ^[0-9]+$ ]]; then
+  BUILT=$(date -u -d "@$SOURCE_DATE_EPOCH" +%FT%TZ 2>/dev/null || date -u -r "$SOURCE_DATE_EPOCH" +%FT%TZ)
+else
+  BUILT=$(date -u +%FT%TZ)
+fi
 
 # Profile switcher links are relative so the generated tree works at any Pages base path.
 profile_nav='[]'
@@ -782,13 +786,13 @@ footer .br{color:var(--faint)}
 .f-meta{display:flex;flex-wrap:wrap;justify-content:center;margin-top:18px;color:var(--mute);font-variant-numeric:tabular-nums}
 .f-meta>span{white-space:nowrap}
 .f-meta b{font-weight:600;color:var(--sec)}
-.f-meta .sep,.f-keys .sep{padding:0 8px;color:var(--faint)}
-.f-keys{margin-top:8px;font-size:12px;color:var(--faint)}
+.f-meta .sep,.f-keys .sep{padding:0 8px;color:var(--mute)}
+.f-keys{margin-top:8px;font-size:12px;color:var(--sec)}
 .f-keys kbd{font-size:11px}
 .f-by{margin-top:18px}
 .f-by .cw-l{margin:0}
-.f-fine{max-width:76ch;margin:6px auto 0;font-size:11px;line-height:1.6;color:var(--faint)}
-.f-fine code{font-size:inherit;padding:0;border:0;background:none;color:var(--mute)}
+.f-fine{max-width:76ch;margin:6px auto 0;font-size:11px;line-height:1.6;color:var(--sec)}
+.f-fine code{font-size:inherit;padding:0;border:0;background:none;color:var(--sec)}
 
 @media (max-width:640px){
   main{padding-top:12px}
@@ -1414,10 +1418,11 @@ function itemRow(it, s){
   const tag = it.ex ? `<span class="it-tag">${ic('flask')}experimental</span>`
     : it.lg ? `<span class="it-tag lg">${ic('archive')}legacy</span>` : '<span></span>';
   const org = it.origin ? `<span class="org${it.origin==='third-party'?' o3':''}" title="${it.origin==='third-party'?'Third-party spec':esc(D.brand || D.project_name)+' original'}">${ORG_LABEL[it.origin]||esc(it.origin)}</span>` : '';
-  // chips in <summary> are a mouse shortcut only (summary is a button: no nested focusable content); the opened body repeats them as links
+  // Compatibility links are only in the opened body because summary is already an interactive control.
   const chipsOf = (attrs, t) => it.origin==='third-party' ? it.compat.map(id=>{ const c = COMPAT.get(id);
     return `<a class="chip" href="#compat/${esc(id)}" data-compat="${esc(id)}"${attrs} title="Compatible with ${esc(c.name)}">${c.icon && D.icons && D.icons[c.icon] ? badge(c) : ''}${t(c.name)}</a>`; }).join('') : '';
-  const chips = chipsOf(' tabindex="-1" aria-hidden="true"', n=>hl(n,s));
+  const chips = it.origin==='third-party' ? it.compat.map(id=>{ const c = COMPAT.get(id);
+    return `<span class="chip" title="Compatible with ${esc(c.name)}">${c.icon && D.icons && D.icons[c.icon] ? badge(c) : ''}${hl(c.name,s)}</span>`; }).join('') : '';
   const meta = org || chips ? `<span class="it-meta">${org}${chips}</span>` : '';
   d.innerHTML = `<summary><span class="it-name">${ic(it.icon)}<span>${hl(it.title,s)}<span class="it-path">${hl(it.path,s)}</span>${meta}</span></span>`
     + `<span class="it-load">${hl(it.load,s)}</span>${tag}</summary>`;
