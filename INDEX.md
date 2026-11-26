@@ -34,6 +34,7 @@ Read this once per session. Load only files whose trigger matches the task. Path
 | `AGENTS/PROMPT/TESTING.md` | checking a prompt before use, or after it produced a wrong or uneven output. |
 | `AGENTS/PROMPT/WRITING.md` | wording or tightening the lines of a prompt, or choosing its examples, placeholders and untrusted-input handling. |
 | `AGENTS/RULES/EFFICIENCY.md` | choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long. |
+| `AGENTS/RULES/MEMORY.md` | saving, recalling, updating or deleting an agent memory, or designing a memory store or memory MCP tool. |
 | `AGENTS/RULES/SUBAGENTS.md` | considering a subagent, parallel work, skills/MCP use, or long-running commands. |
 | `CONTRIBUTING/101.md` | first using the conventions, setting them up for an agent, or applying them to an existing project. |
 | `CONTRIBUTING/DECISIONS.md` | checking why the project adopted a policy, format, or compatibility change. |
