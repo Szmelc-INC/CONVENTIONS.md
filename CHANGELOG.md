@@ -35,6 +35,10 @@ The neutral core and profile-aware installation contract are now stable.
 - `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`: full section order, no star calls or `(NEW)` markers. `CONVENTIONS/REPO/WRITING.md`: no claim words, no bold lead-ins.
 - `AGENTS/RULES/MEMORY.md`: agent memory rules derived from the public #memory developer docs: one fact per memory, cue keywords, stable refs, stale-write skip, least-privilege grants, confirmed deletes, cited recall.
 
+### Added
+
+- Web UI blueprint, extracted from the project's own Pages site: `CONVENTIONS/INTERFACES/WEBUI/` (`ARCHITECTURE.md`, `ROUTING.md`, `OVERLAYS.md`, `KEYBOARD.md`) and the starter `TEMPLATES/webui.html` (inlined data, hash router with transient overlay routes, one `<dialog>`, menu disclosure, gated keymap, theme before first paint).
+
 ## [2.0.2] - 2026-11-26
 
 Governance and roadmap; no rule path, schema or install change.

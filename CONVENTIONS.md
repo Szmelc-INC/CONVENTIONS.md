@@ -45,6 +45,10 @@ Map of `CONVENTIONS/`. Full guide: [`CONVENTIONS/README.md`](CONVENTIONS/README.
 | [`CONVENTIONS/INTERFACES/CLI.md`](CONVENTIONS/INTERFACES/CLI.md) | CLI | building or changing a command-line tool. |
 | [`CONVENTIONS/INTERFACES/CONFIG.md`](CONVENTIONS/INTERFACES/CONFIG.md) | Configuration | adding a config file, options, env vars, or storage paths to a tool. |
 | [`CONVENTIONS/INTERFACES/TUI.md`](CONVENTIONS/INTERFACES/TUI.md) | TUI | building a TUI, or any project that has a CLI. |
+| [`CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md`](CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md) | Web UI architecture | building a web UI, docs site or Pages site from scratch, or restructuring its build or page code. |
+| [`CONVENTIONS/INTERFACES/WEBUI/KEYBOARD.md`](CONVENTIONS/INTERFACES/WEBUI/KEYBOARD.md) | Web UI keyboard | adding keyboard shortcuts or keyboard navigation to a web UI. |
+| [`CONVENTIONS/INTERFACES/WEBUI/OVERLAYS.md`](CONVENTIONS/INTERFACES/WEBUI/OVERLAYS.md) | Web UI overlays | adding a modal, popup, menu, copy button or share action to a web UI. |
+| [`CONVENTIONS/INTERFACES/WEBUI/ROUTING.md`](CONVENTIONS/INTERFACES/WEBUI/ROUTING.md) | Web UI routing | adding views, deep links or URL handling to a web UI. |
 | [`CONVENTIONS/PACKAGING/ARCH.md`](CONVENTIONS/PACKAGING/ARCH.md) | Arch packaging | packaging, releasing, or adding install instructions. |
 | [`CONVENTIONS/PACKAGING/INSTALL.md`](CONVENTIONS/PACKAGING/INSTALL.md) | Install & uninstall | writing an installer, a setup script, install instructions, or uninstall steps. |
 | [`CONVENTIONS/PACKAGING/NIX.md`](CONVENTIONS/PACKAGING/NIX.md) | Nix packaging | packaging, releasing, or setting up a dev environment. |
@@ -1148,6 +1152,7 @@ id: conventions.github.deployments.webui-style
 > Load when: building or restyling a project web page, Pages site or web UI.
 
 - Reference look: follow the project's published design reference, if one exists.
+- Architecture, routing, overlays and keys: `CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md` and its siblings.
 - Colors only from `CONVENTIONS/DESIGN/COLORS.md`, as CSS custom properties on `:root`, overridden per `[data-theme]`.
 - Themes: `dark` (default), `light`; optional `mono` (greys and silver, no accent hue) and `terminal` (near-black, accent-text headings and links).
 - Theme: `data-theme` on `<html>` set before first paint; cycle item in `[MENU]` + `t` key; choice in `localStorage` inside `try`/`catch`; first visit follows `prefers-color-scheme`, else dark.
@@ -1469,6 +1474,80 @@ id: conventions.interfaces.tui
 - Tabs per item type; add / edit / toggle / remove in place, destructive actions confirmed.
 - Markdown rendered with glamour.
 - Colors: `CONVENTIONS/DESIGN/COLORS.md`.
+
+---
+<!-- source: CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md -->
+---
+id: conventions.interfaces.webui.architecture
+---
+## Web UI architecture
+> Load when: building a web UI, docs site or Pages site from scratch, or restructuring its build or page code.
+
+Reference implementation: `META/tools/site.sh`. Look and themes: `CONVENTIONS/GITHUB/DEPLOYMENTS/WEBUI-STYLE.md`. Starter: `TEMPLATES/webui.html`.
+
+- One self-contained `index.html`: markup, CSS and JS inline. No framework, no bundler, no runtime build step.
+- A build script collects every source into one data object and writes it into the page as `<script type="application/json" id="data">`, with `<` escaped as `<`.
+- Build-time values reach the page only through that data block. Never interpolate them into HTML or JS (quote the heredocs).
+- The page works offline and over `file://`. Content never depends on a runtime request.
+- Live data (stars, latest release) is optional: show the build-time value, fetch once, keep the value on any failure. No retries, no spinners.
+- A small inline `<head>` script sets the theme before first paint.
+- State is a few top-level variables (view, filter, open item). One `render()` rebuilds the view from state and data. Handlers change state, then call `render()` or set the hash.
+- Escape every data string before it enters HTML (`esc()`). Render Markdown with a small local renderer.
+- One sprite of inline SVG icons, defined once and used with `<use>`.
+- Output goes to a gitignored directory (`public/`) and CI deploys it (`CONVENTIONS/GITHUB/DEPLOYMENTS/GITHUB-PAGES.md`). Never commit it.
+- Verify: build, open over `file://` and over HTTP, try each deep link and each key, check 360px width and every theme.
+
+---
+<!-- source: CONVENTIONS/INTERFACES/WEBUI/KEYBOARD.md -->
+---
+id: conventions.interfaces.webui.keyboard
+---
+## Web UI keyboard
+> Load when: adding keyboard shortcuts or keyboard navigation to a web UI.
+
+- One `keydown` listener on `window` owns the single-key shortcuts. It ignores events with Ctrl, Meta or Alt.
+- Gate order: modal open, the dialog owns the keys. Menu open, only `Esc`. Focus in a widget with its own keys (tab list, carousel), the widget. Focus in a text field, only `Esc`.
+- Default map: `/` focus the filter, `1`–`9` and `0` switch views, `t` theme, `e` expand all, `?` key help, `Esc` close the top layer, then clear the filter.
+- Widgets follow the WAI-ARIA patterns (<https://www.w3.org/WAI/ARIA/apg/patterns/>): tabs and menus move with arrows, `Home` and `End`.
+- Every shortcut has a visible control. Key help lists the map from the same table that the handler reads.
+- Never bind keys that the browser or a screen reader reserves: Ctrl/Cmd combinations, Tab, Space outside buttons.
+- Focus is always visible. After a view switch, focus stays on the control that caused it.
+
+---
+<!-- source: CONVENTIONS/INTERFACES/WEBUI/OVERLAYS.md -->
+---
+id: conventions.interfaces.webui.overlays
+---
+## Web UI overlays
+> Load when: adding a modal, popup, menu, copy button or share action to a web UI.
+
+- One native `<dialog>` per page, reused through one `openModal({title, html, opener, onClose})`. Open it with `showModal()`.
+- The dialog closes on `Esc`, on a backdrop click and on its close button. Focus returns to the opener.
+- Popup content comes from the build-time data object. No fetch to open a popup.
+- Menu: a disclosure button (`aria-expanded`, `aria-controls`) and a list. Arrows, `Home` and `End` move. It closes on an outside click, `Esc` and Tab out.
+- The modal stacks over the menu. `Esc` closes the top layer first.
+- Every overlay has a transient deep link (`CONVENTIONS/INTERFACES/WEBUI/ROUTING.md`).
+- Copy buttons copy the literal value, swap the icon to a check for about 1 s, and stay unchanged on failure.
+- Share: the page URL with the current hash, a copy button and plain links. No third-party share scripts.
+- The dialog scrolls inside itself at 360px width. The page behind it does not scroll.
+
+---
+<!-- source: CONVENTIONS/INTERFACES/WEBUI/ROUTING.md -->
+---
+id: conventions.interfaces.webui.routing
+---
+## Web UI routing
+> Load when: adding views, deep links or URL handling to a web UI.
+
+- The URL hash is the router: `#<view>`, `#<item-path>`, `#<group>/`. `hashchange` calls `route()`, `route()` sets state, then calls `render()`.
+- Every view, group and item has a deep link. Loading it restores the view, opens the item and scrolls it below the sticky bar (`scroll-margin-top`).
+- Unknown hash: show the first view. No error page.
+- Old hashes keep working: `route()` maps retired ids to their new target.
+- Overlay routes are transient (`#install`, `#about`, `#<kind>/<id>`): set them with `history.replaceState`, render the view under the overlay, restore the previous hash on close.
+- A content link inside an overlay closes the overlay and moves focus to the target, not to the opener.
+- Filter text and toggles stay out of the hash. A deep link clears the filter.
+- The hash carries routes only. A skip link moves focus without changing the hash.
+- Query parameters only for view options that are not saved (`?theme=`).
 
 ---
 <!-- source: CONVENTIONS/PACKAGING/ARCH.md -->
