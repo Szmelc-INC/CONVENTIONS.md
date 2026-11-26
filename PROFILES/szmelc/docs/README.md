@@ -13,12 +13,14 @@ Indexed on the site's Projects tab from `PROFILES/szmelc/sources.conf` (GitHub A
 | [sernik77](https://github.com/sernik77) | User |
 
 ## Sites
+
 - <https://szmelc.com/> — Szmelc™ home.
 - <https://szmelc-inc.github.io/CONVENTIONS.md/> — this repo, browsable, with the projects index.
 - <https://szmelc-inc.github.io/SAUR/> — SAUR, the signed pacman repository of Szmelc™ software (`[saur]` stable, `[saur-ex]` experimental).
 
 ## Principles
 The Szmelc™ DNA: every era keeps these.
+
 - No bloat: single binaries, stdlib first, the simplest thing that works (`CONVENTIONS/CODE/STACK.md`). Motto: *NIE TOLERUJEMY BLOATU*.
 - Portable and removable: one prefix, reversible install, user layer untouched by upgrades (`CONVENTIONS/PACKAGING/INSTALL.md`).
 - One command: every project has one entry point with subcommands (`CONVENTIONS/INTERFACES/CLI.md`).
@@ -44,6 +46,7 @@ Ecosystem generations, independent of project versions (`CONVENTIONS/GITHUB/RELE
 - Ideas for later eras go to `CONVENTIONS/EXPERIMENTAL/` via `experimental/*` branches, never straight into stable rules.
 
 ## Projects index
+
 - Sources: `PROFILES/szmelc/sources.conf` (`owner <login>`, `ignore <name|owner/name>`, `third-party <owner/name>`).
 - Third-party: `third-party` repos plus every `META/compat/registry.toml` entry, listed with origin `third-party`.
 - Built by `META/tools/site.sh` in CI, refreshed nightly; private, archived and forked repos are never listed.
