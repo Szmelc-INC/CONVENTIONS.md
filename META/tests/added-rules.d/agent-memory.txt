@@ -1,0 +1,2 @@
+# Agent memory rules (#66).
+agents.rules.memory
