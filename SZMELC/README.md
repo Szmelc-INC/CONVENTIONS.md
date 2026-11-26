@@ -45,6 +45,7 @@ Ecosystem generations; independent of project versions (`CONVENTIONS/GITHUB/RELE
 - Ideas for later eras go to `CONVENTIONS/EXPERIMENTAL/` via `experimental/*` branches, never straight into stable rules.
 
 ## Projects index
-- Sources: `SZMELC/sources.conf` (`owner <login>`, `ignore <name|owner/name>`).
+- Sources: `SZMELC/sources.conf` (`owner <login>`, `ignore <name|owner/name>`, `third-party <owner/name>`).
+- Third-party: `third-party` repos plus every `META/compat/registry.toml` entry, listed with origin `third-party`.
 - Built by `META/tools/site.sh` in CI, refreshed nightly; private, archived and forked repos are never listed.
 - Add an owner only when its account and repos are public.

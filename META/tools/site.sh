@@ -118,14 +118,15 @@ done
   sort -u | jq -R . | jq -sc . >"$tmp/paths.json"
 
 # --- Projects index, from the GitHub API over SZMELC/sources.conf ------------
-: >"$tmp/projects.ndjson"
+: >"$tmp/projects.ndjson"; : >"$tmp/compat-gh.ndjson"
 projects_note=''
-owners=(); ignores=()
+owners=(); ignores=(); thirdparty=()
 if [[ -f $CONF ]]; then
   while read -r key val _; do
     case $key in
       owner) owners+=("$val") ;;
       ignore) ignores+=("$val") ;;
+      third-party) [[ $val =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]] && thirdparty+=("$val") ;;
     esac
   done < <(grep -vE '^\s*(#|$)' "$CONF")
 fi
@@ -153,7 +154,31 @@ if command -v gh >/dev/null && gh auth status >/dev/null 2>&1; then
           stars:.stargazerCount, updated:.updatedAt
         }' "$tmp/raw.json" >>"$tmp/projects.ndjson" || true
   done
+  # Explicit third-party repos (`third-party <owner/name>`): fetched like projects, marked origin third-party.
+  for slug in "${thirdparty[@]}"; do
+    if ! gh repo view "$slug" --json "$fields" >"$tmp/raw.json" 2>/dev/null; then
+      echo "site.sh: could not view third-party repo $slug (skipped)" >&2
+      continue
+    fi
+    jq -c --arg slug "$slug" '
+      select(.isPrivate==false) | {
+        owner:($slug | split("/")[0]), name:.name, origin:"third-party",
+        desc:(.description // ""),
+        url:.url, home:(.homepageUrl // ""),
+        lang:(.primaryLanguage.name // ""),
+        topics:((.repositoryTopics // []) | map(.name)),
+        stars:.stargazerCount, updated:.updatedAt
+      }' "$tmp/raw.json" >>"$tmp/projects.ndjson" || true
+  done
   [[ -s $tmp/projects.ndjson ]] || projects_note='No repositories were returned by the GitHub API for the configured owners.'
+  # Compat registry entries with a GitHub repo link: stars, last update and language (best-effort).
+  while IFS=$'\t' read -r cid slug; do
+    gh repo view "$slug" --json stargazerCount,updatedAt,primaryLanguage >"$tmp/raw.json" 2>/dev/null || continue
+    jq -c --arg k "$cid" '{key:$k, value:{stars:.stargazerCount, updated:.updatedAt, lang:(.primaryLanguage.name // "")}}' \
+      "$tmp/raw.json" >>"$tmp/compat-gh.ndjson" || true
+  done < <(jq -r '.compatible[] | (.links.repo // "") as $r
+    | select($r | test("^https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/?$"))
+    | [.id, ($r | sub("^https://github\\.com/"; "") | rtrimstr("/"))] | @tsv' index.json)
 else
   projects_note='Built without GitHub access; the Projects index populates in CI.'
 fi
@@ -198,10 +223,12 @@ jq -n \
   --slurpfile projects "$tmp/projects.ndjson" \
   --slurpfile paths "$tmp/paths.json" \
   --slurpfile icons "$tmp/icons.ndjson" \
+  --slurpfile cgh "$tmp/compat-gh.ndjson" \
   --slurpfile idx index.json '
   # origin and compat ids per rule path, and the compatible list, come from index.json (META/tools/build.sh).
   ($idx[0]) as $ix
   | ($ix.entries | map({key:.path, value:{origin:(.origin // null), compat:(.compat // [])}}) | from_entries) as $by
+  | ($cgh | from_entries) as $gh
   | {
     name:"szmelc-conventions", repo:$repo, raw:$raw, site:$site, roadmap:$roadmap, built:$built, release:$release, stars:$stars,
     cores:$cores,
@@ -209,11 +236,15 @@ jq -n \
     skills:$skills, experimental:$experimental, legacy:$legacy,
     compatible:$ix.compatible, compatible_disclaimer:$ix.compatible_disclaimer, icons:($icons | from_entries),
     projects:($projects | sort_by(.updated) | reverse),
-    projects_note:$note, szmelc_owners:$owners, paths:$paths[0]
+    projects_note:$note, szmelc_owners:$owners, paths:$paths[0],
+    # Third-party projects: every compat registry entry, linked to its repo (else homepage); GitHub stats when fetched.
+    third_party:($ix.compatible | map({id, name, kind, version, desc:(.description // ""), icon:(.icon // null),
+      url:(.links.repo // .links.homepage // ""), home:(.links.homepage // ""), origin:"third-party"}
+      + ($gh[.id] // {stars:null, updated:null, lang:""})))
   }' >"$OUT/conventions.json"
 
 # Secondary machine-readable artifact: just the projects list.
-jq '{built:.built, note:.projects_note, projects:.projects}' "$OUT/conventions.json" >"$OUT/projects.json"
+jq '{built:.built, note:.projects_note, projects:.projects, third_party:.third_party}' "$OUT/conventions.json" >"$OUT/projects.json"
 
 # Index files served at the site root, so relative links work and llms.txt sits next to
 # index.html (CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md).
@@ -549,6 +580,19 @@ details.item>summary:hover .it-load,details.item[open]>summary .it-load{color:va
 .it-compat{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin:12px 0 0;color:var(--mute);font-size:12.5px}
 .org{display:inline-flex;align-items:center;font-size:11.5px;line-height:1.5;padding:0 6px;border:1px solid var(--line-3);border-radius:2px;color:var(--sec);background:var(--bg);font-weight:400;white-space:nowrap}
 .org.o3{border-color:var(--edge);color:var(--link)}
+/* third-party table (compat registry): accent edge on the name cell, otherwise the #proj language */
+#tp tbody tr:hover{background:var(--s3)}
+#tp tbody tr:last-child td{border-bottom:0}
+#tp td.n{box-shadow:inset 2px 0 0 var(--edge)}
+#tp td.n .bi,#tp td.n .mono{color:var(--link)}
+#tp td.n .nn{font-weight:600;white-space:nowrap;display:inline-flex;gap:6px;align-items:center;color:var(--fg)}
+#tp td.v{font-size:12px;color:var(--sec);white-space:nowrap}
+@media (max-width:640px){
+  #tp tr{display:flex;flex-wrap:wrap;gap:2px 12px;padding:10px;border-bottom:1px solid var(--line-soft)}
+  #tp td{padding:0;border:0;box-shadow:none}
+  #tp td.d{flex-basis:100%;order:3}
+  #tp td.r{order:4}
+}
 .chip{display:inline-flex;align-items:center;gap:5px;min-height:20px;font-size:11.5px;line-height:1.5;padding:0 6px;border:1px solid var(--line-2);border-radius:2px;
   background:var(--s1);color:var(--sec);font-weight:400;white-space:nowrap;cursor:pointer}
 .chip:hover{color:var(--head);border-color:var(--line-3);background:var(--s3)}
@@ -1190,6 +1234,9 @@ for (const t of tabs){
     t.groups.push({id:'projects-all', title:'repositories', table:true, items:D.projects.map(p=>({kind:'project', p,
       origin: p.origin || (SZ.has(String(p.owner||'').toLowerCase()) ? 'original' : 'third-party'),
       text:[p.name,p.desc,p.owner,p.lang,(p.topics||[]).join(' ')].join(' ').toLowerCase()}))});
+    // third-party: the upstream projects these conventions build on (compat registry, D.third_party), always origin third-party
+    t.groups.push({id:'projects-third-party', title:'third-party', table:'tp', items:(D.third_party||[]).map(c=>({kind:'project', c, origin:'third-party',
+      text:[c.name,c.id,c.kind,c.version,c.desc,c.lang].join(' ').toLowerCase()}))});
     if (D.experimental.length) t.groups.push({id:'experimental-all', title:'experimental proposals', tone:'ex',
       items:D.experimental.map(r=>ruleItem(r, t.id, 'flask', true))});
     if (D.legacy.length) t.groups.push({id:'legacy-all', title:'legacy archive', tone:'lg',
@@ -1282,6 +1329,24 @@ function projectTable(items, s){
   }
   t.appendChild(tb); return t;
 }
+function thirdTable(items, s){
+  const t = el('table'); t.id = 'tp';
+  t.innerHTML = '<thead><tr><th>Project</th><th>About</th><th>Kind</th><th>Version</th><th>★</th><th>Updated</th></tr></thead>';
+  const tb = el('tbody');
+  for (const {c} of items){
+    const tr = el('tr');
+    const home = c.home && c.home !== c.url && /^https?:\/\//i.test(c.home) ? ' · ' + ext(c.home,'site') : '';
+    const name = badge(c) + hl(c.name,s);
+    tr.innerHTML = `<td class="n">${/^https?:\/\//i.test(c.url||'') ? ext(c.url, name) : `<span class="nn">${name}</span>`}`
+      + `<small><a href="#compat/${esc(c.id)}" data-compat="${esc(c.id)}" title="Compatibility details">compat</a>${home} <span class="org o3">${ORG_LABEL['third-party']}</span></small></td>`
+      + `<td class="d">${c.desc ? hl(c.desc,s) : '<em>no description</em>'}</td>`
+      + `<td><span class="lang">${hl(c.kind||'',s)}</span></td>`
+      + `<td class="v">${hl(c.version||'',s)}</td>`
+      + `<td class="r">${c.stars==null ? '' : esc(c.stars)}</td><td class="r">${esc((c.updated||'').slice(0,10))}</td>`;
+    tb.appendChild(tr);
+  }
+  t.appendChild(tb); return t;
+}
 // One group (or sub-group) as a collapsible section; returns [element, visible count] or null.
 function groupEl(g, s, sub, o='all'){
   const items = g.items.filter(it=>match(it,s) && inOrigin(it,o));
@@ -1291,7 +1356,7 @@ function groupEl(g, s, sub, o='all'){
   const d = el('details',{className:'grp'+(sub?' sub':'')+(g.tone?' '+g.tone:''), open:true}); d.id = g.id;
   const title = sub ? `${esc(g.parent)} <span class="sep">/</span> ${esc(g.title)}` : esc(g.title);
   d.innerHTML = `<summary>${title} <small>${n}</small></summary>`;
-  if (g.table) d.appendChild(projectTable(items, s));
+  if (g.table) d.appendChild(g.table==='tp' ? thirdTable(items, s) : projectTable(items, s));
   else for (const it of items) d.appendChild(itemRow(it, s));
   for (const [e] of subs) d.appendChild(e);
   return [d, n];
@@ -1331,6 +1396,7 @@ function render(){
     lead.textContent = (D.projects.length
       ? 'Public Szmelc™ repositories from the GitHub API (owners in SZMELC/sources.conf), newest first.'
       : (D.projects_note||''))
+      + ((D.third_party||[]).length ? ' Third-party: upstream projects these conventions build on (META/compat/registry.toml).' : '')
       + (D.experimental.length ? ' Experimental: opt-in proposals, load only when the user opts in.' : '')
       + (D.legacy.length ? ' Legacy: superseded material, archived and never deleted.' : '');
   }
