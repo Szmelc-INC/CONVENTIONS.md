@@ -377,18 +377,13 @@ h1 .cur{display:inline-block;width:.55em;height:1.05em;margin-left:.12em;vertica
 .cl-n p{margin:3px 0 0;color:var(--sec);font-size:12.5px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .cl-n>span{min-width:0}
 .cl .cx-l{flex:none;gap:4px;justify-content:flex-end}
-/* about popup: shield-style link chips, inline (no image requests) */
+/* about popup: Shields.io badge images (logos from Simple Icons), each wrapped in a link */
 .ab p{margin:0 0 10px;color:var(--sec);font-size:13.5px;line-height:1.65}
 .ab p b{color:var(--head)}
 .shields{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0;list-style:none}
-.sh{display:inline-flex;align-items:stretch;max-width:100%;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;font-size:11.5px;line-height:1;text-decoration:none;
-  font-family:"JetBrains Mono","DejaVu Sans Mono",Menlo,monospace;transition:border-color .15s,filter .15s}
-.sh>span{display:inline-flex;align-items:center;gap:5px;padding:6px 8px;white-space:nowrap}
-.sh .k{background:var(--raise);color:var(--sec)}
-.sh .k .ic{width:12px;height:12px;color:var(--mute)}
-.sh .v{background:var(--fill);color:var(--on-fill);font-weight:600}
-.sh.hi .v{background:var(--hl);color:var(--on-hl)}
-.sh:hover{border-color:var(--line-3);text-decoration:none;text-shadow:none;filter:brightness(1.12)}
+.sh{display:inline-flex;border-radius:3px;text-decoration:none;transition:filter .15s}
+.sh img{display:block;height:20px;width:auto}
+.sh:hover{text-decoration:none;text-shadow:none;filter:brightness(1.12)}
 .sh:focus-visible{outline-offset:2px}
 @media (max-width:640px){ .cl li.cl-r{flex-wrap:wrap} .cl .cx-l{width:100%;justify-content:flex-start;padding-left:32px} }
 .links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;font-size:inherit}
@@ -712,7 +707,7 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
   <symbol id="i-check" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></symbol>
   <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 2.5v11a5.5 5.5 0 0 0 0-11z" fill="currentColor"/></symbol>
   <symbol id="i-search" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></symbol>
-  <symbol id="i-github" viewBox="0 0 16 16"><path stroke="none" fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path stroke="none" fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
   <symbol id="i-raw" viewBox="0 0 16 16"><path d="M8 2v8.5M4.5 7 8 10.5 11.5 7M2.5 13.5h11"/></symbol>
   <symbol id="i-tag" viewBox="0 0 16 16"><path d="M2 2.5h5.5L14 9l-5 5-6.5-6.5z"/><circle cx="5" cy="5.5" r="1"/></symbol>
   <symbol id="i-flask" viewBox="0 0 16 16"><path d="M5.5 1.5h5M6.5 1.5V6l-4 7a1 1 0 0 0 .9 1.5h9.2a1 1 0 0 0 .9-1.5l-4-7V1.5M4.5 10.5h7"/></symbol>
@@ -948,21 +943,28 @@ modalB.addEventListener('click', e=>{
   e.preventDefault(); openCompat(a.dataset.compat);
 });
 
-// == about: Szmelc and this repo; public links only, shields drawn inline (no image requests) ==
+// == about: Szmelc and this repo; public links only, badges from Shields.io (CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md) ==
 const ORG = 'https://github.com/Szmelc-INC';
-const shield = (href, k, v, icon, hi) => `<li><a class="sh${hi ? ' hi' : ''}" href="${esc(href)}" target="_blank" rel="noopener">`
-  + `<span class="k">${icon ? ic(icon) : ''}${esc(k)}</span><span class="v">${esc(v)}</span></a></li>`;
+const GH = D.repo.replace(/^https:\/\/github\.com\//, '');   // owner/repo for dynamic endpoints
+// static badge path segment: '-' and '_' are separators in Shields.io, doubled to stay literal
+const seg = t => encodeURIComponent(String(t).replace(/-/g, '--').replace(/_/g, '__'));
+const shq = (logo, color) => `?style=flat&labelColor=1b1b1b&logoColor=white${color ? '&color=' + color : ''}${logo ? '&logo=' + logo : ''}`;
+const sbadge = (label, msg, logo, color) => `https://img.shields.io/badge/${seg(label)}-${seg(msg)}-${color || '105c5c'}` + shq(logo);
+const dbadge = (path, logo, color, label) => `https://img.shields.io/${path}` + shq(logo, color || '105c5c') + (label ? '&label=' + encodeURIComponent(label) : '');
+const shield = (href, src, alt) => `<li><a class="sh" href="${esc(href)}" target="_blank" rel="noopener" title="${esc(alt)}">`
+  + `<img src="${esc(src)}" alt="${esc(alt)}" height="20" loading="lazy" decoding="async"></a></li>`;
 const aboutHTML = () => '<section class="ab">'
   + '<p><b>Szmelc&#x2122;</b> is a resistance movement in the war for free software, free hardware and a free internet, based in Poland. It builds and publishes open-source tools, packages and conventions.</p>'
   + '<p><b>CONVENTIONS.md</b> is its single source of rules for humans and AI agents, MIT-licensed. <b>SAUR</b> is its signed pacman repository of Szmelc software.</p>'
   + '<ul class="shields">'
-  + shield(ORG, 'github', 'Szmelc-INC', 'github')
-  + shield('https://szmelc.com', 'site', 'szmelc.com', 'globe')
-  + shield('https://szmelc-inc.github.io/SAUR/', 'pacman', 'SAUR', 'archive')
-  + shield(D.repo, 'repo', 'CONVENTIONS.md', 'github')
-  + (D.site ? shield(D.site, 'pages', 'live', 'globe') : '')
-  + shield(D.repo + '/blob/main/LICENSE', 'license', 'MIT', 'file')
-  + shield(REL.url, 'release', REL.tag || 'latest', 'tag', true)
+  + shield(ORG, sbadge('Szmelc™', 'Szmelc-INC', 'github'), 'Szmelc™ on GitHub: Szmelc-INC')
+  + shield('https://szmelc.com', sbadge('site', 'szmelc.com'), 'Website: szmelc.com')
+  + shield('https://szmelc-inc.github.io/SAUR/', sbadge('pacman', 'SAUR', 'archlinux'), 'pacman repository: SAUR')
+  + shield(D.repo, dbadge('github/stars/' + GH, 'github', '', 'CONVENTIONS.md'), 'CONVENTIONS.md on GitHub, stars')
+  + (D.site ? shield(D.site, sbadge('pages', 'live', 'githubpages'), 'GitHub Pages: live') : '')
+  + shield(D.repo + '/blob/main/LICENSE', dbadge('github/license/' + GH, 'opensourceinitiative'), 'License: MIT')
+  + shield(REL.url, REL.tag ? dbadge('github/v/release/' + GH, 'github', '7fffd4') : sbadge('release', 'none yet', 'github', '7fffd4'),
+      REL.tag ? 'Latest release: ' + REL.tag : 'Releases: none yet')
   + '</ul></section>';
 function openAbout(opener){
   transientOpen('#about');
