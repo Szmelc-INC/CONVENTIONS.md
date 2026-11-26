@@ -21,3 +21,4 @@ extend-exclude = [
 lychee = "lychee"
 Szmelc = "Szmelc"
 Grok = "Grok"
+PNG = "PNG"
