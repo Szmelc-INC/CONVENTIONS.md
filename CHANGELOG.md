@@ -4,9 +4,25 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-11-26
+
+The neutral core and profile-aware installation contract are now stable.
+
 ### Breaking
 
-- The repository now has six neutral cores; Szmelc identity data and project discovery moved under `PROFILES/szmelc/`. Rule IDs are stable across file renames, profile rendering is explicit, and global installation preserves existing instruction files by managing only a marked block. See [`MIGRATION-v2-to-v3.md`](MIGRATION-v2-to-v3.md) before upgrading.
+- Rule paths and the install contract changed. The six neutral cores replace the former identity-specific core, and Szmelc™ identity data and project discovery now live under `PROFILES/szmelc/`.
+- Re-run `install.sh` after upgrading. Existing global instruction files are preserved; the installer manages only its marked block unless `--replace` is requested. See [`MIGRATION-v2-to-v3.md`](MIGRATION-v2-to-v3.md).
+
+### Added
+
+- Stable rule IDs, profile-aware rendering and installation, layered profile overlays, and the neutral and Szmelc™ profiles.
+- A v2-to-v3 migration guide, profile template, profile request issue form, site profile switcher, and v2 compatibility snapshot checks.
+- Community governance files, contribution guidance, and weekly issue triage automation.
+
+### Changed
+
+- The default profile now uses the user's language and does not prescribe a privilege tool or color palette.
+- The skill is now named `conventions`; the old `szmelc-conventions` name remains as a one-major-version alias.
 
 ### Added
 
@@ -78,7 +94,8 @@ First tagged release. Rule paths were renamed (major); see Changed first.
 - This repo follows its own GitHub conventions: issue forms, PR template, labels as code (`META/tools/labels.sh`), settings and rulesets as code (`META/tools/github-setup.sh`), Dependabot for Actions, security policy, release workflow with bundle assets and `SHA256SUMS` (`META/tools/release.sh`).
 - `CONVENTIONS/GITHUB/ACTIONS/CI.md`: scheduled workflows stay alive through an API re-enable keepalive, not a heartbeat commit; bots never bypass rulesets.
 
-[Unreleased]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.2...HEAD
+[Unreleased]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.2...v3.0.0
 [2.0.2]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/Szmelc-INC/CONVENTIONS.md/commits/v2.0.0
