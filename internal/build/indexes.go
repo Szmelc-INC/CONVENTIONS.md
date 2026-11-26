@@ -308,6 +308,9 @@ func readHeading(root, p string) (string, error) {
 }
 func readCompat(root string) ([]compatRecord, string, map[string][]string, error) {
 	path := filepath.Join(root, "META/compat/registry.toml")
+	if err := validateCompatSubset(path); err != nil {
+		return nil, "", nil, err
+	}
 	var doc registryFile
 	md, err := toml.DecodeFile(path, &doc)
 	if err != nil {
@@ -331,6 +334,110 @@ func readCompat(root string) ([]compatRecord, string, map[string][]string, error
 		}
 	}
 	return out, doc.Disclaimer, by, nil
+}
+
+// validateCompatSubset keeps the Go reader aligned with compat.awk's deliberately
+// small TOML subset. BurntSushi/toml accepts legal TOML syntax (such as escaped
+// strings and inline comments) that compat.awk and the shell build do not.
+func validateCompatSubset(path string) error {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	section := "top"
+	linksSeen := false
+	disclaimerSeen := false
+	seen := map[string]bool{}
+	allowed := map[string]map[string]string{
+		"top":    {"disclaimer": "string"},
+		"record": {"id": "string", "name": "string", "kind": "string", "description": "string", "version": "string", "added": "date", "updated": "date", "icon": "string", "spec": "array"},
+		"links":  {"homepage": "string", "repo": "string", "docs": "string", "community": "string"},
+	}
+	for i, line := range strings.Split(string(data), "\n") {
+		lineNo := i + 1
+		trimmed := strings.TrimSpace(line)
+		if trimmed == "" || strings.HasPrefix(trimmed, "#") {
+			continue
+		}
+		switch line {
+		case "[[compat]]":
+			section = "record"
+			linksSeen = false
+			seen = map[string]bool{}
+			continue
+		case "[compat.links]":
+			if section != "record" || linksSeen {
+				return fmt.Errorf("%s:%d: [compat.links] must follow a [[compat]] record once", path, lineNo)
+			}
+			section = "links"
+			linksSeen = true
+			seen = map[string]bool{}
+			continue
+		}
+		sep := strings.Index(line, " = ")
+		if sep <= 0 || !compatKey(line[:sep]) {
+			return fmt.Errorf("%s:%d: expected 'key = value': %s", path, lineNo, line)
+		}
+		key, value := line[:sep], line[sep+3:]
+		kind, ok := allowed[section][key]
+		if !ok {
+			return fmt.Errorf("%s:%d: unknown key %q in %s", path, lineNo, key, section)
+		}
+		if seen[key] {
+			return fmt.Errorf("%s:%d: duplicate key %q", path, lineNo, key)
+		}
+		seen[key] = true
+		if section == "top" && key == "disclaimer" {
+			disclaimerSeen = true
+		}
+		valid := false
+		switch kind {
+		case "string":
+			valid = compatString(value, false)
+		case "date":
+			valid = len(value) == 10 && value[4] == '-' && value[7] == '-'
+			for j, c := range value {
+				if j != 4 && j != 7 && (c < '0' || c > '9') {
+					valid = false
+				}
+			}
+		case "array":
+			valid = len(value) >= 3 && value[0] == '[' && value[len(value)-1] == ']'
+			if valid {
+				items := strings.Split(value[1:len(value)-1], ", ")
+				for _, item := range items {
+					if !compatString(item, true) {
+						valid = false
+						break
+					}
+				}
+			}
+		}
+		if !valid {
+			return fmt.Errorf("%s:%d: invalid %s value for %q", path, lineNo, kind, key)
+		}
+	}
+	if !disclaimerSeen {
+		return fmt.Errorf("%s: missing disclaimer", path)
+	}
+	return nil
+}
+
+func compatKey(key string) bool {
+	for _, c := range key {
+		if (c < 'a' || c > 'z') && c != '_' {
+			return false
+		}
+	}
+	return key != ""
+}
+
+func compatString(value string, noSpaces bool) bool {
+	if len(value) < 2 || value[0] != '"' || value[len(value)-1] != '"' {
+		return false
+	}
+	inner := value[1 : len(value)-1]
+	return !strings.ContainsAny(inner, `"\\`) && (!noSpaces || !strings.Contains(inner, " "))
 }
 
 func renderProfile(data []byte, values map[string]string) []byte {
