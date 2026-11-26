@@ -11,6 +11,5 @@ Map of `CONTRIBUTING/`. Full guide: [`CONTRIBUTING/README.md`](CONTRIBUTING/READ
 | [`CONTRIBUTING/INDEXING.md`](CONTRIBUTING/INDEXING.md) | Indexing and formats | adding or changing a rule file and wondering what to rebuild, or adding a new generated output format. |
 | [`CONTRIBUTING/LIFECYCLE.md`](CONTRIBUTING/LIFECYCLE.md) | Rule lifecycle | proposing, promoting, demoting or deprecating a convention, or tracking how a rule changed. |
 | [`CONTRIBUTING/PROMPTS.md`](CONTRIBUTING/PROMPTS.md) | Prompts | asking an agent to use, apply, extend or maintain the conventions, or looking for a ready prompt to paste. |
-| [`CONTRIBUTING/TEMPLATES.md`](CONTRIBUTING/TEMPLATES.md) | Templates | starting a new rule, prompt, skill, category or project agent file from a skeleton. |
 | [`CONTRIBUTING/VERSIONING.md`](CONTRIBUTING/VERSIONING.md) | Versioning the conventions | deciding the version bump for a change to this conventions repo, releasing it, or pinning an install. |
 | [`CONTRIBUTING/WRITING.md`](CONTRIBUTING/WRITING.md) | Writing a rule | writing or reviewing a convention rule, deciding where a rule goes, or creating a category. |

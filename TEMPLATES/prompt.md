@@ -1,5 +1,5 @@
 # <Prompt name>
-> Use: paste as one message, or as the system prompt of an agent. Replace every `<...>`; delete sections that stay empty (`CONTRIBUTING/TEMPLATES.md`). Rules: `AGENTS/PROMPT/`.
+> Use: paste as one message, or as the system prompt of an agent. Replace every `<...>`; delete sections that stay empty (`TEMPLATES/README.md`). Rules: `AGENTS/PROMPT/`.
 
 You are <role>. <One measurable goal>. Done when <check that returns pass or fail>.
 

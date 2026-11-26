@@ -8,7 +8,7 @@ The rules themselves: how Szmelc projects are built, shipped and maintained. One
 |---|---|
 | `CONVENTIONS/WORKFLOW/` | Branches, commits, finishing work, verification, notifications |
 | `CONVENTIONS/GITHUB/` | Everything GitHub: repo settings, metadata and labels, pull requests, issues, discussions, projects, wiki, organisations, coding agents, code security, `ACTIONS/` (workflows, CI), `RELEASES/` (versioning, tags, automation, channels), `DEPLOYMENTS/` (Pages, environments, web UI style) |
-| `CONVENTIONS/SPECS/` | Named document files: `THIRD-PARTY/` (format set by an outside standard or tool: `AGENTS.md` + imports, `SKILL.md`, `README.md`, `llms.txt`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CODEOWNERS`, `LICENSE`, `.mcp.json`), `ORIGINAL/` (Szmelc formats: `DESIGN.md`, rule files, core maps, lazy-load indexes) |
+| `CONVENTIONS/SPECS/` | Named document files: `THIRD-PARTY/` (format set by an outside standard or tool: `AGENTS.md` + imports, `SKILL.md`, `README.md`, `llms.txt`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CODEOWNERS`, `LICENSE`, `.mcp.json`), `ORIGINAL/` (Szmelc formats: `DESIGN.md`, rule files, core maps, lazy-load indexes). Third-party specs map to `COMPATIBILITY.md` entries |
 | `CONVENTIONS/FORMATS/` | File formats: `MARKDOWN/` (style, frontmatter, tables, GitHub extras), JSON, TOML, YAML, `.env`, `.editorconfig` and `.gitattributes` |
 | `CONVENTIONS/SYSTEMS/` | Target platforms: support order, Arch, Nix, other Linux, Windows via WSL2, macOS |
 | `CONVENTIONS/REPO/` | Repo layout, writing and voice |
@@ -22,7 +22,7 @@ The rules themselves: how Szmelc projects are built, shipped and maintained. One
 Agent behaviour rules (subagents, token efficiency) live in `AGENTS/RULES/`, prompt engineering in `AGENTS/PROMPT/`. How to add or change a rule: `CONTRIBUTING/WRITING.md`.
 
 ## Rule format
-- Header, length, naming (`X-EXT.md`), references and status: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. Skeleton: `META/templates/rule.md`.
+- Header, length, naming (`X-EXT.md`), references and status: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. Skeleton: `TEMPLATES/rule.md`.
 - New domain → new directory under `CONVENTIONS/`. New topic → copy the skeleton.
 
 ## Lifecycle

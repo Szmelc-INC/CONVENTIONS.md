@@ -11,7 +11,6 @@ How to use, extend and maintain the conventions: where a rule goes, how it is wr
 | `CONTRIBUTING/LIFECYCLE.md` | Propose, promote, change, demote; how installs see changes |
 | `CONTRIBUTING/VERSIONING.md` | SemVer of this repo, releases, pinning an install |
 | `CONTRIBUTING/INDEXING.md` | Sources to every generated format; adding a format |
-| `CONTRIBUTING/TEMPLATES.md` | Skeletons in `META/templates/` and when to copy each |
 | `CONTRIBUTING/DIY.md` | Your own conventions repo on this skeleton; layering on Szmelc |
 
 ## Flow
@@ -22,5 +21,5 @@ How to use, extend and maintain the conventions: where a rule goes, how it is wr
 
 ## Naming
 - Where a rule goes: `CONTRIBUTING/WRITING.md`. Rule paths (UPPERCASE kebab, `X-EXT.md`) and format: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. `META/tools/check.sh` enforces them.
-- Machinery keeps lowercase paths that installs and hooks depend on: `AGENTS/global/`, `AGENTS/skills/`, `AGENTS/adapters/`, `META/tools/`, `META/templates/`, `META/schema/`.
+- Machinery keeps lowercase paths that installs and hooks depend on: `AGENTS/global/`, `AGENTS/skills/`, `AGENTS/adapters/`, `META/tools/`, `META/schema/`, `META/compat/`; template file names in `TEMPLATES/`.
 - Repo rules: root `README.md`, "Rules of this repo".

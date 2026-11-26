@@ -3,7 +3,7 @@
 
 ## Checklist
 - Grep first: `grep -ril '<topic>' CONVENTIONS AGENTS/RULES AGENTS/PROMPT`; extend the owning file instead of adding a duplicate.
-- Format, naming and length: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`; skeleton `META/templates/rule.md`.
+- Format, naming and length: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`; skeleton `TEMPLATES/rule.md`.
 - Trigger names a concrete task ("bumping a version"), never a topic ("versions").
 - Imperative one-liners; one rule per line; ~20 lines max, else split.
 - Universal: true for every project; project specifics go in that project's `AGENTS.md`.
@@ -24,7 +24,7 @@
 
 ## New category
 1. UPPERCASE directory under `CONVENTIONS/` (sub-category: under an existing one) + its row in `CONVENTIONS/README.md`.
-2. Optional category `README.md` only when a row is not enough (`META/templates/category-README.md`).
+2. Optional category `README.md` only when a row is not enough (`TEMPLATES/category-README.md`).
 3. `META/tools/build.sh && META/tools/check.sh`.
 
 ## Good vs bad

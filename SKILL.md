@@ -30,7 +30,8 @@ Entry point. This directory is the conventions repo; every path below is relativ
 | Cursor / Copilot / Kiro rule files | `AGENTS/adapters/` |
 | How to write a prompt; paste-ready prompts | `AGENTS/PROMPT/` |
 | Skills | `SKILL.md` (this), `AGENTS/skills/deep/SKILL.md` |
-| Templates | `META/templates/` |
+| Templates | `TEMPLATES/` |
+| Compatible third-party formats, specs, tools (versions, links) | `COMPATIBILITY.md` (source `META/compat/registry.toml`) |
 
 ## Install / update
 - `./install.sh` links global rules and skills into every detected harness; `./install.sh status` shows what is linked.

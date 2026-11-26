@@ -18,7 +18,7 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 | Agent file | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`. Write or tighten this repo's `AGENTS.md`; never restate global rules. |
 | GitHub conformance | Follow `~/.config/szmelc/conventions/SKILL.md`. Make README, metadata, labels, rulesets, workflows and Pages conform to `CONVENTIONS/GITHUB/` and `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`; show the diff before applying settings. |
 | Port | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SYSTEMS/SUPPORT.md`. Port this project to {Arch/Nix/WSL2/macOS}; list what changes before editing. |
-| Skill | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`. Write a `SKILL.md` for {task} from `META/templates/SKILL.md`. |
+| Skill | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`. Write a `SKILL.md` for {task} from `TEMPLATES/SKILL.md`. |
 | Review a PR | Follow `~/.config/szmelc/conventions/SKILL.md`. Review PR {n} against the rules whose triggers match its diff; report violations with rule paths. |
 
 ## Extend (in a clone of the conventions repo)

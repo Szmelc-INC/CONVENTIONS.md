@@ -1,7 +1,7 @@
 # Rule files
 > Load when: writing, naming or reviewing a convention rule file.
 
-- Line 1 `# Title`, line 2 `> Load when: <concrete trigger>`; generators read both (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`). Skeleton `META/templates/rule.md`.
+- Line 1 `# Title`, line 2 `> Load when: <concrete trigger>`; generators read both (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`). Skeleton `TEMPLATES/rule.md`.
 - One topic per file, one rule per line: imperative one-liners (`- ...`); a table only when denser than lines.
 - ~5–20 lines; longer → split the topic.
 - No prose, no filler adjectives; rationale only when the rule is non-obvious.

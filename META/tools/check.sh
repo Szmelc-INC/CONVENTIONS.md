@@ -6,7 +6,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 export LC_ALL=C
 
-CORES=(CONVENTIONS AGENTS HUMANS CONTRIBUTING SZMELC META)
+CORES=(CONVENTIONS AGENTS HUMANS CONTRIBUTING SZMELC META TEMPLATES)
 # Top-level directories of the pre-core layout; references to them are stale.
 RETIRED='workflow|design|interfaces|packaging|meta|agents|global|skills|tools|schema|_template|index|experimental|legacy|adapters'
 
@@ -37,7 +37,7 @@ while IFS= read -r f; do
     */README.md) continue ;;
   esac
   case $f in
-    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | META/templates/* | META/tools/* | META/schema/* | CONVENTIONS/LEGACY/*) continue ;;
+    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/* | CONVENTIONS/LEGACY/*) continue ;;
   esac
   header "$f"
   grep -qF "\`$f\`" INDEX.md || err "$f: not listed in INDEX.md"
@@ -72,9 +72,9 @@ done < <(grep -oE '^\| `[^`]+`' INDEX.md | sed -E 's/^\| `([^`]+)`/\1/')
 # 7. Backtick path references inside sources resolve; none use the retired layout;
 #    stable sources never point into CONVENTIONS/EXPERIMENTAL/ or CONVENTIONS/LEGACY/.
 tops=$(find . -mindepth 1 -maxdepth 1 -type d -not -name '.*' -printf '%f\n' | paste -sd'|')
-sources=(SKILL.md AGENTS.md README.md HUMANS.md CONTRIBUTING.md SZMELC.md META.md)
+sources=(SKILL.md AGENTS.md README.md CHANGELOG.md HUMANS.md CONTRIBUTING.md SZMELC.md META.md TEMPLATES.md COMPATIBILITY.md)
 while IFS= read -r f; do
-  case $f in AGENTS/adapters/* | CONVENTIONS/LEGACY/* | META/templates/*) continue ;; esac
+  case $f in TEMPLATES/README.md) ;; AGENTS/adapters/* | CONVENTIONS/LEGACY/* | TEMPLATES/*) continue ;; esac
   sources+=("$f")
 done < <(all_md)
 for f in "${sources[@]}"; do
@@ -82,6 +82,7 @@ for f in "${sources[@]}"; do
     p=${ref//\`/}
     p=${p%%:*}
     [[ $p =~ ^($RETIRED)/ ]] && err "$f: stale pre-core path '$p'"
+    [[ $p == META/templates* || $p == CONTRIBUTING/TEMPLATES.md ]] && err "$f: stale path '$p' (now TEMPLATES/)"
     [[ $p =~ ^($tops)/ ]] || continue
     [[ -e ${p%/} ]] || err "$f: reference to missing path '$p'"
     case $f in CONVENTIONS/EXPERIMENTAL/*) ;; *)
@@ -109,6 +110,55 @@ while IFS= read -r p; do
   [[ $n == README.md ]] && continue
   [[ $n =~ ^[A-Z0-9]+(-[A-Z0-9]+)*(\.md)?$ ]] || err "$p: rule paths are UPPERCASE kebab ('BRANCHES.md', 'GITHUB/RELEASES/')"
 done < <(find CONVENTIONS AGENTS/RULES AGENTS/PROMPT -mindepth 1 | sort)
+
+# 12. Compatibility registry (META/compat/registry.toml): grammar, required fields, ids, dates, icons, specs, links.
+REGISTRY=META/compat/registry.toml
+ICONS=META/compat/icons
+US=$'\037'
+if ! raw=$(awk -f META/tools/compat.awk "$REGISTRY"); then
+  err "$REGISTRY: does not parse (see above)"
+else
+  if command -v python3 >/dev/null && python3 -c 'import tomllib' 2>/dev/null; then
+    python3 -c 'import sys, tomllib; tomllib.load(open(sys.argv[1], "rb"))' "$REGISTRY" 2>/dev/null || err "$REGISTRY: not valid TOML"
+  fi
+  declare -A seen=() cited=() used=()
+  while IFS= read -r line; do
+    [[ ${line:0:1} == E ]] || continue
+    # shellcheck disable=SC2034 # ver is read through ${!k}
+    IFS=$US read -r id name kind desc ver added updated icon spec home repo docs comm <<<"${line#E"$US"}"
+    w="$REGISTRY: entry '${id:-?}'"
+    for k in id name kind desc ver added updated; do [[ -n ${!k} ]] || err "$w: missing $k"; done
+    [[ $id =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || err "$w: id must be lowercase kebab"
+    [[ -z ${seen[$id]:-} ]] || err "$w: duplicate id"
+    seen[$id]=1
+    [[ $kind =~ ^(format|spec|platform|tool|language|stack)$ ]] || err "$w: kind '$kind' not in format|spec|platform|tool|language|stack"
+    for d in "$added" "$updated"; do
+      [[ $(date -u -d "$d" +%F 2>/dev/null) == "$d" ]] || err "$w: '$d' is not a valid YYYY-MM-DD date"
+    done
+    [[ $updated < $added ]] && err "$w: updated $updated is before added $added"
+    ((${#desc} <= 160)) || err "$w: description longer than 160 chars"
+    if [[ -n $icon ]]; then
+      if [[ ! $icon =~ ^$ICONS/[a-z0-9-]+\.svg$ || ! -f $icon ]]; then
+        err "$w: icon '$icon' is not a file in $ICONS/"
+      else
+        used[$icon]=1
+      fi
+    fi
+    for p in $spec; do
+      [[ $p =~ ^CONVENTIONS/.+\.md$ && -f $p ]] || err "$w: spec '$p' is not a rule file"
+      cited[$p]=1
+    done
+    for u in "$home" "$repo" "$docs" "$comm"; do
+      [[ -z $u || $u =~ ^https://[^[:space:]\<\>\"\']+$ ]] || err "$w: link '$u' must be https"
+    done
+  done <<<"$raw"
+  for f in CONVENTIONS/SPECS/THIRD-PARTY/*.md; do [[ -n ${cited[$f]:-} ]] || err "$f: no $REGISTRY entry cites it in spec"; done
+  for f in "$ICONS"/*.svg; do
+    [[ -n ${used[$f]:-} ]] || err "$f: icon not used by any registry entry"
+    grep -q '^<svg [^>]*fill="currentColor"' "$f" || err "$f: root <svg> needs fill=\"currentColor\""
+    ! grep -qiE '<script|<style|style=|[[:space:]]on[a-z]+=|href=|fill="#|stroke="#' "$f" || err "$f: icons must be plain monochrome paths (no scripts, styles, links or colors)"
+  done
+fi
 
 ((fail == 0)) && echo OK
 exit "$fail"
