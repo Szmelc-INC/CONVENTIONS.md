@@ -1,0 +1,26 @@
+name: weekly triage
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create the weekly triage checklist if none is open
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          open=$(gh issue list --repo "$GH_REPO" --state open --search 'in:title Weekly issue review' --json number --jq '.[0].number // empty')
+          if [[ -z $open ]]; then
+            gh label create needs-triage --repo "$GH_REPO" --color 105c5c \
+              --description 'New issue or pull request awaiting maintainer triage' --force
+            gh issue create --repo "$GH_REPO" \
+              --title '[triage] Weekly issue review' \
+              --label needs-triage \
+              --body $'## Weekly triage\n\n- [ ] Review open issues labeled `needs-triage`; assign labels, owners, and a next action.\n- [ ] Check stale blocked items and update their status.\n- [ ] Review open pull requests and waiting reviews.\n- [ ] Review new Discussions and move actionable proposals into issues or RFCs.\n- [ ] Close this reminder when complete; the next scheduled run will create another.'
+          fi

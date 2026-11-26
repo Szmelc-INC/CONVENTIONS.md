@@ -7,6 +7,7 @@ Map of `CONTRIBUTING/`. Full guide: [`CONTRIBUTING/README.md`](CONTRIBUTING/READ
 | Path | What | Load when |
 |---|---|---|
 | [`CONTRIBUTING/101.md`](CONTRIBUTING/101.md) | Conventions 101 | first using the conventions, setting them up for an agent, or applying them to an existing project. |
+| [`CONTRIBUTING/DECISIONS.md`](CONTRIBUTING/DECISIONS.md) | Project decisions | checking why the project adopted a policy, format, or compatibility change. |
 | [`CONTRIBUTING/DIY.md`](CONTRIBUTING/DIY.md) | Conventions DIY | building your own conventions repo (team, org, personal) on this skeleton, or layering one on top of Szmelc. |
 | [`CONTRIBUTING/INDEXING.md`](CONTRIBUTING/INDEXING.md) | Indexing and formats | adding or changing a rule file and wondering what to rebuild, or adding a new generated output format. |
 | [`CONTRIBUTING/LIFECYCLE.md`](CONTRIBUTING/LIFECYCLE.md) | Rule lifecycle | proposing, promoting, demoting or deprecating a convention, or tracking how a rule changed. |

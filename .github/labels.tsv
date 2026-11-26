@@ -10,6 +10,7 @@ blocked	b83a3a	Waiting on something external
 roadmap	262626	Roadmap parent issue or one of its stage sub-issues
 good first issue	7fffd4	Easy entry
 help wanted	1f8a8a	Maintainer wants outside help
+needs-triage	105c5c	New issue or pull request awaiting maintainer triage
 documentation	c0c0c0	Deprecated: use docs
 enhancement	c0c0c0	Deprecated: use feat
 question	c0c0c0	Deprecated: ask in Discussions

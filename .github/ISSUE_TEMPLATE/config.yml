@@ -9,3 +9,6 @@ contact_links:
   - name: Report a vulnerability
     url: https://github.com/Szmelc-INC/CONVENTIONS.md/security/advisories/new
     about: Privately, never in a public issue.
+  - name: Code of Conduct and conduct reports
+    url: https://github.com/Szmelc-INC/CONVENTIONS.md/blob/main/CODE_OF_CONDUCT.md
+    about: Read the conduct policy and its reporting and enforcement route.

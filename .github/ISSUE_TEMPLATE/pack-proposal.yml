@@ -1,0 +1,31 @@
+name: Pack proposal
+description: Propose a reusable rules pack for a project type or domain
+title: "pack: "
+labels: ["feat", "needs-triage"]
+body:
+  - type: textarea
+    id: scope
+    attributes:
+      label: Project type or domain
+      description: What kinds of projects should this pack cover?
+    validations:
+      required: true
+  - type: textarea
+    id: rules
+    attributes:
+      label: Proposed rules and triggers
+      description: List the rules, when each should load, and any tools or formats they depend on.
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or references
+      description: Link real projects or public standards that show the need.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Proposal checks
+      options:
+        - label: This proposal describes reusable guidance rather than one repository's private preferences.
+          required: true
