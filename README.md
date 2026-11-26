@@ -19,17 +19,20 @@ git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventi
 
 </div>
 
-## Screenshots
-Live site: <https://szmelc-inc.github.io/CONVENTIONS.md/>. Rebuilt with `META/tools/screenshots.sh` ([how](META/assets/screenshots/README.md)).
-
-| | |
-|---|---|
-| [![Site home in the dark theme: title, By Szmelc™, the Compatible with carousel and the core tabs](META/assets/screenshots/hero-dark.png)](META/assets/screenshots/hero-dark.png) | [![The [MENU] dropdown open: install, star, contribute, links, share, theme and keys](META/assets/screenshots/menu.png)](META/assets/screenshots/menu.png) |
-| Home, dark theme | `[MENU]` |
-| [![Projects tab: repositories table with All, Third-party and Szmelc™ sub-tabs](META/assets/screenshots/projects.png)](META/assets/screenshots/projects.png) | [![About Szmelc™ popup with Shields.io badges](META/assets/screenshots/popup-about.png)](META/assets/screenshots/popup-about.png) |
-| Projects: Szmelc™ and third-party | About popup (`#about`) |
-| [![Site home in the light theme](META/assets/screenshots/light.png)](META/assets/screenshots/light.png) | [![Site on a 390 px wide phone screen](META/assets/screenshots/mobile.png)](META/assets/screenshots/mobile.png) |
-| Light theme | Mobile |
+<details>
+<summary><b>More screenshots</b> (click to expand)</summary>
+<br>
+<table>
+<tr>
+<td align="center" width="50%"><img src="META/assets/screenshots/menu.png" alt="The [MENU] list: install, star, contribute, links, share, theme and keys"><br><sub>[MENU]</sub></td>
+<td align="center" width="50%"><img src="META/assets/screenshots/projects.png" alt="The Projects tab with the All, Third-party and Szmelc™ filters"><br><sub>Projects</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="META/assets/screenshots/popup-about.png" alt="The About Szmelc™ popup with Shields.io badges"><br><sub>About popup</sub></td>
+<td align="center"><img src="META/assets/screenshots/mobile.png" width="220" alt="The site on a phone screen, 390 px wide"><br><sub>Phone</sub></td>
+</tr>
+</table>
+</details>
 
 ## Usage
 ### Install

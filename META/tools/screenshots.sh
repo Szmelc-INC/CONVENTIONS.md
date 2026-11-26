@@ -51,7 +51,6 @@ const SHOTS = [
   ['menu', 1280, 900, 1, false, '?theme=dark', "document.querySelector('#menu-btn').click()"],
   ['projects', 1280, 900, 1, false, '?theme=dark#projects', ''],
   ['popup-about', 1280, 900, 1, false, '?theme=dark#about', ''],
-  ['light', 1280, 900, 1, false, '?theme=light', ''],
   ['mobile', 390, 844, 2, true, '?theme=dark', ''],
 ];
 const sock = new WebSocket(ws);
