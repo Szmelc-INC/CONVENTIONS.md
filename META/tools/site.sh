@@ -494,6 +494,7 @@ details.item[open]>summary .it-name{color:var(--head)}
 details.item>summary:hover .it-load,details.item[open]>summary .it-load{color:var(--sec)}
 /* origin: badge per rule row, registry chips under third-party rows */
 .it-meta{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.it-compat{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin:12px 0 0;color:var(--mute);font-size:12.5px}
 .org{display:inline-flex;align-items:center;font-size:11.5px;line-height:1.5;padding:0 6px;border:1px solid var(--line-3);border-radius:2px;color:var(--sec);background:var(--bg);font-weight:400;white-space:nowrap}
 .org.o3{border-color:var(--edge);color:var(--link)}
 .chip{display:inline-flex;align-items:center;gap:5px;min-height:20px;font-size:11.5px;line-height:1.5;padding:0 6px;border:1px solid var(--line-2);border-radius:2px;
@@ -857,10 +858,11 @@ function compatHTML(c){
 // Deep link #compat/<id>; the hash is cleared on close unless the user navigated elsewhere (a rule link).
 function openCompat(id, opener){
   const c = COMPAT.get(id); if (!c) return false;
+  const back = location.hash.startsWith('#compat/') || location.hash === '#install' ? '' : location.hash;   // the view's hash, restored on close
   if (location.hash !== '#compat/' + id) history.replaceState(null, '', '#compat/' + id);
   openModal({title:'Compatible with · ' + c.name, html:compatHTML(c),
     opener: opener || document.querySelector(`#compat .cw-t:not([aria-hidden]) [data-compat="${CSS.escape(id)}"]`),
-    onClose: ()=>{ if (location.hash.startsWith('#compat/')) history.replaceState(null, '', location.pathname + location.search); }});
+    onClose: ()=>{ if (location.hash.startsWith('#compat/')) history.replaceState(null, '', location.pathname + location.search + back); }});
   return true;
 }
 
@@ -1111,15 +1113,19 @@ function itemRow(it, s){
   const d = el('details',{className:'item'}); d.id = it.path;
   const tag = it.ex ? `<span class="it-tag">${ic('flask')}experimental</span>` : '<span></span>';
   const org = it.origin ? `<span class="org${it.origin==='third-party'?' o3':''}" title="${it.origin==='third-party'?'Third-party spec':'Szmelc original'}">${ORG_LABEL[it.origin]||esc(it.origin)}</span>` : '';
-  const chips = it.origin==='third-party' ? it.compat.map(id=>{ const c = COMPAT.get(id);
-    return `<a class="chip" href="#compat/${esc(id)}" data-compat="${esc(id)}" title="Compatible with ${esc(c.name)}">${c.icon && D.icons && D.icons[c.icon] ? badge(c) : ''}${hl(c.name,s)}</a>`; }).join('') : '';
+  // chips in <summary> are a mouse shortcut only (summary is a button: no nested focusable content); the opened body repeats them as links
+  const chipsOf = (attrs, t) => it.origin==='third-party' ? it.compat.map(id=>{ const c = COMPAT.get(id);
+    return `<a class="chip" href="#compat/${esc(id)}" data-compat="${esc(id)}"${attrs} title="Compatible with ${esc(c.name)}">${c.icon && D.icons && D.icons[c.icon] ? badge(c) : ''}${t(c.name)}</a>`; }).join('') : '';
+  const chips = chipsOf(' tabindex="-1" aria-hidden="true"', n=>hl(n,s));
   const meta = org || chips ? `<span class="it-meta">${org}${chips}</span>` : '';
   d.innerHTML = `<summary><span class="it-name">${ic(it.icon)}<span>${hl(it.title,s)}<span class="it-path">${hl(it.path,s)}</span>${meta}</span></span>`
     + `<span class="it-load">${hl(it.load,s)}</span>${tag}</summary>`;
   const fill = ()=>{
     if (d.dataset.filled) return; d.dataset.filled = 1;
     const b = el('div',{className:'body'});
+    const cw = chipsOf('', esc);
     b.innerHTML = (it.src ? `<div class="md">${md(bodyOf(it.src))}</div>` : '')
+      + (cw ? `<p class="it-compat">Compatible with ${cw}</p>` : '')
       + `<div class="acts">`
       + (it.src ? `<button class="cp" type="button" data-copy-src="${esc(it.path)}">${ic('copy')}<span class="lb">copy markdown</span></button>` : '')
       + copyBtn(rawURL(it.path), 'copy raw URL')
@@ -1232,7 +1238,9 @@ function render(){
   $('#expand').innerHTML = ic('expand') + (allOpen ? 'collapse all' : 'expand all');
   $('#expand').setAttribute('aria-pressed', allOpen);
   if (focusPath){
-    const t = document.getElementById(focusPath); focusPath = null;
+    const t = document.getElementById(focusPath);
+    if (!t && o !== 'all'){ origin = 'all'; return render(); }   // target hidden by the origin filter: show All, try again
+    focusPath = null;
     if (t){
       for (let p = t; p; p = p.parentElement && p.parentElement.closest('details')) p.open = true;
       if (t.classList.contains('grp')) t.classList.add('flash');
