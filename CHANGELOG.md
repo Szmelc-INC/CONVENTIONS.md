@@ -16,6 +16,7 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 ### Changed
 
 - `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`: full section order, no star calls or `(NEW)` markers. `CONVENTIONS/REPO/WRITING.md`: no claim words, no bold lead-ins.
+- `AGENTS/RULES/MEMORY.md`: agent memory rules derived from the public #memory developer docs: one fact per memory, cue keywords, stable refs, stale-write skip, least-privilege grants, confirmed deletes, cited recall.
 
 ## [2.0.2] - 2026-11-26
 
