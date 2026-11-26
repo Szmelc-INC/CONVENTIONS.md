@@ -10,6 +10,7 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ### Added
 
+- `META/tools/prose-lint.sh`: STE100++ prose checks for hand-written Markdown (semicolons, claim words in EN and PL, sentences over 30 words). Skips code, tables, quotes and rule one-liners. Runs warn-only in CI (`--summary`), `--strict` gates.
 - `AGENTS/RULES/MEMORY.md`: agent memory rules derived from the public #memory developer docs: one fact per memory, cue keywords, stable refs, stale-write skip, least-privilege grants, confirmed deletes, cited recall.
 
 ## [2.0.2] - 2026-11-26
