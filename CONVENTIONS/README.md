@@ -11,7 +11,7 @@ The rules themselves: how {{profile.project_name}} projects are built, shipped a
 | `CONVENTIONS/SPECS/` | Named document files: `THIRD-PARTY/` (format set by an outside standard or tool: `AGENTS.md` + imports, `SKILL.md`, `README.md`, `llms.txt`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CODEOWNERS`, `LICENSE`, `.mcp.json`), `ORIGINAL/` (project formats: `DESIGN.md`, rule files, core maps, lazy-load indexes). Third-party specs map to `COMPATIBILITY.md` entries |
 | `CONVENTIONS/FORMATS/` | File formats: `MARKDOWN/` (style, frontmatter, tables, GitHub extras), JSON, TOML, YAML, `.env`, `.editorconfig` and `.gitattributes` |
 | `CONVENTIONS/SYSTEMS/` | Target platforms: support order, Arch, Nix, other Linux, Windows via WSL2, macOS |
-| `CONVENTIONS/REPO/` | Repo layout, writing and voice |
+| `CONVENTIONS/REPO/` | Repo layout, writing and voice, docs structure |
 | `CONVENTIONS/PROFILES/` | Profile values and layered rule overrides |
 | `CONVENTIONS/DESIGN/` | Colors and visual identity for UI, TUI, CLI, web, badges |
 | `CONVENTIONS/INTERFACES/` | CLI, TUI and configuration design |

@@ -1,0 +1,3 @@
+# Docs structure and voice profile (#67).
+agents.prompt.docs-voice
+conventions.repo.docs
