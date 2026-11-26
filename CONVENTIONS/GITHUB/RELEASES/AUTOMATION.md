@@ -6,6 +6,7 @@ id: conventions.github.releases.automation
 
 - Default: a human pushes the tag (`CONVENTIONS/GITHUB/RELEASES/TAGS.md`); `.github/workflows/release.yml` does the rest.
 - Trigger `on: push: tags: ['v*']`, plus `workflow_dispatch` with a tag input for reruns.
+- Manual retries build from the selected tag but use the release coordinator script from `main`, so a workflow fix can safely verify an immutable release without changing its tagged source tree.
 - A tag pushed by a workflow with `GITHUB_TOKEN` triggers nothing; dispatch the release instead (`CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`).
 - `contents: write` on the release job only.
 - Build every asset on CI from the tag; never upload local builds.
