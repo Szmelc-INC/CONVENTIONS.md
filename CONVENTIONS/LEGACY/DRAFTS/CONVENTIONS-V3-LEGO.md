@@ -25,10 +25,12 @@ To resolve the tension between *"just write a skill"* and *"solve conventions gl
 For every tool, UI, and agent to interoperate without glue code, all artifacts must obey four deterministic laws:
 
 ### 1. Deterministic Parsability (Zero-Ambiguity Rule)
+
 * **Strict Frontmatter & Headers:** Every `*.md` specification uses rigid Markdown heading hierarchies and `YAML`/`TOML` frontmatter so both LLMs and `Go`/`PHP` parsers extract identical structures.
 * **Config-Driven Rendering:** Interfaces are never hardcoded. One declarative `JSON`/`TOML` schema drives CLI flags, TUI canvases (`ultui`, `tesserae`), and WebUIs (`localui`) simultaneously.
 
 ### 2. Generative Derivation (`Conventions` → `Skills`)
+
 * Agents do not manually guess how to build or use a repo.
 * Because every repository follows `CONVENTIONS.md`, a meta-parser automatically synthesizes:
   1. Valid **`SKILL.md`** manifests for LLM tool-use.
@@ -37,11 +39,13 @@ For every tool, UI, and agent to interoperate without glue code, all artifacts m
 
 ### 3. Unified Stack & Ecosystem Synergy
 Existing `Szmelc-INC` primitives serve as the physical bricks of this grammar:
+
 * **Orchestration & Agents:** `ada-agent` (assertion loop) + `wrapi` (local OpenAI-compatible AI endpoint).
 * **Interfaces:** `ultui` (JSON-to-TUI), `tesserae` (live dashboard), `localui` (JSON-to-WebUI).
 * **Infrastructure:** `silkrouter` (proxy mesh), `cr0` (stateful scheduler), `SAUR` (automated signed delivery).
 
 ### 4. Dual-Channel Lifecycle (`stable` vs `ex`)
+
 * **Default Branch (`[saur]`):** Production-grade, assertion-verified modules adhering strictly to `v2.0` conventions.
 * **Feature Branches (`[saur-ex]`):** Parallel experimental builds (`-ex` suffix) allowing conflict-free R&D across humans and agents on the same host.
 

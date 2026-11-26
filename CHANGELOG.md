@@ -2,6 +2,8 @@
 
 All notable changes to the conventions are documented here. Format: [Keep a Changelog 1.1](https://keepachangelog.com/en/1.1.0/); versioning: `CONTRIBUTING/VERSIONING.md`. Before the first tag the repo was unversioned (1.x).
 
+<!-- markdownlint-disable MD024 -->
+
 ## [Unreleased]
 
 ## [3.1.0] - 2026-11-26
