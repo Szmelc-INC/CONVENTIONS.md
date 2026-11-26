@@ -1,0 +1,1 @@
+{"schema":"compat-registry","value":{"disclaimer":"Example.","compatible":[{"id":"agents-md","name":"AGENTS.md","kind":"format","description":"Agent instructions","version":"unversioned","added":"2026-11-26","updated":"2026-11-26","spec":["rules/REVIEW.md"],"links":{"homepage":"https://agents.md/"}}]}}

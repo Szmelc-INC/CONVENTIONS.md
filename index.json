@@ -1,5 +1,6 @@
 {
-  "$schema": "META/schema/index.schema.json",
+  "$schema": "https://szmelc-inc.github.io/CONVENTIONS.md/SPEC/schemas/index-v2.schema.json",
+  "format_version": "1.0",
   "name": "conventions",
   "repo": "https://github.com/Szmelc-INC/CONVENTIONS.md",
   "entries": [
@@ -84,6 +85,7 @@
     {"path": "CONVENTIONS/REPO/LAYOUT.md", "title": "Repository layout", "load_when": "creating a repo, adding top-level files or directories, or auditing a repo against the conventions.", "status": "stable", "kind": "rule", "id": "conventions.repo.layout"},
     {"path": "CONVENTIONS/REPO/STE100PP.md", "title": "STE100++ controlled writing", "load_when": "writing or reviewing docs prose, procedures, help text, error messages, tool descriptions or agent prompts.", "status": "stable", "kind": "rule", "id": "conventions.repo.ste100pp"},
     {"path": "CONVENTIONS/REPO/WRITING.md", "title": "Writing & voice", "load_when": "writing docs, help text, error messages, commit messages, or community and lore text.", "status": "stable", "kind": "rule", "id": "conventions.repo.writing"},
+    {"path": "CONVENTIONS/SPECS/ORIGINAL/CONVENTIONS-FORMAT.md", "title": "Conventions Format 1.0", "load_when": "implementing, validating, or changing the Conventions Format 1.0 document contract.", "status": "stable", "kind": "rule", "id": "conventions.specs.original.format-1.0", "origin": "original"},
     {"path": "CONVENTIONS/SPECS/ORIGINAL/CORE-MAPS.md", "title": "Core maps", "load_when": "organising a doc tree into cores, adding a core or category, or editing a core README.", "status": "stable", "kind": "rule", "id": "conventions.specs.original.core-maps", "origin": "original"},
     {"path": "CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md", "title": "Design docs & agent briefs", "load_when": "starting a project, writing a brief for a coding agent, or changing a project's architecture.", "status": "stable", "kind": "rule", "id": "conventions.specs.original.design-md", "origin": "original"},
     {"path": "CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md", "title": "Lazy-load indexes", "load_when": "generating, reading or changing INDEX.md, index.json or an all-in-one rule bundle.", "status": "stable", "kind": "rule", "id": "conventions.specs.original.index-md", "origin": "original"},
