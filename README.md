@@ -1,23 +1,23 @@
+<div align="center">
+
 # CONVENTIONS.md
-**Global Szmelc™ conventions for humans and AI agents: one source of rules, built into every format an agent harness reads.**
+
+**One set of rules for humans and AI agents, built into every format that agent tools read.**
 
 ```sh
 git clone https://github.com/Szmelc-INC/CONVENTIONS.md ~/.config/szmelc/conventions && ~/.config/szmelc/conventions/install.sh
 ```
 
-[![check](https://img.shields.io/github/actions/workflow/status/Szmelc-INC/CONVENTIONS.md/check.yml?branch=main&label=check&logo=githubactions&logoColor=white)](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/check.yml)
-[![pages](https://img.shields.io/github/actions/workflow/status/Szmelc-INC/CONVENTIONS.md/pages.yml?branch=main&label=pages&logo=githubpages&logoColor=white)](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/pages.yml)
+[![CI status](https://img.shields.io/github/actions/workflow/status/Szmelc-INC/CONVENTIONS.md/check.yml?branch=main&label=check&logo=githubactions&logoColor=white)](https://github.com/Szmelc-INC/CONVENTIONS.md/actions/workflows/check.yml)
 [![Latest release](https://img.shields.io/github/v/release/Szmelc-INC/CONVENTIONS.md?logo=github&color=105c5c)](https://github.com/Szmelc-INC/CONVENTIONS.md/releases/latest)
-[![GitHub stars](https://img.shields.io/github/stars/Szmelc-INC/CONVENTIONS.md?logo=github&color=105c5c)](https://github.com/Szmelc-INC/CONVENTIONS.md)
 [![License: MIT](https://img.shields.io/github/license/Szmelc-INC/CONVENTIONS.md?logo=opensourceinitiative&logoColor=white&color=105c5c)](LICENSE)
 [![Live site](https://img.shields.io/website?url=https%3A%2F%2Fszmelc-inc.github.io%2FCONVENTIONS.md%2F&label=site&logo=githubpages&logoColor=white&up_color=105c5c&up_message=live)](https://szmelc-inc.github.io/CONVENTIONS.md/)
-[![Agent Skill: szmelc-conventions](https://img.shields.io/badge/SKILL.md-szmelc--conventions-105c5c?logo=agentskills&logoColor=white)](SKILL.md)
-[![AGENTS.md compatible](https://img.shields.io/badge/AGENTS.md-compatible-105c5c?logo=markdown&logoColor=white)](AGENTS/global/AGENTS.md)
 
-> Global conventions for everything, for humans and AI agents. One source, every format: an Agent Skill, `AGENTS.md`/`CLAUDE.md`/`GEMINI.md`, Cursor, Copilot and Kiro rules, plus `llms.txt`, a JSON index and a single-file bundle.
-> All rules, instructions, templates, formats and agreed-upon schemes in one place, to make them as universal, deterministic, logical and parseable as possible.
->
-> Same idea, but much more ***meta***™: one convention to rule them all. The same logic everywhere, from the root map `SZMELC.md` down to its guide `SZMELC/README.md` and every category below it.
+<a href="https://szmelc-inc.github.io/CONVENTIONS.md/"><img src="META/assets/screenshots/hero-dark.png" width="900" alt="The CONVENTIONS.md site: title, By Szmelc™, the Compatible with carousel and the tabs for each core"></a>
+
+<sub>Live site: <a href="https://szmelc-inc.github.io/CONVENTIONS.md/">szmelc-inc.github.io/CONVENTIONS.md</a> · made by <a href="https://github.com/Szmelc-INC">Szmelc™</a></sub>
+
+</div>
 
 ## Screenshots
 Live site: <https://szmelc-inc.github.io/CONVENTIONS.md/>. Rebuilt with `META/tools/screenshots.sh` ([how](META/assets/screenshots/README.md)).
