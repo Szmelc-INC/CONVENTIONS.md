@@ -8,6 +8,7 @@ on:
       - llms.txt
       - index.json
       - META/tools/site.sh
+      - 'META/compat/**'
       - SZMELC/sources.conf
       - .github/workflows/pages.yml
   schedule:

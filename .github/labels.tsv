@@ -26,4 +26,5 @@ area/agents	1b1b1b	AGENTS core: global rules, skills, adapters
 area/humans	1b1b1b	HUMANS core: install, browse
 area/contributing	1b1b1b	CONTRIBUTING core
 area/szmelc	1b1b1b	SZMELC core: org, sources
-area/meta	1b1b1b	META core: tools, schema, templates, site, CI
+area/meta	1b1b1b	META core: tools, schema, compat registry, site, CI
+area/templates	1b1b1b	TEMPLATES core: skeletons

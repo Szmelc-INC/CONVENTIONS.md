@@ -6,4 +6,4 @@
 - Body < ~500 lines. Push detail into `references/` and link it relatively (progressive disclosure).
 - One capability per skill. Deterministic steps go in `scripts/`, not prose.
 - Install by symlinking the directory into each harness skill root (`./install.sh` knows them). Never copy.
-- Skeleton: `META/templates/SKILL.md`. Validate with `META/tools/check.sh` rules: name/dir match, description length.
+- Skeleton: `TEMPLATES/SKILL.md`. Validate with `META/tools/check.sh` rules: name/dir match, description length.

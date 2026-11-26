@@ -1,7 +1,7 @@
 # Working on this repo
-- Follow "Rules of this repo" in `README.md`. Layout: six cores, each `X/` + `X/README.md` + root map `X.md`.
-- Edit sources only: rule files, core `README.md`s, `AGENTS/global/AGENTS.md`, `SKILL.md`, `AGENTS/skills/`, `META/templates/`, `META/tools/`, `SZMELC/sources.conf`, `install.sh`, and this file above the map block.
-- Never hand-edit generated files: `INDEX.md`, `index.json`, `llms.txt`, `CONVENTIONS.md`, `HUMANS.md`, `SZMELC.md`, `META.md`, `AGENTS/adapters/`, the map block below. Run `META/tools/build.sh`.
+- Follow "Rules of this repo" in `README.md`. Layout: seven cores, each `X/` + `X/README.md` + root map `X.md`.
+- Edit sources only: rule files, core `README.md`s, `AGENTS/global/AGENTS.md`, `SKILL.md`, `AGENTS/skills/`, `TEMPLATES/`, `META/tools/`, `META/compat/`, `SZMELC/sources.conf`, `install.sh`, and this file above the map block.
+- Never hand-edit generated files: `INDEX.md`, `index.json`, `llms.txt`, `CONVENTIONS.md`, `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`, `TEMPLATES.md`, `COMPATIBILITY.md`, `AGENTS/adapters/`, the map block below. Run `META/tools/build.sh`.
 - After any change: `META/tools/build.sh && META/tools/check.sh`; both must pass. Installer change → also `META/tools/test-install.sh`.
 - Branches: `CONVENTIONS/WORKFLOW/BRANCHES.md`. Only `main` lives; work on `feat/*`/`fix/*`/`docs/*`/`chore/*`/`experimental/*`/`legacy/*` branches, squash-merge into `main`, delete.
 - Public repo: commit only what is already public (public repos, orgs, sites). Never personal IDs, emails, private repo names or local paths.

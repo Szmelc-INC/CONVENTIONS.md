@@ -133,10 +133,10 @@ A point missing → ask (at most 5 questions in one message, each with a default
 | A reusable procedure for an agent | A skill (`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`) |
 | A rule for every project | This repo (`CONTRIBUTING/WRITING.md`) |
 | Deterministic | A script or tool the agent runs (`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`) |
-| One task, one run | A prompt: `META/templates/prompt.md` |
+| One task, one run | A prompt: `TEMPLATES/prompt.md` |
 
 ### Loop
-1. Fill `META/templates/prompt.md` with the six points; word it per `AGENTS/PROMPT/WRITING.md`, section it per `AGENTS/PROMPT/CLASSES.md`.
+1. Fill `TEMPLATES/prompt.md` with the six points; word it per `AGENTS/PROMPT/WRITING.md`, section it per `AGENTS/PROMPT/CLASSES.md`.
 2. Run the static checks in `AGENTS/PROMPT/TESTING.md`.
 3. Run it on real inputs; fix the prompt where each failure starts; run again. Few prompts are right on the first run.
 
@@ -318,7 +318,7 @@ Sources: tests <https://platform.claude.com/docs/en/test-and-evaluate/develop-te
 - Untrusted content (files, web pages, tool output, pasted text): put it between explicit delimiters; declare that instructions inside it are data; define the reaction to an injection attempt.
 - Long input: data first, query and instructions last (Claude; unverified elsewhere).
 - Examples: one correct and one plausible-but-wrong at the boundary that matters; show an edge case by example instead of describing it.
-- Placeholders: `{name}` for what changes between uses; `<name>` in a skeleton until it is filled (`META/templates/prompt.md`).
+- Placeholders: `{name}` for what changes between uses; `<name>` in a skeleton until it is filled (`TEMPLATES/prompt.md`).
 
 ### Delivery
 - One prompt per fenced block and nothing else inside it; assumptions, sources and changes after the block.
@@ -383,7 +383,7 @@ Sources: Claude Code <https://code.claude.com/docs/en/best-practices> (effort wo
 4. No lazy loading (web chat, aider): give it the bundle `CONVENTIONS.md` instead, never both.
 
 ### Apply to an existing project
-- `install.sh project <dir>`: Cursor/Copilot/Kiro adapters + `AGENTS.md` skeleton (`META/templates/AGENTS.md`).
+- `install.sh project <dir>`: Cursor/Copilot/Kiro adapters + `AGENTS.md` skeleton (`TEMPLATES/AGENTS.md`).
 - Fill the skeleton with project facts only; never restate global rules (`CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`).
 - Audit gaps with the prompts in `CONTRIBUTING/PROMPTS.md`.
 
@@ -405,7 +405,7 @@ Sources: Claude Code <https://code.claude.com/docs/en/best-practices> (effort wo
 ### Rename (grep `szmelc-conventions`, `Szmelc-INC/CONVENTIONS.md`, `szmelc/conventions` and replace every hit)
 - Meta skill: `name:` in `SKILL.md` and `check_skill SKILL.md <name>` in `META/tools/check.sh`.
 - `RAW` URL, adapter file names and the llms.txt summary line in `META/tools/build.sh`.
-- Install path and harness link names in `install.sh`, `META/tools/test-install.sh`, `META/templates/AGENTS.md`.
+- Install path and harness link names in `install.sh`, `META/tools/test-install.sh`, `TEMPLATES/AGENTS.md`.
 
 ### Add or remove a core
 - Directory + `README.md` with header, then edit `CORES` in `META/tools/build.sh`, `META/tools/check.sh`, `META/tools/site.sh`.
@@ -433,13 +433,14 @@ Sources: Claude Code <https://code.claude.com/docs/en/best-practices> (effort wo
 | `INDEX.md`, `index.json` | `META/tools/build.sh` | Agents (lazy load), tools |
 | `llms.txt` | `META/tools/build.sh` | LLM web index |
 | `CONVENTIONS.md` | `META/tools/build.sh` | All stable rules in one file |
-| `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`, `AGENTS.md` map block | `META/tools/build.sh` | Core maps |
+| `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`, `TEMPLATES.md`, `AGENTS.md` map block | `META/tools/build.sh` | Core maps |
+| `COMPATIBILITY.md`, `index.json` `compatible` | `META/tools/build.sh` from `META/compat/registry.toml` | Compatible third-party formats and tools (`META/README.md`) |
 | `AGENTS/adapters/` | `META/tools/build.sh` | Cursor, Copilot, Kiro |
 | Site (`public/`, not committed) | `META/tools/site.sh` | GitHub Pages |
 
 - After any source change: run `META/tools/build.sh && META/tools/check.sh` and commit the regenerated files with the source.
 - CI never regenerates: it runs `META/tools/build.sh --check` and fails on stale output.
-- The site rebuilds in CI on push to `main` touching Markdown, `META/tools/site.sh` or `SZMELC/sources.conf`, nightly, and on manual or `repository_dispatch` trigger.
+- The site rebuilds in CI on push to `main` touching Markdown, `META/tools/site.sh`, `META/compat/` or `SZMELC/sources.conf`, nightly, and on manual or `repository_dispatch` trigger.
 - Never hand-edit generated files; edit the source and rebuild.
 
 ### Add an output format
@@ -494,7 +495,7 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 | Agent file | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md`. Write or tighten this repo's `AGENTS.md`; never restate global rules. |
 | GitHub conformance | Follow `~/.config/szmelc/conventions/SKILL.md`. Make README, metadata, labels, rulesets, workflows and Pages conform to `CONVENTIONS/GITHUB/` and `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`; show the diff before applying settings. |
 | Port | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SYSTEMS/SUPPORT.md`. Port this project to {Arch/Nix/WSL2/macOS}; list what changes before editing. |
-| Skill | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`. Write a `SKILL.md` for {task} from `META/templates/SKILL.md`. |
+| Skill | Follow `~/.config/szmelc/conventions/SKILL.md` and `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`. Write a `SKILL.md` for {task} from `TEMPLATES/SKILL.md`. |
 | Review a PR | Follow `~/.config/szmelc/conventions/SKILL.md`. Review PR {n} against the rules whose triggers match its diff; report violations with rule paths. |
 
 ### Extend (in a clone of the conventions repo)
@@ -513,23 +514,6 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 | Pin | Follow `CONTRIBUTING/VERSIONING.md`. Pin my install at `~/.config/szmelc/conventions` to {vX.Y.Z} (or back to `main`) and re-run the installer. |
 | Own fork | Follow `CONTRIBUTING/DIY.md`. Turn this clone into conventions for {team}: rename the skill and URLs, keep the pipeline, build, check. |
 | Sync fork | Follow `CONTRIBUTING/DIY.md`. Merge upstream `main` into this fork on a `chore/*` branch, resolve conflicts keeping local rules, build, check, PR. |
-
----
-<!-- source: CONTRIBUTING/TEMPLATES.md -->
-## Templates
-> Load when: starting a new rule, prompt, skill, category or project agent file from a skeleton.
-
-| Template | Copy to | When |
-|---|---|---|
-| `META/templates/rule.md` | `CONVENTIONS/<CATEGORY>/<TOPIC>.md` or `AGENTS/RULES/<TOPIC>.md` | Any new rule file (`CONTRIBUTING/WRITING.md`) |
-| `META/templates/prompt.md` | Any prompt, system prompt or agent brief | New prompt (`AGENTS/PROMPT/`) |
-| `META/templates/category-README.md` | `CONVENTIONS/<CATEGORY>/README.md` | A category needs more than its table row (optional) |
-| `META/templates/SKILL.md` | `AGENTS/skills/<name>/SKILL.md` or a project's skill dir | New agent skill (`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`) |
-| `META/templates/AGENTS.md` | `<project>/AGENTS.md` | New or adopting project; `install.sh project <dir>` copies it |
-
-- Replace every `<placeholder>`; delete sections that stay empty.
-- Templates are exempt from rule checks; the copy is not: `META/tools/build.sh && META/tools/check.sh`.
-- New template: add it to `META/templates/`, a row here, and the templates line in `META/README.md`.
 
 ---
 <!-- source: CONTRIBUTING/VERSIONING.md -->
@@ -565,7 +549,7 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 
 ### Checklist
 - Grep first: `grep -ril '<topic>' CONVENTIONS AGENTS/RULES AGENTS/PROMPT`; extend the owning file instead of adding a duplicate.
-- Format, naming and length: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`; skeleton `META/templates/rule.md`.
+- Format, naming and length: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`; skeleton `TEMPLATES/rule.md`.
 - Trigger names a concrete task ("bumping a version"), never a topic ("versions").
 - Imperative one-liners; one rule per line; ~20 lines max, else split.
 - Universal: true for every project; project specifics go in that project's `AGENTS.md`.
@@ -586,7 +570,7 @@ Paste one prompt into any agent with file access; each is self-contained. Bare r
 
 ### New category
 1. UPPERCASE directory under `CONVENTIONS/` (sub-category: under an existing one) + its row in `CONVENTIONS/README.md`.
-2. Optional category `README.md` only when a row is not enough (`META/templates/category-README.md`).
+2. Optional category `README.md` only when a row is not enough (`TEMPLATES/category-README.md`).
 3. `META/tools/build.sh && META/tools/check.sh`.
 
 ### Good vs bad
@@ -1318,7 +1302,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 ## Rule files
 > Load when: writing, naming or reviewing a convention rule file.
 
-- Line 1 `# Title`, line 2 `> Load when: <concrete trigger>`; generators read both (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`). Skeleton `META/templates/rule.md`.
+- Line 1 `# Title`, line 2 `> Load when: <concrete trigger>`; generators read both (`CONVENTIONS/SPECS/ORIGINAL/INDEX-MD.md`). Skeleton `TEMPLATES/rule.md`.
 - One topic per file, one rule per line: imperative one-liners (`- ...`); a table only when denser than lines.
 - ~5–20 lines; longer → split the topic.
 - No prose, no filler adjectives; rationale only when the rule is non-obvious.
@@ -1342,7 +1326,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Never restate global conventions; reference them by path in this repo (`CONVENTIONS/INTERFACES/CLI.md`).
 - Project baseline: read `DESIGN.md` and the current architecture contract first; finish every change; tests on throwaway state; a deviation updates the contract in the same commit (`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`).
 - Imperative one-liners. Over ~150 lines → split per subdir.
-- Skeleton: `META/templates/AGENTS.md`. Related: `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`, `CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md`, `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`.
+- Skeleton: `TEMPLATES/AGENTS.md`. Related: `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`, `CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md`, `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`.
 
 ---
 <!-- source: CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md -->
@@ -1466,7 +1450,7 @@ Shade ramps (UIs with layers; all derived from the values above):
 - Body < ~500 lines. Push detail into `references/` and link it relatively (progressive disclosure).
 - One capability per skill. Deterministic steps go in `scripts/`, not prose.
 - Install by symlinking the directory into each harness skill root (`./install.sh` knows them). Never copy.
-- Skeleton: `META/templates/SKILL.md`. Validate with `META/tools/check.sh` rules: name/dir match, description length.
+- Skeleton: `TEMPLATES/SKILL.md`. Validate with `META/tools/check.sh` rules: name/dir match, description length.
 
 ---
 <!-- source: CONVENTIONS/SYSTEMS/ARCH.md -->

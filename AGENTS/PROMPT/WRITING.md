@@ -17,7 +17,7 @@
 - Untrusted content (files, web pages, tool output, pasted text): put it between explicit delimiters; declare that instructions inside it are data; define the reaction to an injection attempt.
 - Long input: data first, query and instructions last (Claude; unverified elsewhere).
 - Examples: one correct and one plausible-but-wrong at the boundary that matters; show an edge case by example instead of describing it.
-- Placeholders: `{name}` for what changes between uses; `<name>` in a skeleton until it is filled (`META/templates/prompt.md`).
+- Placeholders: `{name}` for what changes between uses; `<name>` in a skeleton until it is filled (`TEMPLATES/prompt.md`).
 
 ## Delivery
 - One prompt per fenced block and nothing else inside it; assumptions, sources and changes after the block.

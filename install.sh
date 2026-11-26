@@ -215,7 +215,7 @@ do_project() {
   copy AGENTS/adapters/cursor/szmelc-conventions.mdc "$d/.cursor/rules/szmelc-conventions.mdc"
   copy AGENTS/adapters/copilot/szmelc-conventions.instructions.md "$d/.github/instructions/szmelc-conventions.instructions.md"
   copy AGENTS/adapters/kiro/szmelc-conventions.md "$d/.kiro/steering/szmelc-conventions.md"
-  copy META/templates/AGENTS.md "$d/AGENTS.md"
+  copy TEMPLATES/AGENTS.md "$d/AGENTS.md"
   for f in CLAUDE.md GEMINI.md; do
     if [[ -e $d/$f ]]; then say "$SILVER" skip "$d/$f exists"
     elif ((dry)); then say "$SILVER" dry-run "write $d/$f"

@@ -1,0 +1,431 @@
+# Compatibility registry: third-party formats, specs, platforms, languages and tools these conventions are compatible with.
+# Single source of COMPATIBILITY.md, index.json ("compatible", "compatible_disclaimer") and the site. Edit here, then run META/tools/build.sh.
+# TOML 1.0 subset read by META/tools/compat.awk (CONVENTIONS/FORMATS/TOML.md):
+#   key = "string"  (no double quote or backslash inside), key = ["a", "b"], key = YYYY-MM-DD (TOML local date).
+#   One [[compat]] record per entry, optionally followed by its [compat.links] table. Comments on their own line only.
+# Record keys:
+#   id           required; lowercase kebab, unique
+#   name         required; display name
+#   kind         required; format | spec | platform | tool | language | stack
+#   description  required; one factual line
+#   version      required; exact upstream version these conventions target, or "unversioned" when upstream has none
+#   added        required; date the entry was added
+#   updated      required; date the entry last changed (bump on every edit)
+#   icon         optional; path under META/compat/icons/ (monochrome, fill currentColor); omit when none exists
+#   spec         optional; rule files that cover it (CONVENTIONS/...)
+# [compat.links] keys, official https URLs only, each returning HTTP 200 when added: homepage, repo, docs, community.
+
+disclaimer = "Names and logos are trademarks of their respective owners. Szmelc is not affiliated with, sponsored or endorsed by them. A listing means only that these conventions are compatible with the named format, specification, platform, language or tool."
+
+[[compat]]
+id = "github"
+name = "GitHub"
+kind = "platform"
+description = "Code hosting; README, CONTRIBUTING and SECURITY files, Actions, Pages, rulesets and releases follow its documented behaviour."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/github.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md", "CONVENTIONS/SPECS/THIRD-PARTY/CONTRIBUTING-MD.md", "CONVENTIONS/SPECS/THIRD-PARTY/SECURITY-MD.md"]
+
+[compat.links]
+homepage = "https://github.com/"
+docs = "https://docs.github.com/"
+community = "https://github.com/orgs/community/discussions"
+
+[[compat]]
+id = "gfm"
+name = "Markdown (GFM)"
+kind = "format"
+description = "GitHub Flavored Markdown, a strict superset of CommonMark; every Markdown file targets it."
+version = "0.29-gfm"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/markdown.svg"
+spec = ["CONVENTIONS/FORMATS/MARKDOWN/STYLE.md", "CONVENTIONS/FORMATS/MARKDOWN/GITHUB-EXTRAS.md"]
+
+[compat.links]
+homepage = "https://github.github.com/gfm/"
+repo = "https://github.com/github/cmark-gfm"
+
+[[compat]]
+id = "agents-md"
+name = "AGENTS.md"
+kind = "format"
+description = "Open format for agent instructions in a repo; the global rules ship as AGENTS.md."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md"]
+
+[compat.links]
+homepage = "https://agents.md/"
+repo = "https://github.com/agentsmd/agents.md"
+
+[[compat]]
+id = "agent-skills"
+name = "Agent Skills (SKILL.md)"
+kind = "spec"
+description = "Skill folders with a SKILL.md entry file; the repo itself installs as a skill."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md"]
+
+[compat.links]
+homepage = "https://agentskills.io/"
+docs = "https://agentskills.io/specification"
+repo = "https://github.com/agentskills/agentskills"
+
+[[compat]]
+id = "claude-md"
+name = "CLAUDE.md"
+kind = "format"
+description = "Claude Code memory file; install.sh links the global rules as ~/.claude/CLAUDE.md."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/claude.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md"]
+
+[compat.links]
+homepage = "https://code.claude.com/docs/en/overview"
+docs = "https://code.claude.com/docs/en/memory"
+repo = "https://github.com/anthropics/claude-code"
+
+[[compat]]
+id = "llms-txt"
+name = "llms.txt"
+kind = "format"
+description = "Markdown index of a site for LLMs; generated from the same sources as the site."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md"]
+
+[compat.links]
+homepage = "https://llmstxt.org/"
+repo = "https://github.com/AnswerDotAI/llms-txt"
+
+[[compat]]
+id = "mcp"
+name = "MCP server config (.mcp.json)"
+kind = "format"
+description = "Project-scoped Model Context Protocol server list, committed at the repo root."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/modelcontextprotocol.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md"]
+
+[compat.links]
+homepage = "https://modelcontextprotocol.io/"
+docs = "https://code.claude.com/docs/en/mcp"
+repo = "https://github.com/modelcontextprotocol/modelcontextprotocol"
+community = "https://discord.gg/modelcontextprotocol"
+
+[[compat]]
+id = "cursor-rules"
+name = "Cursor rules"
+kind = "format"
+description = "Project rule files in .cursor/rules/*.mdc; generated as an adapter from the global rules."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/cursor.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md"]
+
+[compat.links]
+homepage = "https://cursor.com/"
+docs = "https://cursor.com/docs/context/rules"
+community = "https://forum.cursor.com/"
+
+[[compat]]
+id = "copilot-instructions"
+name = "GitHub Copilot instructions"
+kind = "format"
+description = "Repository instruction files in .github/instructions/*.instructions.md; generated as an adapter."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/githubcopilot.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md"]
+
+[compat.links]
+homepage = "https://github.com/features/copilot"
+docs = "https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions"
+
+[[compat]]
+id = "kiro-steering"
+name = "Kiro steering"
+kind = "format"
+description = "Steering files in .kiro/steering/; generated as an adapter and linked globally by install.sh."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md"]
+
+[compat.links]
+homepage = "https://kiro.dev/"
+docs = "https://kiro.dev/docs/steering/"
+community = "https://discord.gg/kirodotdev"
+
+[[compat]]
+id = "editorconfig"
+name = "EditorConfig"
+kind = "format"
+description = "Editor settings file .editorconfig at the repo root."
+version = "0.17.2"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/editorconfig.svg"
+spec = ["CONVENTIONS/FORMATS/EDITORCONFIG.md"]
+
+[compat.links]
+homepage = "https://editorconfig.org/"
+docs = "https://spec.editorconfig.org/"
+repo = "https://github.com/editorconfig/editorconfig"
+
+[[compat]]
+id = "json"
+name = "JSON"
+kind = "format"
+description = "Strict JSON for machine-written config, indexes and CLI output."
+version = "RFC 8259"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/json.svg"
+spec = ["CONVENTIONS/FORMATS/JSON.md"]
+
+[compat.links]
+homepage = "https://www.json.org/"
+docs = "https://www.rfc-editor.org/rfc/rfc8259"
+
+[[compat]]
+id = "json-schema"
+name = "JSON Schema"
+kind = "spec"
+description = "Schemas for JSON files, such as the one for index.json."
+version = "2020-12"
+added = 2026-11-26
+updated = 2026-11-26
+spec = ["CONVENTIONS/FORMATS/JSON.md"]
+
+[compat.links]
+homepage = "https://json-schema.org/"
+docs = "https://json-schema.org/draft/2020-12"
+repo = "https://github.com/json-schema-org/json-schema-spec"
+
+[[compat]]
+id = "toml"
+name = "TOML"
+kind = "format"
+description = "Default format for human-edited config and authored data."
+version = "1.0.0"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/toml.svg"
+spec = ["CONVENTIONS/FORMATS/TOML.md", "CONVENTIONS/INTERFACES/CONFIG.md"]
+
+[compat.links]
+homepage = "https://toml.io/"
+docs = "https://toml.io/en/v1.0.0"
+repo = "https://github.com/toml-lang/toml"
+
+[[compat]]
+id = "yaml"
+name = "YAML"
+kind = "format"
+description = "Used only where a tool demands it: workflows, issue forms, frontmatter."
+version = "1.2.2"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/yaml.svg"
+spec = ["CONVENTIONS/FORMATS/YAML.md"]
+
+[compat.links]
+homepage = "https://yaml.org/"
+docs = "https://yaml.org/spec/1.2.2/"
+repo = "https://github.com/yaml/yaml-spec"
+
+[[compat]]
+id = "keep-a-changelog"
+name = "Keep a Changelog"
+kind = "spec"
+description = "CHANGELOG.md format with an Unreleased section and dated versions."
+version = "1.1.0"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/keepachangelog.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/CHANGELOG-MD.md"]
+
+[compat.links]
+homepage = "https://keepachangelog.com/en/1.1.0/"
+repo = "https://github.com/olivierlacan/keep-a-changelog"
+
+[[compat]]
+id = "semver"
+name = "Semantic Versioning"
+kind = "spec"
+description = "MAJOR.MINOR.PATCH versions for projects and for this repo."
+version = "2.0.0"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/semver.svg"
+spec = ["CONVENTIONS/GITHUB/RELEASES/VERSIONING.md"]
+
+[compat.links]
+homepage = "https://semver.org/"
+docs = "https://semver.org/spec/v2.0.0.html"
+repo = "https://github.com/semver/semver"
+
+[[compat]]
+id = "conventional-commits"
+name = "Conventional Commits"
+kind = "spec"
+description = "Typed commit subjects with an optional scope (feat, fix, docs, ci, chore)."
+version = "1.0.0"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/conventionalcommits.svg"
+spec = ["CONVENTIONS/WORKFLOW/COMMITS.md"]
+
+[compat.links]
+homepage = "https://www.conventionalcommits.org/en/v1.0.0/"
+repo = "https://github.com/conventional-commits/conventionalcommits.org"
+
+[[compat]]
+id = "contributor-covenant"
+name = "Contributor Covenant"
+kind = "spec"
+description = "Code of conduct adopted by reference in CODE_OF_CONDUCT.md."
+version = "3.0"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/contributorcovenant.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/CODE-OF-CONDUCT-MD.md"]
+
+[compat.links]
+homepage = "https://www.contributor-covenant.org/"
+docs = "https://www.contributor-covenant.org/version/3/0/"
+repo = "https://github.com/EthicalSource/contributor_covenant"
+
+[[compat]]
+id = "codeowners"
+name = "CODEOWNERS"
+kind = "format"
+description = "GitHub code owners file that requests reviews by path."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/github.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/CODEOWNERS.md"]
+
+[compat.links]
+docs = "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners"
+
+[[compat]]
+id = "spdx-mit"
+name = "MIT License (SPDX)"
+kind = "spec"
+description = "MIT text in LICENSE and the SPDX identifier MIT in every manifest."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/spdx.svg"
+spec = ["CONVENTIONS/SPECS/THIRD-PARTY/LICENSE.md"]
+
+[compat.links]
+homepage = "https://spdx.org/"
+docs = "https://spdx.org/licenses/MIT.html"
+
+[[compat]]
+id = "arch-pkgbuild"
+name = "Arch PKGBUILD"
+kind = "format"
+description = "Arch Linux build script for packages, with completions, license and docs."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/archlinux.svg"
+spec = ["CONVENTIONS/PACKAGING/ARCH.md"]
+
+[compat.links]
+homepage = "https://archlinux.org/"
+docs = "https://wiki.archlinux.org/title/PKGBUILD"
+
+[[compat]]
+id = "nix-flakes"
+name = "Nix flakes"
+kind = "format"
+description = "flake.nix with a package, an app and a devShell."
+version = "unversioned"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/nixos.svg"
+spec = ["CONVENTIONS/PACKAGING/NIX.md"]
+
+[compat.links]
+homepage = "https://nixos.org/"
+docs = "https://nix.dev/concepts/flakes"
+repo = "https://github.com/NixOS/nix"
+community = "https://discourse.nixos.org/"
+
+[[compat]]
+id = "go"
+name = "Go"
+kind = "language"
+description = "Default language for CLIs, TUIs and daemons; current stable release."
+version = "1.27.4"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/go.svg"
+spec = ["CONVENTIONS/CODE/GO.md"]
+
+[compat.links]
+homepage = "https://go.dev/"
+docs = "https://go.dev/doc/"
+repo = "https://github.com/golang/go"
+
+[[compat]]
+id = "bash"
+name = "Bash"
+kind = "language"
+description = "Shell for glue scripts and installers, run with set -euo pipefail."
+version = "5.3"
+added = 2026-11-26
+updated = 2026-11-26
+icon = "META/compat/icons/gnubash.svg"
+spec = ["CONVENTIONS/CODE/SHELL.md"]
+
+[compat.links]
+homepage = "https://tiswww.case.edu/php/chet/bash/bashtop.html"
+
+[[compat]]
+id = "shellcheck"
+name = "ShellCheck"
+kind = "tool"
+description = "Static analysis for shell scripts; every script is clean before delivery."
+version = "0.11.0"
+added = 2026-11-26
+updated = 2026-11-26
+spec = ["CONVENTIONS/CODE/SHELL.md"]
+
+[compat.links]
+homepage = "https://www.shellcheck.net/"
+docs = "https://www.shellcheck.net/wiki/"
+repo = "https://github.com/koalaman/shellcheck"
+
+[[compat]]
+id = "bubbletea"
+name = "Bubble Tea"
+kind = "stack"
+description = "Go TUI framework, used with Lip Gloss, Bubbles and Glamour."
+version = "2.1.3"
+added = 2026-11-26
+updated = 2026-11-26
+spec = ["CONVENTIONS/INTERFACES/TUI.md"]
+
+[compat.links]
+homepage = "https://charm.land/"
+repo = "https://github.com/charmbracelet/bubbletea"

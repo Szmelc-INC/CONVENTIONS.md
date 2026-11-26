@@ -3,7 +3,8 @@
   "$id": "https://raw.githubusercontent.com/Szmelc-INC/CONVENTIONS.md/main/META/schema/index.schema.json",
   "title": "Szmelc conventions index",
   "type": "object",
-  "required": ["name", "repo", "entries"],
+  "required": ["name", "repo", "entries", "compatible_disclaimer", "compatible"],
+  "additionalProperties": false,
   "properties": {
     "$schema": {"type": "string"},
     "name": {"type": "string", "pattern": "^[a-z0-9-]{1,64}$"},
@@ -19,7 +20,40 @@
           "title": {"type": "string"},
           "load_when": {"type": "string", "description": "Trigger: when an agent should load this file"},
           "status": {"enum": ["always", "stable", "experimental", "legacy"]},
-          "kind": {"enum": ["global", "core", "skill", "rule", "archive"]}
+          "kind": {"enum": ["global", "core", "skill", "rule", "archive"]},
+          "origin": {"enum": ["third-party", "original"], "description": "From the path: */THIRD-PARTY/* or */ORIGINAL/*; absent otherwise"},
+          "compat": {"type": "array", "items": {"type": "string"}, "description": "Ids of compatible entries whose spec cites this file"}
+        }
+      }
+    },
+    "compatible_disclaimer": {"type": "string", "description": "Trademark and non-affiliation notice for the compatible list"},
+    "compatible": {
+      "type": "array",
+      "description": "Third-party formats, specs, platforms, languages and tools these conventions are compatible with (META/compat/registry.toml)",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "kind", "description", "version", "added", "updated", "spec", "links"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"},
+          "name": {"type": "string"},
+          "kind": {"enum": ["format", "spec", "platform", "tool", "language", "stack"]},
+          "description": {"type": "string"},
+          "version": {"type": "string", "description": "Exact upstream version, or \"unversioned\""},
+          "added": {"type": "string", "format": "date"},
+          "updated": {"type": "string", "format": "date"},
+          "icon": {"type": "string", "description": "Monochrome SVG path relative to the repo root, also served at the same path on the site"},
+          "spec": {"type": "array", "items": {"type": "string"}, "description": "Rule files that cover it"},
+          "links": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "homepage": {"type": "string", "format": "uri"},
+              "repo": {"type": "string", "format": "uri"},
+              "docs": {"type": "string", "format": "uri"},
+              "community": {"type": "string", "format": "uri"}
+            }
+          }
         }
       }
     }

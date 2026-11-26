@@ -8,13 +8,14 @@
 | `INDEX.md`, `index.json` | `META/tools/build.sh` | Agents (lazy load), tools |
 | `llms.txt` | `META/tools/build.sh` | LLM web index |
 | `CONVENTIONS.md` | `META/tools/build.sh` | All stable rules in one file |
-| `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`, `AGENTS.md` map block | `META/tools/build.sh` | Core maps |
+| `HUMANS.md`, `CONTRIBUTING.md`, `SZMELC.md`, `META.md`, `TEMPLATES.md`, `AGENTS.md` map block | `META/tools/build.sh` | Core maps |
+| `COMPATIBILITY.md`, `index.json` `compatible` | `META/tools/build.sh` from `META/compat/registry.toml` | Compatible third-party formats and tools (`META/README.md`) |
 | `AGENTS/adapters/` | `META/tools/build.sh` | Cursor, Copilot, Kiro |
 | Site (`public/`, not committed) | `META/tools/site.sh` | GitHub Pages |
 
 - After any source change: run `META/tools/build.sh && META/tools/check.sh` and commit the regenerated files with the source.
 - CI never regenerates: it runs `META/tools/build.sh --check` and fails on stale output.
-- The site rebuilds in CI on push to `main` touching Markdown, `META/tools/site.sh` or `SZMELC/sources.conf`, nightly, and on manual or `repository_dispatch` trigger.
+- The site rebuilds in CI on push to `main` touching Markdown, `META/tools/site.sh`, `META/compat/` or `SZMELC/sources.conf`, nightly, and on manual or `repository_dispatch` trigger.
 - Never hand-edit generated files; edit the source and rebuild.
 
 ## Add an output format

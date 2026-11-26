@@ -8,7 +8,7 @@
 ## Rename (grep `szmelc-conventions`, `Szmelc-INC/CONVENTIONS.md`, `szmelc/conventions` and replace every hit)
 - Meta skill: `name:` in `SKILL.md` and `check_skill SKILL.md <name>` in `META/tools/check.sh`.
 - `RAW` URL, adapter file names and the llms.txt summary line in `META/tools/build.sh`.
-- Install path and harness link names in `install.sh`, `META/tools/test-install.sh`, `META/templates/AGENTS.md`.
+- Install path and harness link names in `install.sh`, `META/tools/test-install.sh`, `TEMPLATES/AGENTS.md`.
 
 ## Add or remove a core
 - Directory + `README.md` with header, then edit `CORES` in `META/tools/build.sh`, `META/tools/check.sh`, `META/tools/site.sh`.

@@ -10,4 +10,4 @@
 - Never restate global conventions; reference them by path in this repo (`CONVENTIONS/INTERFACES/CLI.md`).
 - Project baseline: read `DESIGN.md` and the current architecture contract first; finish every change; tests on throwaway state; a deviation updates the contract in the same commit (`CONVENTIONS/SPECS/ORIGINAL/DESIGN-MD.md`).
 - Imperative one-liners. Over ~150 lines → split per subdir.
-- Skeleton: `META/templates/AGENTS.md`. Related: `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`, `CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md`, `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`.
+- Skeleton: `TEMPLATES/AGENTS.md`. Related: `CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`, `CONVENTIONS/SPECS/THIRD-PARTY/MCP-JSON.md`, `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`.

@@ -2,7 +2,8 @@
 # Build the public site (GitHub Pages): one tab per core with nested rule groups, themes, a Projects index and the index files.
 # Output goes to public/ (gitignored), built in CI and deployed to Pages — never committed,
 # so it never makes check.sh stale. Next to index.html it ships the data as JSON plus
-# llms.txt, index.json, INDEX.md, CONVENTIONS.md and SKILL.md, served from the site root.
+# llms.txt, index.json, INDEX.md, CONVENTIONS.md, COMPATIBILITY.md and SKILL.md, served from the site root,
+# and the compatibility icons under META/compat/icons/.
 #
 # Usage: META/tools/site.sh            build into ./public
 #        SITE_OUT=dir META/tools/site.sh
@@ -25,7 +26,7 @@ SITE='https://szmelc-inc.github.io/CONVENTIONS.md/'
 ROADMAP='https://github.com/orgs/Szmelc-INC/projects/3'
 BUILT=$(date -u +%FT%TZ)
 CONF=SZMELC/sources.conf
-CORES=(CONVENTIONS AGENTS HUMANS CONTRIBUTING SZMELC META)
+CORES=(CONVENTIONS AGENTS HUMANS CONTRIBUTING SZMELC META TEMPLATES)
 
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
@@ -38,7 +39,7 @@ status() {
     */README.md) echo core; return ;;
   esac
   case $1 in
-    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | META/templates/* | META/tools/* | META/schema/*) echo skip ;;
+    AGENTS/adapters/* | AGENTS/global/* | AGENTS/skills/* | TEMPLATES/* | META/tools/* | META/schema/* | META/compat/*) echo skip ;;
     CONVENTIONS/EXPERIMENTAL/*) echo experimental ;;
     CONVENTIONS/LEGACY/*) echo legacy ;;
     *) echo stable ;;
@@ -71,7 +72,7 @@ mapfile -t SKILLS < <(find AGENTS/skills -mindepth 2 -maxdepth 2 -name SKILL.md 
 for c in "${CORES[@]}"; do
   : >"$tmp/files.ndjson"
   while IFS= read -r f; do
-    case $f in "$c/README.md" | CONVENTIONS/EXPERIMENTAL/* | CONVENTIONS/LEGACY/* | AGENTS/skills/*) continue ;; esac
+    case $f in "$c/README.md" | CONVENTIONS/EXPERIMENTAL/* | CONVENTIONS/LEGACY/* | AGENTS/skills/* | META/compat/icons/*.svg) continue ;; esac
     [[ $f == *.md && $(status "$f") == stable ]] && continue
     jq -nc --arg path "$f" --arg about "$(about "$f")" '{path:$path,about:$about}' >>"$tmp/files.ndjson"
   done < <(find "$c" -type f | sort)
@@ -177,10 +178,17 @@ jq -n \
   --slurpfile experimental "$tmp/experimental.ndjson" \
   --slurpfile legacy "$tmp/legacy.ndjson" \
   --slurpfile projects "$tmp/projects.ndjson" \
-  --slurpfile paths "$tmp/paths.json" '
-  {
+  --slurpfile paths "$tmp/paths.json" \
+  --slurpfile idx index.json '
+  # origin and compat ids per rule path, and the compatible list, come from index.json (META/tools/build.sh).
+  ($idx[0]) as $ix
+  | ($ix.entries | map({key:.path, value:{origin:(.origin // null), compat:(.compat // [])}}) | from_entries) as $by
+  | {
     name:"szmelc-conventions", repo:$repo, raw:$raw, site:$site, roadmap:$roadmap, built:$built, release:$release,
-    cores:$cores, rules:$rules, skills:$skills, experimental:$experimental, legacy:$legacy,
+    cores:$cores,
+    rules:($rules | map(. + ($by[.path] // {origin:null, compat:[]}))),
+    skills:$skills, experimental:$experimental, legacy:$legacy,
+    compatible:$ix.compatible, compatible_disclaimer:$ix.compatible_disclaimer,
     projects:($projects | sort_by(.updated) | reverse),
     projects_note:$note, paths:$paths[0]
   }' >"$OUT/conventions.json"
@@ -190,7 +198,10 @@ jq '{built:.built, note:.projects_note, projects:.projects}' "$OUT/conventions.j
 
 # Index files served at the site root, so relative links work and llms.txt sits next to
 # index.html (CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md).
-cp llms.txt index.json INDEX.md CONVENTIONS.md SKILL.md "$OUT/"
+cp llms.txt index.json INDEX.md CONVENTIONS.md COMPATIBILITY.md SKILL.md "$OUT/"
+# Registry icons at their repo paths, so `icon` in the data is also the site URL.
+mkdir -p "$OUT/META/compat/icons"
+cp META/compat/icons/*.svg "$OUT/META/compat/icons/"
 
 
 
@@ -199,7 +210,7 @@ cp llms.txt index.json INDEX.md CONVENTIONS.md SKILL.md "$OUT/"
 # small h1, bracketed folder tabs, nested category groups, themes dark/light/mono/terminal.
 # Colors: CONVENTIONS/DESIGN/COLORS.md only. The heredocs are quoted: build-time values
 # reach the page through the JSON data block, never through shell expansion.
-DATA=$(jq -c . "$OUT/conventions.json" | sed 's#</#<\\/#g')
+DATA=$(jq -c . "$OUT/conventions.json" | sed 's#<#\\u003c#g')
 {
   cat <<'HTML_HEAD'
 <!doctype html>
