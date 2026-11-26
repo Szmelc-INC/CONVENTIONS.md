@@ -1,19 +1,25 @@
 name: check
 on: [push, pull_request, workflow_dispatch]
-permissions:
-  contents: read
+permissions: {}
 concurrency:
   group: check-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   check:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
       - name: structure, generated files, references
         run: bash META/tools/check.sh
+      - name: actionlint
+        run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.7 .github/workflows/*.yml
+      - name: index schema
+        run: npx --yes --package=ajv-cli@5.0.0 --package=ajv-formats@3.0.1 ajv validate --spec=draft2020 -c ajv-formats -s META/schema/index.schema.json -d index.json
       - name: Format 1.0 conformance fixtures
         run: |
           python3 -m venv "$RUNNER_TEMP/spec-venv"
@@ -40,6 +46,13 @@ jobs:
         run: bash META/tools/review-gate.sh --self-test
       - name: installer smoke test (throwaway HOME)
         run: bash META/tools/test-install.sh
+      - name: release dry run
+        run: bash META/tools/release.sh --dry-run
+      - name: dependency review
+        if: github.event_name == 'pull_request'
+        uses: actions/dependency-review-action@bbc44d14a204704ccc493733616cd1e93a0321ec # v5.0.1
+        with:
+          fail-on-severity: moderate
       - name: v2.0.2 Szmelc profile compatibility
         run: bash META/tools/test-profile-compat.sh
       - name: prose lint (STE100++)
