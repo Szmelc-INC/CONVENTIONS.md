@@ -22,6 +22,8 @@ jobs:
         run: bash META/tools/test-install.sh
       - name: v2.0.2 Szmelc profile compatibility
         run: bash META/tools/test-profile-compat.sh
+      - name: prose lint (STE100++)
+        run: bash META/tools/prose-lint.sh --strict --summary
       - name: branch scope
         if: github.event_name == 'pull_request'
         env:
