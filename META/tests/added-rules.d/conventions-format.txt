@@ -1,0 +1,2 @@
+# Conventions Format 1.0 specification.
+conventions.specs.original.format-1.0

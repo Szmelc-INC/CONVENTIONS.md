@@ -11,6 +11,7 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/compat/registry.toml`](META/compat/registry.toml) | Compatibility registry: third-party formats, specs, platforms, languages and tools these conventions are compatible with. |  |
 | [`META/schema/index.schema.json`](META/schema/index.schema.json) | Conventions index |  |
 | [`META/tests/added-rules.d/agent-memory.txt`](META/tests/added-rules.d/agent-memory.txt) | Agent memory rules (#66). |  |
+| [`META/tests/added-rules.d/conventions-format.txt`](META/tests/added-rules.d/conventions-format.txt) | Conventions Format 1.0 specification. |  |
 | [`META/tests/added-rules.d/docs-standard.txt`](META/tests/added-rules.d/docs-standard.txt) | Docs structure and voice profile (#67). |  |
 | [`META/tests/added-rules.d/ste100pp.txt`](META/tests/added-rules.d/ste100pp.txt) | STE100++ controlled writing (#68). |  |
 | [`META/tests/added-rules.d/v3.0-profiles.txt`](META/tests/added-rules.d/v3.0-profiles.txt) | Added with the v3 profile split. |  |

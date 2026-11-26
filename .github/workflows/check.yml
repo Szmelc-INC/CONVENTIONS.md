@@ -14,6 +14,26 @@ jobs:
           fetch-depth: 0
       - name: structure, generated files, references
         run: bash META/tools/check.sh
+      - name: Format 1.0 conformance fixtures
+        run: |
+          python3 -m venv "$RUNNER_TEMP/spec-venv"
+          "$RUNNER_TEMP/spec-venv/bin/pip" install --disable-pip-version-check jsonschema==4.25.1 PyYAML==6.0.2
+          "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/validate.py
+          "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/validate.py --index index.json --root .
+          "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/validate.py --index examples/minimal/index.json --root examples/minimal
+          "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/compat-v1.py SPEC/tests/v1/index-v1.json > "$RUNNER_TEMP/index-v2.json"
+          "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/validate.py --index "$RUNNER_TEMP/index-v2.json" --root examples/minimal
+          "$RUNNER_TEMP/spec-venv/bin/python" SPEC/tools/compile.py --index examples/minimal/index.json --root examples/minimal --output "$RUNNER_TEMP/conventions-adapters"
+          test -s "$RUNNER_TEMP/conventions-adapters/.cursor/rules/example.review.mdc"
+          test -s "$RUNNER_TEMP/conventions-adapters/src/AGENTS.md"
+          test -s "$RUNNER_TEMP/conventions-adapters/src/GEMINI.md"
+          test -s "$RUNNER_TEMP/conventions-adapters/.clinerules/example.review.md"
+          test -s "$RUNNER_TEMP/conventions-adapters/.github/instructions/example.review.instructions.md"
+          test -s "$RUNNER_TEMP/conventions-adapters/.kiro/steering/example.review.md"
+          test -s "$RUNNER_TEMP/conventions-adapters/.windsurf/rules/example.review.md"
+          test -s "$RUNNER_TEMP/conventions-adapters/.continue/rules/example.review.md"
+          test -s "$RUNNER_TEMP/conventions-adapters/.agents/skills/minimal-example/SKILL.md"
+          test -s "$RUNNER_TEMP/conventions-adapters/aider-read-commands.txt"
       - name: shellcheck
         run: shellcheck install.sh META/tools/*.sh META/tools/hooks/*
       - name: review-gate decision tests

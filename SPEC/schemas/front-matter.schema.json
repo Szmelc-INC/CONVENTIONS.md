@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://szmelc-inc.github.io/CONVENTIONS.md/SPEC/schemas/front-matter.schema.json",
+  "title": "Conventions Format 1.0 rule front matter",
+  "type": "object",
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9]+([.-][a-z0-9]+)*$"},
+    "status": {"enum": ["stable", "experimental", "legacy"]},
+    "scope": {"$ref": "#/$defs/stringList"},
+    "tools": {"$ref": "#/$defs/stringList"},
+    "tags": {"$ref": "#/$defs/stringList"},
+    "since": {"type": "string", "minLength": 1},
+    "supersedes": {"$ref": "#/$defs/idList"},
+    "locales": {"type": "string", "minLength": 1, "description": "Space-separated BCP 47 language tag=repository-relative path pairs; English remains canonical."}
+  },
+  "patternProperties": {"^[a-z][a-z0-9]*(\\.[a-z][a-z0-9-]*)+$": {}},
+  "additionalProperties": true,
+  "$defs": {
+    "stringList": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "idList": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9]+([.-][a-z0-9]+)*$"}, "uniqueItems": true}
+  }
+}
