@@ -5,8 +5,24 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
+
+var stableIDPattern = regexp.MustCompile(`^[a-z0-9]+([.-][a-z0-9]+)*$`)
+
+type indexDocument struct {
+	Entries []struct {
+		Path string `json:"path"`
+		Kind string `json:"kind"`
+		ID   string `json:"id"`
+	} `json:"entries"`
+}
+
+type ruleIdentity struct {
+	id   string
+	line int
+}
 
 type Finding struct {
 	ID      string `json:"ruleId"`
@@ -21,6 +37,8 @@ type Report struct {
 
 func Run(root string) (Report, error) {
 	report := Report{}
+	identities := make(map[string]ruleIdentity)
+	seenIDs := make(map[string]string)
 	err := filepath.WalkDir(root, func(p string, d os.DirEntry, e error) error {
 		if e != nil {
 			return e
@@ -46,6 +64,22 @@ func Run(root string) (Report, error) {
 			return nil
 		}
 		lines := strings.Split(text, "\n")
+		if requiresStableID(rel) {
+			id, idLine := frontMatterID(lines)
+			if id == "" {
+				report.Findings = append(report.Findings, Finding{"CONV005", "Missing stable rule ID", rel, 1})
+			} else {
+				if !stableIDPattern.MatchString(id) {
+					report.Findings = append(report.Findings, Finding{"CONV006", "Invalid stable rule ID", rel, idLine})
+				}
+				if previous, ok := seenIDs[id]; ok {
+					report.Findings = append(report.Findings, Finding{"CONV007", fmt.Sprintf("Duplicate stable rule ID %q (also used by %s)", id, previous), rel, idLine})
+				} else {
+					seenIDs[id] = rel
+				}
+				identities[rel] = ruleIdentity{id: id, line: idLine}
+			}
+		}
 		titleLine, triggerLine := -1, -1
 		front := len(lines) > 0 && strings.TrimSpace(lines[0]) == "---"
 		closed := !front
@@ -78,7 +112,85 @@ func Run(root string) (Report, error) {
 		}
 		return nil
 	})
-	return report, err
+	if err != nil {
+		return report, err
+	}
+	if err := checkIndexIdentities(root, identities, &report); err != nil {
+		return report, err
+	}
+	return report, nil
+}
+
+func requiresStableID(path string) bool {
+	coreDocument := false
+	for _, prefix := range []string{"CONVENTIONS/", "AGENTS/", "HUMANS/", "CONTRIBUTING/", "META/", "TEMPLATES/"} {
+		if strings.HasPrefix(path, prefix) {
+			coreDocument = true
+			break
+		}
+	}
+	if !coreDocument {
+		return false
+	}
+	if filepath.Base(path) == "README.md" {
+		return false
+	}
+	for _, prefix := range []string{
+		"AGENTS/adapters/", "AGENTS/global/", "AGENTS/skills/", "TEMPLATES/",
+		"META/tools/", "META/schema/", "META/compat/", "META/assets/", "CONVENTIONS/LEGACY/",
+	} {
+		if strings.HasPrefix(path, prefix) {
+			return false
+		}
+	}
+	return true
+}
+
+func frontMatterID(lines []string) (string, int) {
+	if len(lines) == 0 || strings.TrimSpace(lines[0]) != "---" {
+		return "", 1
+	}
+	for i := 1; i < len(lines); i++ {
+		line := strings.TrimSpace(lines[i])
+		if line == "---" {
+			break
+		}
+		if strings.HasPrefix(line, "id:") {
+			return strings.TrimSpace(strings.TrimPrefix(line, "id:")), i + 1
+		}
+	}
+	return "", 1
+}
+
+func checkIndexIdentities(root string, identities map[string]ruleIdentity, report *Report) error {
+	path := filepath.Join(root, "index.json")
+	b, err := os.ReadFile(path)
+	if os.IsNotExist(err) {
+		return nil
+	}
+	if err != nil {
+		return err
+	}
+	var index indexDocument
+	if err := json.Unmarshal(b, &index); err != nil {
+		return fmt.Errorf("parse index.json: %w", err)
+	}
+	indexed := make(map[string]string)
+	for _, entry := range index.Entries {
+		if entry.Kind == "rule" {
+			indexed[entry.Path] = entry.ID
+		}
+	}
+	for path, identity := range identities {
+		if strings.HasPrefix(path, "AGENTS/modes/") {
+			continue
+		}
+		indexedID, ok := indexed[path]
+		if !ok || indexedID != identity.id {
+			report.Findings = append(report.Findings, Finding{"CONV008", fmt.Sprintf("index.json ID %q does not match source ID %q", indexedID, identity.id), path, identity.line})
+		}
+	}
+	return nil
 }
 
 func isRuleDocument(path, text string) bool {
