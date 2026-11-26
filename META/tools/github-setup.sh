@@ -33,7 +33,7 @@ api_json() {
 
 echo "== settings: $repo"
 run gh repo edit "$repo" --default-branch main \
-  --enable-rebase-merge --enable-squash-merge=false --enable-merge-commit=false \
+  --enable-rebase-merge --enable-merge-commit --enable-squash-merge=false \
   --delete-branch-on-merge --enable-auto-merge --allow-update-branch \
   --enable-issues --enable-discussions --enable-projects --enable-wiki=false
 
@@ -79,7 +79,6 @@ upsert_ruleset main "$(
   "rules": [
     {"type": "deletion"},
     {"type": "non_fast_forward"},
-    {"type": "required_linear_history"},
     {"type": "pull_request", "parameters": {
       "required_approving_review_count": 0,
       "dismiss_stale_reviews_on_push": false,
@@ -87,7 +86,7 @@ upsert_ruleset main "$(
       "require_last_push_approval": false,
       "required_review_thread_resolution": false,
       "require_extra_approval_for_unattributed_changes": true,
-      "allowed_merge_methods": ["rebase"]}},
+      "allowed_merge_methods": ["merge", "rebase"]}},
     {"type": "required_status_checks", "parameters": {
       "strict_required_status_checks_policy": false,
       "required_status_checks": [

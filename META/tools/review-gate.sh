@@ -3,11 +3,11 @@
 # success: the author is a maintainer, or a maintainer's latest review approves the head commit.
 # pending: waiting for that review (drafts included). failure: a maintainer requested changes.
 # Usage: META/tools/review-gate.sh [--dry-run] [-R owner/repo] [PR...] | --self-test
-# Env: MAINTAINERS (space-separated logins, default sernik77), GH_TOKEN. Reads PRs through the API only.
+# Env: MAINTAINERS (space-separated logins, default sernik77 PolskiKocurek hajtuszko), GH_TOKEN. Reads PRs through the API only.
 set -euo pipefail
 
 CONTEXT=review-gate
-read -r -a maintainers <<<"${MAINTAINERS:-sernik77}"
+read -r -a maintainers <<<"${MAINTAINERS:-sernik77 PolskiKocurek hajtuszko}"
 
 usage() { sed -n '2,6s/^# \{0,1\}//p' "$0"; }
 
