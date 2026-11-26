@@ -2,7 +2,7 @@
 > Install: `./install.sh` adds this file inside a marked block in each detected harness's global instructions. Repository path: `{{profile.repository_path}}`. Paths below are relative to that repo.
 
 ## Always
-- Chat: reply in the user's language. Code, comments, docs, commits: English.
+- Chat: {{profile.language}}. Code, comments, docs, commits: English.
 - Never use an unsafe privilege shortcut; use `{{profile.privilege_tool}}` where required.
 - Autonomous end to end (push, CI, fix, retry). Ask only before destructive/irreversible: deletion, force-push, history rewrite, visibility/permission change, prod data.
 - Bad request → say why in one line, then do the best version.

@@ -1,0 +1,33 @@
+name: Spec RFC
+description: Propose a change to the conventions format or its compatibility contract
+title: "RFC: "
+labels: ["feat", "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What use case or interoperability problem does this proposal address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: State the normative behavior and affected artifacts.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and compatibility
+      description: List alternatives and explain migration or compatibility impact.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: RFC checks
+      options:
+        - label: I searched existing issues and Discussions for a duplicate proposal.
+          required: true

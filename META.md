@@ -10,6 +10,7 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/compat/icons/README.md`](META/compat/icons/README.md) | Compatibility icons |  |
 | [`META/compat/registry.toml`](META/compat/registry.toml) | Compatibility registry: third-party formats, specs, platforms, languages and tools these conventions are compatible with. |  |
 | [`META/schema/index.schema.json`](META/schema/index.schema.json) | Conventions index |  |
+| [`META/tests/v2.0.2-profile-changes.tsv`](META/tests/v2.0.2-profile-changes.tsv) | Stable rule files whose content intentionally changed during neutralization. |  |
 | [`META/tools/build.sh`](META/tools/build.sh) | Generate indexes, core maps, the all-in-one bundle and tool adapters from source files. |  |
 | [`META/tools/check.sh`](META/tools/check.sh) | Validate the repo: generated files, core/rule headers, skills, index entries, path references, case collisions, links. |  |
 | [`META/tools/compat.awk`](META/tools/compat.awk) | Parse META/compat/registry.toml (the TOML subset documented in its header) into records |  |
@@ -22,3 +23,4 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/tools/screenshots.sh`](META/tools/screenshots.sh) | Rebuild the README screenshots of the site into META/assets/screenshots/. |  |
 | [`META/tools/site.sh`](META/tools/site.sh) | Build the public site (GitHub Pages): one tab per core with nested rule groups, themes, a Projects tab (repositories, experimental, legacy) and the index files. |  |
 | [`META/tools/test-install.sh`](META/tools/test-install.sh) | Smoke-test install.sh against a throwaway $HOME. Never touches the real one. |  |
+| [`META/tools/test-profile-compat.sh`](META/tools/test-profile-compat.sh) | Compare the Szmelc v3 profile's stable rule index with v2.0.2 and verify retained profile values. |  |

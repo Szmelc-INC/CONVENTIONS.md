@@ -20,6 +20,8 @@ jobs:
         run: bash META/tools/review-gate.sh --self-test
       - name: installer smoke test (throwaway HOME)
         run: bash META/tools/test-install.sh
+      - name: v2.0.2 Szmelc profile compatibility
+        run: bash META/tools/test-profile-compat.sh
       - name: branch scope
         if: github.event_name == 'pull_request'
         env:

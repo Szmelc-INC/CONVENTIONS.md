@@ -86,6 +86,10 @@ The full list is in [`COMPATIBILITY.md`](COMPATIBILITY.md).
 The build makes that file from [`META/compat/registry.toml`](META/compat/registry.toml).
 To add an entry, edit the registry and run `META/tools/build.sh`.
 
+## Used by
+
+See [`ADOPTERS.md`](ADOPTERS.md) for projects that have chosen to be listed as adopters.
+
 <sub>Names and logos belong to their owners. Szmelc™ is not affiliated with them.</sub>
 
 ## How it works
