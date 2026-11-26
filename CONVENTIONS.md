@@ -1464,7 +1464,7 @@ id: conventions.repo.ste100pp
 ## STE100++ controlled writing
 > Load when: writing or reviewing docs prose, procedures, help text, error messages, tool descriptions or agent prompts.
 
-STE-inspired (ASD-STE100), not certified; the ASD dictionary is not reproduced. Full mode, scope table and self-check: `AGENTS/skills/ste100pp/SKILL.md`. Locale companions, written natively per language (first: `pl`): `AGENTS/skills/ste100pp/references/PL.md`. Scope: prose. Rule one-liners, code, tables of identifiers and quoted text are exempt.
+This standard is inspired by ASD-STE100 and is not certified. It does not reproduce the ASD dictionary. Full mode, scope table and self-check: `AGENTS/skills/ste100pp/SKILL.md`. Locale companions, written natively per language (first: `pl`): `AGENTS/skills/ste100pp/references/PL.md`. Scope: prose. Rule one-liners, code, tables of identifiers and quoted text are exempt.
 
 - Answer or result in the first sentence. No preamble, no restated question.
 - One idea per sentence. One action per procedure step, then its expected result.

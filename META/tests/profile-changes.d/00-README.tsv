@@ -1,0 +1,2 @@
+# One <topic>.tsv per change that edits a v2.0.2 stable rule: path<TAB>reason.
+# New stable rule ids go in ../added-rules.d/<topic>.txt. Read by META/tools/test-profile-compat.sh.
