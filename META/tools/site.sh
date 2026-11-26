@@ -264,7 +264,8 @@ DATA=$(jq -c . "$OUT/conventions.json" | sed 's#<#\\u003c#g')
   --ex:var(--danger); --ex-t:var(--danger-l); --ex-tint:color-mix(in srgb,var(--danger) 22%,var(--bg));
   --lg:#3e4f47; --lg-t:#93a89c; --lg-tint:color-mix(in srgb,var(--lg) 30%,var(--bg));   /* legacy: muted grey-green */
   --ring:var(--accent-l);
-  --hl:var(--aqua);                          /* aquamarine: the title cursor only (dark themes) */
+  --hl:var(--aqua);                          /* aquamarine: the title cursor and one About shield (dark themes) */
+  --on-hl:#0b0b0b;
   --font:"JetBrains Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
   --r:3px; --tbh:0px;
   color-scheme:dark;
@@ -298,7 +299,7 @@ mark{background:var(--tint-2);color:var(--head);border-bottom:1px solid var(--ed
 
 /* == layout == */
 main{max-width:1160px;margin:0 auto;padding:18px 16px 56px}
-.hd{display:flex;justify-content:center;padding:26px 0 22px;text-align:center}
+.hd{display:flex;flex-direction:column;align-items:center;padding:26px 0 22px;text-align:center}
 .cols{display:block}
 @media (min-width:960px){
   .cols{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start}
@@ -323,7 +324,12 @@ h1 .cur{display:inline-block;width:.55em;height:1.05em;margin-left:.12em;vertica
 /* "Compatible with" carousel under the h1: registry entries only; JS glides scrollLeft (rAF), clones loop it */
 .compat:empty{display:none}
 .compat{max-width:920px;margin:-6px auto 20px;text-align:center}
-.cw-l{display:block;margin:0 0 6px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.cw-l{display:inline-block;margin:6px 0 0;padding:2px 4px;border:0;border-radius:2px;background:none;font:inherit;font-size:11.5px;line-height:1.4;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--mute);cursor:pointer;transition:color .15s}
+.cw-l:hover{color:var(--link)}
+.cw-l .br{color:var(--faint)}
+.cw-l b{font-weight:600;color:var(--sec);font-variant-numeric:tabular-nums}
+.hd .sig{margin-top:4px}
 .cw{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:3px 0;cursor:grab;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent);
   mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent)}
@@ -360,6 +366,31 @@ h1 .cur{display:inline-block;width:.55em;height:1.05em;margin-left:.12em;vertica
 .cx li small{display:block;color:var(--mute);font-size:11.5px;overflow-wrap:anywhere}
 .cx-l{display:flex;flex-wrap:wrap;gap:6px}
 .cx-disc{margin:16px 0 0;padding-top:10px;border-top:1px solid var(--line-soft);color:var(--mute);font-size:11.5px;line-height:1.6}
+/* compat list popup: one row per registry entry */
+.cl li.cl-r{display:flex;align-items:flex-start;gap:10px;padding:8px 0}
+.cl-n{display:flex;align-items:flex-start;gap:10px;flex:1;min-width:0;color:var(--fg);text-decoration:none}
+.cl-n:hover{text-decoration:none;text-shadow:none}
+.cl-n:hover b{color:var(--link)}
+.cl-n .bi,.cl-n .mono{margin-top:2px}
+.cl-n b{display:block;font-size:13.5px;color:var(--head);font-weight:600;transition:color .15s}
+.cl-n small{display:block;color:var(--mute);font-size:11.5px}
+.cl-n p{margin:3px 0 0;color:var(--sec);font-size:12.5px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cl-n>span{min-width:0}
+.cl .cx-l{flex:none;gap:4px;justify-content:flex-end}
+/* about popup: shield-style link chips, inline (no image requests) */
+.ab p{margin:0 0 10px;color:var(--sec);font-size:13.5px;line-height:1.65}
+.ab p b{color:var(--head)}
+.shields{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0;list-style:none}
+.sh{display:inline-flex;align-items:stretch;max-width:100%;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;font-size:11.5px;line-height:1;text-decoration:none;
+  font-family:"JetBrains Mono","DejaVu Sans Mono",Menlo,monospace;transition:border-color .15s,filter .15s}
+.sh>span{display:inline-flex;align-items:center;gap:5px;padding:6px 8px;white-space:nowrap}
+.sh .k{background:var(--raise);color:var(--sec)}
+.sh .k .ic{width:12px;height:12px;color:var(--mute)}
+.sh .v{background:var(--fill);color:var(--on-fill);font-weight:600}
+.sh.hi .v{background:var(--hl);color:var(--on-hl)}
+.sh:hover{border-color:var(--line-3);text-decoration:none;text-shadow:none;filter:brightness(1.12)}
+.sh:focus-visible{outline-offset:2px}
+@media (max-width:640px){ .cl li.cl-r{flex-wrap:wrap} .cl .cx-l{width:100%;justify-content:flex-start;padding-left:32px} }
 .links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;font-size:inherit}
 .tbtn{display:inline-flex;align-items:center;gap:6px;min-height:26px;padding:2px 8px;margin:0;border:1px solid var(--line-2);border-radius:var(--r);background:var(--s1);color:var(--sec);
   font-size:12.5px;transition:color .15s,border-color .15s,background .15s}
@@ -615,7 +646,7 @@ footer .keys{margin-left:auto}
   --bg:#f3f3f3; --s1:#f8f8f8; --surface:#ffffff; --s3:#ececec; --raise:#e4e4e4; --s5:#dcdcdc;
   --line-soft:#e4e4e4; --line:#d6d6d6; --line-2:#cacaca; --line-3:#b4b4b4; --ctl:#8a8a8a;
   --head:#0b0b0b; --fg:#141414; --sec:#4a4a4a; --mute:#5c5c5c; --faint:#8a8a8a;
-  --link:var(--accent); --edge:var(--accent); --ring:var(--accent); --ex-t:var(--danger); --hl:var(--accent);
+  --link:var(--accent); --edge:var(--accent); --ring:var(--accent); --ex-t:var(--danger); --hl:var(--accent); --on-hl:#fff;
   --tint:color-mix(in srgb,var(--accent) 9%,#fff); --tint-2:color-mix(in srgb,var(--accent) 18%,#fff);
   --ex-tint:color-mix(in srgb,var(--danger) 8%,#fff);
   --lg:#7f9488; --lg-t:#4a5e53; --lg-tint:color-mix(in srgb,#5f7568 10%,#fff);
@@ -709,6 +740,7 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
 <main>
 <header class="hd">
   <h1><span class="pr" aria-hidden="true">&#x276F;</span>CONVENTIONS<span class="ext">.md</span><span class="cur" aria-hidden="true"></span></h1>
+  <button class="cw-l sig" id="sig" type="button" aria-haspopup="dialog">By Szmelc&#x2122;</button>
 </header>
 <div class="compat" id="compat"></div>
 
@@ -834,6 +866,15 @@ modal.addEventListener('pointerdown', e=>{ modalDown = e.target === modal; });
 modal.addEventListener('click', e=>{ if (e.target === modal && modalDown) closeModal(); modalDown = false; });
 $('#modal-x').onclick = closeModal;
 
+// Transient hashes (#install, #about, #compat, #compat/<id>) name a popup, not a view: opening one records the view's
+// hash (once per modal session), closing restores it unless the user navigated elsewhere (a rule link).
+const isTransient = h => /^#(install|about|compat)(\/|$)/i.test(h);
+let modalBack = '';
+function transientOpen(hash){
+  if (!modal.open) modalBack = isTransient(location.hash) ? '' : location.hash;
+  if (location.hash !== hash) history.replaceState(null, '', hash);
+}
+const transientClose = () => { if (isTransient(location.hash)) history.replaceState(null, '', location.pathname + location.search + modalBack); };
 function openInstall(opener){
   openModal({title:'Install / use', html:installHTML(), opener,
     onClose: ()=>{ if (location.hash === '#install') history.replaceState(null, '', location.pathname + location.search); }});
@@ -875,13 +916,59 @@ function compatHTML(c){
 // Deep link #compat/<id>; the hash is cleared on close unless the user navigated elsewhere (a rule link).
 function openCompat(id, opener){
   const c = COMPAT.get(id); if (!c) return false;
-  const back = location.hash.startsWith('#compat/') || location.hash === '#install' ? '' : location.hash;   // the view's hash, restored on close
-  if (location.hash !== '#compat/' + id) history.replaceState(null, '', '#compat/' + id);
+  transientOpen('#compat/' + id);
   openModal({title:'Compatible with · ' + c.name, html:compatHTML(c),
     opener: opener || document.querySelector(`#compat .cw-t:not([aria-hidden]) [data-compat="${CSS.escape(id)}"]`),
-    onClose: ()=>{ if (location.hash.startsWith('#compat/')) history.replaceState(null, '', location.pathname + location.search + back); }});
+    onClose: transientClose});
   return true;
 }
+// Deep link #compat: every registry entry in one list; a row opens that entry's popup in the same modal.
+function compatListHTML(){
+  const rows = [...COMPAT.values()].map(c=>{
+    const L = c.links || {};
+    const links = Object.keys(LINK_LABEL).filter(k=>L[k]).map(k=>
+      `<a class="cp ico" href="${esc(safeHref(L[k]))}" target="_blank" rel="noopener" title="${esc(c.name + ' ' + LINK_LABEL[k][1])}" aria-label="${esc(c.name + ' ' + LINK_LABEL[k][1])}">${ic(LINK_LABEL[k][0])}</a>`).join('');
+    return `<li class="cl-r"><a class="cl-n" href="#compat/${esc(c.id)}" data-compat="${esc(c.id)}">${badge(c)}<span>`
+      + `<b>${esc(c.name)}</b><small>${esc([c.kind, c.version].filter(Boolean).join(' · '))}</small>`
+      + (c.description ? `<p>${esc(c.description)}</p>` : '') + '</span></a>'
+      + (links ? `<span class="cx-l">${links}</span>` : '') + '</li>';
+  }).join('');
+  return `<section class="cx cl"><ul>${rows}</ul>`
+    + (D.compatible_disclaimer ? `<p class="cx-disc">${esc(D.compatible_disclaimer)}</p>` : '') + '</section>';
+}
+function openCompatList(opener){
+  if (!COMPAT.size) return false;
+  transientOpen('#compat');
+  openModal({title:`Compatible with · ${COMPAT.size}`, html:compatListHTML(), opener: opener || $('#cw-l'), onClose: transientClose});
+  return true;
+}
+// rows in the list popup swap the modal to that entry (focus still returns to the list's opener)
+modalB.addEventListener('click', e=>{
+  const a = e.target.closest('.cl-n[data-compat]'); if (!a) return;
+  e.preventDefault(); openCompat(a.dataset.compat);
+});
+
+// == about: Szmelc and this repo; public links only, shields drawn inline (no image requests) ==
+const ORG = 'https://github.com/Szmelc-INC';
+const shield = (href, k, v, icon, hi) => `<li><a class="sh${hi ? ' hi' : ''}" href="${esc(href)}" target="_blank" rel="noopener">`
+  + `<span class="k">${icon ? ic(icon) : ''}${esc(k)}</span><span class="v">${esc(v)}</span></a></li>`;
+const aboutHTML = () => '<section class="ab">'
+  + '<p><b>Szmelc&#x2122;</b> is a resistance movement in the war for free software, free hardware and a free internet, based in Poland. It builds and publishes open-source tools, packages and conventions.</p>'
+  + '<p><b>CONVENTIONS.md</b> is its single source of rules for humans and AI agents, MIT-licensed. <b>SAUR</b> is its signed pacman repository of Szmelc software.</p>'
+  + '<ul class="shields">'
+  + shield(ORG, 'github', 'Szmelc-INC', 'github')
+  + shield('https://szmelc.com', 'site', 'szmelc.com', 'globe')
+  + shield('https://szmelc-inc.github.io/SAUR/', 'pacman', 'SAUR', 'archive')
+  + shield(D.repo, 'repo', 'CONVENTIONS.md', 'github')
+  + (D.site ? shield(D.site, 'pages', 'live', 'globe') : '')
+  + shield(D.repo + '/blob/main/LICENSE', 'license', 'MIT', 'file')
+  + shield(REL.url, 'release', REL.tag || 'latest', 'tag', true)
+  + '</ul></section>';
+function openAbout(opener){
+  transientOpen('#about');
+  openModal({title:'About Szmelc\u2122', html:aboutHTML(), opener: opener || $('#sig'), onClose: transientClose});
+}
+$('#sig').onclick = e => openAbout(e.currentTarget);
 
 // Carousel: a scroll box whose scrollLeft glides (rAF, float accumulator) over the track plus aria-hidden clones,
 // wrapping by one track width. Hover, focus or touch eases it to a stop; then wheel, drag or swipe scroll it by hand.
@@ -893,8 +980,8 @@ function buildCompat(){
   if (!COMPAT.size){ compatBox.innerHTML = ''; return; }
   const item = (c, clone) => `<li><a class="cw-i" href="#compat/${esc(c.id)}" data-compat="${esc(c.id)}"${clone ? ' tabindex="-1"' : ''}>${badge(c)}<span>${esc(c.name)}</span></a></li>`;
   const track = clone => `<ul class="cw-t"${clone ? ' aria-hidden="true"' : ''}>` + [...COMPAT.values()].map(c=>item(c, clone)).join('') + '</ul>';
-  compatBox.innerHTML = '<span class="cw-l" id="cw-l">Compatible with</span>'
-    + `<div class="cw${RM.matches ? ' static' : ''}" id="cw" role="region" aria-labelledby="cw-l" tabindex="-1">${track(false)}</div>`;
+  compatBox.innerHTML = `<div class="cw${RM.matches ? ' static' : ''}" id="cw" role="region" aria-labelledby="cw-l" tabindex="-1">${track(false)}</div>`
+    + `<button class="cw-l" id="cw-l" type="button" aria-haspopup="dialog">Compatible with <span class="br">&lt;</span><b>${COMPAT.size}</b><span class="br">&gt;</span></button>`;
   const box = $('#cw');
   if (RM.matches){ stopCompat(); CW.half = 0; return; }
   // layout: [clone][real][clones…]; scrollLeft lives in [W, 2W) (W = one track + gap), so both directions wrap unseen
@@ -907,7 +994,7 @@ function buildCompat(){
   startCompat();
 }
 const cwBox = () => $('#cw');
-const kbFocus = () => { const a = document.activeElement; return !!(a && compatBox.contains(a) && a.matches(':focus-visible')); };
+const kbFocus = () => { const a = document.activeElement, b = cwBox(); return !!(a && b && b.contains(a) && a.matches(':focus-visible')); };
 function wrapPos(){ const W = CW.half; if (W > 0){ while (CW.pos >= 2*W) CW.pos -= W; while (CW.pos < W) CW.pos += W; } }
 const held = () => !!(CW.hover || CW.drag || performance.now() < CW.touchUntil || kbFocus());
 function tick(now){
@@ -956,6 +1043,7 @@ addEventListener('pointermove', e=>{
 addEventListener('pointerup', ()=>{ if (CW.drag){ CW.drag = null; const b = cwBox(); if (b) b.classList.remove('drag'); } });
 compatBox.addEventListener('dragstart', e=>e.preventDefault());
 compatBox.addEventListener('click', e=>{
+  const lb = e.target.closest('#cw-l'); if (lb){ openCompatList(lb); return; }
   const a = e.target.closest('[data-compat]'); if (!a) return;
   e.preventDefault();
   if (CW.moved){ CW.moved = false; return; }
@@ -1275,6 +1363,8 @@ function route(){
   let id = ''; try { id = decodeURIComponent(location.hash.slice(1)); } catch(e){}
   const low = id.toLowerCase(), key = low.replace(/\/$/,'');
   if (low === 'install'){ openInstall(); if (!$('#list').hasChildNodes()) render(); return; }   // deep link: modal over the current view
+  if (low === 'about'){ if (!$('#list').hasChildNodes()) render(); openAbout(); return; }
+  if (low === 'compat' && COMPAT.size){ if (!$('#list').hasChildNodes()) render(); openCompatList(); return; }
   if (low.startsWith('compat/') && COMPAT.has(low.slice(7))){ if (!$('#list').hasChildNodes()) render(); openCompat(low.slice(7)); return; }
   // any other target (e.g. a rule link inside a popup) closes the modal; focus goes to the target, not the opener
   if (modal.open){ modalOpener = null; focusTarget = true; closeModal(); }
