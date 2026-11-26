@@ -128,19 +128,28 @@ public/           the built site, made in CI, never committed     [generated]
 - Dependabot opens one PR each week for GitHub Actions updates.
 
 ## Contributing
-Guide: [`CONTRIBUTING/README.md`](CONTRIBUTING/README.md).
+Read [`CONTRIBUTING/README.md`](CONTRIBUTING/README.md) first.
 
-### Branches
-`main` is the only long-lived branch; no direct commits. Every change is a short-lived `feat/*`, `fix/*`, `docs/*`, `chore/*`, `experimental/*` or `legacy/*` branch, PR'd into `main`, merged with `gh pr merge --rebase --delete-branch`, then `git checkout main && git pull --ff-only`. Every commit on the branch lands on `main`, so each must be clean and conventional. Details: [`CONVENTIONS/WORKFLOW/BRANCHES.md`](CONVENTIONS/WORKFLOW/BRANCHES.md).
+### Steps
+1. Make a branch from `main` with one of these prefixes: `feat/`, `fix/`, `docs/`, `chore/`, `experimental/` or `legacy/`.
+2. Edit only source files.
+3. Run `META/tools/build.sh && META/tools/check.sh`. Both must pass.
+4. Open a PR into `main`.
+5. When CI is green, merge with `gh pr merge --rebase --delete-branch`.
+6. Sync your copy with `git checkout main && git pull --ff-only`.
+
+Rebase-merge puts each commit of the branch on `main`.
+Make each commit clean and follow [Conventional Commits](CONVENTIONS/WORKFLOW/COMMITS.md).
+For more, read [`CONVENTIONS/WORKFLOW/BRANCHES.md`](CONVENTIONS/WORKFLOW/BRANCHES.md).
 
 ### Rules of this repo
 1. One topic = one file. One rule = one line.
 2. Every rule file and core `README.md` starts with `# Title` and `> Load when: <trigger>`.
-3. Never duplicate a rule; reference it by path (`CONVENTIONS/DESIGN/COLORS.md`).
-4. Never edit generated files. Run `META/tools/build.sh`, then `META/tools/check.sh` (CI runs both).
-5. New domain → new UPPERCASE directory in a core. New topic → copy `TEMPLATES/rule.md`; format and naming in `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. New core → directory + `README.md`, then add it to `CORES` in `META/tools/build.sh`, `META/tools/check.sh` and `META/tools/site.sh`.
-6. Agents load rules lazily: `INDEX.md` once, then only matching files. Never `@import` rule files into global instructions; that loads every rule every session.
-7. Public repo: only already-public material (public repos, orgs, sites).
+3. Do not copy a rule. Link to it by path (`CONVENTIONS/DESIGN/COLORS.md`).
+4. Do not edit generated files. Run `META/tools/build.sh`, then `META/tools/check.sh` (CI runs both).
+5. For a new topic, copy `TEMPLATES/rule.md`. Format and names: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. For a new core, add the directory and its `README.md`, then add the core to `CORES` in `META/tools/build.sh`, `META/tools/check.sh` and `META/tools/site.sh`.
+6. Agents read `INDEX.md` one time, then only the matching files. Do not `@import` rule files into global instructions. That loads every rule in every session.
+7. This repo is public. Add only material that is already public.
 
 ## License
-[MIT](LICENSE)
+[MIT](LICENSE) © Szmelc™
