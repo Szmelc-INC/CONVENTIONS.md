@@ -77,21 +77,43 @@ fi
 pre=()
 [[ $tag == *-rc.* ]] && pre=(--prerelease)
 create=(gh release create "${tag:-<tag>}" --verify-tag --title "${tag:-<tag>}" "${notes[@]}" "${pre[@]}" "${files[@]}")
-upload=(gh release upload "${tag:-<tag>}" --clobber "${files[@]}")
 
 summary() { if [[ -n ${GITHUB_STEP_SUMMARY:-} ]]; then printf '%s\n' "$@" >>"$GITHUB_STEP_SUMMARY"; fi; }
+verify_existing_release_assets() {
+  local remote f
+  remote=$(mktemp -d)
+  if ! gh release download "$tag" --dir "$remote"; then
+    rm -rf "$remote"
+    die "could not download existing release assets for $tag"
+  fi
+  for f in "${ASSETS[@]}" SHA256SUMS; do
+    if [[ ! -f $remote/$f ]]; then
+      rm -rf "$remote"
+      die "asset $f missing from existing release $tag"
+    fi
+  done
+  if ! (cd "$remote" && sha256sum -c --quiet SHA256SUMS); then
+    rm -rf "$remote"
+    die "existing release $tag has an invalid SHA256SUMS"
+  fi
+  if ! cmp -s "$out/SHA256SUMS" "$remote/SHA256SUMS"; then
+    rm -rf "$remote"
+    die "existing release $tag differs from the immutable assets built from its tag"
+  fi
+  rm -rf "$remote"
+}
 if ((dry)); then
   echo "dry run, would run:"
   printf '  '; printf '%q ' "${create[@]}"; echo
-  echo "  (or, when the release exists:)"
-  printf '  '; printf '%q ' "${upload[@]}"; echo
+  echo "  existing release: download and verify immutable assets; skip upload if they match"
   cat "$out/SHA256SUMS"
   summary "### Release dry run: ${tag:-HEAD}" '```' "$(cat "$out/SHA256SUMS")" '```'
   exit 0
 fi
 if gh release view "$tag" >/dev/null 2>&1; then
-  echo "release $tag exists: re-uploading assets"
-  "${upload[@]}"
+  echo "release $tag exists: verifying immutable assets"
+  verify_existing_release_assets
+  echo "release $tag assets match; skipping upload"
 else
   "${create[@]}"
 fi
