@@ -15,6 +15,7 @@ How to use, extend and maintain the conventions: where a rule goes, how it is wr
 | `CONTRIBUTING/DECISIONS.md` | Short record of project-wide decisions |
 
 ## Flow
+
 1. Branch off `main` with a prefix (`CONVENTIONS/WORKFLOW/BRANCHES.md`). Private or unverified material: `local/*`, never pushed; run `git config core.hooksPath META/tools/hooks` once per clone to enforce it.
 2. Edit sources only; generated files are rebuilt by `META/tools/build.sh` (`CONTRIBUTING/INDEXING.md`).
 3. `META/tools/build.sh && META/tools/check.sh` must pass; CI runs the same plus shellcheck and the installer smoke test.
@@ -33,6 +34,7 @@ Contributions are licensed under the repository's MIT License. By submitting a c
 New issues and pull requests use the `needs-triage` label. A weekly scheduled reminder prompts the maintainer to review issues, pull requests, and Discussions.
 
 ## Naming
+
 - Where a rule goes: `CONTRIBUTING/WRITING.md`. Rule paths (UPPERCASE kebab, `X-EXT.md`) and format: `CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`. `META/tools/check.sh` enforces them.
 - Machinery keeps lowercase paths that installs and hooks depend on: `AGENTS/global/`, `AGENTS/skills/`, `AGENTS/adapters/`, `META/tools/`, `META/schema/`, `META/compat/`; template file names in `TEMPLATES/`.
 - Repo rules: root `README.md`, "Rules of this repo".
