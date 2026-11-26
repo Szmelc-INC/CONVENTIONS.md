@@ -18,7 +18,7 @@ done
 
 if ((${#files[@]} == 0)); then
   # Hand-written prose only: no generated root maps, changelog history, legacy drafts, adapters or templates.
-  mapfile -t files < <(git ls-files '*.md' | grep -vE '^(INDEX|CONVENTIONS|AGENTS|HUMANS|CONTRIBUTING|META|TEMPLATES|COMPATIBILITY|SZMELC|CHANGELOG|MIGRATION-[^/]*)\.md$|^CONVENTIONS/LEGACY/|^AGENTS/(adapters|global)/|^TEMPLATES/')
+  mapfile -t files < <(git ls-files '*.md' | grep -vE '^(INDEX|CONVENTIONS|AGENTS|HUMANS|CONTRIBUTING|META|TEMPLATES|COMPATIBILITY|SZMELC|CHANGELOG|MIGRATION-[^/]*)\.md$|^CONVENTIONS/LEGACY/|^AGENTS/(adapters|global)/|^claude/|^TEMPLATES/')
 fi
 
 out=$(awk '
