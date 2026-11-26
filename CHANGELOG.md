@@ -10,7 +10,7 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ### Added
 
-- `META/tools/prose-lint.sh`: STE100++ prose checks for hand-written Markdown (semicolons, claim words in EN and PL, sentences over 30 words). Skips code, tables, quotes and rule one-liners. Runs warn-only in CI (`--summary`), `--strict` gates.
+- `META/tools/prose-lint.sh`: STE100++ prose checks for hand-written Markdown (semicolons, claim words in EN and PL, sentences over 30 words). Skips code, tables, quotes and rule one-liners. CI gates with `--strict`; `--summary` shows counts.
 
 ## [3.0.0] - 2026-11-26
 
