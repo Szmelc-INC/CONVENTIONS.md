@@ -4,10 +4,15 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
-Planned as 2.0.0: rule paths were renamed (major).
+## [2.0.0] - 2026-11-26
+
+First tagged release. Rule paths were renamed (major); see Changed first.
 
 ### Changed
 
+- Merge policy: rebase-merge only (`gh pr merge --rebase --delete-branch`, then `git pull --ff-only`); squash and merge commits disabled in repo settings and the `main` ruleset (`CONVENTIONS/GITHUB/REPO/SETTINGS.md`, `CONVENTIONS/WORKFLOW/BRANCHES.md`, `META/tools/github-setup.sh`).
+- Site: Experimental and Legacy tabs merged into Projects (experimental groups in deep red, legacy in muted grey-green); `#experimental` and `#legacy` deep links open Projects.
+- Brand written as Szmelc™ in all human-readable text; the origin label `Szmelc original` became `Szmelc™`.
 - Breaking: categories are UPPERCASE directories under `CONVENTIONS/` (workflow/ → `CONVENTIONS/WORKFLOW/`, design/ → `CONVENTIONS/DESIGN/`, …) and rule files are UPPERCASE kebab (`CONVENTIONS/GITHUB/RELEASES/TAGS.md`, `CONVENTIONS/SPECS/THIRD-PARTY/LLMS-TXT.md`); update pinned paths and re-run `install.sh`.
 - Breaking: document-format rules split into `CONVENTIONS/SPECS/THIRD-PARTY/` (AGENTS.md, SKILL.md, CHANGELOG.md, SECURITY.md, …) and `CONVENTIONS/SPECS/ORIGINAL/` (Szmelc formats).
 - Seven cores at the root: `CONVENTIONS/`, `AGENTS/`, `HUMANS/`, `CONTRIBUTING/`, `SZMELC/`, `META/`, `TEMPLATES/`, each with a generated root map.
@@ -15,6 +20,12 @@ Planned as 2.0.0: rule paths were renamed (major).
 
 ### Added
 
+- Site [MENU] in three groups (Install / use, Star on GitHub [N], Contribute, Report an issue · GitHub, Releases, Discussions, About Szmelc™ · Share, Theme [name], Keys & Shortcuts); it stays open on item activation; index files moved to the footer; the star count is built in and refreshed live.
+- Site: universal Share (`navigator.share`, else a popup with copy link and share links); `Keys & Shortcuts` popup (key `?`).
+- Site: `By Szmelc™` signature under the title opens an About popup with Shields.io badges (deep link `#about`); `Compatible with [N] conventions` label under the carousel opens the full list (deep link `#compat`).
+- Site: Projects tab lists every Szmelc™ account from `SZMELC/sources.conf` (Szmelc-INC, sernik77, CYBERSZP0NT, Entropy-Linux, SZYCHTA, Szmelc-OS) as Szmelc™ and a third-party table built from the compatibility registry; `sources.conf` gains a `third-party <owner/name>` directive.
+- Site: centered bracketed footer (`[ EOF ]`, `[files]` and `[szmelc™]` link groups, stats, keys, fine print).
+- Compatibility registry: Simple Icons, Shields.io, Awesome Badges and Awesome (awesome lists); rule `CONVENTIONS/SPECS/THIRD-PARTY/AWESOME-LIST.md`; badges are Shields.io with Simple Icons logos (`CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`).
 - Site: "Compatible with" carousel under the title (registry icons inlined as `currentColor` paths, monograms otherwise; rAF glide that eases to a stop on hover, focus or touch, manual scroll with seamless wrap, static under reduced motion) and a popup per entry (version, versioning note, dates, covering rules, official links, disclaimer; deep link `#compat/<id>`); origin sub-tabs `All · Third-party · Szmelc original` with row badges and registry chips; TEMPLATES tab icon; key `0` for the 10th tab; `COMPATIBILITY.md` in `[MENU]`; the install command wraps instead of clipping.
 - Compatibility registry: `META/compat/registry.toml` (TOML, one record per third-party format, spec, platform, language or tool: version, dates, official links, icon, covering rules) generates `COMPATIBILITY.md` and `index.json` `compatible` with a trademark disclaimer; monochrome CC0 Simple Icons in `META/compat/icons/`; `META/tools/check.sh` validates it.
 - `origin` (`third-party` / `original`) on `index.json` entries and site rules, derived from the path; third-party specs carry the `compat` ids of the registry entries that cite them.
@@ -32,4 +43,5 @@ Planned as 2.0.0: rule paths were renamed (major).
 - This repo follows its own GitHub conventions: issue forms, PR template, labels as code (`META/tools/labels.sh`), settings and rulesets as code (`META/tools/github-setup.sh`), Dependabot for Actions, security policy, release workflow with bundle assets and `SHA256SUMS` (`META/tools/release.sh`).
 - `CONVENTIONS/GITHUB/ACTIONS/CI.md`: scheduled workflows stay alive through an API re-enable keepalive, not a heartbeat commit; bots never bypass rulesets.
 
-[Unreleased]: https://github.com/Szmelc-INC/CONVENTIONS.md/commits/main
+[Unreleased]: https://github.com/Szmelc-INC/CONVENTIONS.md/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/Szmelc-INC/CONVENTIONS.md/commits/v2.0.0
