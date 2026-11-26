@@ -93,7 +93,7 @@
     {"path": "CONVENTIONS/SYSTEMS/SUPPORT.md", "title": "Platform support", "load_when": "deciding which operating systems a tool supports, writing platform notes in a README, or setting up a CI test matrix.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/SYSTEMS/WINDOWS-WSL2.md", "title": "Windows via WSL2", "load_when": "supporting Windows users or testing a tool under WSL2.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/WORKFLOW/BRANCHES.md", "title": "Branches", "load_when": "creating branches, opening/merging PRs, releasing, or promoting/deprecating a convention.", "status": "stable", "kind": "rule"},
-    {"path": "CONVENTIONS/WORKFLOW/COMMITS.md", "title": "Commits", "load_when": "writing a commit message, PR title, or squash-merge title.", "status": "stable", "kind": "rule", "compat": ["conventional-commits"]},
+    {"path": "CONVENTIONS/WORKFLOW/COMMITS.md", "title": "Commits", "load_when": "writing a commit message or PR title.", "status": "stable", "kind": "rule", "compat": ["conventional-commits"]},
     {"path": "CONVENTIONS/WORKFLOW/FINISH.md", "title": "Finish every change", "load_when": "finishing a feature or fix, before calling work done.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/WORKFLOW/NOTIFY.md", "title": "Notifications", "load_when": "a job runs > ~10 min, or a failure needs a human.", "status": "stable", "kind": "rule"},
     {"path": "CONVENTIONS/WORKFLOW/VERIFICATION.md", "title": "Verification", "load_when": "any code change.", "status": "stable", "kind": "rule"},
