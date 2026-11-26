@@ -4,6 +4,10 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+### Added
+
+- Locale companions for rules: front matter `locales: <lang>=<path>` (`CONVENTIONS/SPECS/ORIGINAL/RULE-FILES.md`), validated by `check.sh`. The site shows an EN/PL toggle in the opened rule (first: STE100++). The English file stays canonical.
+
 ## [3.0.0] - 2026-11-26
 
 The neutral core and profile-aware installation contract are now stable.
