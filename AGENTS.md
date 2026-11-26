@@ -10,6 +10,7 @@ Map of `AGENTS/`. Full guide: [`AGENTS/README.md`](AGENTS/README.md).
 | [`AGENTS/PROMPT/101.md`](AGENTS/PROMPT/101.md) | Prompt engineering 101 | writing a prompt, system prompt or agent brief from scratch, or asked for prompt-engineering basics. |
 | [`AGENTS/PROMPT/AGENT-PROMPTS.md`](AGENTS/PROMPT/AGENT-PROMPTS.md) | Prompts for agents | writing a system prompt, subagent or task brief for an agent that runs commands, edits files or calls tools. |
 | [`AGENTS/PROMPT/CLASSES.md`](AGENTS/PROMPT/CLASSES.md) | Prompt classes | deciding which sections a prompt needs, or combining two kinds of work in one prompt. |
+| [`AGENTS/PROMPT/DOCS-VOICE.md`](AGENTS/PROMPT/DOCS-VOICE.md) | Docs voice profile | drafting or rewriting a README or guide in the house docs voice, or briefing an agent to write docs. |
 | [`AGENTS/PROMPT/META-PROMPTS.md`](AGENTS/PROMPT/META-PROMPTS.md) | Meta-prompts | asking an agent to write, review, tighten or test a prompt. |
 | [`AGENTS/PROMPT/TASK-PROMPTS.md`](AGENTS/PROMPT/TASK-PROMPTS.md) | Task prompts | looking for a ready prompt for everyday work: planning, debugging, reviewing, summarizing, distilling, deciding, learning. |
 | [`AGENTS/PROMPT/TESTING.md`](AGENTS/PROMPT/TESTING.md) | Testing a prompt | checking a prompt before use, or after it produced a wrong or uneven output. |

@@ -26,6 +26,13 @@ The neutral core and profile-aware installation contract are now stable.
 
 ### Added
 
+- `CONVENTIONS/REPO/DOCS.md`: docs structure (hook + payoff, "Start here" table, annotated tree, install options, concept + minimal example, limits as numbers).
+- `AGENTS/PROMPT/DOCS-VOICE.md`: docs voice profile from an analysis of the everything-claude-code README (six pillars, keep/reject table, Voice Card, agent prompt block).
+- `TEMPLATES/project-README.md`: project README skeleton that follows `CONVENTIONS/REPO/DOCS.md`.
+
+### Changed
+
+- `CONVENTIONS/SPECS/THIRD-PARTY/README-MD.md`: full section order, no star calls or `(NEW)` markers. `CONVENTIONS/REPO/WRITING.md`: no claim words, no bold lead-ins.
 - `AGENTS/RULES/MEMORY.md`: agent memory rules derived from the public #memory developer docs: one fact per memory, cue keywords, stable refs, stale-write skip, least-privilege grants, confirmed deletes, cited recall.
 
 ## [2.0.2] - 2026-11-26
