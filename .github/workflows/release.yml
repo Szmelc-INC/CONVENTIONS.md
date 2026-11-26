@@ -42,7 +42,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         run: |
           git fetch --no-tags origin main
-          git show FETCH_HEAD:META/tools/release.sh > "$RUNNER_TEMP/release.sh"
+          git show "${GITHUB_WORKFLOW_SHA}:META/tools/release.sh" > "$RUNNER_TEMP/release.sh"
           install -m 755 "$RUNNER_TEMP/release.sh" META/tools/release.sh
       - name: release
         run: |
