@@ -11,6 +11,7 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 ### Added
 
 - `AGENTS/RULES/MEMORY.md`: agent memory rules derived from the public #memory developer docs: one fact per memory, cue keywords, stable refs, stale-write skip, least-privilege grants, confirmed deletes, cited recall.
+- Compatibility registry: `#memory` (`usememory`, tool, unversioned). Registry `spec` may now name `AGENTS/RULES/` and `AGENTS/PROMPT/` rule files.
 
 ## [2.0.2] - 2026-11-26
 

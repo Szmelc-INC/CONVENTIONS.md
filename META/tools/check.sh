@@ -218,7 +218,7 @@ else
       fi
     fi
     for p in $spec; do
-      [[ $p =~ ^CONVENTIONS/.+\.md$ && -f $p ]] || err "$w: spec '$p' is not a rule file"
+      [[ $p =~ ^(CONVENTIONS|AGENTS/(RULES|PROMPT))/.+\.md$ && -f $p ]] || err "$w: spec '$p' is not a rule file"
       cited[$p]=1
     done
     for u in "$home" "$repo" "$docs" "$comm"; do
