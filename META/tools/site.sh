@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the public site (GitHub Pages): one tab per core with nested rule groups, themes, a Projects index and the index files.
+# Build the public site (GitHub Pages): one tab per core with nested rule groups, themes, a Projects tab (repositories, experimental, legacy) and the index files.
 # Output goes to public/ (gitignored), built in CI and deployed to Pages — never committed,
 # so it never makes check.sh stale. Next to index.html it ships the data as JSON plus
 # llms.txt, index.json, INDEX.md, CONVENTIONS.md, COMPATIBILITY.md and SKILL.md, served from the site root,
@@ -262,6 +262,7 @@ DATA=$(jq -c . "$OUT/conventions.json" | sed 's#<#\\u003c#g')
   --fill:var(--accent); --on-fill:#fff;      /* selected tab, copied state */
   --tint:color-mix(in srgb,var(--accent) 22%,var(--bg)); --tint-2:color-mix(in srgb,var(--accent) 40%,var(--bg));
   --ex:var(--danger); --ex-t:var(--danger-l); --ex-tint:color-mix(in srgb,var(--danger) 22%,var(--bg));
+  --lg:#3e4f47; --lg-t:#93a89c; --lg-tint:color-mix(in srgb,var(--lg) 30%,var(--bg));   /* legacy: muted grey-green */
   --ring:var(--accent-l);
   --hl:var(--aqua);                          /* aquamarine: the title cursor only (dark themes) */
   --font:"JetBrains Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
@@ -269,7 +270,9 @@ DATA=$(jq -c . "$OUT/conventions.json" | sed 's#<#\\u003c#g')
   color-scheme:dark;
 }
 body{--acc:var(--fill)}
-body[data-tab="experimental"]{--acc:var(--ex)}
+/* Projects tab: experimental proposals in deep red, the legacy archive in muted grey-green */
+details.grp.ex{--acc:var(--ex)}
+details.grp.lg{--acc:var(--lg)}
 
 /* == base == */
 *{box-sizing:border-box}
@@ -511,6 +514,9 @@ details.item>summary:hover .it-load,details.item[open]>summary .it-load{color:va
 .otab[aria-pressed="true"]{background:var(--raise);border-color:var(--edge);color:var(--head);box-shadow:inset 0 2px 0 var(--edge)}
 .otab[aria-pressed="true"] small{color:var(--sec)}
 .it-tag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;background:var(--ex-tint);border:1px solid var(--danger-t);border-radius:2px;padding:0 7px;color:var(--ex-t);white-space:nowrap}
+.it-tag.lg{background:var(--lg-tint);border-color:var(--lg);color:var(--lg-t)}
+details.grp.ex{border-color:var(--danger-t)} details.grp.ex>summary{color:var(--ex-t)} details.grp.ex>summary::before{color:var(--ex-t)}
+details.grp.lg{border-color:var(--lg)} details.grp.lg>summary{color:var(--lg-t)} details.grp.lg>summary::before{color:var(--lg-t)}
 .body{margin:0 12px 12px 34px;padding:4px 16px 12px;background:var(--bg);border:1px solid var(--line-2);border-left:2px solid var(--acc);border-radius:0 var(--r) var(--r) 0;animation:unfold .18s ease-out}
 .acts{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line-soft)}
 
@@ -606,6 +612,7 @@ footer .keys{margin-left:auto}
   --link:var(--accent); --edge:var(--accent); --ring:var(--accent); --ex-t:var(--danger); --hl:var(--accent);
   --tint:color-mix(in srgb,var(--accent) 9%,#fff); --tint-2:color-mix(in srgb,var(--accent) 18%,#fff);
   --ex-tint:color-mix(in srgb,var(--danger) 8%,#fff);
+  --lg:#7f9488; --lg-t:#4a5e53; --lg-tint:color-mix(in srgb,#5f7568 10%,#fff);
   color-scheme:light;
 }
 :root[data-theme="light"] .tbar.stuck{box-shadow:0 6px 12px -8px rgba(0,0,0,.25)}
@@ -613,12 +620,14 @@ footer .keys{margin-left:auto}
   --link:var(--fg); --edge:var(--silver); --ring:var(--silver); --fill:var(--silver); --on-fill:#0b0b0b;
   --ex:var(--silver); --ex-t:var(--silver); --hl:var(--silver); --danger-t:var(--line-3);
   --tint:color-mix(in srgb,var(--silver) 10%,var(--bg)); --tint-2:color-mix(in srgb,var(--silver) 22%,var(--bg)); --ex-tint:var(--s3);
+  --lg:var(--line-3); --lg-t:var(--mute); --lg-tint:var(--s3);
 }
 :root[data-theme="mono"] :is(.md,.lead,.prow,.frow,td) a{text-decoration:underline dotted var(--mute)}
 :root[data-theme="mono"] a:hover{text-decoration:underline solid}
 :root[data-theme="terminal"]{
   --s1:#0b0b0b; --surface:#0f0f0f; --s3:#131313; --raise:#171717;
   --fg:#c0c0c0; --head:var(--accent-l); --sec:#c0c0c0;
+  --lg:#3a4a42; --lg-t:#8a9e93; --lg-tint:color-mix(in srgb,var(--lg) 30%,var(--bg));
 }
 /* faint hard-stop scanlines, terminal theme only */
 :root[data-theme="terminal"] body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9;
@@ -705,7 +714,7 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
 </div>
 <noscript><p class="lead">The index renders with JavaScript. Without it read <a href="INDEX.md">INDEX.md</a>, <a href="llms.txt">llms.txt</a> or <a href="CONVENTIONS.md">CONVENTIONS.md</a>.</p></noscript>
 <p class="lead" id="lead"></p>
-<div class="otabs" id="otabs" role="group" aria-label="Filter rules by origin" hidden></div>
+<div class="otabs" id="otabs" role="group" aria-label="Filter rules and projects by origin" hidden></div>
 <div id="list" role="tabpanel" tabindex="-1" aria-labelledby="tabs"></div>
 
 <dialog class="modal" id="modal" aria-labelledby="modal-t">
@@ -718,7 +727,7 @@ a:hover,.links a:hover{text-shadow:0 0 8px color-mix(in srgb,var(--link) 40%,tra
   <div class="meta">
     <span class="by">By Szmelc™</span>
     <span>Generated by <code>META/tools/site.sh</code> from source files and the GitHub API · <span id="built"></span></span>
-    <span class="keys"><kbd>/</kbd> filter · <kbd>1</kbd>–<kbd>9</kbd> <kbd>0</kbd> tabs · <kbd>e</kbd> expand · <kbd>t</kbd> theme · <kbd>esc</kbd> close / clear</span>
+    <span class="keys"><kbd>/</kbd> filter · <kbd>1</kbd>–<kbd id="kmax">9</kbd> tabs · <kbd>e</kbd> expand · <kbd>t</kbd> theme · <kbd>esc</kbd> close / clear</span>
   </div>
 </footer>
 </main>
@@ -1027,13 +1036,12 @@ function promptsOf(src){
 }
 
 // == model: tabs → groups (→ sub-groups) → items ==
-function ruleItem(r, tab, icon, ex){ const compat = (r.compat||[]).filter(id=>COMPAT.has(id));
-  return {kind:'rule', tab, icon, ex, path:r.path, title:r.title||r.name||r.path, load:r.load||r.desc||'', src:r.src||'', origin:r.origin||null, compat,
+function ruleItem(r, tab, icon, ex, lg){ const compat = (r.compat||[]).filter(id=>COMPAT.has(id));
+  return {kind:'rule', tab, icon, ex, lg, path:r.path, title:r.title||r.name||r.path, load:r.load||r.desc||'', src:r.src||'', origin:r.origin||null, compat,
   text:[r.title,r.name,r.load,r.desc,r.path,r.src,...compat.map(id=>COMPAT.get(id).name)].join(' ').toLowerCase()}; }
 const tabs = D.cores.map(c=>({id:c.id.toLowerCase(), label:c.id, icon:CORE_IC[c.id]||'file', core:c}));
+// Projects holds the repositories plus the experimental proposals and the legacy archive (old #experimental, #legacy land here).
 tabs.push({id:'projects', label:'Projects', icon:'projects', gap:true});
-if (D.experimental.length) tabs.push({id:'experimental', label:'Experimental', icon:'flask'});
-if (D.legacy.length) tabs.push({id:'legacy', label:'Legacy', icon:'archive'});
 
 for (const t of tabs){
   t.groups = [];
@@ -1061,12 +1069,14 @@ for (const t of tabs){
       t.groups.push({id:`${t.id}-files`, title:'files', items:t.core.files.map(f=>({kind:'file', path:f.path, about:f.about||'',
         text:(f.path+' '+(f.about||'')).toLowerCase()}))});
   } else if (t.id==='projects'){
+    // origin: the Szmelc-INC org is original work, every other configured owner counts as third-party
     t.groups.push({id:'projects-all', title:'repositories', table:true, items:D.projects.map(p=>({kind:'project', p,
+      origin: p.origin || (p.owner==='Szmelc-INC' ? 'original' : 'third-party'),
       text:[p.name,p.desc,p.owner,p.lang,(p.topics||[]).join(' ')].join(' ').toLowerCase()}))});
-  } else if (t.id==='experimental'){
-    t.groups.push({id:'experimental-all', title:'proposals', items:D.experimental.map(r=>ruleItem(r, t.id, 'flask', true))});
-  } else {
-    t.groups.push({id:'legacy-all', title:'archive', items:D.legacy.map(r=>ruleItem(r, t.id, 'archive'))});
+    if (D.experimental.length) t.groups.push({id:'experimental-all', title:'experimental proposals', tone:'ex',
+      items:D.experimental.map(r=>ruleItem(r, t.id, 'flask', true))});
+    if (D.legacy.length) t.groups.push({id:'legacy-all', title:'legacy archive', tone:'lg',
+      items:D.legacy.map(r=>ruleItem(r, t.id, 'archive', false, true))});
   }
   for (const g of t.groups) g.subs = g.subs || [];
   t.count = t.groups.reduce((n,g)=>n+[g,...g.subs].reduce((a,x)=>a+x.items.filter(it=>it.kind!=='prompt').length,0),0);
@@ -1088,6 +1098,7 @@ tabs.forEach((t,i)=>{
   b.onclick = ()=>{ location.hash = t.id; };
   nav.appendChild(b); t.btn = b;
 });
+$('#kmax').textContent = tabs.length >= 10 ? '0' : tabs.length;   // footer hint: last tab key
 
 // == render ==
 const q = $('#q'), wide = matchMedia('(min-width: 960px)');
@@ -1096,7 +1107,7 @@ const match = (it,s)=>!s || it.text.includes(s);
 // Origin sub-tabs (All · Third-party · Szmelc original) filter only the current tab; other items hide unless All.
 const ORIGINS = [['all','All'], ['third-party','Third-party'], ['original','Szmelc original']];
 const ORG_LABEL = {'third-party':'3rd-party', original:'original'};
-const hasOrigin = t => t.groups.some(g=>[g,...g.subs].some(x=>x.items.some(it=>it.origin)));
+const hasOrigin = t => t.groups.some(g=>[g,...g.subs].some(x=>x.items.some(it=>it.origin)));   // rules and project rows
 const inOrigin = (it, o) => o==='all' || it.origin===o;
 
 function itemRow(it, s){
@@ -1111,7 +1122,8 @@ function itemRow(it, s){
     return r;
   }
   const d = el('details',{className:'item'}); d.id = it.path;
-  const tag = it.ex ? `<span class="it-tag">${ic('flask')}experimental</span>` : '<span></span>';
+  const tag = it.ex ? `<span class="it-tag">${ic('flask')}experimental</span>`
+    : it.lg ? `<span class="it-tag lg">${ic('archive')}legacy</span>` : '<span></span>';
   const org = it.origin ? `<span class="org${it.origin==='third-party'?' o3':''}" title="${it.origin==='third-party'?'Third-party spec':'Szmelc original'}">${ORG_LABEL[it.origin]||esc(it.origin)}</span>` : '';
   // chips in <summary> are a mouse shortcut only (summary is a button: no nested focusable content); the opened body repeats them as links
   const chipsOf = (attrs, t) => it.origin==='third-party' ? it.compat.map(id=>{ const c = COMPAT.get(id);
@@ -1142,10 +1154,10 @@ function projectTable(items, s){
   const t = el('table'); t.id = 'proj';
   t.innerHTML = '<thead><tr><th>Repository</th><th>About</th><th>Lang</th><th>★</th><th>Updated</th></tr></thead>';
   const tb = el('tbody');
-  for (const {p} of items){
+  for (const {p, origin:po} of items){
     const tr = el('tr');
     const home = p.home && /^https?:\/\//i.test(p.home) ? ' · ' + ext(p.home,'site') : '';
-    tr.innerHTML = `<td class="n">${ext(p.url, ic('github')+hl(p.name,s))}<small>${esc(p.owner)}${home}</small></td>`
+    tr.innerHTML = `<td class="n">${ext(p.url, ic('github')+hl(p.name,s))}<small>${esc(p.owner)}${home} <span class="org${po==='third-party'?' o3':''}">${ORG_LABEL[po]||esc(po)}</span></small></td>`
       + `<td class="d">${p.desc ? hl(p.desc,s) : '<em>no description</em>'}</td>`
       + `<td>${p.lang ? `<span class="lang">${esc(p.lang)}</span>` : ''}</td>`
       + `<td class="r">${esc(p.stars)}</td><td class="r">${esc((p.updated||'').slice(0,10))}</td>`;
@@ -1159,7 +1171,7 @@ function groupEl(g, s, sub, o='all'){
   const subs = g.subs.map(x=>groupEl(x, s, true, o)).filter(Boolean);
   const n = items.length + subs.reduce((a,[,k])=>a+k,0);
   if (!n) return null;
-  const d = el('details',{className:'grp'+(sub?' sub':''), open:true}); d.id = g.id;
+  const d = el('details',{className:'grp'+(sub?' sub':'')+(g.tone?' '+g.tone:''), open:true}); d.id = g.id;
   const title = sub ? `${esc(g.parent)} <span class="sep">/</span> ${esc(g.title)}` : esc(g.title);
   d.innerHTML = `<summary>${title} <small>${n}</small></summary>`;
   if (g.table) d.appendChild(projectTable(items, s));
@@ -1198,14 +1210,12 @@ function render(){
     lead.innerHTML = `<span>${esc(tab.core.load ? 'Load when: '+tab.core.load : '')}</span>`
       + ext(ghURL(tab.core.id+'/README.md'), ic('file')+' '+esc(tab.core.id+'/README.md'))
       + ext(ghURL(tab.core.map), ic('index')+' '+esc(tab.core.map));
-  } else if (tab.id==='projects'){
-    lead.textContent = D.projects.length
-      ? 'Public Szmelc repositories from the GitHub API (owners in SZMELC/sources.conf), newest first.'
-      : (D.projects_note||'');
-  } else if (tab.id==='experimental'){
-    lead.textContent = 'Opt-in proposals. Load only when the user opts into experimental conventions.';
   } else {
-    lead.textContent = 'Superseded material, archived and never deleted. Load only when asked about history.';
+    lead.textContent = (D.projects.length
+      ? 'Public Szmelc repositories from the GitHub API (owners in SZMELC/sources.conf), newest first.'
+      : (D.projects_note||''))
+      + (D.experimental.length ? ' Experimental: opt-in proposals, load only when the user opts in.' : '')
+      + (D.legacy.length ? ' Legacy: superseded material, archived and never deleted.' : '');
   }
   const ot = $('#otabs'); ot.hidden = !orgOn;
   if (orgOn){
@@ -1233,7 +1243,7 @@ function render(){
   const oname = o==='all' ? '' : ORIGINS.find(x=>x[0]===o)[1].toLowerCase();
   if (!total && (s || tab.count)) list.appendChild(el('div',{className:'empty',
     textContent: s ? `No match in ${tab.label}${oname ? ' ('+oname+')' : ''}.` + (tabs.some(t=>t.btn.classList.contains('hit')) ? ' Highlighted tabs have matches.' : '')
-      : (oname ? `No ${oname} rules in ${tab.label}.` : 'Nothing here.')}));
+      : (oname ? `No ${oname} items in ${tab.label}.` : 'Nothing here.')}));
   $('#qn').textContent = s ? `${total} match${total===1?'':'es'}${oname ? ' · '+oname : ''}` : (oname ? `${total} ${oname}` : '');
   $('#expand').innerHTML = ic('expand') + (allOpen ? 'collapse all' : 'expand all');
   $('#expand').setAttribute('aria-pressed', allOpen);
@@ -1269,7 +1279,9 @@ function route(){
     let g = GROUPS.get(key);
     for (const t of tabs) if (!g && t.core) g = GROUPS.get(`${t.id}/${key}`);   // bare category: first core wins
     if (!g && key==='skills') g = GROUPS.get('agents-skills');
-    if (g){ current = g.tab; focusPath = activeGroup = g.id; }
+    // retired tabs and their folders: #experimental, #legacy, #CONVENTIONS/EXPERIMENTAL/…, #CONVENTIONS/LEGACY/…
+    if (!g){ const m = /^(?:conventions\/)?(experimental|legacy)(?:\/|$)/.exec(key); if (m) g = GROUPS.get(m[1]+'-all') || {tab:'projects', id:null}; }
+    if (g){ current = g.tab; focusPath = activeGroup = g.id; }   // id null: tab only
     else current = tabs[0].id;
   }
   if (current !== prev) origin = 'all';
