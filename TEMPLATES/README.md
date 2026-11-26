@@ -11,6 +11,7 @@ Skeletons to copy. Root `TEMPLATES.md` is the generated map of this core.
 | `TEMPLATES/SKILL.md` | `AGENTS/skills/<name>/SKILL.md` or a project's skill dir | New agent skill (`CONVENTIONS/SPECS/THIRD-PARTY/SKILL-MD.md`) |
 | `TEMPLATES/AGENTS.md` | `<project>/AGENTS.md` | New or adopting project; `install.sh project <dir>` copies it |
 | `TEMPLATES/project-README.md` | `<project>/README.md` | New project README (`CONVENTIONS/REPO/DOCS.md`) |
+| `TEMPLATES/webui.html` | `<site>/index.html` (build output source) | New web UI or Pages site (`CONVENTIONS/INTERFACES/WEBUI/ARCHITECTURE.md`) |
 
 - Replace every `<placeholder>`; delete sections that stay empty.
 - Templates are not rules, skills or adapters: build, check, site and install skip them. The copy is checked: `META/tools/build.sh && META/tools/check.sh`.

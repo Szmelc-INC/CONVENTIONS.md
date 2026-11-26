@@ -13,6 +13,7 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/tests/added-rules.d/agent-memory.txt`](META/tests/added-rules.d/agent-memory.txt) | Agent memory rules (#66). |  |
 | [`META/tests/added-rules.d/docs-standard.txt`](META/tests/added-rules.d/docs-standard.txt) | Docs structure and voice profile (#67). |  |
 | [`META/tests/added-rules.d/v3.0-profiles.txt`](META/tests/added-rules.d/v3.0-profiles.txt) | Added with the v3 profile split. |  |
+| [`META/tests/added-rules.d/webui-blueprint.txt`](META/tests/added-rules.d/webui-blueprint.txt) | Web UI blueprint (#69). |  |
 | [`META/tests/profile-changes.d/00-README.tsv`](META/tests/profile-changes.d/00-README.tsv) | One <topic>.tsv per change that edits a v2.0.2 stable rule: path<TAB>reason. |  |
 | [`META/tests/v2.0.2-profile-changes.tsv`](META/tests/v2.0.2-profile-changes.tsv) | Stable rule files whose content intentionally changed during neutralization. |  |
 | [`META/tools/build.sh`](META/tools/build.sh) | Generate indexes, core maps, the all-in-one bundle and tool adapters from source files. |  |

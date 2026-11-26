@@ -13,3 +13,4 @@ Map of `TEMPLATES/`. Full guide: [`TEMPLATES/README.md`](TEMPLATES/README.md).
 | [`TEMPLATES/project-README.md`](TEMPLATES/project-README.md) | <Name> |  |
 | [`TEMPLATES/prompt.md`](TEMPLATES/prompt.md) | <Prompt name> |  |
 | [`TEMPLATES/rule.md`](TEMPLATES/rule.md) | <Title> | <concrete task trigger, e.g. "building a CLI", "any code change">. |
+| [`TEMPLATES/webui.html`](TEMPLATES/webui.html) |  |  |

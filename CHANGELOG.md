@@ -4,6 +4,10 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 ## [Unreleased]
 
+### Added
+
+- Web UI blueprint, extracted from the project's own Pages site: `CONVENTIONS/INTERFACES/WEBUI/` (`ARCHITECTURE.md`, `ROUTING.md`, `OVERLAYS.md`, `KEYBOARD.md`) and the starter `TEMPLATES/webui.html` (inlined data, hash router with transient overlay routes, one `<dialog>`, menu disclosure, gated keymap, theme before first paint).
+
 ## [3.0.0] - 2026-11-26
 
 The neutral core and profile-aware installation contract are now stable.
