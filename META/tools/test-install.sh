@@ -16,6 +16,7 @@ grep -qF 'user rules' "$HOME/.claude/CLAUDE.md" || fail "existing claude rules w
 grep -qF '<!-- conventions:begin -->' "$HOME/.claude/CLAUDE.md" || fail "claude managed block missing"
 [[ -f $HOME/.codex/AGENTS.md ]] || fail "codex rules file not created"
 [[ -f $HOME/.claude/skills/conventions/SKILL.md ]] || fail "neutral skill not linked"
+[[ -L $HOME/.claude/skills/szmelc-conventions ]] || fail "legacy skill alias not installed"
 [[ -f $HOME/.claude/skills/deep/SKILL.md ]] || fail "deep skill not linked"
 [[ ! -e $HOME/.gemini ]] || fail "undetected harness was touched"
 ! compgen -G "$HOME/.claude/CLAUDE.md.bak.*" >/dev/null || fail "default install created a backup"
