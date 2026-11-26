@@ -148,7 +148,6 @@ description = "Repository instruction files in .github/instructions/*.instructio
 version = "unversioned"
 added = 2026-11-26
 updated = 2026-11-26
-icon = "META/compat/icons/githubcopilot.svg"
 spec = ["CONVENTIONS/SPECS/THIRD-PARTY/AGENTS-MD.md"]
 
 [compat.links]
@@ -287,7 +286,6 @@ description = "Typed commit subjects with an optional scope (feat, fix, docs, ci
 version = "1.0.0"
 added = 2026-11-26
 updated = 2026-11-26
-icon = "META/compat/icons/conventionalcommits.svg"
 spec = ["CONVENTIONS/WORKFLOW/COMMITS.md"]
 
 [compat.links]
@@ -362,7 +360,6 @@ description = "flake.nix with a package, an app and a devShell."
 version = "unversioned"
 added = 2026-11-26
 updated = 2026-11-26
-icon = "META/compat/icons/nixos.svg"
 spec = ["CONVENTIONS/PACKAGING/NIX.md"]
 
 [compat.links]
@@ -395,7 +392,6 @@ description = "Shell for glue scripts and installers, run with set -euo pipefail
 version = "5.3"
 added = 2026-11-26
 updated = 2026-11-26
-icon = "META/compat/icons/gnubash.svg"
 spec = ["CONVENTIONS/CODE/SHELL.md"]
 
 [compat.links]

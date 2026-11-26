@@ -15,7 +15,7 @@ Planned as 2.0.0: rule paths were renamed (major).
 
 ### Added
 
-- Compatibility registry: `META/compat/registry.toml` (TOML, one record per third-party format, spec, platform, language or tool: version, dates, official links, icon, covering rules) generates `COMPATIBILITY.md` and `index.json` `compatible` with a trademark disclaimer; monochrome Simple Icons (CC0) in `META/compat/icons/`; `META/tools/check.sh` validates it.
+- Compatibility registry: `META/compat/registry.toml` (TOML, one record per third-party format, spec, platform, language or tool: version, dates, official links, icon, covering rules) generates `COMPATIBILITY.md` and `index.json` `compatible` with a trademark disclaimer; monochrome CC0 Simple Icons in `META/compat/icons/`; `META/tools/check.sh` validates it.
 - `origin` (`third-party` / `original`) on `index.json` entries and site rules, derived from the path; third-party specs carry the `compat` ids of the registry entries that cite them.
 - `TEMPLATES/` core with root map `TEMPLATES.md`; the site gains a TEMPLATES tab.
 - Site: inlined data escapes every `<`, so no rule text can close the data block.
