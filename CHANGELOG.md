@@ -10,6 +10,7 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 - Merge policy: merge commits and rebase merges are both allowed, squash stays disabled; `required_linear_history` dropped from the `main` ruleset. `PolskiKocurek` and `hajtuszko` join `sernik77` as maintainers (`review-gate`, CODEOWNERS).
 - Markdown frontmatter rule: add a minimal valid `SKILL.md` example (`---` on line 1, only `name` and `description`), and state that ordinary rule files use their rule header instead of tool frontmatter. `META/tools/check.sh` validates the example.
+- Generated files end with one line feed, as `.editorconfig` requires. Before, an editor that honors `.editorconfig` added the line feed to `CONVENTIONS.md` or `META.md`, and the `check` job failed on stale output. The editorconfig checker now covers generated files.
 
 ### Added
 

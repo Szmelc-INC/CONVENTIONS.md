@@ -43,7 +43,7 @@ func BundleOutput(root string, opts IndexOptions) ([]byte, error) {
 		}
 		out.WriteString(demote(string(data)))
 	}
-	return renderProfile(bytes.TrimRight([]byte(out.String()), "\n"), profile), nil
+	return finalNewline(renderProfile(bytes.TrimRight([]byte(out.String()), "\n"), profile)), nil
 }
 
 func renderBundleMap(root string) ([]byte, error) {

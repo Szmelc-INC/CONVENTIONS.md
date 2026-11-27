@@ -42,7 +42,5 @@ func CompatibilityOutput(root string) ([]byte, error) {
 	}
 	line("")
 	line("_Disclaimer:_ " + disclaimer)
-	// build.sh's render() captures output with command substitution, which strips
-	// trailing newlines before writing the generated artifact.
-	return []byte(strings.TrimRight(b.String(), "\n")), nil
+	return finalNewline([]byte(b.String())), nil
 }

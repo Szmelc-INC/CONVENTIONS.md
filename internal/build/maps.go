@@ -84,7 +84,13 @@ func renderCoreMap(root, core string) ([]byte, error) {
 		}
 		fmt.Fprintf(&out, "| [`%s`](%s) | %s | %s |\n", path, path, mapAbout(path, text), mapTrigger(text))
 	}
-	return bytes.TrimRight([]byte(out.String()), "\n"), nil
+	return finalNewline([]byte(out.String())), nil
+}
+
+// finalNewline returns text with exactly one trailing line feed. Every generated
+// file ends that way, so the Go renderers match build.sh's render() byte for byte.
+func finalNewline(text []byte) []byte {
+	return append(bytes.TrimRight(text, "\n"), '\n')
 }
 
 func ignoredMapPath(path string) bool {
