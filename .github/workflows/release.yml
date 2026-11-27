@@ -38,6 +38,12 @@ jobs:
         with:
           ref: ${{ github.event_name == 'workflow_dispatch' && inputs.tag != '' && format('refs/tags/{0}', inputs.tag) || github.ref }}
           fetch-depth: 0
+      - name: Use current release tooling for manual retries
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git fetch --no-tags origin main
+          git show "${GITHUB_WORKFLOW_SHA}:META/tools/release.sh" > "$RUNNER_TEMP/release.sh"
+          install -m 755 "$RUNNER_TEMP/release.sh" META/tools/release.sh
       - name: release
         run: |
           args=()
