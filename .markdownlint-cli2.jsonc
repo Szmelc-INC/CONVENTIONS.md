@@ -4,7 +4,6 @@
     "MD013": false,
     "MD022": false
   },
-    "frontMatter": "(^---\\s*$[\\s\\S]*?^---\\s*$)(\\r\\n|\\r|\\n|$)",
   "ignores": [
     "AGENTS/adapters/**",
     "INDEX.md",

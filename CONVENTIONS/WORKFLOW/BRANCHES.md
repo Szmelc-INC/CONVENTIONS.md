@@ -15,7 +15,7 @@ id: conventions.workflow.branches
 | `legacy/*` | Archiving superseded material | `CONVENTIONS/LEGACY/` + generated files |
 | `local/*` | Private or unverified material awaiting review | Never pushed, never merged |
 
-- Merge: `gh pr merge --rebase --delete-branch`, then `git checkout main && git pull --ff-only`; one topic per PR, every commit on the branch clean and conventional (all of them land on `main`).
+- Merge: `gh pr merge --merge --delete-branch` (merge commit) or `gh pr merge --rebase --delete-branch`, then `git checkout main && git pull --ff-only`; never squash. One topic per PR, every commit on the branch clean and conventional (all of them land on `main`).
 - Stale branch with no open PR and nothing ahead of `main`: delete it.
 - Promote: move `CONVENTIONS/EXPERIMENTAL/<x>.md` to `CONVENTIONS/<category>/<x>.md` in a `feat/*` PR.
 - Demote: move to `CONVENTIONS/LEGACY/` in a `legacy/*` PR; add `> Superseded by: <path>` as line 3. Legacy files are never deleted.

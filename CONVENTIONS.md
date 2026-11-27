@@ -556,6 +556,7 @@ Short record of decisions that affect the project beyond one pull request. Detai
 |---|---|---|---|
 | 2026-11-26 | Require a current maintainer approval for outside PRs through the `review-gate` status. | Protect the default branch while allowing outside contributions through the normal PR flow. | `.github/workflows/review-gate.yml`, issue #55 |
 | 2026-11-26 | Keep changes on `main` behind pull requests and use rebase merges. | Preserve review and CI gates while keeping a linear release history. | `CONVENTIONS/WORKFLOW/BRANCHES.md` |
+| 2026-11-26 | Adopt the context-system proposal in slices: rule metadata in front matter, `conventions resolve` in the Go CLI, no empty domain directories. | Extend the existing format and CLI instead of a parallel registry and a shell resolver. | `SPEC/decisions/0002-context-system.md` |
 | 2026-11-26 | Contributions are licensed under MIT when submitted; no CLA is required. | Keep the contribution path simple and make inbound licensing match the repository's outbound license. | `CONTRIBUTING/README.md`, issue #55 |
 
 Add entries when a maintainer accepts a cross-cutting decision. Do not use this table for routine implementation choices.
@@ -1245,10 +1246,10 @@ id: conventions.github.pull-requests
 - Body follows `.github/PULL_REQUEST_TEMPLATE.md` (what, why, checks run); org default: `CONVENTIONS/GITHUB/ORGANIZATIONS.md`.
 - Link issues with `Closes #<n>` (`CONVENTIONS/GITHUB/ISSUES.md`); label on creation (`CONVENTIONS/GITHUB/REPO/LABELS.md`).
 - Review: concrete fixes as suggested changes (a `suggestion` code block); the author batch-applies them as one commit.
-- Wait for green CI → `gh pr merge --rebase --delete-branch` → `git checkout main && git pull --ff-only` → verify main CI + live result → one short report.
+- Wait for green CI → `gh pr merge --merge --delete-branch` or `--rebase --delete-branch` (never `--squash`) → `git checkout main && git pull --ff-only` → verify main CI + live result → one short report.
 - Never `--admin`, never merge locally into `main`; every change reaches `main` through a PR.
 - PRs from non-maintainers: only a maintainer reviews and merges them; agents never approve or merge them, even when CI is green.
-- Branch behind with conflicts → `gh pr update-branch --rebase`; still conflicting → ask before rebasing locally and force-pushing the branch.
+- Branch behind or conflicting → `git merge origin/main` into it (or `gh pr update-branch`) and push; still conflicting → ask before rebasing locally and force-pushing the branch.
 - Never merge red, force-push, or bypass branch protection; repo settings: `CONVENTIONS/GITHUB/REPO/SETTINGS.md`.
 - What CI runs and requires: `CONVENTIONS/GITHUB/ACTIONS/CI.md`; workflow files: `CONVENTIONS/GITHUB/ACTIONS/WORKFLOWS.md`.
 - Commit and PR titles: `CONVENTIONS/WORKFLOW/COMMITS.md`.
@@ -1381,10 +1382,10 @@ id: conventions.github.repo.settings
 
 - Apply settings as code: `gh repo edit` flags and `gh api` calls in a script, not web-UI clicks. Metadata: `CONVENTIONS/GITHUB/REPO/METADATA.md`.
 - Default branch `main` (`--default-branch main`); branch model: `CONVENTIONS/WORKFLOW/BRANCHES.md`.
-- Merge: rebase only (`--enable-rebase-merge --enable-squash-merge=false --enable-merge-commit=false`): branch commits land on `main` as written, history stays linear, trailers (`Co-Authored-By:`) survive.
+- Merge: merge commit or rebase, never squash (`--enable-merge-commit --enable-rebase-merge --enable-squash-merge=false`): branch commits land on `main` as written and trailers (`Co-Authored-By:`) survive.
 - `--delete-branch-on-merge`, `--enable-auto-merge`, `--allow-update-branch`.
 - Ruleset on the default branch via `gh api repos/<owner>/<repo>/rulesets` (`gh ruleset` only lists, views, checks):
-  - `pull_request` with 0 required approvals and `allowed_merge_methods: ["rebase"]`: PR required, solo maintainers self-merge.
+  - `pull_request` with 0 required approvals and `allowed_merge_methods: ["merge", "rebase"]`: PR required, every maintainer reviews and self-merges; no `required_linear_history` (it blocks merge commits).
   - `required_status_checks`: only checks that run on every PR; a path-filtered or not-yet-existing check blocks merges forever.
   - Public repo with outside contributors: also require `review-gate`, a commit status set from trusted triggers (`pull_request_target`, `workflow_run`, schedule) that passes maintainer PRs and other PRs only after a maintainer approves the head commit; `.github/CODEOWNERS` requests the review. Reference: `META/tools/review-gate.sh`.
 - Fork PR workflows: approval for all outside contributors (`actions/permissions/fork-pr-contributor-approval`, `all_external_contributors`).
@@ -2292,7 +2293,7 @@ id: conventions.workflow.branches
 | `legacy/*` | Archiving superseded material | `CONVENTIONS/LEGACY/` + generated files |
 | `local/*` | Private or unverified material awaiting review | Never pushed, never merged |
 
-- Merge: `gh pr merge --rebase --delete-branch`, then `git checkout main && git pull --ff-only`; one topic per PR, every commit on the branch clean and conventional (all of them land on `main`).
+- Merge: `gh pr merge --merge --delete-branch` (merge commit) or `gh pr merge --rebase --delete-branch`, then `git checkout main && git pull --ff-only`; never squash. One topic per PR, every commit on the branch clean and conventional (all of them land on `main`).
 - Stale branch with no open PR and nothing ahead of `main`: delete it.
 - Promote: move `CONVENTIONS/EXPERIMENTAL/<x>.md` to `CONVENTIONS/<category>/<x>.md` in a `feat/*` PR.
 - Demote: move to `CONVENTIONS/LEGACY/` in a `legacy/*` PR; add `> Superseded by: <path>` as line 3. Legacy files are never deleted.
@@ -2312,7 +2313,7 @@ id: conventions.workflow.commits
 - Type prefix with optional scope: `feat(core): …`, `fix(core): …`, `docs: …`, `ci: …`, `chore: …`, `refactor: …`, `test: …`.
 - Version bump → append the version: `feat: signed package lists (0.3.1)`.
 - Never web-UI defaults (`Update README.md`, `Create file`) on `main`.
-- One topic per commit and per PR; commits are rebase-merged as written, so each one follows this format (`CONVENTIONS/WORKFLOW/BRANCHES.md`).
+- One topic per commit and per PR; commits land on `main` as written (merge commit or rebase, never squash), so each one follows this format (`CONVENTIONS/WORKFLOW/BRANCHES.md`).
 
 ---
 <!-- source: CONVENTIONS/WORKFLOW/FINISH.md -->
