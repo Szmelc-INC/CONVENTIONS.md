@@ -100,7 +100,9 @@ render() {
     escaped=${value//\\/\\\\}; escaped=${escaped//&/\\&}; escaped=${escaped//|/\\|}
     text=$(printf '%s' "$text" | sed "s|{{${key}}}|$escaped|g")
   done
-  printf '%s' "$text"
+  # A generated file is a text file: it ends with one line feed, as .editorconfig
+  # requires, so an editor that honors it never turns a fresh build stale.
+  printf '%s\n' "$text"
 }
 
 out=.

@@ -202,7 +202,7 @@ merge_block() { # merge_block <src> <dst>
         ;;
       *) cat "$src" ;;
     esac
-    printf '\n%s\n' '<!-- conventions:end -->'
+    printf '%s\n' '<!-- conventions:end -->'
   } >"$body"
   awk -v block="$body" '
     /<!-- conventions:begin -->/ { while ((getline line < block) > 0) print line; close(block); skipping=1; next }

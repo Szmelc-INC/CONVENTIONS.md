@@ -24,9 +24,9 @@ func ProfileFileOutputs(root string, opts IndexOptions) (map[string][]byte, erro
 		if err != nil {
 			return nil, fmt.Errorf("read %s: %w", path, err)
 		}
-		// The shell generator captures each template through command
-		// substitution, which removes trailing line feeds before rendering.
-		outputs[path] = renderProfile(bytes.TrimRight(data, "\n"), profile)
+		// The shell generator reads each template through command substitution,
+		// which strips trailing line feeds, then writes a single closing one.
+		outputs[path] = finalNewline(renderProfile(bytes.TrimRight(data, "\n"), profile))
 	}
 	return outputs, nil
 }

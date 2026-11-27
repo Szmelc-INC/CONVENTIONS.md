@@ -526,7 +526,7 @@ func renderIndex(root string, stable, experimental, legacy, skills []indexSource
 	} else {
 		line("_None._")
 	}
-	return []byte(strings.TrimSuffix(b.String(), "\n"))
+	return finalNewline([]byte(b.String()))
 }
 func readTriggerPath(root, p string) (string, error) {
 	b, e := os.ReadFile(filepath.Join(root, p, "README.md"))
@@ -613,7 +613,7 @@ func renderMachineIndex(root string, profile map[string]string, stable, experime
 	b.WriteString("\n  ],\n  \"compatible_disclaimer\": " + jsonString(disclaimer) + ",\n  \"compatible\": [\n")
 	b.WriteString(strings.Join(withCommas(compatLines), "\n"))
 	b.WriteString("\n  ]\n}")
-	return []byte(b.String())
+	return finalNewline([]byte(b.String()))
 }
 func withCommas(lines []string) []string {
 	out := append([]string(nil), lines...)
@@ -666,7 +666,7 @@ func renderLLMIndex(root string, profile map[string]string, stable, experimental
 			line("- [" + s.title + "](" + raw + "/" + s.path + "): Legacy archive")
 		}
 	}
-	return []byte(strings.TrimSuffix(b.String(), "\n"))
+	return finalNewline([]byte(b.String()))
 }
 func jsonString(s string) string {
 	var b strings.Builder

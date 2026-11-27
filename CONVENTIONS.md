@@ -617,8 +617,10 @@ id: contributing.indexing
 - CI never regenerates: it runs `META/tools/build.sh --check` and fails on stale output.
 - The site rebuilds in CI on push to `main` touching Markdown, `META/tools/site.sh`, `META/compat/` or the selected profile's project-source file, nightly, and on manual or `repository_dispatch` trigger.
 - Never hand-edit generated files; edit the source and rebuild.
+- Every generated file ends with one line feed, as `.editorconfig` requires. The Go renderers in `internal/build` match `build.sh` byte for byte.
 
 ### Add an output format
+
 1. One generator block in `META/tools/build.sh` ending in `| emit <file>`.
 2. Add the file to `GENERATED` there; `META/tools/check.sh` rule 1 then catches staleness.
 3. Add it to the never-edit lists in root `AGENTS.md` (above the map block) and the `README.md` layout.

@@ -35,7 +35,7 @@ func AdapterOutputs(root string, opts IndexOptions) (map[string][]byte, error) {
 		var out bytes.Buffer
 		fmt.Fprintf(&out, "---\n%s\n---\n%s\n", adapter.frontmatter, generatedAdapterNote)
 		out.Write(global)
-		result[adapter.path] = bytes.TrimRight(renderProfile(out.Bytes(), profile), "\n")
+		result[adapter.path] = finalNewline(renderProfile(out.Bytes(), profile))
 	}
 	return result, nil
 }

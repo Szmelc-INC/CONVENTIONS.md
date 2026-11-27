@@ -1,11 +1,6 @@
 {
   "Version": "v4.0.2",
   "Exclude": [
-    "(^|/)AGENTS\\.md$",
-    "(^|/)AGENTS/adapters/",
-    "(^|/)(INDEX|CONVENTIONS|COMPATIBILITY|HUMANS|CONTRIBUTING|META|TEMPLATES)\\.md$",
-    "(^|/)index\\.json$",
-    "(^|/)llms\\.txt$",
     "^\\.github/PULL_REQUEST_TEMPLATE\\.md$",
     "^CONVENTIONS/LEGACY/",
     "^META/tools/site\\.sh$",
