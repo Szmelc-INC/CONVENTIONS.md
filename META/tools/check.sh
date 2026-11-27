@@ -109,6 +109,19 @@ for f in AGENTS/skills/*/SKILL.md; do
   d=${f%/SKILL.md}
   check_skill "$f" "${d##*/}"
 done
+# The minimal SKILL.md example in the frontmatter rule: `---` on line 1, only `name` and `description`.
+fm_rule=CONVENTIONS/FORMATS/MARKDOWN/FRONTMATTER.md
+example_dir=$(mktemp -d)
+awk '/^## Minimal SKILL\.md$/{s=1} s&&/^```/{if(f)exit; f=1; next} f' "$fm_rule" >"$example_dir/SKILL.md"
+example_skill=$(awk '/^## Minimal SKILL\.md$/{s=1} s&&match($0,/`[a-z0-9-]+\/SKILL\.md`/){print substr($0,RSTART+1,RLENGTH-11); exit}' "$fm_rule")
+if [[ $(head -n1 "$example_dir/SKILL.md") != --- ]]; then
+  err "$fm_rule: minimal SKILL.md example must open with '---' on line 1"
+else
+  keys=$(awk 'NR==1{next} /^---$/{exit} {sub(/:.*/, ""); print}' "$example_dir/SKILL.md" | paste -sd' ')
+  [[ $keys == 'name description' ]] || err "$fm_rule: minimal SKILL.md example keys '$keys' must be exactly 'name description'"
+  check_skill "$example_dir/SKILL.md" "$example_skill"
+fi
+rm -rf "$example_dir"
 
 # 5b. Every profile renders, and neutral output contains no Szmelc-only values.
 profile_tmp=$(mktemp -d)
