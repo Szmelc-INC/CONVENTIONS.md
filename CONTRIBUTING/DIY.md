@@ -14,6 +14,14 @@ id: contributing.diy
 - Keep generated adapters and indexes profile-aware; do not hard-code project identity in build scripts.
 - Install path and harness link names belong in the profile and installer configuration.
 
+Profile walkthrough, from the template to a first build:
+
+1. Copy `TEMPLATES/profile.toml` to `PROFILES/<id>/profile.toml`; the directory name is the profile `id`.
+2. Replace every example value: identity (`name`, `project_name`, `skill_name`, `adapter_name`, `brand`, `organization`, `language`), the `example.invalid` URLs (`repository_url`, `raw_url`, `site_url`, `organization_url`), the install path, and the tool names. Keep `[profile.colors]` on your own palette.
+3. Optional default: set the profile `id` as the first non-comment line of `PROFILES/DEFAULT`.
+4. Build and check: `META/tools/build.sh --profile <id> && META/tools/check.sh`; rendered files land in `PROFILES/<id>/rendered/`, and `install.sh --profile <id>` links them.
+5. Edit sources and rebuild; never hand-edit generated files (`CONTRIBUTING/INDEXING.md`).
+
 ## Add or remove a core
 - Directory + `README.md` with header, then edit `CORES` in `META/tools/build.sh`, `META/tools/check.sh`, `META/tools/site.sh`.
 - Also `MAPS` in `META/tools/build.sh` and the `sources=(...)` list in `META/tools/check.sh` rule 7.
