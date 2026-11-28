@@ -123,13 +123,21 @@ else
 fi
 rm -rf "$example_dir"
 
-# 5b. Every profile renders, and neutral output contains no Szmelc-only values.
+# 5b. Every profile renders; PROFILES/DEFAULT names one; neutral output holds no value of another profile.
 profile_tmp=$(mktemp -d)
 trap 'rm -rf "$profile_tmp"' EXIT
 shopt -s nullglob
 profiles=(PROFILES/*/profile.toml)
 shopt -u nullglob
 ((${#profiles[@]})) || err "no profiles found in PROFILES/"
+# The profile every tool uses when none is named: first non-comment line of PROFILES/DEFAULT, else neutral.
+default_profile() {
+  local id
+  id=$({ grep -v '^[[:space:]]*#' PROFILES/DEFAULT 2>/dev/null || true; } | head -n 1 | tr -d '[:space:]')
+  printf '%s' "${id:-neutral}"
+}
+default=$(default_profile)
+[[ -f PROFILES/$default/profile.toml ]] || err "PROFILES/DEFAULT must name an existing profile, not '$default'"
 for profile_file in "${profiles[@]}"; do
   profile=${profile_file#PROFILES/}
   profile=${profile%/profile.toml}
@@ -145,14 +153,43 @@ for profile_file in "${profiles[@]}"; do
   if grep -r -n -F '{{profile.' "$out" >/dev/null; then
     err "profile '$profile' output contains an unresolved profile variable"
   fi
-  if [[ $profile == neutral ]]; then
-    grep -qF "Chat: reply in the user's language." "$out/AGENTS/global/AGENTS.md" || err "neutral profile must preserve the user's language preference"
-    if grep -r -n -i -E 'Szmelc™|Polish|pkexec|dc-notify|(^|[^[:alnum:]_])SAUR([^[:alnum:]_]|$)|#105c5c|#1f8a8a|#750f0f|#b83a3a|#c0c0c0|#7fffd4' \
-      "$out/SKILL.md" "$out/AGENTS/global/AGENTS.md" "$out/CONVENTIONS.md" \
-      "$out/AGENTS/adapters" >/dev/null; then
-      err "neutral profile contains Szmelc-only values"
+done
+grep -qF "Chat: reply in the user's language." "$profile_tmp/neutral/AGENTS/global/AGENTS.md" || err "neutral profile must preserve the user's language preference"
+# A value that only another profile sets must never be rendered into neutral output.
+# Prints `section.key<TAB>value` for every value of the second file that differs
+# from the first and is not part of a value of the first (a profile may name the
+# hosting organization that a repository URL already contains).
+foreign_values() {
+  awk '
+    FNR == 1 { file++ }
+    /^[[:space:]]*#/ { next }
+    /^\[/ { section=$0; gsub(/^\[|\]$/, "", section); next }
+    section ~ /^profile(\.|$)/ && /^[[:space:]]*[A-Za-z0-9_.-]+[[:space:]]*=[[:space:]]*"/ {
+      line=$0; split(line, a, "="); key=a[1]; gsub(/[[:space:]]/, "", key)
+      value=line; sub(/^[^=]*=[[:space:]]*"/, "", value); sub(/"[[:space:]]*$/, "", value)
+      key=section "." key
+      if (file == 1) { base[key]=value; bases[++n]=value }
+      else { keys[++m]=key; values[m]=value }
+    }
+    END {
+      for (i = 1; i <= m; i++) {
+        if (length(values[i]) < 4 || values[i] == base[keys[i]]) continue
+        part = 0
+        for (j = 1; j <= n; j++) if (index(bases[j], values[i])) { part = 1; break }
+        if (!part) print keys[i] "\t" values[i]
+      }
+    }
+  ' "$1" "$2"
+}
+for profile_file in "${profiles[@]}"; do
+  [[ $profile_file == PROFILES/neutral/profile.toml ]] && continue
+  profile=${profile_file#PROFILES/}
+  while IFS=$'\t' read -r key value; do
+    if grep -r -q -F -- "$value" "$profile_tmp/neutral/SKILL.md" "$profile_tmp/neutral/AGENTS/global/AGENTS.md" \
+      "$profile_tmp/neutral/CONVENTIONS.md" "$profile_tmp/neutral/AGENTS/adapters"; then
+      err "neutral output contains '$value', set only by profile ${profile%/profile.toml} ($key)"
     fi
-  fi
+  done < <(foreign_values PROFILES/neutral/profile.toml "$profile_file")
 done
 
 cat >"$profile_tmp/team.toml" <<'EOF'
@@ -170,7 +207,7 @@ cat >"$profile_tmp/user.toml" <<'EOF'
 profile.privilege_tool = "run0"
 EOF
 overlay_out="$profile_tmp/layers"
-META/tools/build.sh --profile szmelc --team "$profile_tmp/team.toml" --project "$profile_tmp/project.toml" --user "$profile_tmp/user.toml" --output "$overlay_out" >/dev/null || err "layered profile build failed"
+META/tools/build.sh --profile "$default" --team "$profile_tmp/team.toml" --project "$profile_tmp/project.toml" --user "$profile_tmp/user.toml" --output "$overlay_out" >/dev/null || err "layered profile build failed"
 jq -e '[.entries[] | select(.id == "conventions.code.shell" or .id == "conventions.code.go")] | length == 0' "$overlay_out/index.json" >/dev/null || err "disabled rules remain in the layered index"
 grep -qF 'use `run0` where required' "$overlay_out/AGENTS/global/AGENTS.md" || err "user overlay did not override profile and team values"
 grep -Eq 'use `(doas|sudo)` where required' "$overlay_out/AGENTS/global/AGENTS.md" && err "a lower-precedence value overrode the user layer"

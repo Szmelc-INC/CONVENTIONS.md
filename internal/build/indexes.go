@@ -43,11 +43,9 @@ type registryFile struct {
 }
 
 // IndexOutputs returns the three standalone index artifacts in generator order.
-// An empty profile selects neutral; overlays apply in team, project, user order.
+// An empty profile selects the repository default (PROFILES/DEFAULT, else neutral);
+// overlays apply in team, project, user order.
 func IndexOutputs(root string, opts IndexOptions) (map[string][]byte, error) {
-	if opts.Profile == "" {
-		opts.Profile = "neutral"
-	}
 	profile, disabled, err := indexProfile(root, opts.Profile, opts.Overlays)
 	if err != nil {
 		return nil, err
@@ -108,6 +106,9 @@ func IndexOutputs(root string, opts IndexOptions) (map[string][]byte, error) {
 }
 
 func indexProfile(root, name string, overlayFiles []string) (map[string]string, map[string]bool, error) {
+	if name == "" {
+		name = DefaultProfile(root)
+	}
 	if !validProfileName(name) {
 		return nil, nil, fmt.Errorf("invalid profile name: %s", name)
 	}

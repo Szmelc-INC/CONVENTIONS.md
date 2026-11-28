@@ -18,9 +18,9 @@ Map of `AGENTS/`. Full guide: [`AGENTS/README.md`](AGENTS/README.md).
 | [`AGENTS/RULES/EFFICIENCY.md`](AGENTS/RULES/EFFICIENCY.md) | Token efficiency | choosing a model or effort level, configuring a harness or subagent, writing instruction files, or a session grows long. |
 | [`AGENTS/RULES/MEMORY.md`](AGENTS/RULES/MEMORY.md) | Agent memory | saving, recalling, updating or deleting an agent memory, or designing a memory store or memory MCP tool. |
 | [`AGENTS/RULES/SUBAGENTS.md`](AGENTS/RULES/SUBAGENTS.md) | Subagents & tools | considering a subagent, parallel work, skills/MCP use, or long-running commands. |
-| [`AGENTS/adapters/copilot/szmelc-conventions.instructions.md`](AGENTS/adapters/copilot/szmelc-conventions.instructions.md) | Generated adapter: Global rules |  |
-| [`AGENTS/adapters/cursor/szmelc-conventions.mdc`](AGENTS/adapters/cursor/szmelc-conventions.mdc) | Generated adapter: Global rules |  |
-| [`AGENTS/adapters/kiro/szmelc-conventions.md`](AGENTS/adapters/kiro/szmelc-conventions.md) | Generated adapter: Global rules |  |
+| [`AGENTS/adapters/copilot/conventions.instructions.md`](AGENTS/adapters/copilot/conventions.instructions.md) | Generated adapter: Global rules |  |
+| [`AGENTS/adapters/cursor/conventions.mdc`](AGENTS/adapters/cursor/conventions.mdc) | Generated adapter: Global rules |  |
+| [`AGENTS/adapters/kiro/conventions.md`](AGENTS/adapters/kiro/conventions.md) | Generated adapter: Global rules |  |
 | [`AGENTS/global/AGENTS.md`](AGENTS/global/AGENTS.md) | Global rules |  |
 | [`AGENTS/modes/release.md`](AGENTS/modes/release.md) | Release mode | the user explicitly requests the release mode. |
 | [`AGENTS/modes/research.md`](AGENTS/modes/research.md) | Research mode | the user explicitly requests the research mode. |

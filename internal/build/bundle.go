@@ -11,11 +11,9 @@ import (
 const bundleUsage = "> One-shot reference for tools that cannot lazy-load (aider `--read`, web chats, project knowledge). Agents with file access use `SKILL.md` + `INDEX.md` instead; never load this file alongside them. Stable rules only; the lazy-load instructions below do not apply here because every stable rule is inlined."
 
 // BundleOutput renders the all-in-one conventions reference for a profile.
-// An empty profile selects neutral; overlays apply in team, project, user order.
+// An empty profile selects the repository default (PROFILES/DEFAULT, else neutral);
+// overlays apply in team, project, user order.
 func BundleOutput(root string, opts IndexOptions) ([]byte, error) {
-	if opts.Profile == "" {
-		opts.Profile = "neutral"
-	}
 	profile, disabled, err := indexProfile(root, opts.Profile, opts.Overlays)
 	if err != nil {
 		return nil, err

@@ -11,6 +11,20 @@ teardown() {
   rm -rf "$TEST_ROOT"
 }
 
+# profile_field <profile> <key>: a [profile] value of PROFILES/<profile>/profile.toml.
+profile_field() {
+  awk -F '"' -v key="$2" '$1 ~ "^[[:space:]]*" key "[[:space:]]*=" {print $2; exit}' "$REPO_ROOT/PROFILES/$1/profile.toml"
+}
+
+# The first profile whose adapters carry their own name; empty when there is none.
+profile_with_alias() {
+  local file id
+  for file in "$REPO_ROOT"/PROFILES/*/profile.toml; do
+    id=$(basename "$(dirname "$file")")
+    [[ -n "$(profile_field "$id" adapter_name)" && "$(profile_field "$id" adapter_name)" != "$(profile_field "$id" skill_name)" ]] && { echo "$id"; return; }
+  done
+}
+
 use_test_home() {
   export HOME="$1"
   export XDG_CONFIG_HOME="$HOME/.config"
@@ -30,7 +44,7 @@ use_test_home() {
   grep -qF '<!-- conventions:begin -->' "$HOME/.claude/CLAUDE.md"
   [ -f "$HOME/.codex/AGENTS.md" ]
   [ -f "$HOME/.claude/skills/conventions/SKILL.md" ]
-  [ -L "$HOME/.claude/skills/szmelc-conventions" ]
+  [ ! -e "$HOME/.claude/skills/szmelc-conventions" ]
   [ -f "$HOME/.claude/skills/deep/SKILL.md" ]
   [ ! -e "$HOME/.gemini" ]
   ! compgen -G "$HOME/.claude/CLAUDE.md.bak.*" >/dev/null
@@ -41,7 +55,7 @@ use_test_home() {
 
   run "$REPO_ROOT/install.sh" status --only claude,codex --json
   [ "$status" -eq 0 ]
-  printf '%s' "$output" | jq -e '.targets | length == 8 and all(.state == "linked" or .state == "managed")' >/dev/null
+  printf '%s' "$output" | jq -e '.targets | length == 6 and all(.state == "linked" or .state == "managed")' >/dev/null
 
   run "$REPO_ROOT/install.sh" uninstall --only claude,codex
   [ "$status" -eq 0 ]
@@ -68,7 +82,7 @@ use_test_home() {
 
 @test "Kiro install and uninstall preserve steering frontmatter and user text" {
   mkdir -p "$HOME/.kiro/steering"
-  cat >"$HOME/.kiro/steering/szmelc-conventions.md" <<'EOF'
+  cat >"$HOME/.kiro/steering/conventions.md" <<'EOF'
 ---
 inclusion: manual
 ---
@@ -77,21 +91,38 @@ EOF
 
   run "$REPO_ROOT/install.sh" --profile neutral --only kiro
   [ "$status" -eq 0 ]
-  grep -qF 'inclusion: manual' "$HOME/.kiro/steering/szmelc-conventions.md"
-  grep -qF 'user steering' "$HOME/.kiro/steering/szmelc-conventions.md"
+  grep -qF 'inclusion: manual' "$HOME/.kiro/steering/conventions.md"
+  grep -qF 'user steering' "$HOME/.kiro/steering/conventions.md"
 
   run "$REPO_ROOT/install.sh" uninstall --only kiro
   [ "$status" -eq 0 ]
-  [ "$(cat "$HOME/.kiro/steering/szmelc-conventions.md")" = $'---\ninclusion: manual\n---\nuser steering' ]
+  [ "$(cat "$HOME/.kiro/steering/conventions.md")" = $'---\ninclusion: manual\n---\nuser steering' ]
+}
+
+@test "a profile with its own adapter name installs its alias and steering file" {
+  profile=$(profile_with_alias)
+  [ -n "$profile" ] || skip "no profile sets an adapter_name different from its skill_name"
+  adapter=$(profile_field "$profile" adapter_name)
+  mkdir -p "$HOME/.claude"
+
+  run "$REPO_ROOT/install.sh" --profile "$profile" --only claude,kiro
+  [ "$status" -eq 0 ]
+  [ -L "$HOME/.claude/skills/$adapter" ]
+  [ -f "$HOME/.kiro/steering/$adapter.md" ]
+  grep -qF '<!-- conventions:begin -->' "$HOME/.kiro/steering/$adapter.md"
+
+  run "$REPO_ROOT/install.sh" uninstall --only claude,kiro
+  [ "$status" -eq 0 ]
+  [ ! -e "$HOME/.claude/skills/$adapter" ]
 }
 
 @test "project install creates files for supported harnesses" {
   project="$HOME/project"
   mkdir -p "$project"
 
-  run "$REPO_ROOT/install.sh" --profile szmelc project "$project"
+  run "$REPO_ROOT/install.sh" --profile neutral project "$project"
   [ "$status" -eq 0 ]
-  for path in AGENTS.md CLAUDE.md GEMINI.md .cursor/rules/szmelc-conventions.mdc .github/instructions/szmelc-conventions.instructions.md .kiro/steering/szmelc-conventions.md; do
+  for path in AGENTS.md CLAUDE.md GEMINI.md .cursor/rules/conventions.mdc .github/instructions/conventions.instructions.md .kiro/steering/conventions.md; do
     [ -f "$project/$path" ]
   done
 }

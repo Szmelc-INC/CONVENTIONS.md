@@ -6,7 +6,7 @@
 # and the compatibility icons under META/compat/icons/.
 #
 # Usage: META/tools/site.sh [--profile NAME] [--output DIR]
-# Without a profile, builds the neutral site at the output root and each other profile below it.
+# Without a profile, builds the default site (PROFILES/DEFAULT) at the output root and each other profile below it.
 #
 # Reproducible: rule data comes from the source files; the Projects index comes from
 # `gh` over the selected profile's source list, so the same run works in CI and locally.
@@ -18,9 +18,16 @@ cd "$(dirname "$0")/../.."
 export LC_ALL=C
 
 command -v jq >/dev/null || { echo 'site.sh needs jq' >&2; exit 1; }
+# The profile used when none is named, as in META/tools/build.sh: the first
+# non-comment line of PROFILES/DEFAULT, else neutral.
+default_profile() {
+  local id
+  id=$({ grep -v '^[[:space:]]*#' PROFILES/DEFAULT 2>/dev/null || true; } | head -n 1 | tr -d '[:space:]')
+  printf '%s' "${id:-neutral}"
+}
 
 OUT=${SITE_OUT:-public}
-PROFILE=neutral profile_explicit=0
+PROFILE='' profile_explicit=0
 while (($#)); do
   case $1 in
     --profile) PROFILE=${2:?--profile needs a name}; profile_explicit=1; shift ;;
@@ -30,17 +37,13 @@ while (($#)); do
   esac
   shift
 done
+root_profile=$(default_profile)
+[[ -f "PROFILES/$root_profile/profile.toml" ]] || { echo "site.sh: PROFILES/DEFAULT names a missing profile: $root_profile" >&2; exit 2; }
 if ((!profile_explicit)); then
   shopt -s nullglob
   profile_files=(PROFILES/*/profile.toml)
   shopt -u nullglob
   ((${#profile_files[@]})) || { echo 'site.sh: no profiles found' >&2; exit 1; }
-  root_profile=''
-  for file in "${profile_files[@]}"; do
-    id=${file#PROFILES/}; id=${id%/profile.toml}
-    [[ $id == neutral ]] && root_profile=$id
-  done
-  [[ -n $root_profile ]] || { root_profile=${profile_files[0]#PROFILES/}; root_profile=${root_profile%/profile.toml}; }
   for file in "${profile_files[@]}"; do
     id=${file#PROFILES/}; id=${id%/profile.toml}
     if [[ $id == "$root_profile" ]]; then profile_out=$OUT; else profile_out="$OUT/$id"; fi
@@ -103,8 +106,8 @@ for file in "${profile_files[@]}"; do
   id=${file#PROFILES/}; id=${id%/profile.toml}
   label=$(awk -F '"' '/^[[:space:]]*name[[:space:]]*=/{print $2;exit}' "$file")
   [[ -n $label ]] || label=$id
-  href=./; [[ $id == neutral ]] || href="./$id/"
-  [[ $PROFILE == neutral ]] || { [[ $id == neutral ]] && href=../ || href=./; }
+  href=./; [[ $id == "$root_profile" ]] || href="./$id/"
+  [[ $PROFILE == "$root_profile" ]] || { [[ $id == "$root_profile" ]] && href=../ || href=./; }
   profile_nav=$(jq -c --arg id "$id" --arg label "$label" --arg href "$href" '. + [{id:$id,label:$label,href:$href}]' <<<"$profile_nav")
 done
 

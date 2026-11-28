@@ -32,7 +32,7 @@ func TestBundleOutputAppliesProfileAndOverlay(t *testing.T) {
 	if err := os.WriteFile(overlay, []byte("[overrides]\ndisable = [\"conventions.code.dotfiles\"]\n[overrides.set]\nprofile.project_name = \"Example\"\n"), 0600); err != nil {
 		t.Fatal(err)
 	}
-	got, err := BundleOutput(root, IndexOptions{Profile: "szmelc", Overlays: []string{overlay}})
+	got, err := BundleOutput(root, IndexOptions{Overlays: []string{overlay}})
 	if err != nil {
 		t.Fatal(err)
 	}

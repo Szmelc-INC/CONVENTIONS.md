@@ -38,12 +38,45 @@ func TestAdapterOutputsApplyProjectNameOverlay(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !strings.Contains(string(got["AGENTS/adapters/cursor/szmelc-conventions.mdc"]), "description: Example global conventions (always on)") {
+	if !strings.Contains(string(got[adapterPath(t, got, "cursor")]), "description: Example global conventions (always on)") {
 		t.Error("Cursor adapter does not render the project name overlay")
 	}
-	for _, path := range []string{"AGENTS/adapters/copilot/szmelc-conventions.instructions.md", "AGENTS/adapters/kiro/szmelc-conventions.md"} {
-		if !strings.Contains(string(got[path]), "# Global rules") {
-			t.Errorf("%s does not include the global rules", path)
+	for _, tool := range []string{"copilot", "kiro"} {
+		if !strings.Contains(string(got[adapterPath(t, got, tool)]), "# Global rules") {
+			t.Errorf("%s adapter does not include the global rules", tool)
+		}
+	}
+}
+
+// adapterPath returns the one rendered adapter of a tool, so tests do not depend on the adapter name.
+func adapterPath(t *testing.T, outputs map[string][]byte, tool string) string {
+	t.Helper()
+	prefix := "AGENTS/adapters/" + tool + "/"
+	for path := range outputs {
+		if strings.HasPrefix(path, prefix) {
+			return path
+		}
+	}
+	t.Fatalf("no %s adapter rendered", tool)
+	return ""
+}
+
+func TestAdapterNameComesFromTheProfile(t *testing.T) {
+	for _, tc := range []struct {
+		profile map[string]string
+		want    string
+	}{
+		{map[string]string{"profile.skill_name": "conventions", "profile.adapter_name": "team-conventions"}, "team-conventions"},
+		{map[string]string{"profile.skill_name": "conventions"}, "conventions"},
+	} {
+		got, err := adapterName(tc.profile)
+		if err != nil || got != tc.want {
+			t.Errorf("adapterName(%v) = %q, %v; want %q", tc.profile, got, err, tc.want)
+		}
+	}
+	for _, stem := range []string{"", "Bad-Name", "-lead"} {
+		if _, err := adapterName(map[string]string{"profile.adapter_name": stem}); err == nil {
+			t.Errorf("adapter name %q was accepted", stem)
 		}
 	}
 }

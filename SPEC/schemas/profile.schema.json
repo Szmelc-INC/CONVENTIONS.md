@@ -7,6 +7,7 @@
   "properties": {
     "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}, "name": {"type": "string", "minLength": 1},
     "project_name": {"type": "string", "minLength": 1}, "skill_name": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+    "adapter_name": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
     "repository_url": {"type": "string", "format": "uri"}, "site_url": {"type": "string", "format": "uri"},
     "colors": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}},
     "extensions": {"type": "object"}
