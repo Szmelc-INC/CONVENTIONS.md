@@ -19,6 +19,7 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/tests/added-rules.d/webui-style-split.txt`](META/tests/added-rules.d/webui-style-split.txt) | Web UI style split (#71). |  |
 | [`META/tests/install.bats`](META/tests/install.bats) | profile_field <profile> <key>: a [profile] value of PROFILES/<profile>/profile.toml. |  |
 | [`META/tests/profile-changes.d/00-README.tsv`](META/tests/profile-changes.d/00-README.tsv) | One <topic>.tsv per change that edits a v2.0.2 stable rule: path<TAB>reason. |  |
+| [`META/tests/profile-changes.d/format-examples.tsv`](META/tests/profile-changes.d/format-examples.tsv) | Format examples (#135-#137): env, relative-link and escaped-pipe examples. |  |
 | [`META/tests/profile-changes.d/frontmatter-skill-example.tsv`](META/tests/profile-changes.d/frontmatter-skill-example.tsv) | Frontmatter rule (#138): minimal SKILL.md example; rule files use their rule header. |  |
 | [`META/tests/profile-changes.d/merge-policy.tsv`](META/tests/profile-changes.d/merge-policy.tsv) | Merge policy: merge commit or rebase, never squash; more maintainers. |  |
 | [`META/tests/profile-changes.d/release-signing.tsv`](META/tests/profile-changes.d/release-signing.tsv) | Stage 4 quality gates: require cryptographically signed annotated release tags. |  |
