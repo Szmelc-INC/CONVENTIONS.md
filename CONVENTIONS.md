@@ -2299,6 +2299,7 @@ id: conventions.workflow.branches
 - `main` is the only long-lived branch: current stable truth; installs track it. No direct commits.
 - Every change: short-lived branch off `main` → PR into `main` → merge → delete the branch.
 - Name by intent: `feat/<x>`, `fix/<x>`, `docs/<x>`, `chore/<x>`, `experimental/<x>`, `legacy/<x>`; private staging: `local/<x>`.
+- Examples: `docs/issue-form-guide`, `fix/lane-check-scope`, `feat/profile-defaults`.
 
 | Prefix | Use for | Scope (CI-enforced) |
 |---|---|---|
@@ -2326,6 +2327,7 @@ id: conventions.workflow.commits
 - English, imperative, one subject line ≤ 72 chars; body only when the why is not obvious.
 - Type prefix with optional scope: `feat(core): …`, `fix(core): …`, `docs: …`, `ci: …`, `chore: …`, `refactor: …`, `test: …`.
 - Version bump → append the version: `feat: signed package lists (0.3.1)`.
+- Examples: `docs: list the issue forms`, `fix(meta): accept chore branches in lane-check`, `feat: profile-aware adapters (3.2.0)`.
 - Never web-UI defaults (`Update README.md`, `Create file`) on `main`.
 - One topic per commit and per PR; commits land on `main` as written (merge commit or rebase, never squash), so each one follows this format (`CONVENTIONS/WORKFLOW/BRANCHES.md`).
 
@@ -2366,6 +2368,7 @@ id: conventions.workflow.verification
 
 - Prove it works with the cheapest real check: build, run, hit the path.
 - Run existing tests covering touched code; full suite only for cross-cutting changes.
+- Examples: docs-only edit → `META/tools/build.sh && META/tools/check.sh`; one Go package → `go test ./internal/lint/`; shell edit → `bash -n <file> && shellcheck <file>`.
 - New tests only for: non-trivial logic, regressions, parsers, security boundaries, public APIs.
 - Never: tests for glue/getters/one-off scripts, tests of tests, mocks of mocks, tests that re-assert the implementation.
 - Tests and experiments use throwaway state (temp `HOME`, config dir, DB, `GNUPGHOME`); never the real config, data or keys.

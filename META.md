@@ -24,6 +24,7 @@ Map of `META/`. Full guide: [`META/README.md`](META/README.md).
 | [`META/tests/profile-changes.d/release-signing.tsv`](META/tests/profile-changes.d/release-signing.tsv) | Stage 4 quality gates: require cryptographically signed annotated release tags. |  |
 | [`META/tests/profile-changes.d/ste-prose-migration.tsv`](META/tests/profile-changes.d/ste-prose-migration.tsv) | STE100++ prose migration (#70): semicolons split into sentences. |  |
 | [`META/tests/profile-changes.d/webui-style-split.tsv`](META/tests/profile-changes.d/webui-style-split.tsv) | Web UI style split (#71): the retained stable ID now resolves through a compatibility stub. |  |
+| [`META/tests/profile-changes.d/workflow-examples.tsv`](META/tests/profile-changes.d/workflow-examples.tsv) | Workflow examples (#132-#134): concrete branch, commit and verification examples. |  |
 | [`META/tests/v2.0.2-profile-changes.tsv`](META/tests/v2.0.2-profile-changes.tsv) | Stable rule files whose content intentionally changed during neutralization. |  |
 | [`META/tools/build.sh`](META/tools/build.sh) | Generate indexes, core maps, the all-in-one bundle and tool adapters from source files. |  |
 | [`META/tools/check-actions-pinned.sh`](META/tools/check-actions-pinned.sh) | Fail when a workflow action uses a mutable tag or branch instead of a full commit SHA. |  |

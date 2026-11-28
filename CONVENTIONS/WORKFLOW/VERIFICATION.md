@@ -6,6 +6,7 @@ id: conventions.workflow.verification
 
 - Prove it works with the cheapest real check: build, run, hit the path.
 - Run existing tests covering touched code; full suite only for cross-cutting changes.
+- Examples: docs-only edit → `META/tools/build.sh && META/tools/check.sh`; one Go package → `go test ./internal/lint/`; shell edit → `bash -n <file> && shellcheck <file>`.
 - New tests only for: non-trivial logic, regressions, parsers, security boundaries, public APIs.
 - Never: tests for glue/getters/one-off scripts, tests of tests, mocks of mocks, tests that re-assert the implementation.
 - Tests and experiments use throwaway state (temp `HOME`, config dir, DB, `GNUPGHOME`); never the real config, data or keys.
