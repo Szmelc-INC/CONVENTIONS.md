@@ -4,13 +4,14 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
 	"testing"
 )
 
 func TestProfileFileOutputsMatchShellGenerator(t *testing.T) {
 	root := filepath.Join("..", "..")
-	for _, profile := range []string{"neutral", "szmelc"} {
+	for _, profile := range trackedProfiles(t, root) {
 		t.Run(profile, func(t *testing.T) {
 			got, err := ProfileFileOutputs(root, IndexOptions{Profile: profile})
 			if err != nil {
@@ -29,11 +30,11 @@ func TestProfileFileOutputsAppliesOverlays(t *testing.T) {
 	if err := os.WriteFile(overlay, []byte(contents), 0600); err != nil {
 		t.Fatal(err)
 	}
-	got, err := ProfileFileOutputs(root, IndexOptions{Profile: "szmelc", Overlays: []string{overlay}})
+	got, err := ProfileFileOutputs(root, IndexOptions{Overlays: []string{overlay}})
 	if err != nil {
 		t.Fatal(err)
 	}
-	want := shellProfileFileOutputs(t, root, "szmelc", []string{"--project", overlay})
+	want := shellProfileFileOutputs(t, root, "neutral", []string{"--project", overlay})
 	assertProfileFilesEqual(t, got, want)
 	if !strings.Contains(string(got["SKILL.md"]), "# Example & Research | Labs conventions") {
 		t.Fatal("profile overlay was not rendered as literal text")
@@ -53,6 +54,30 @@ func TestProfileFileOutputsRejectsInvalidProfiles(t *testing.T) {
 			}
 		})
 	}
+}
+
+// trackedProfiles lists PROFILES/<id>/profile.toml, neutral first.
+func trackedProfiles(t *testing.T, root string) []string {
+	t.Helper()
+	files, err := filepath.Glob(filepath.Join(root, "PROFILES", "*", "profile.toml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	ids := []string{}
+	for _, file := range files {
+		ids = append(ids, filepath.Base(filepath.Dir(file)))
+	}
+	sort.Strings(ids)
+	for i, id := range ids {
+		if id == "neutral" {
+			ids = append([]string{"neutral"}, append(ids[:i:i], ids[i+1:]...)...)
+			break
+		}
+	}
+	if len(ids) == 0 || ids[0] != "neutral" {
+		t.Fatalf("no neutral profile in %v", ids)
+	}
+	return ids
 }
 
 func shellProfileFileOutputs(t *testing.T, root, profile string, extraArgs []string) map[string][]byte {

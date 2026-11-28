@@ -4,6 +4,8 @@ id = "example"
 name = "Example"
 project_name = "Example"
 skill_name = "example-conventions"
+# File stem of the Cursor, Copilot and Kiro adapters. When it differs from skill_name, the installer also links the skill under this name (a legacy alias).
+adapter_name = "example-conventions"
 language = "user"
 brand = "Example"
 organization = "Example organization"

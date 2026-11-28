@@ -8,12 +8,10 @@ import (
 )
 
 // ProfileFileOutputs returns the profile-rendered global rules and skill entry
-// point. An empty profile selects neutral; overlays apply in team, project,
-// user order, matching the other build renderers.
+// point. An empty profile selects the repository default (PROFILES/DEFAULT,
+// else neutral); overlays apply in team, project, user order, matching the
+// other build renderers.
 func ProfileFileOutputs(root string, opts IndexOptions) (map[string][]byte, error) {
-	if opts.Profile == "" {
-		opts.Profile = "neutral"
-	}
 	profile, _, err := indexProfile(root, opts.Profile, opts.Overlays)
 	if err != nil {
 		return nil, err

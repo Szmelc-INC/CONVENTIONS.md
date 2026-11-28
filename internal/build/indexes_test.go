@@ -36,13 +36,13 @@ func TestIndexOutputsApplyProfileAndOrderedOverlay(t *testing.T) {
 	for path, content := range map[string]string{
 		team:    "[overrides]\ndisable = [\"conventions.code.dotfiles\"]\n[overrides.set]\nprofile.skill_name = \"team-skill\"\n",
 		project: "[overrides.set]\nprofile.skill_name = \"project-skill\"\n",
-		user:    "[overrides.set]\nprofile.skill_name = \"user-skill\"\n",
+		user:    "[overrides.set]\nprofile.skill_name = \"user-skill\"\nprofile.project_name = \"User Project\"\n",
 	} {
 		if err := os.WriteFile(path, []byte(content), 0600); err != nil {
 			t.Fatal(err)
 		}
 	}
-	got, err := IndexOutputs(root, IndexOptions{Profile: "szmelc", Overlays: []string{team, project, user}})
+	got, err := IndexOutputs(root, IndexOptions{Overlays: []string{team, project, user}})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -55,7 +55,7 @@ func TestIndexOutputsApplyProfileAndOrderedOverlay(t *testing.T) {
 	if !strings.Contains(string(got["index.json"]), `"name": "user-skill"`) {
 		t.Error("profile and final overlay values are missing from index.json")
 	}
-	if !strings.Contains(string(got["llms.txt"]), "Szmelc™ Conventions") || strings.Contains(string(got["llms.txt"]), "CONVENTIONS/CODE/DOTFILES.md") {
+	if !strings.Contains(string(got["llms.txt"]), "# User Project Conventions\n") || strings.Contains(string(got["llms.txt"]), "CONVENTIONS/CODE/DOTFILES.md") {
 		t.Error("profile rendering or disabled rule handling is incorrect in llms.txt")
 	}
 }

@@ -16,14 +16,14 @@ grep -qF 'user rules' "$HOME/.claude/CLAUDE.md" || fail "existing claude rules w
 grep -qF '<!-- conventions:begin -->' "$HOME/.claude/CLAUDE.md" || fail "claude managed block missing"
 [[ -f $HOME/.codex/AGENTS.md ]] || fail "codex rules file not created"
 [[ -f $HOME/.claude/skills/conventions/SKILL.md ]] || fail "neutral skill not linked"
-[[ -L $HOME/.claude/skills/szmelc-conventions ]] || fail "legacy skill alias not installed"
+[[ ! -e $HOME/.claude/skills/szmelc-conventions ]] || fail "neutral install created an alias it does not define"
 [[ -f $HOME/.claude/skills/deep/SKILL.md ]] || fail "deep skill not linked"
 [[ ! -e $HOME/.gemini ]] || fail "undetected harness was touched"
 ! compgen -G "$HOME/.claude/CLAUDE.md.bak.*" >/dev/null || fail "default install created a backup"
 
 ./install.sh --profile neutral --only claude,codex >/dev/null
 [[ $(grep -cF '<!-- conventions:begin -->' "$HOME/.claude/CLAUDE.md") == 1 ]] || fail "re-install duplicated the managed block"
-./install.sh status --only claude,codex --json | jq -e '.targets | length == 8 and all(.state == "linked" or .state == "managed")' >/dev/null || fail "status --json"
+./install.sh status --only claude,codex --json | jq -e '.targets | length == 6 and all(.state == "linked" or .state == "managed")' >/dev/null || fail "status --json"
 
 ./install.sh uninstall --only claude,codex >/dev/null
 [[ $(cat "$HOME/.claude/CLAUDE.md") == 'user rules' ]] || fail "uninstall changed user rules"
@@ -40,24 +40,41 @@ compgen -G "$HOME/.claude/CLAUDE.md.bak.*" >/dev/null || fail "replace mode did 
 
 # Existing Kiro steering frontmatter and user text survive a managed block cycle.
 mkdir -p "$HOME/.kiro/steering"
-cat >"$HOME/.kiro/steering/szmelc-conventions.md" <<'EOF'
+cat >"$HOME/.kiro/steering/conventions.md" <<'EOF'
 ---
 inclusion: manual
 ---
 user steering
 EOF
 ./install.sh --profile neutral --only kiro >/dev/null
-grep -qF 'inclusion: manual' "$HOME/.kiro/steering/szmelc-conventions.md" || fail "Kiro frontmatter changed"
-grep -qF 'user steering' "$HOME/.kiro/steering/szmelc-conventions.md" || fail "Kiro steering was lost"
+grep -qF 'inclusion: manual' "$HOME/.kiro/steering/conventions.md" || fail "Kiro frontmatter changed"
+grep -qF 'user steering' "$HOME/.kiro/steering/conventions.md" || fail "Kiro steering was lost"
 ./install.sh uninstall --only kiro >/dev/null
-[[ $(cat "$HOME/.kiro/steering/szmelc-conventions.md") == $'---\ninclusion: manual\n---\nuser steering' ]] || fail "Kiro uninstall changed user content"
+[[ $(cat "$HOME/.kiro/steering/conventions.md") == $'---\ninclusion: manual\n---\nuser steering' ]] || fail "Kiro uninstall changed user content"
 
 proj=$HOME/proj
 mkdir -p "$proj"
-./install.sh --profile szmelc project "$proj" >/dev/null
-for f in AGENTS.md CLAUDE.md GEMINI.md .cursor/rules/szmelc-conventions.mdc .github/instructions/szmelc-conventions.instructions.md .kiro/steering/szmelc-conventions.md; do
+./install.sh --profile neutral project "$proj" >/dev/null
+for f in AGENTS.md CLAUDE.md GEMINI.md .cursor/rules/conventions.mdc .github/instructions/conventions.instructions.md .kiro/steering/conventions.md; do
   [[ -f $proj/$f ]] || fail "project file missing: $f"
 done
+
+# A profile whose adapter_name differs from its skill_name installs its alias and its own steering file.
+profile_field() { awk -F '"' -v key="$2" '$1 ~ "^[[:space:]]*" key "[[:space:]]*=" {print $2; exit}' "PROFILES/$1/profile.toml"; }
+for file in PROFILES/*/profile.toml; do
+  p=$(basename "$(dirname "$file")")
+  adapter=$(profile_field "$p" adapter_name)
+  [[ -n $adapter && $adapter != "$(profile_field "$p" skill_name)" ]] || continue
+  export HOME="$fake/alias"
+  mkdir -p "$HOME/.claude"
+  ./install.sh --profile "$p" --only claude,kiro >/dev/null
+  [[ -L $HOME/.claude/skills/$adapter ]] || fail "alias skill link missing for profile $p"
+  grep -qF '<!-- conventions:begin -->' "$HOME/.kiro/steering/$adapter.md" || fail "steering block missing for profile $p"
+  ./install.sh uninstall --only claude,kiro >/dev/null
+  [[ ! -e $HOME/.claude/skills/$adapter ]] || fail "alias skill link not removed for profile $p"
+  break
+done
+export HOME="$fake"
 
 # Exercise every supported harness with an isolated HOME, including harnesses
 # that are not present in the host environment.
