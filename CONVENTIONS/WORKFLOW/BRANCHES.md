@@ -7,6 +7,7 @@ id: conventions.workflow.branches
 - `main` is the only long-lived branch: current stable truth; installs track it. No direct commits.
 - Every change: short-lived branch off `main` → PR into `main` → merge → delete the branch.
 - Name by intent: `feat/<x>`, `fix/<x>`, `docs/<x>`, `chore/<x>`, `experimental/<x>`, `legacy/<x>`; private staging: `local/<x>`.
+- Examples: `docs/issue-form-guide`, `fix/lane-check-scope`, `feat/profile-defaults`.
 
 | Prefix | Use for | Scope (CI-enforced) |
 |---|---|---|
