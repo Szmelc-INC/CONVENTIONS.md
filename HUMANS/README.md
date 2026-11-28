@@ -11,20 +11,11 @@ The human side: how to get the conventions into your tools and read them.
 ```sh
 git clone <repository-url> <install-path>
 <install-path>/install.sh status   # what would be linked
-<install-path>/install.sh status --json   # the same report, machine-readable
 <install-path>/install.sh          # link into every detected harness
 ```
 - Existing global instruction files are preserved; the installer updates only its marked block. `install.sh uninstall` removes that block. `--replace` opts into backed-up file replacement.
 - Pick harnesses: `--only claude,codex`. Preview: `--dry-run`. Into a project: `install.sh project <dir>`.
 - Update: run `git -C <install-path> pull`, then re-run `install.sh` when the layout changed.
-- Automation reads `status --json` instead of the colored table: scripts and CI verify the targets before and after an install.
-
-```json
-{"repo": "<install-path>", "targets": [
-  {"harness": "claude", "kind": "rules", "path": "~/.claude/CLAUDE.md", "state": "managed"},
-  {"harness": "claude", "kind": "skill", "path": "~/.claude/skills/conventions", "state": "linked"}
-]}
-```
 
 | Harness | Global rules | Skills root |
 |---|---|---|
