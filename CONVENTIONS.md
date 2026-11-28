@@ -931,6 +931,17 @@ id: conventions.formats.env
 - One `KEY=value` per line: no spaces around `=`, no `export`, quote values containing spaces.
 - Optional: the tool runs without it; env vars keep their place in config precedence (`CONVENTIONS/INTERFACES/CONFIG.md`).
 
+### Minimal example
+
+A comment per key; the value with spaces is quoted; the values are placeholders, never real credentials.
+
+```sh
+## Port the dashboard listens on
+DASHBOARD_PORT=8080
+## Directory for dashboard state; quotes because of the space
+DASHBOARD_DATA_DIR="/var/lib/example data"
+```
+
 ---
 <!-- source: CONVENTIONS/FORMATS/JSON.md -->
 ---
@@ -1006,6 +1017,7 @@ id: conventions.formats.markdown.style
 - One sentence or rule per line; never hard-wrap mid-sentence (clean diffs).
 - No trailing spaces, no `\` or two-space line breaks; a blank line separates blocks.
 - Relative links inside a repo; name files and paths in backticks.
+- Examples: sibling file `[Tables](TABLES.md)`; heading in this repo `[Checklist](../../../CONTRIBUTING/WRITING.md#checklist)`.
 - Language and voice: `CONVENTIONS/REPO/WRITING.md`.
 - markdownlint defaults apply, minus line length (MD013) and any rule these lines override.
 - Frontmatter, tables, GitHub extras: `CONVENTIONS/FORMATS/MARKDOWN/FRONTMATTER.md`, `CONVENTIONS/FORMATS/MARKDOWN/TABLES.md`, `CONVENTIONS/FORMATS/MARKDOWN/GITHUB-EXTRAS.md`.
@@ -1024,6 +1036,16 @@ id: conventions.formats.markdown.tables
 - Short cells: a value or phrase, no paragraphs or lists; link out for detail.
 - No merged or empty structural cells; one fact per cell.
 - Wide tables are fine: GitHub scrolls them horizontally; never split one table into several to fit.
+
+### Escaped pipe
+
+The pipe inside the code span is escaped, so the row keeps its two cells:
+
+```markdown
+| Command | Purpose |
+|---|---|
+| `grep ERROR app.log \| wc -l` | count matching lines |
+```
 
 ---
 <!-- source: CONVENTIONS/FORMATS/TOML.md -->
