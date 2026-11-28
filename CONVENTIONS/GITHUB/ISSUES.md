@@ -15,6 +15,7 @@ id: conventions.github.issues
 | Pack proposal | `.github/ISSUE_TEMPLATE/pack-proposal.yml` | `feat`, `needs-triage` |
 | Adapter request | `.github/ISSUE_TEMPLATE/adapter-request.yml` | `feat`, `needs-triage` |
 | Spec RFC | `.github/ISSUE_TEMPLATE/spec-rfc.yml` | `feat`, `needs-triage` |
+
 - `.github/ISSUE_TEMPLATE/config.yml`: `blank_issues_enabled: false`; `contact_links` to Discussions, docs or support.
 - Title: imperative, specific, no type prefix (`Fix crash on empty config`, `Add --json to list`); type goes in the label.
 - Label on creation (`CONVENTIONS/GITHUB/REPO/LABELS.md`); set the issue type when the org defines types (`--type Bug`).
