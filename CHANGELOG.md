@@ -13,6 +13,7 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 - Generated files end with one line feed, as `.editorconfig` requires. Before, an editor that honors `.editorconfig` added the line feed to `CONVENTIONS.md` or `META.md`, and the `check` job failed on stale output. The editorconfig checker now covers generated files.
 
 ### Added
+- `PROFILES/DEFAULT`: the profile every tool uses when none is named (build, site, installer, the Go CLI). `profile.adapter_name` names the Cursor, Copilot and Kiro adapters per profile (neutral: `conventions`, Szmelc: `szmelc-conventions`), and `install.sh uninstall` also removes links installed by a different profile.
 
 - Context-system proposal (`SPEC/proposals/0002-context-system.md`) and decision 0002, which maps it onto the format, the Go CLI and the roadmap stages.
 
