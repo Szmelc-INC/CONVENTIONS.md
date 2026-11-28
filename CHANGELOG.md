@@ -18,6 +18,8 @@ All notable changes to the conventions are documented here. Format: [Keep a Chan
 
 - Context-system proposal (`SPEC/proposals/0002-context-system.md`) and decision 0002, which maps it onto the format, the Go CLI and the roadmap stages.
 
+- The issue rules list every issue form with its file and preset labels (`CONVENTIONS/GITHUB/ISSUES.md`).
+
 ## [3.1.0] - 2026-11-26
 
 ### Added
